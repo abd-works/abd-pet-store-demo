@@ -1,0 +1,197 @@
+Thin slicing - PawPlace incremental backlog - plain text
+
+Product: PawPlace - online pet store with in-store adoption visits.
+
+Slicing intent (by value, store-first): each increment must put a working
+capability in the hands of a real store. Earlier increments leave out polish,
+payment depth, accounts, pets, returns, and marketing so a store gets a usable
+product on day one. Pet appointments are held back until the e-commerce spine
+is real.
+
+Spine vs optional: mandatory commerce spine is catalog -> store -> cart ->
+pay -> fulfill. Pets, accounts, multi-vendor payments, returns, marketing,
+reviews, and admin polish are real work but not required for the smallest
+store-supporting slice; they ride later increments.
+
+Increment 1: Walk-in driver - find the store, see what's in stock
+  Outcome: A customer can find the nearest store, browse the product
+    catalog, see real-time stock availability at that store, and walk in to
+    ask for it. Store gets value on day one. No checkout, no payment, no
+    accounts.
+  Slicing notes: Categories only - no keyword search. Manual stock updates
+    by staff via a bare-bones admin form. No cart, no notifications.
+    Validates catalog data model, store + geo model, stock contract.
+    Per the domain decision, walk-in point-of-sale (paying at the counter)
+    is in scope for a later phase; today the in-store transaction itself is
+    the customer talking to staff, not the system.
+  Stories:
+    - View Store Map
+    - View Store List
+    - Calculate Distance to Store
+    - View Product Details
+    - Display Real-Time Stock Availability
+    - Update Product Stock Levels (admin, manual)
+
+Increment 2: Click-and-collect - buy online, pick up at the store
+  Outcome: Customer puts products in a cart, pays online with a card, and
+    picks the order up at a chosen store. Store gets online revenue without
+    anyone solving home-delivery logistics. Single payment vendor.
+  Slicing notes: Guest checkout only. StripeWave only. Confirmation email
+    from a static template. Pickup is the only fulfillment path. Manual
+    pick-prep by store staff. Validates the riskiest payment integration on
+    a real journey end-to-end.
+  Stories:
+    - Add Product to Cart
+    - Update Cart Quantity
+    - Remove Product from Cart
+    - Select Click-and-Collect Store
+    - Check Out as Guest
+    - Enter Billing Address
+    - Select Payment Method (StripeWave only)
+    - Process Card Payment via StripeWave
+    - Confirm Order and Send Confirmation Email
+    - Prepare Click-and-Collect Orders for Pickup (admin)
+    - Fulfill Click-and-Collect Order (admin)
+
+Increment 3: Ship to home - full standard-delivery e-commerce
+  Outcome: Same purchase journey but shipped to a home address. Store
+    reaches customers outside its catchment.
+  Slicing notes: Still guest checkout. Still StripeWave only. Standard
+    delivery only - defer express and same-day. Manual shipping label
+    creation. Validates order lifecycle past pickup: shipping notifications,
+    tracking, order status.
+  Stories:
+    - Enter Shipping Address
+    - Select Delivery Option (standard only)
+    - View and Process Incoming Orders (admin)
+    - Send Shipping Notification with Tracking Number
+    - Track Order Status
+
+Increment 4: Returning customers - accounts, history, reorder
+  Outcome: Customers can register, log in, save addresses and payment
+    methods, see order history, manage a wishlist, and one-click reorder.
+    Account creation prompted during guest checkout. Lifts repeat-purchase
+    rate without changing the buy flow.
+  Slicing notes: Email + password only - no social login. Email verification
+    mandatory. Reliable session management across devices is non-negotiable.
+    Saved address and saved payment method land here as concepts (per the
+    domain decision); checkout gains the option to pick from saved entities
+    for logged-in customers.
+  Stories:
+    - Register Account
+    - Send Email Verification
+    - Verify Email Address
+    - Log In
+    - Log Out
+    - Reset Password
+    - Maintain Session Across Devices
+    - Save Delivery Address
+    - Manage Saved Addresses
+    - Save Payment Method
+    - Manage Saved Payment Methods
+    - Select Saved Address at Checkout
+    - Select Saved Payment Method at Checkout
+    - View Order History
+    - Manage Wishlist
+    - Reorder Previous Purchase
+
+Increment 5: Pay your way - multi-vendor payment with retries
+  Outcome: Customers pay with PayNova (mobile wallet) and VaultPay (BNPL)
+    in addition to StripeWave. Failed payments retry automatically across
+    all three. Lifts conversion among younger buyers and basket size on
+    premium items.
+  Slicing notes: Proves the payment vendor abstraction generalises beyond
+    StripeWave. Webhook handling and failed-payment retries land together.
+    Refund routing is in scope so Increment 7 builds cleanly.
+  Stories:
+    - Process Digital Wallet Payment via PayNova
+    - Process Buy-Now-Pay-Later via VaultPay
+    - Retry Failed Payment
+
+Increment 6: Pet visits - gallery and in-store appointments
+  Outcome: Adoption side goes live. Customers browse the pet gallery, see
+    which store a pet is at and how far away, and book an appointment to
+    visit. Store staff see incoming bookings. Pet status admin-managed.
+  Slicing notes: Held back until now per the explicit guidance that pet
+    appointments can be later. Confirmation and day-before reminder ride on
+    the transactional notification rails. Single-store flow first if
+    multi-store scheduling is too complex. Per the domain decision,
+    appointment booking is customer-account-only; an account-gate is part
+    of Confirm Appointment Booking AC. The pet-adopted-before-visit
+    notification + the customer-side Cancel or Rebook flow ride here too
+    because they are inseparable from the appointment lifecycle.
+  Stories:
+    - Browse Pets by Species
+    - View Pet Profile
+    - View Pet Store Location and Distance
+    - View Available Time Slots at Store
+    - Select Date and Time Slot
+    - Add Visit Note
+    - Confirm Appointment Booking (account-gated)
+    - View Upcoming and Past Appointments (customer)
+    - Cancel or Rebook Appointment After Pet Adoption (customer)
+    - Update Pet Profile (admin)
+    - Mark Pet as Adopted (admin)
+    - View Incoming Appointments (admin)
+    - Send Appointment Reminder (transactional)
+    - Send Pet Adopted Before Visit Notification (transactional)
+
+Increment 7: Returns and refunds - close the loop
+  Outcome: Customers can initiate a return from order history, get a
+    printable label or QR code, and watch the refund land back on the
+    original payment method. In-store returns are reflected in the
+    customer's account too.
+  Slicing notes: The vendor-routing invariant on refund drives this slice -
+    refund must always route through the vendor that took the original
+    payment. Online return flow first; in-store reconciliation second.
+  Stories:
+    - Initiate Return from Order History
+    - Generate Return Label or QR Code
+    - Route Refund through Original Payment Vendor
+    - Track Refund Status
+    - Process In-Store Return (admin)
+    - Send Return and Refund Status Update (transactional)
+
+Increment 8: Marketing engine - reviews, alerts, and content
+  Outcome: Drives repeat traffic and conversion through customer reviews
+    (social proof), opt-in marketing emails, restock alerts, personalised
+    recommendations, and a content stream of blog posts and pet care guides.
+    Engagement features only - the buy flow is unchanged.
+  Slicing notes: Marketing must respect the explicit-opt-in invariant on
+    communication preferences - no broadcast without opt-in. Transactional
+    notifications stay independent of marketing rails. Content publishing
+    is admin-only at first.
+  Stories:
+    - Submit Written Review with Star Rating
+    - Submit Photo Review
+    - Read Customer Reviews
+    - Set Notification Preferences
+    - Set Communication Preferences
+    - Opt In to Marketing Email List
+    - Send Promotional Email
+    - Send Personalized Recommendation
+    - Send Restock Alert
+    - Send In-Store Event Notification
+    - Unsubscribe from Marketing Emails
+    - Send Order Confirmation (if not delivered earlier in Increment 2)
+    - Send Shipping Update with Tracking (if not delivered earlier in Inc 3)
+    - Publish Blog Post
+    - Publish Pet Care Guide
+
+Increment 9: Power-ups - search, personalization, admin polish
+  Outcome: Smart search lifts conversion on a deep catalog; store
+    personalization and customer pet profiles tighten loyalty; the admin
+    inventory dashboard replaces the bare-bones stock form from Increment 1.
+    Polish over a fully-functional product.
+  Slicing notes: Each story adds value but none is required for the core
+    commerce or adoption journeys. Sequence within follows whichever
+    stakeholder pulls hardest.
+  Stories:
+    - Search Products by Keyword
+    - Filter Products
+    - Filter Stores by Availability and Specialization
+    - Set My Store Preference
+    - Tailor Experience to Preferred Store
+    - Create Pet Profile (customer's own pets)
+    - Update Pet Profile (customer's own)
+    - View Inventory Dashboard (admin)
