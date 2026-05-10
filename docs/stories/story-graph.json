@@ -34,7 +34,8 @@
                     "3. **WHEN** the customer enters a partial keyword (e.g. \"kitt\" for \"kitten food\")\n**THEN** the search returns relevant matches (prefix matching or fuzzy matching)\n**Evidence:** inferred — search should be forgiving of partial input",
                     "4. **WHEN** the customer searches from any page (product detail, pet gallery, blog)\n**THEN** the *Search Bar* is accessible globally (e.g. in the header)\n**AND** results navigate to the search results page\n**Evidence:** inferred — search is a global capability, not scoped to one page"
                   ],
-                  "behavior": null
+                  "behavior": null,
+                  "scenario_outlines": []
                 },
                 {
                   "name": "Filter Products",
@@ -51,7 +52,8 @@
                     "4. **WHEN** the customer removes an *Active Filter*\n**THEN** the product list expands to include products that were previously hidden by that filter\n**Evidence:** inferred — filter removal restores results",
                     "5. **WHEN** all active filters produce zero results\n**THEN** the product list shows a \"no products match your filters\" message with a \"clear all filters\" action\n**Evidence:** inferred — zero-results state for over-filtered catalog"
                   ],
-                  "behavior": null
+                  "behavior": null,
+                  "scenario_outlines": []
                 },
                 {
                   "name": "Display Real-Time Stock Availability",
@@ -60,14 +62,45 @@
                   "story_type": "System",
                   "users": [],
                   "test_class": null,
-                  "scenarios": [],
+                  "scenarios": [
+                    {
+                      "name": "Out of stock shown clearly with no purchase option",
+                      "steps": [
+                        "Given the **ProductCatalog** contains **Product** *Exotic Fish Filter* with **sku** *PET-FLT-099*",
+                        "And **StockAvailability** for **Product** *PET-FLT-099* has **availableToSellQuantity** *0* at all stores",
+                        "When the customer views the product page for **Product** *Exotic Fish Filter*",
+                        "Then the system clearly indicates the product is currently unavailable",
+                        "But no backorder, pre-order, or purchase option is offered"
+                      ]
+                    },
+                    {
+                      "name": "Stock updates reflected on next view",
+                      "steps": [
+                        "Given **StockAvailability** for **Product** *PET-HAR-001* at **Store** *STR-001* has **availableToSellQuantity** *22*",
+                        "When a store employee calls **updateQuantityOnHand** with *newQuantity* *30* on **StockAvailability** for **Product** *PET-HAR-001* at **Store** *STR-001*",
+                        "Then **availableToSellQuantity** recalculates to *27* (quantityOnHand *30* minus reservedQuantity *3*)",
+                        "And subsequent customer views of the product page reflect **availableToSellQuantity** *27*"
+                      ]
+                    }
+                  ],
                   "acceptance_criteria": [
                     "1. **WHEN** the customer views a *Product Page*\n**THEN** the system displays current *Stock Availability* for that *Product*\n**AND** the availability reflects the most recent *Stock Levels* (*Real-Time*)\n**Evidence:** requirements-chat-with-product-owner.md — line 5, \"Products should show stock availability in real time\"; domain-sketch.md — Product Catalog > stock availability, \"reflects in real time whether a product can be purchased\"",
                     "2. **WHEN** the *Product* is in stock at one or more stores\n**THEN** the system indicates which *Store* or stores have it available\n**Evidence:** thin-slicing.md — Increment 1, \"see real-time stock availability for a product at that store\"; requirements-chat-with-product-owner.md — line 9, \"they should see which store that animal is at\" (same per-store pattern applied to products)",
                     "3. **WHEN** the *Product* is out of stock at all stores\n**THEN** the system clearly indicates the product is currently unavailable\n**BUT** no backorder, pre-order, or purchase option is offered\n**Evidence:** requirements-chat-with-product-owner.md — line 5, \"nobody wants to go through checkout and find out the item's backordered\"; thin-slicing.md — Increment 1, \"No cart, no checkout\"",
                     "4. **WHEN** *Stock Levels* are updated by staff\n**THEN** subsequent customer views of the *Product Page* reflect the updated *Stock Availability*\n**Evidence:** domain-sketch.md — Product Catalog > stock availability, \"must be current — stale availability that allows checkout of unavailable items is a domain failure\""
                   ],
-                  "behavior": null
+                  "behavior": null,
+                  "scenario_outlines": [
+                    {
+                      "name": "Real-time stock shown per store",
+                      "steps": [
+                        "Given the **ProductCatalog** contains **Product** *{product_name}* with **sku** *{product_sku}*",
+                        "And **StockAvailability** for **Product** *{product_sku}* at **Store** *{store_code}* has **availableToSellQuantity** *{available_to_sell_quantity}*",
+                        "When the customer views the product page for **Product** *{product_name}*",
+                        "Then the system displays current **StockAvailability** showing **Store** *{store_code}* has *{available_to_sell_quantity}* available"
+                      ]
+                    }
+                  ]
                 },
                 {
                   "name": "Display Low Stock Badge",
@@ -78,7 +111,8 @@
                   "test_class": null,
                   "scenarios": [],
                   "acceptance_criteria": [],
-                  "behavior": null
+                  "behavior": null,
+                  "scenario_outlines": []
                 }
               ]
             }
@@ -105,7 +139,47 @@
                   "story_type": "Customer",
                   "users": [],
                   "test_class": null,
-                  "scenarios": [],
+                  "scenarios": [
+                    {
+                      "name": "Weight and dimensions shown where relevant",
+                      "steps": [
+                        "Given the **ProductCatalog** contains **Product** *Premium Dog Harness* with **sku** *PET-HAR-001*",
+                        "And **Product** *Premium Dog Harness* has **weight** *0.35 kg*, **length** *30.0 cm*, **width** *20.0 cm*, **height** *5.0 cm*",
+                        "When the customer views the product page for **Product** *Premium Dog Harness*",
+                        "Then the system displays **weight** *0.35 kg* and dimensions *30.0 × 20.0 × 5.0 cm*"
+                      ]
+                    },
+                    {
+                      "name": "Multiple images with navigation",
+                      "steps": [
+                        "Given **Product** *Premium Dog Harness* has *3* **ProductImage** entries",
+                        "And **ProductImage** *harness-front.jpg* has **displayOrder** *1*",
+                        "And **ProductImage** *harness-side.jpg* has **displayOrder** *2*",
+                        "And **ProductImage** *harness-worn.jpg* has **displayOrder** *3*",
+                        "When the customer views the product page for **Product** *Premium Dog Harness*",
+                        "Then all *3* images are displayed in **displayOrder** sequence",
+                        "And navigation controls allow browsing between images"
+                      ]
+                    },
+                    {
+                      "name": "Products organized by category, no keyword search",
+                      "steps": [
+                        "Given the **ProductCatalog** contains **Product** *Premium Dog Harness* in **Category** *Harnesses & Leads*",
+                        "And **Category** *Harnesses & Leads* has **parentCategory** *Dog Supplies*",
+                        "When the customer browses the **ProductCatalog**",
+                        "Then products are organized by **Category** for browsing",
+                        "But no keyword search is available"
+                      ]
+                    },
+                    {
+                      "name": "No purchase or review actions available",
+                      "steps": [
+                        "Given the customer is viewing the product page for **Product** *Premium Dog Harness*",
+                        "When the customer looks for purchase or review actions",
+                        "Then no cart, checkout, or review actions are available on the product page"
+                      ]
+                    }
+                  ],
                   "acceptance_criteria": [
                     "1. **WHEN** the customer selects a *Product* from the *Product Catalog*\n**THEN** the system displays the *Product Page* with the product name, *Description*, and *Images*\n**AND** *Weight and Dimensions* are shown where relevant to the product\n**Evidence:** requirements-chat-with-product-owner.md — line 5, \"Every product gets images (multiple angles ideally), a proper description, weight and dimensions where relevant\"",
                     "2. **WHEN** the *Product* belongs to one or more categories\n**THEN** the *Product Page* shows which *Category* or categories the product belongs to\n**Evidence:** domain-sketch.md — Product Catalog > product, \"belongs to at least one category and may belong to several simultaneously\"",
@@ -113,7 +187,19 @@
                     "4. **WHEN** the customer navigates the *Product Catalog*\n**THEN** products are organized by *Category* for browsing\n**BUT** no keyword search is available in this increment\n**Evidence:** requirements-chat-with-product-owner.md — line 3, \"browse by category, by pet type, by brand\"; thin-slicing.md — Increment 1, \"Categories only — no keyword search yet\"",
                     "5. **WHEN** the customer views a *Product Page*\n**THEN** no purchase, cart, or review actions are available\n**Evidence:** thin-slicing.md — Increment 1, \"No cart, no checkout, no notifications\"; Increment 8 includes reviews"
                   ],
-                  "behavior": null
+                  "behavior": null,
+                  "scenario_outlines": [
+                    {
+                      "name": "Product page shows full details",
+                      "steps": [
+                        "Given the **ProductCatalog** contains **Product** *{product_name}* with **sku** *{sku}*",
+                        "And **Product** *{product_name}* has **price** *{price}* and **brand** *{brand}*",
+                        "And **Product** *{product_name}* has **description** *{description}*",
+                        "When the customer selects **Product** *{product_name}* from the **ProductCatalog**",
+                        "Then the system displays the product page with name *{product_name}*, **description** *{description}*, and **price** *{price}*"
+                      ]
+                    }
+                  ]
                 },
                 {
                   "name": "Read Customer Reviews",
@@ -129,7 +215,8 @@
                     "3. **WHEN** there are many reviews\n**THEN** the reviews are paginated or lazy-loaded\n**AND** sort controls are provided: newest, oldest, highest rating, lowest rating\n**Evidence:** inferred — standard review list behavior",
                     "4. **WHEN** a review includes *Review Photos*\n**THEN** thumbnails are shown inline with the review text\n**AND** selecting a thumbnail opens the image at full size\n**Evidence:** requirements-chat-with-product-owner.md — line 23, \"photo reviews\""
                   ],
-                  "behavior": null
+                  "behavior": null,
+                  "scenario_outlines": []
                 }
               ]
             }
@@ -164,7 +251,8 @@
                     "4. **WHEN** a guest customer tries to leave a review\n**THEN** a prompt to log in or register is shown\n**BUT** the product page is not navigated away from\n**Evidence:** domain-sketch.md — Customer Account KA, `customer review` concept: \"authored by a customer account\" (account required)",
                     "5. **WHEN** the customer submits a review with a star rating but no written text\n**THEN** the review is accepted (written text is optional; star rating is required)\n**Evidence:** inferred — star rating is the minimum; written review adds value but is not mandatory"
                   ],
-                  "behavior": null
+                  "behavior": null,
+                  "scenario_outlines": []
                 },
                 {
                   "name": "Submit Photo Review",
@@ -180,7 +268,8 @@
                     "3. **WHEN** the customer uploads a file that is not a supported image format or exceeds size limits\n**THEN** the upload shows a validation error\n**BUT** the review text and star rating are not lost\n**Evidence:** inferred — standard upload validation",
                     "4. **WHEN** the customer submits a review without photos\n**THEN** the review is accepted as a standard written review (photos are optional)\n**Evidence:** inferred — photo is an enhancement, not a requirement"
                   ],
-                  "behavior": null
+                  "behavior": null,
+                  "scenario_outlines": []
                 }
               ]
             }
@@ -222,7 +311,8 @@
                     "2. **WHEN** the customer selects a *Species* filter\n**THEN** only pets of that species are shown\n**AND** the filter is visually active so the customer knows it is applied\n**Evidence:** inferred — standard filtering behavior",
                     "3. **WHEN** no pets of the selected *Species* are currently available\n**THEN** the gallery shows a \"no pets available in this category right now\" message\n**BUT** the filter remains active and other species options are visible for selection\n**Evidence:** inferred — empty state for filtered gallery"
                   ],
-                  "behavior": null
+                  "behavior": null,
+                  "scenario_outlines": []
                 },
                 {
                   "name": "View Pet Profile",
@@ -238,7 +328,8 @@
                     "3. **WHEN** the pet's *Pet Status* is *Adopted*\n**THEN** the profile shows an \"Adopted\" badge\n**AND** the \"Book a Visit\" action is hidden or disabled\n**BUT** the profile remains viewable (adopted pets are not deleted from the gallery)\n**Evidence:** domain-sketch.md — Pet KA, `pet` concept: \"status progresses from available to adopted\"; invariant: \"must always have a status (available or adopted)\"",
                     "4. **WHEN** the pet has no *Temperament Notes* yet\n**THEN** the field is omitted from the profile (not shown as blank)\n**Evidence:** inferred — optional field handling"
                   ],
-                  "behavior": null
+                  "behavior": null,
+                  "scenario_outlines": []
                 },
                 {
                   "name": "View Pet Store Location and Distance",
@@ -254,7 +345,8 @@
                     "3. **WHEN** the customer has not shared location\n**THEN** no *Distance* is shown\n**AND** a prompt to share location or enter postcode is displayed\n**Evidence:** inferred — distance requires a reference point (same pattern as Increment 1)",
                     "4. **WHEN** the customer selects the *Store* name or address on the *Pet Profile Page*\n**THEN** the *Store Detail* page opens (the same store detail from Increment 1)\n**Evidence:** inferred — store detail is a shared component"
                   ],
-                  "behavior": null
+                  "behavior": null,
+                  "scenario_outlines": []
                 }
               ]
             }
@@ -287,7 +379,8 @@
                     "2. **WHEN** the customer saves changes\n**THEN** the updated profile is persisted immediately\n**AND** any personalised recommendations that reference pet data reflect the update on the next recommendation cycle\n**Evidence:** inferred — pet profiles feed personalisation (from Increment 8)",
                     "3. **WHEN** the customer deletes a *Customer Pet Profile*\n**THEN** the profile is removed from \"My Pets\"\n**AND** the deletion is confirmed with a \"are you sure\" prompt\n**Evidence:** inferred — destructive action confirmation"
                   ],
-                  "behavior": null
+                  "behavior": null,
+                  "scenario_outlines": []
                 },
                 {
                   "name": "Mark Pet as Adopted",
@@ -302,7 +395,8 @@
                     "2. **WHEN** the pet has upcoming appointments at the time of adoption\n**THEN** the system triggers a *Pet Adopted Before Visit Notification* for each affected customer (see that story)\n**Evidence:** domain-sketch.md — Notification KA, `pet-adopted-before-visit alert` decision: \"if a pet is adopted while a customer has a pending visit appointment, notify\"",
                     "3. **WHEN** *Store Staff* attempts to mark an already-adopted pet as adopted again\n**THEN** the system shows a \"pet is already adopted\" message\n**BUT** no status change occurs\n**Evidence:** inferred — idempotent status transition"
                   ],
-                  "behavior": null
+                  "behavior": null,
+                  "scenario_outlines": []
                 }
               ]
             }
@@ -344,7 +438,8 @@
                     "2. **WHEN** a *Time Slot* is already booked by another customer\n**THEN** that slot does not appear in the *Available Time Slots* list\n**Evidence:** domain-sketch.md — Pet KA, `time slot` concept: \"represents a bookable window at a store for a pet visit\"",
                     "3. **WHEN** no *Time Slots* are available within the displayed date range\n**THEN** the *Appointment Calendar* shows a \"no slots available — try a later date\" message\n**Evidence:** inferred — empty state for calendar"
                   ],
-                  "behavior": null
+                  "behavior": null,
+                  "scenario_outlines": []
                 },
                 {
                   "name": "Select Date and Time Slot",
@@ -359,7 +454,8 @@
                     "2. **WHEN** the temporary hold expires before the customer confirms\n**THEN** the *Selected Slot* is released back to the *Available Time Slots*\n**AND** the customer is notified that the slot is no longer held and must re-select\n**Evidence:** inferred — temporary hold to prevent double-booking without permanent reservation",
                     "3. **WHEN** two customers select the same *Time Slot* simultaneously\n**THEN** only the first to confirm gets the booking\n**AND** the second customer is notified that the slot is no longer available and must pick another\n**Evidence:** domain-sketch.md — Pet KA, `appointment` invariant: \"must not overlap with another appointment at the same store for the same time slot\""
                   ],
-                  "behavior": null
+                  "behavior": null,
+                  "scenario_outlines": []
                 },
                 {
                   "name": "Add Visit Note",
@@ -374,7 +470,8 @@
                     "2. **WHEN** the customer leaves the *Visit Note* blank\n**THEN** the appointment proceeds without a note\n**AND** the staff view shows no note (not \"empty\" or \"N/A\")\n**Evidence:** inferred — optional field handling",
                     "3. **WHEN** the customer submits a *Visit Note* that exceeds the character limit\n**THEN** the form shows a validation error\n**BUT** the appointment is not submitted until the note is within limits\n**Evidence:** inferred — standard text field validation"
                   ],
-                  "behavior": null
+                  "behavior": null,
+                  "scenario_outlines": []
                 },
                 {
                   "name": "Confirm Appointment Booking",
@@ -390,7 +487,8 @@
                     "3. **WHEN** the booking is confirmed\n**THEN** the *Time Slot* transitions from available to booked\n**AND** the slot is no longer shown to other customers\n**Evidence:** domain-sketch.md — Pet KA, `appointment` invariant: \"must not overlap with another appointment at the same store for the same time slot\"",
                     "4. **WHEN** the confirmation email fails to send\n**THEN** the booking is still created (email is not a gate)\n**AND** the email is queued for retry\n**Evidence:** inferred — same email resilience pattern as order confirmation"
                   ],
-                  "behavior": null
+                  "behavior": null,
+                  "scenario_outlines": []
                 }
               ]
             }
@@ -423,7 +521,8 @@
                     "2. **WHEN** the customer has no appointments\n**THEN** the list shows an empty state with a prompt to browse the *Pet Gallery*\n**Evidence:** inferred — empty state handling",
                     "3. **WHEN** an upcoming appointment's pet has been marked as *Adopted* (see *Mark Pet as Adopted*)\n**THEN** the appointment entry shows a \"pet adopted\" badge\n**AND** \"Cancel\" and \"Browse other pets\" actions are shown on the entry (see *Cancel or Rebook Appointment After Pet Adoption*)\n**Evidence:** domain-sketch.md — Notification KA, `pet-adopted-before-visit alert` decision"
                   ],
-                  "behavior": null
+                  "behavior": null,
+                  "scenario_outlines": []
                 },
                 {
                   "name": "Cancel or Rebook Appointment After Pet Adoption",
@@ -439,7 +538,8 @@
                     "3. **WHEN** the customer chooses to rebook\n**THEN** the system navigates to the *Pet Gallery* with available pets displayed for a new booking\n**AND** the original cancelled appointment remains in the *Past Appointments* section\n**Evidence:** inferred — rebook is a new booking flow, not a slot swap",
                     "4. **WHEN** the customer neither cancels nor rebooks before the appointment date\n**THEN** the appointment remains in the system but staff see a \"pet adopted\" warning on their incoming appointments view\n**AND** the appointment is treated as a no-show after the date passes\n**Evidence:** inferred — system does not auto-cancel; staff handle edge case"
                   ],
-                  "behavior": null
+                  "behavior": null,
+                  "scenario_outlines": []
                 },
                 {
                   "name": "View Incoming Appointments",
@@ -454,7 +554,8 @@
                     "2. **WHEN** an appointment's pet has been marked *Adopted*\n**THEN** the entry shows a \"pet adopted\" warning badge\n**AND** the notification status (\"notified\" or \"not yet notified\") is displayed on the entry\n**Evidence:** domain-sketch.md — Pet KA, `appointment` concept linked to pet status",
                     "3. **WHEN** there are no upcoming appointments\n**THEN** the view shows an empty state\n**Evidence:** inferred — standard empty state"
                   ],
-                  "behavior": null
+                  "behavior": null,
+                  "scenario_outlines": []
                 }
               ]
             }
@@ -483,7 +584,8 @@
                   "test_class": null,
                   "scenarios": [],
                   "acceptance_criteria": [],
-                  "behavior": null
+                  "behavior": null,
+                  "scenario_outlines": []
                 },
                 {
                   "name": "Record Visit Outcome",
@@ -494,7 +596,8 @@
                   "test_class": null,
                   "scenarios": [],
                   "acceptance_criteria": [],
-                  "behavior": null
+                  "behavior": null,
+                  "scenario_outlines": []
                 },
                 {
                   "name": "Record No-Show",
@@ -505,7 +608,8 @@
                   "test_class": null,
                   "scenarios": [],
                   "acceptance_criteria": [],
-                  "behavior": null
+                  "behavior": null,
+                  "scenario_outlines": []
                 },
                 {
                   "name": "Set Follow-Up Action",
@@ -516,7 +620,8 @@
                   "test_class": null,
                   "scenarios": [],
                   "acceptance_criteria": [],
-                  "behavior": null
+                  "behavior": null,
+                  "scenario_outlines": []
                 }
               ]
             }
@@ -552,14 +657,44 @@
                   "story_type": "Customer",
                   "users": [],
                   "test_class": null,
-                  "scenarios": [],
+                  "scenarios": [
+                    {
+                      "name": "All stores shown simultaneously without search",
+                      "steps": [
+                        "Given the **StoreLocator** contains *3* active **Store** entries",
+                        "When the visitor opens the **StoreLocator** *Map View*",
+                        "Then all *3* **Store** locations are visible simultaneously",
+                        "And no search or filter is required to see them"
+                      ]
+                    }
+                  ],
                   "acceptance_criteria": [
                     "1. **WHEN** the customer opens the *Store Locator*\n**THEN** the system displays all stores as selectable points on a *Map View*\n**AND** each point is positioned at the store's *Geo-Coordinates*\n**Evidence:** requirements-chat-with-product-owner.md — line 11, \"store locator needs to be a first-class feature. Map view\"; line 9, \"each store is geo-tagged with its actual address, map coordinates\"",
                     "2. **WHEN** the customer selects a store point on the *Map View*\n**THEN** the system displays the store's full address, *Operating Hours*, and *Contact Details*\n**Evidence:** requirements-chat-with-product-owner.md — line 9, \"operating hours, and contact details\"",
                     "3. **WHEN** multiple stores exist\n**THEN** the *Map View* shows all store locations simultaneously without requiring search or filtering\n**Evidence:** domain-sketch.md — Store > store locator, \"provides map view and list view of all stores\"; thin-slicing.md — Increment 1, \"Categories only — no keyword search yet\"",
                     "4. **WHEN** a visitor is not logged in\n**THEN** the *Store Locator* and *Map View* are fully accessible without requiring an account\n**Evidence:** thin-slicing.md — Increment 1, \"Single payment-free, account-free vertical slice\""
                   ],
-                  "behavior": null
+                  "behavior": null,
+                  "scenario_outlines": [
+                    {
+                      "name": "All stores visible on map without login",
+                      "steps": [
+                        "Given the **StoreLocator** has **Store** *{store_name}* with **storeCode** *{store_code}* at coordinates *{latitude}*, *{longitude}*",
+                        "And the visitor is not logged in",
+                        "When the visitor opens the **StoreLocator** *Map View*",
+                        "Then a selectable point appears at latitude *{latitude}* and longitude *{longitude}* for **Store** *{store_name}*"
+                      ]
+                    },
+                    {
+                      "name": "Store details shown on selection",
+                      "steps": [
+                        "Given the **StoreLocator** *Map View* is displaying **Store** *{store_name}*",
+                        "When the visitor selects the map point for **Store** *{store_name}*",
+                        "Then the system displays **addressLineOne** *{address_line_one}*, **city** *{city}*, **postcode** *{postcode}*",
+                        "And the system displays **phoneNumber** *{phone_number}* and **emailAddress** *{email_address}*"
+                      ]
+                    }
+                  ]
                 },
                 {
                   "name": "View Store List",
@@ -568,14 +703,43 @@
                   "story_type": "Customer",
                   "users": [],
                   "test_class": null,
-                  "scenarios": [],
+                  "scenarios": [
+                    {
+                      "name": "All stores appear without search or filtering",
+                      "steps": [
+                        "Given the **StoreLocator** contains *3* active **Store** entries",
+                        "When the visitor opens the **StoreLocator** *List View*",
+                        "Then all *3* **Store** entries are visible without requiring search or filtering"
+                      ]
+                    }
+                  ],
                   "acceptance_criteria": [
                     "1. **WHEN** the customer opens the *Store Locator*\n**THEN** the system offers a *List View* of all stores as an alternative to the *Map View*\n**AND** each entry shows the store name and *Address*\n**Evidence:** requirements-chat-with-product-owner.md — line 11, \"Map view, list view\"; domain-sketch.md — Store > store locator, \"provides map view and list view of all stores\"",
                     "2. **WHEN** the customer selects a store from the *List View*\n**THEN** the system displays the store's full *Address*, *Operating Hours*, and *Contact Details*\n**Evidence:** requirements-chat-with-product-owner.md — line 9, \"address, map coordinates, operating hours, and contact details\"",
                     "3. **WHEN** the *List View* loads\n**THEN** all stores appear without requiring search or filtering\n**Evidence:** domain-sketch.md — Store > store locator, \"provides map view and list view of all stores\"; thin-slicing.md — Increment 1, \"Categories only — no keyword search yet\"",
                     "4. **WHEN** a visitor is not logged in\n**THEN** the *List View* is fully accessible without requiring an account\n**Evidence:** thin-slicing.md — Increment 1, \"Single payment-free, account-free vertical slice\""
                   ],
-                  "behavior": null
+                  "behavior": null,
+                  "scenario_outlines": [
+                    {
+                      "name": "All stores listed without login",
+                      "steps": [
+                        "Given the **StoreLocator** has **Store** *{store_name}* with **storeCode** *{store_code}*",
+                        "And the visitor is not logged in",
+                        "When the visitor opens the **StoreLocator** *List View*",
+                        "Then the list shows **Store** *{store_name}* with **addressLineOne** *{address_line_one}*, **city** *{city}*"
+                      ]
+                    },
+                    {
+                      "name": "Store details shown on list selection",
+                      "steps": [
+                        "Given the **StoreLocator** *List View* is displaying **Store** *{store_name}*",
+                        "When the visitor selects **Store** *{store_name}* from the *List View*",
+                        "Then the system displays **addressLineOne** *{address_line_one}*, **city** *{city}*, **postcode** *{postcode}*",
+                        "And the system displays **phoneNumber** *{phone_number}* and **emailAddress** *{email_address}*"
+                      ]
+                    }
+                  ]
                 },
                 {
                   "name": "Filter Stores by Availability and Specialization",
@@ -591,7 +755,8 @@
                     "3. **WHEN** the customer filters by *Product Availability* for a specific product\n**THEN** only stores where that product is *In Stock* are shown\n**Evidence:** requirements-chat-with-product-owner.md — line 11, \"filtering by what's available at each location\"",
                     "4. **WHEN** no stores match the combined filters\n**THEN** a \"no stores match your filters\" message is shown with a \"clear filters\" action\n**Evidence:** inferred — standard zero-results handling"
                   ],
-                  "behavior": null
+                  "behavior": null,
+                  "scenario_outlines": []
                 },
                 {
                   "name": "Calculate Distance to Store",
@@ -600,14 +765,47 @@
                   "story_type": "Customer",
                   "users": [],
                   "test_class": null,
-                  "scenarios": [],
+                  "scenarios": [
+                    {
+                      "name": "No distance shown when location not provided",
+                      "steps": [
+                        "Given the **StoreLocator** contains *3* active **Store** entries",
+                        "And the customer has not provided any location",
+                        "When the visitor opens the **StoreLocator**",
+                        "Then all **Store** entries are displayed without distance information",
+                        "And stores appear in their default order"
+                      ]
+                    },
+                    {
+                      "name": "Distance recalculates on location change",
+                      "steps": [
+                        "Given the customer previously provided *Shared Location* with latitude *51.5074*, longitude *-0.1278*",
+                        "And **Store** *PawPlace Camden* is shown at distance *3.7 km*",
+                        "When the customer enters a new **postcode** *M1 1AA*",
+                        "Then the **StoreLocator** recalculates distance using **calculateDistanceFromCustomer** for each **Store**",
+                        "And the *Nearest-First* ordering updates to reflect the new location"
+                      ]
+                    }
+                  ],
                   "acceptance_criteria": [
                     "1. **WHEN** the customer provides their location (via *Shared Location* or entering a *Postcode*)\n**THEN** the system calculates *Distance* from the customer to each *Store*\n**AND** stores are sorted *Nearest-First*\n**Evidence:** requirements-chat-with-product-owner.md — line 9, \"how far away it is from them (assuming they share location or enter a postcode)\"; domain-sketch.md — Store > store locator, \"calculates distance from the customer's shared location or entered postcode, producing a sorted nearest-first result list\"",
                     "2. **WHEN** the customer has not provided any location\n**THEN** the *Store Locator* displays all stores without *Distance* information\n**AND** all stores remain browsable in their default order\n**Evidence:** requirements-chat-with-product-owner.md — line 9, conditional phrasing \"assuming they share location or enter a postcode\" implies location provision is optional",
                     "3. **WHEN** *Distance* has been calculated\n**THEN** the distance value appears next to each *Store* in both *Map View* and *List View*\n**Evidence:** requirements-chat-with-product-owner.md — line 9, \"how far away it is from them\"; line 11, \"Map view, list view\"",
                     "4. **WHEN** the customer changes their location input (new *Postcode* or re-shared location)\n**THEN** the system recalculates *Distance* for all stores\n**AND** the *Nearest-First* ordering updates accordingly\n**Evidence:** domain-sketch.md — Store > store locator, \"calculates distance from the customer's shared location or entered postcode\" (implies recalculation on input change)"
                   ],
-                  "behavior": null
+                  "behavior": null,
+                  "scenario_outlines": [
+                    {
+                      "name": "Stores sorted nearest-first when location provided",
+                      "steps": [
+                        "Given the **StoreLocator** contains **Store** *{store_name}* at coordinates *{latitude}*, *{longitude}*",
+                        "And the customer provides location via *{location_method}*",
+                        "When the **StoreLocator** calculates distance using **calculateDistanceFromCustomer** for each **Store**",
+                        "Then **Store** *{store_name}* shows distance *{expected_distance_km}* km",
+                        "And **Store** *{store_name}* appears at sort position *{expected_sort_position}* in the **sortNearestFirst** ordering"
+                      ]
+                    }
+                  ]
                 }
               ]
             }
@@ -640,7 +838,8 @@
                     "2. **WHEN** the customer changes their *My Store* preference\n**THEN** the old preference is replaced with the new one\n**AND** the tailored experience (see *Tailor Experience to Preferred Store*) reflects the change immediately\n**Evidence:** inferred — single preferred store per account",
                     "3. **WHEN** a guest customer tries to set *My Store*\n**THEN** a prompt to log in or register is shown\n**BUT** the store page is not navigated away from\n**Evidence:** inferred — preference requires an account for persistence"
                   ],
-                  "behavior": null
+                  "behavior": null,
+                  "scenario_outlines": []
                 },
                 {
                   "name": "Tailor Experience to Preferred Store",
@@ -655,7 +854,8 @@
                     "2. **WHEN** the customer has a *My Store* and enters checkout with *Click-and-Collect*\n**THEN** the preferred store is pre-selected in the *Store Selector*\n**AND** the full store list remains available for selecting a different store\n**Evidence:** domain-sketch.md — Store KA, `store` concept: \"tailors the browsing experience when set as the customer's preferred store\"",
                     "3. **WHEN** the customer has no *My Store* set\n**THEN** no store-specific tailoring is applied (default behavior from previous increments)\n**Evidence:** inferred — feature is additive, not breaking"
                   ],
-                  "behavior": null
+                  "behavior": null,
+                  "scenario_outlines": []
                 }
               ]
             }
@@ -698,7 +898,8 @@
                     "3. **WHEN** the customer submits an email that is already registered\n**THEN** the form shows an error stating the email is already in use\n**AND** offers a \"Log In instead\" link\n**BUT** does not reveal whether the existing account is verified or not (information leakage prevention)\n**Evidence:** domain-sketch.md — Customer Account KA, `customer account` invariant: \"must have a unique, verified email address\"",
                     "4. **WHEN** the customer submits a password that does not meet requirements\n**THEN** the form shows which requirements are unmet\n**BUT** the account is not created until all requirements pass\n**Evidence:** inferred — standard registration security; requirements-chat-with-product-owner.md — line 13, \"the basics done really well\""
                   ],
-                  "behavior": null
+                  "behavior": null,
+                  "scenario_outlines": []
                 },
                 {
                   "name": "Send Email Verification",
@@ -713,7 +914,8 @@
                     "2. **WHEN** the *Verification Link* expires (e.g. after 24 hours)\n**THEN** clicking the link shows a clear \"link expired\" message\n**AND** offers a \"resend verification\" action\n**Evidence:** domain-sketch.md — Customer Account KA, `email verification` concept: \"grants access to account features only after the customer confirms\"",
                     "3. **WHEN** the email delivery system is temporarily unavailable\n**THEN** the verification email is queued for retry\n**AND** the registration confirmation screen tells the customer to expect the email shortly\n**Evidence:** inferred — email resilience pattern from Increments 2-3"
                   ],
-                  "behavior": null
+                  "behavior": null,
+                  "scenario_outlines": []
                 },
                 {
                   "name": "Verify Email Address",
@@ -728,7 +930,8 @@
                     "2. **WHEN** the customer clicks a *Verification Link* that has already been used\n**THEN** the system shows a \"already verified\" message with a login link\n**BUT** the account is not re-verified or modified\n**Evidence:** inferred — idempotent verification; link is one-time-use",
                     "3. **WHEN** the customer clicks an expired *Verification Link*\n**THEN** the system shows a \"link expired\" message with a \"resend verification\" action\n**Evidence:** domain-sketch.md — Customer Account KA, `email verification` concept"
                   ],
-                  "behavior": null
+                  "behavior": null,
+                  "scenario_outlines": []
                 },
                 {
                   "name": "Log In",
@@ -744,7 +947,8 @@
                     "3. **WHEN** the customer attempts to log in to an *Unverified* account\n**THEN** the system shows a \"please verify your email first\" message with a \"resend verification\" option\n**BUT** no *Session* is created\n**Evidence:** domain-sketch.md — Customer Account KA, `email verification` concept: \"grants access to account features only after the customer confirms\"",
                     "4. **WHEN** the customer has an active *Shopping Cart* from guest browsing and then logs in\n**THEN** the guest cart is merged into the logged-in customer's cart\n**AND** if both carts contain the same product, quantities are summed\n**Evidence:** requirements-chat-with-product-owner.md — line 13, \"A shopping cart that persists\""
                   ],
-                  "behavior": null
+                  "behavior": null,
+                  "scenario_outlines": []
                 },
                 {
                   "name": "Log Out",
@@ -758,7 +962,8 @@
                     "1. **WHEN** the customer selects \"Log Out\"\n**THEN** the *Session* is invalidated\n**AND** the customer is redirected to the home page in a guest state\n**Evidence:** inferred — standard logout behavior",
                     "2. **WHEN** the customer logs out on one device\n**THEN** only the *Session* on that device is invalidated (other device sessions remain active)\n**AND** a \"Log out everywhere\" option is shown that invalidates all sessions across devices when selected\n**Evidence:** domain-sketch.md — Customer Account KA, `session` invariant: \"must be reliably maintained across devices\""
                   ],
-                  "behavior": null
+                  "behavior": null,
+                  "scenario_outlines": []
                 },
                 {
                   "name": "Reset Password",
@@ -774,7 +979,8 @@
                     "3. **WHEN** the customer submits a new password\n**THEN** the password is updated and all existing *Sessions* are invalidated (the customer must re-login)\n**Evidence:** inferred — password change invalidates sessions for security",
                     "4. **WHEN** the *Reset Link* has expired or been used\n**THEN** the customer sees a clear \"link expired\" message with a \"Request new reset\" action\n**Evidence:** inferred — time-limited, one-time-use link"
                   ],
-                  "behavior": null
+                  "behavior": null,
+                  "scenario_outlines": []
                 },
                 {
                   "name": "Maintain Session Across Devices",
@@ -789,7 +995,8 @@
                     "2. **WHEN** the customer's *Session Token* expires (inactivity timeout or max duration)\n**THEN** the customer is redirected to the *Login Form*\n**AND** any unsaved cart changes are preserved (the cart is tied to the account, not the session)\n**Evidence:** domain-sketch.md — Customer Account KA, `session` invariant: \"must be reliably maintained across devices\"",
                     "3. **WHEN** the customer changes their password (via *Reset Password*)\n**THEN** all *Sessions* on all devices are invalidated\n**AND** the customer must re-authenticate on each device\n**Evidence:** inferred — standard security practice"
                   ],
-                  "behavior": null
+                  "behavior": null,
+                  "scenario_outlines": []
                 }
               ]
             }
@@ -822,7 +1029,8 @@
                     "2. **WHEN** the customer saves the first address\n**THEN** that address is automatically marked as the default delivery address\n**Evidence:** inferred — first saved address becomes the default",
                     "3. **WHEN** the customer already has addresses in their *Address Book*\n**THEN** the new address is added without replacing existing ones\n**AND** the account settings *Address Book* shows the new entry with a \"set as default\" option (see *Manage Saved Addresses*)\n**Evidence:** domain-sketch.md — Customer Account KA, `saved address` concept: \"aggregated by the customer account's address book\""
                   ],
-                  "behavior": null
+                  "behavior": null,
+                  "scenario_outlines": []
                 },
                 {
                   "name": "Manage Saved Addresses",
@@ -838,7 +1046,8 @@
                     "3. **WHEN** the customer deletes a *Saved Address*\n**THEN** the address is removed from the *Address Book*\n**BUT** if the deleted address was the *Default Address*, the customer is prompted to select a new default (or the most recently added becomes default)\n**Evidence:** inferred — default address must always exist if any addresses are saved",
                     "4. **WHEN** the customer sets a different address as *Default Address*\n**THEN** the previous default is demoted\n**AND** the new default is pre-selected during future checkouts\n**Evidence:** inferred — single default address per account"
                   ],
-                  "behavior": null
+                  "behavior": null,
+                  "scenario_outlines": []
                 },
                 {
                   "name": "Save Payment Method",
@@ -853,7 +1062,8 @@
                     "2. **WHEN** the customer saves a payment method\n**THEN** the account stores: last four digits, card type (or vendor label), and the expiry date for display\n**AND** the *Token* is what is used in future transactions — no re-entry of full card details\n**Evidence:** domain-sketch.md — Payment KA, `saved payment method` concept: \"tokenised reference stored under the customer account\"",
                     "3. **WHEN** the customer saves a second payment method\n**THEN** both are listed in the account settings (see *Manage Saved Payment Methods*)\n**AND** the first saved method remains the default unless the customer changes it\n**Evidence:** inferred — multiple saved payment methods supported"
                   ],
-                  "behavior": null
+                  "behavior": null,
+                  "scenario_outlines": []
                 },
                 {
                   "name": "Manage Saved Payment Methods",
@@ -868,7 +1078,8 @@
                     "2. **WHEN** the customer removes a *Saved Payment Method*\n**THEN** the *Token* is deleted and the method no longer appears at checkout\n**BUT** if the removed method was the *Default Payment Method*, the customer is prompted to select a new default\n**Evidence:** inferred — payment method lifecycle management",
                     "3. **WHEN** the customer sets a different method as *Default Payment Method*\n**THEN** the previous default is demoted\n**AND** the new default is pre-selected during future checkouts\n**Evidence:** inferred — single default per account"
                   ],
-                  "behavior": null
+                  "behavior": null,
+                  "scenario_outlines": []
                 },
                 {
                   "name": "Create Pet Profile",
@@ -884,7 +1095,8 @@
                     "3. **WHEN** the customer has multiple pets\n**THEN** each pet has its own profile entry\n**AND** all are listed under \"My Pets\"\n**Evidence:** inferred — multiple pet profiles supported",
                     "4. **WHEN** a guest customer tries to create a pet profile\n**THEN** a prompt to log in or register is shown\n**Evidence:** inferred — pet profiles require an account"
                   ],
-                  "behavior": null
+                  "behavior": null,
+                  "scenario_outlines": []
                 },
                 {
                   "name": "Update Pet Profile",
@@ -899,7 +1111,8 @@
                     "2. **WHEN** the customer saves changes\n**THEN** the updated profile is persisted immediately\n**AND** any personalised recommendations that reference pet data reflect the update on the next recommendation cycle\n**Evidence:** inferred — pet profiles feed personalisation (from Increment 8)",
                     "3. **WHEN** the customer deletes a *Customer Pet Profile*\n**THEN** the profile is removed from \"My Pets\"\n**AND** the deletion is confirmed with a \"are you sure\" prompt\n**Evidence:** inferred — destructive action confirmation"
                   ],
-                  "behavior": null
+                  "behavior": null,
+                  "scenario_outlines": []
                 },
                 {
                   "name": "Set Communication Preferences",
@@ -914,7 +1127,8 @@
                     "2. **WHEN** the customer opts out of a marketing category\n**THEN** the preference is saved immediately\n**AND** no marketing emails of that category are sent to the customer\n**Evidence:** domain-sketch.md — Notification KA, `communication preferences` invariant: \"no broadcast without explicit opt-in for that category\"",
                     "3. **WHEN** a new marketing category is added in a future increment\n**THEN** the default is opt-out (the customer must explicitly opt in)\n**Evidence:** domain-sketch.md — Notification KA, `communication preferences` invariant"
                   ],
-                  "behavior": null
+                  "behavior": null,
+                  "scenario_outlines": []
                 }
               ]
             }
@@ -948,7 +1162,8 @@
                     "3. **WHEN** the customer has no orders yet\n**THEN** the *Order History* shows an empty state with a prompt to start shopping\n**Evidence:** inferred — empty state handling",
                     "4. **WHEN** a guest customer's order was placed before they created an account (same email)\n**THEN** the guest order is retroactively associated with the new account and appears in *Order History*\n**Evidence:** domain-sketch.md — Customer Account KA, `customer account` concept: \"aggregates authored customer reviews, order history, wishlist, pet profiles, communication preferences, and session\""
                   ],
-                  "behavior": null
+                  "behavior": null,
+                  "scenario_outlines": []
                 },
                 {
                   "name": "View Appointment History",
@@ -976,7 +1191,8 @@
                     "4. **WHEN** the customer removes a *Wishlist Item*\n**THEN** the product is removed from the *Wishlist*\n**AND** the \"Add to Wishlist\" button on that product's *Product Details Page* returns to its default state\n**Evidence:** inferred — wishlist item lifecycle",
                     "5. **WHEN** a guest customer tries to add to wishlist\n**THEN** a prompt to log in or register is shown, explaining that wishlists require an account\n**BUT** the product page is not navigated away from — the prompt is dismissible and browsing continues\n**Evidence:** domain-sketch.md — Customer Account KA, `wishlist` concept: \"is owned exclusively by the logged-in customer account\""
                   ],
-                  "behavior": null
+                  "behavior": null,
+                  "scenario_outlines": []
                 },
                 {
                   "name": "Reorder Previous Purchase",
@@ -992,7 +1208,8 @@
                     "3. **WHEN** a product from the original order is currently *Out of Stock*\n**THEN** the product is added to the cart with a stock warning\n**AND** a \"proceed anyway\" option and a \"remove\" option are shown on that line item\n**Evidence:** domain-sketch.md — Product Catalog KA, `stock availability` concept",
                     "4. **WHEN** the customer already has items in their *Shopping Cart* and reorders\n**THEN** the reordered products are merged into the existing cart\n**AND** if both contain the same product, quantities are summed\n**Evidence:** inferred — same merge logic as login cart merge"
                   ],
-                  "behavior": null
+                  "behavior": null,
+                  "scenario_outlines": []
                 }
               ]
             }
@@ -1028,14 +1245,88 @@
                   "story_type": "Customer",
                   "users": [],
                   "test_class": null,
-                  "scenarios": [],
+                  "scenarios": [
+                    {
+                      "name": "Out-of-stock product displays availability indicator",
+                      "steps": [
+                        "Given the **ProductCatalog** contains **Product** *Exotic Fish Filter* with **sku** *PET-FLT-099*",
+                        "And **StockAvailability** for **Product** *PET-FLT-099* has **availableToSellQuantity** *0* and **backorderEnabled** *false*",
+                        "When the customer views the product page for **Product** *Exotic Fish Filter*",
+                        "Then the \"Add to Cart\" button is *disabled*",
+                        "And the product page displays availability label *Out of stock — check back soon*"
+                      ]
+                    },
+                    {
+                      "name": "Multiple products appear as separate line items",
+                      "steps": [
+                        "Given the **ShoppingCart** contains a **CartItem** with **productInCart** *PET-HAR-001*, **quantity** *1*, **linePrice** *£34.99*",
+                        "When the customer adds **Product** *Salmon Cat Treats* (*PET-TRT-042*) at **price** *£4.99* to the **ShoppingCart**",
+                        "Then **ShoppingCart** contains *2* **CartItem** entries",
+                        "And **CartItem** for *PET-HAR-001* has **quantity** *1* and **linePrice** *£34.99*",
+                        "And **CartItem** for *PET-TRT-042* has **quantity** *1* and **linePrice** *£4.99*",
+                        "And **ShoppingCart** has **cartSubtotal** *£39.98*",
+                        "And the cart badge shows *2*"
+                      ]
+                    }
+                  ],
                   "acceptance_criteria": [
                     "1. **WHEN** the customer selects \"Add to Cart\" on a *Product Details Page*\n**THEN** the *Product* is added to the *Shopping Cart* with quantity 1\n**AND** the *Cart Badge* updates to reflect the new item count\n**Evidence:** requirements-chat-with-product-owner.md — line 13, \"A shopping cart that persists\"",
                     "2. **WHEN** the customer adds a *Product* that is already in the *Shopping Cart*\n**THEN** the quantity for that product increments by 1 (not a duplicate line item)\n**AND** the *Cart Badge* updates accordingly\n**Evidence:** inferred — standard cart behavior; source does not explicitly address duplicate adds",
                     "3. **WHEN** the customer attempts to add a *Product* that is *Out of Stock*\n**THEN** the \"Add to Cart\" action is disabled or shows a clear message that the product is unavailable\n**BUT** the product is not added to the *Shopping Cart*\n**Evidence:** domain-sketch.md — Product Catalog KA, `stock availability` concept: \"gates the order flow, preventing checkout of backordered items\"",
                     "4. **WHEN** the customer adds multiple different *Products* to the *Shopping Cart*\n**THEN** each product appears as its own line item with its own quantity\n**AND** the *Cart Badge* shows the total number of distinct items or total quantity\n**Evidence:** domain-sketch.md — Order KA, `shopping cart` concept: \"accumulates products the customer intends to purchase, with quantities\""
                   ],
-                  "behavior": null
+                  "behavior": null,
+                  "scenario_outlines": [
+                    {
+                      "name": "Product added to cart updates quantity and badge",
+                      "steps": [
+                        "Given the **ProductCatalog** contains **Product** {product_name} with **sku** {sku} and **price** {price}",
+                        "And **StockAvailability** for **Product** {sku} has **availableToSellQuantity** {stock}",
+                        "And the **ShoppingCart** contains {initial_items} item(s) of **Product** {sku}",
+                        "When the customer selects \"Add to Cart\" on the product page for **Product** {product_name}",
+                        "Then **ShoppingCart** contains a **CartItem** with **productInCart** {sku}, **quantity** {expected_quantity}, **unitPriceAtTimeOfAdding** {price}",
+                        "And **CartItem** has **linePrice** {expected_line_price}",
+                        "And the cart badge shows {expected_badge_count}"
+                      ],
+                      "examples": {
+                        "columns": [
+                          "scenario",
+                          "product_name",
+                          "sku",
+                          "price",
+                          "stock",
+                          "initial_items",
+                          "expected_quantity",
+                          "expected_line_price",
+                          "expected_badge_count"
+                        ],
+                        "rows": [
+                          [
+                            "1",
+                            "Premium Dog Harness",
+                            "PET-HAR-001",
+                            "£34.99",
+                            "22",
+                            "0",
+                            "1",
+                            "£34.99",
+                            "1"
+                          ],
+                          [
+                            "2",
+                            "Premium Dog Harness",
+                            "PET-HAR-001",
+                            "£34.99",
+                            "22",
+                            "1",
+                            "2",
+                            "£69.98",
+                            "2"
+                          ]
+                        ]
+                      }
+                    }
+                  ]
                 },
                 {
                   "name": "Update Cart Quantity",
@@ -1044,13 +1335,84 @@
                   "story_type": "Customer",
                   "users": [],
                   "test_class": null,
-                  "scenarios": [],
+                  "scenarios": [
+                    {
+                      "name": "Quantity set to zero removes item from cart",
+                      "steps": [
+                        "Given the **ShoppingCart** contains a **CartItem** with **productInCart** *PET-TRT-042*, **quantity** *1*, **unitPriceAtTimeOfAdding** *£4.99*",
+                        "And **ShoppingCart** has **cartSubtotal** *£4.99*",
+                        "When the customer sets **quantity** on **CartItem** *PET-TRT-042* to *0*",
+                        "Then **CartItem** *PET-TRT-042* is removed from the **ShoppingCart**",
+                        "And **ShoppingCart** has **cartSubtotal** *£0.00*",
+                        "And the cart badge shows *0*"
+                      ]
+                    },
+                    {
+                      "name": "Invalid quantity shows validation feedback",
+                      "steps": [
+                        "Given the **ShoppingCart** contains a **CartItem** with **productInCart** *PET-HAR-001* and **quantity** *2*",
+                        "When the customer enters **quantity** *-1* on **CartItem** *PET-HAR-001*",
+                        "Then the cart displays validation message *Quantity must be zero or more* on that line",
+                        "And **CartItem** *PET-HAR-001* retains **quantity** *2*"
+                      ]
+                    }
+                  ],
                   "acceptance_criteria": [
                     "1. **WHEN** the customer changes the *Quantity* on a *Cart Line Item*\n**THEN** the line total recalculates based on the new quantity\n**AND** the cart total recalculates\n**Evidence:** inferred from domain-sketch.md — Order KA, `shopping cart` concept: \"accumulates products the customer intends to purchase, with quantities\"",
                     "2. **WHEN** the customer sets *Quantity* to zero\n**THEN** the *Cart Line Item* is removed from the *Shopping Cart*\n**AND** the cart total and *Cart Badge* update\n**Evidence:** inferred — zero quantity is equivalent to removal",
                     "3. **WHEN** the customer enters a negative number or non-numeric value for *Quantity*\n**THEN** the cart shows a validation error on that line\n**BUT** the previous *Quantity* is not changed\n**Evidence:** inferred — standard form validation"
                   ],
-                  "behavior": null
+                  "behavior": null,
+                  "scenario_outlines": [
+                    {
+                      "name": "Quantity change recalculates line price and subtotal",
+                      "steps": [
+                        "Given the **ShoppingCart** contains a **CartItem** with **productInCart** {sku}, **quantity** {initial_qty}, **unitPriceAtTimeOfAdding** {unit_price}",
+                        "And **ShoppingCart** has **cartSubtotal** {initial_subtotal}",
+                        "When the customer changes **quantity** on **CartItem** {sku} to {new_qty}",
+                        "Then **CartItem** {sku} has **quantity** {new_qty} and **linePrice** {expected_line_price}",
+                        "And **ShoppingCart** has **cartSubtotal** {expected_subtotal}",
+                        "And the cart badge shows {expected_badge_count}"
+                      ],
+                      "examples": {
+                        "columns": [
+                          "scenario",
+                          "sku",
+                          "unit_price",
+                          "initial_qty",
+                          "initial_subtotal",
+                          "new_qty",
+                          "expected_line_price",
+                          "expected_subtotal",
+                          "expected_badge_count"
+                        ],
+                        "rows": [
+                          [
+                            "1",
+                            "PET-HAR-001",
+                            "£34.99",
+                            "2",
+                            "£69.98",
+                            "3",
+                            "£104.97",
+                            "£104.97",
+                            "3"
+                          ],
+                          [
+                            "2",
+                            "PET-HAR-001",
+                            "£34.99",
+                            "2",
+                            "£69.98",
+                            "1",
+                            "£34.99",
+                            "£34.99",
+                            "1"
+                          ]
+                        ]
+                      }
+                    }
+                  ]
                 },
                 {
                   "name": "Remove Product from Cart",
@@ -1059,12 +1421,36 @@
                   "story_type": "Customer",
                   "users": [],
                   "test_class": null,
-                  "scenarios": [],
+                  "scenarios": [
+                    {
+                      "name": "Item removed and totals update",
+                      "steps": [
+                        "Given the **ShoppingCart** contains **CartItem** with **productInCart** *PET-HAR-001*, **quantity** *1*, **linePrice** *£34.99*",
+                        "And the **ShoppingCart** contains **CartItem** with **productInCart** *PET-TRT-042*, **quantity** *2*, **linePrice** *£9.98*",
+                        "And **ShoppingCart** has **cartSubtotal** *£44.97*",
+                        "When the customer selects remove on **CartItem** *PET-HAR-001*",
+                        "Then **CartItem** *PET-HAR-001* is removed from the **ShoppingCart**",
+                        "And **ShoppingCart** has **cartSubtotal** *£9.98*",
+                        "And the cart badge shows *2*"
+                      ]
+                    },
+                    {
+                      "name": "Last item removed shows continue-shopping guidance",
+                      "steps": [
+                        "Given the **ShoppingCart** contains only **CartItem** with **productInCart** *PET-TRT-042* and **quantity** *1*",
+                        "When the customer selects remove on **CartItem** *PET-TRT-042*",
+                        "Then the **ShoppingCart** displays heading *Your cart is empty*",
+                        "And a *Continue shopping* link is displayed",
+                        "And the checkout button is *hidden*"
+                      ]
+                    }
+                  ],
                   "acceptance_criteria": [
                     "1. **WHEN** the customer selects *Remove Action* on a *Cart Line Item*\n**THEN** that product is removed from the *Shopping Cart*\n**AND** the cart total and *Cart Badge* update immediately\n**Evidence:** inferred from domain-sketch.md — Order KA, `shopping cart` concept",
                     "2. **WHEN** the customer removes the last item in the *Shopping Cart*\n**THEN** the cart shows an empty state with guidance to continue shopping\n**BUT** no checkout flow is accessible from an empty cart\n**Evidence:** inferred — empty cart guard"
                   ],
-                  "behavior": null
+                  "behavior": null,
+                  "scenario_outlines": []
                 },
                 {
                   "name": "Persist Cart Across Devices",
@@ -1102,7 +1488,60 @@
                   "story_type": "Customer",
                   "users": [],
                   "test_class": null,
-                  "scenarios": [],
+                  "scenarios": [
+                    {
+                      "name": "Shipping address form presented for home delivery",
+                      "steps": [
+                        "Given the customer has selected *home delivery* during checkout",
+                        "And the customer has completed the billing step with **addressLineOne** *10 Elm Avenue*, **city** *London*, **postcode** *SW1A 2AA*",
+                        "When the checkout presents the *Shipping Address* step",
+                        "Then the form collects: **addressLineOne**, **addressLineTwo** (optional), **city**, **countyOrRegion**, **postcode**, and **country**",
+                        "And required fields are marked: **addressLineOne**, **city**, **postcode**, **country**"
+                      ]
+                    },
+                    {
+                      "name": "Same-as-billing pre-fills shipping address",
+                      "steps": [
+                        "Given the customer's **billingAddress** is **addressLineOne** *10 Elm Avenue*, **addressLineTwo** *Flat 3*, **city** *London*, **countyOrRegion** *Greater London*, **postcode** *SW1A 2AA*, **country** *United Kingdom*",
+                        "When the customer selects \"same as billing\"",
+                        "Then the *Shipping Address* form pre-fills **addressLineOne** with *10 Elm Avenue*",
+                        "And **addressLineTwo** with *Flat 3*",
+                        "And **city** with *London*",
+                        "And **countyOrRegion** with *Greater London*",
+                        "And **postcode** with *SW1A 2AA*",
+                        "And **country** with *United Kingdom*"
+                      ]
+                    },
+                    {
+                      "name": "Override single field on pre-filled address",
+                      "steps": [
+                        "Given the *Shipping Address* is pre-filled from **billingAddress** with **city** *London*",
+                        "When the customer overrides **city** to *Edinburgh*",
+                        "Then **city** shows *Edinburgh*",
+                        "And **addressLineOne** remains *10 Elm Avenue*",
+                        "And **postcode** remains *SW1A 2AA*"
+                      ]
+                    },
+                    {
+                      "name": "Missing required fields show validation messages",
+                      "steps": [
+                        "Given the customer leaves **addressLineOne** blank and **postcode** blank on the *Shipping Address* form",
+                        "When the customer submits the shipping address",
+                        "Then the form shows validation message *Address line 1 is required* on **addressLineOne**",
+                        "And the form shows validation message *Postcode is required* on **postcode**",
+                        "And the checkout remains on the shipping step"
+                      ]
+                    },
+                    {
+                      "name": "Complete shipping address advances to delivery option",
+                      "steps": [
+                        "Given the customer enters **addressLineOne** *28 Oak Lane*, **city** *Edinburgh*, **countyOrRegion** *Midlothian*, **postcode** *EH1 3DG*, **country** *United Kingdom*",
+                        "When the customer submits the shipping address",
+                        "Then the checkout advances to the **DeliveryOption** selection step",
+                        "And the order summary shows shipping address *28 Oak Lane, Edinburgh, Midlothian, EH1 3DG*"
+                      ]
+                    }
+                  ],
                   "acceptance_criteria": [
                     "1. **WHEN** the customer selects home delivery during checkout\n**THEN** the *Checkout Flow* presents the *Address Form* for *Shipping Address*\n**AND** the form collects: name, address line 1, address line 2 (optional), city, county/state, postcode, and country\n**BUT** does not apply to *Click-and-Collect* orders — those skip the shipping address step entirely (see *Select Click-and-Collect Store*, Increment 2)\n**Evidence:** requirements-chat-with-product-owner.md — line 17, \"Checkout flow: shipping address, billing address, delivery options\"",
                     "2. **WHEN** the customer's *Shipping Address* is the same as their *Billing Address*\n**THEN** a \"same as billing\" option pre-fills the *Shipping Address* from the *Billing Address* entered in the billing step",
@@ -1110,7 +1549,8 @@
                     "3. **WHEN** the customer submits the *Shipping Address* with required fields missing\n**THEN** the form highlights the missing fields with clear validation messages\n**BUT** the checkout does not advance to delivery option selection\n**Evidence:** inferred — standard address validation",
                     "4. **WHEN** the customer completes the *Shipping Address*\n**THEN** the checkout advances to the *Delivery Option* selection step\n**AND** the entered address is shown in the order summary for review\n**Evidence:** domain-sketch.md — Order KA, `order` concept: \"captures the complete purchase: products, quantities, shipping address, billing address, delivery option, and payment\""
                   ],
-                  "behavior": null
+                  "behavior": null,
+                  "scenario_outlines": []
                 },
                 {
                   "name": "Enter Billing Address",
@@ -1119,13 +1559,43 @@
                   "story_type": "Customer",
                   "users": [],
                   "test_class": null,
-                  "scenarios": [],
+                  "scenarios": [
+                    {
+                      "name": "Billing address form collects full details",
+                      "steps": [
+                        "Given the customer has reached the billing step in the *Checkout Flow*",
+                        "When the billing address form is presented",
+                        "Then the form collects: **addressLineOne**, **addressLineTwo** (optional), **city**, **countyOrRegion**, **postcode**, and **country**",
+                        "And required fields are marked: **addressLineOne**, **city**, **postcode**, **country**"
+                      ]
+                    },
+                    {
+                      "name": "Complete billing address advances to payment",
+                      "steps": [
+                        "Given the customer enters **addressLineOne** *10 Elm Avenue*, **addressLineTwo** *Flat 3*, **city** *London*, **countyOrRegion** *Greater London*, **postcode** *SW1A 2AA*, **country** *United Kingdom*",
+                        "When the customer submits the billing address",
+                        "Then the checkout advances to the payment step",
+                        "And the order summary shows billing address *10 Elm Avenue, Flat 3, London, Greater London, SW1A 2AA*"
+                      ]
+                    },
+                    {
+                      "name": "Missing required fields show validation messages",
+                      "steps": [
+                        "Given the customer leaves **addressLineOne** blank and **postcode** blank",
+                        "When the customer submits the billing address form",
+                        "Then the form shows validation message *Address line 1 is required* on **addressLineOne**",
+                        "And the form shows validation message *Postcode is required* on **postcode**",
+                        "And the checkout remains on the billing step"
+                      ]
+                    }
+                  ],
                   "acceptance_criteria": [
                     "1. **WHEN** the customer reaches the billing step in the *Checkout Flow*\n**THEN** the *Address Form* collects: name, address line 1, address line 2 (optional), city, county/state, postcode, and country\n**Evidence:** requirements-chat-with-product-owner.md — line 17, \"Checkout flow: shipping address, billing address\"",
                     "2. **WHEN** the customer submits the *Billing Address* with required fields missing\n**THEN** the form highlights the missing fields with clear validation messages\n**BUT** the checkout does not advance to payment\n**Evidence:** inferred — standard address validation",
                     "3. **WHEN** the customer completes the *Billing Address*\n**THEN** the checkout advances to the payment step\n**AND** the entered address is shown in the order summary for review\n**Evidence:** inferred — standard checkout flow; confirmed by domain-sketch.md — Order KA, `order` concept: \"captures the complete purchase: products, quantities, shipping address, billing address, delivery option, and payment\""
                   ],
-                  "behavior": null
+                  "behavior": null,
+                  "scenario_outlines": []
                 },
                 {
                   "name": "Select Saved Address at Checkout",
@@ -1141,7 +1611,8 @@
                     "3. **WHEN** the customer wants to use a new address not in the *Address Book*\n**THEN** a \"use a different address\" option reveals the manual *Address Form*\n**AND** a \"save this address\" checkbox is shown so the new address is added to the *Address Book* when checked (see *Save Delivery Address*)\n**Evidence:** inferred — saved addresses do not block manual entry",
                     "4. **WHEN** a guest customer (not logged in) reaches the shipping step\n**THEN** no *Address Selector* is shown — only the manual *Address Form*\n**AND** a prompt to log in or create an account mentions the benefit of saved addresses\n**Evidence:** domain-sketch.md — Customer Account KA, `guest checkout` concept: \"collects shipping and billing details for the single transaction only\""
                   ],
-                  "behavior": null
+                  "behavior": null,
+                  "scenario_outlines": []
                 },
                 {
                   "name": "Select Delivery Option",
@@ -1150,14 +1621,56 @@
                   "story_type": "Customer",
                   "users": [],
                   "test_class": null,
-                  "scenarios": [],
+                  "scenarios": [
+                    {
+                      "name": "Available delivery options shown",
+                      "steps": [
+                        "Given the customer has completed the *Shipping Address* step",
+                        "When the customer reaches the delivery selection step",
+                        "Then **DeliveryOption** *Standard Delivery* is shown with estimated *3–5 days* and **shippingCost** *£4.99*",
+                        "And **ClickAndCollect** is shown with **shippingCost** *£0.00*"
+                      ]
+                    },
+                    {
+                      "name": "Standard delivery confirms shipping address",
+                      "steps": [
+                        "Given the customer selects **DeliveryOption** *Standard Delivery*",
+                        "And the *Shipping Address* is **addressLineOne** *28 Oak Lane*, **city** *Edinburgh*, **postcode** *EH1 3DG*",
+                        "When the customer confirms the delivery option",
+                        "Then the *Shipping Address* is confirmed as the delivery destination",
+                        "And the checkout advances to payment",
+                        "And the order summary shows **shippingCost** *£4.99*"
+                      ]
+                    },
+                    {
+                      "name": "Switching from standard to click-and-collect adjusts checkout",
+                      "steps": [
+                        "Given the customer has selected **DeliveryOption** *Standard Delivery* and entered a *Shipping Address*",
+                        "When the customer switches to **ClickAndCollect**",
+                        "Then the *Store Selector* is displayed for **ClickAndCollect.selectedPickupStore** selection",
+                        "And the *Shipping Address* requirement is dropped",
+                        "And the **billingAddress** is still required"
+                      ]
+                    },
+                    {
+                      "name": "Switching from click-and-collect to standard prompts shipping address",
+                      "steps": [
+                        "Given the customer has selected **ClickAndCollect** and chosen **Store** *PawPlace Camden*",
+                        "When the customer switches to **DeliveryOption** *Standard Delivery*",
+                        "Then the *Shipping Address* form is presented",
+                        "And the *Store Selector* is dismissed",
+                        "And the **billingAddress** remains unchanged"
+                      ]
+                    }
+                  ],
                   "acceptance_criteria": [
                     "1. **WHEN** the customer reaches the delivery selection step\n**THEN** the available options are *Standard Delivery* and *Click-and-Collect* (from Increment 2)\n**AND** *Standard Delivery* shows an estimated delivery window and cost\n**Evidence:** requirements-chat-with-product-owner.md — line 17, \"delivery options (standard, express, maybe same-day for local)\"; story-map.md — Consolidation Notes: \"Groups three shipping speeds into one parameterized story — same selection mechanic, different speed and cost\"",
                     "2. **WHEN** the customer selects *Standard Delivery*\n**THEN** the *Shipping Address* entered in the previous step is confirmed as the delivery destination\n**AND** the checkout advances to payment\n**Evidence:** domain-sketch.md — Order KA, `delivery option` concept: \"is selected during checkout and recorded on the order\"",
                     "3. **WHEN** the customer switches from *Standard Delivery* to *Click-and-Collect* (or vice versa) during checkout\n**THEN** the relevant address steps adjust: *Click-and-Collect* drops the *Shipping Address* requirement and shows the *Store Selector*; *Standard Delivery* requires the *Shipping Address*\n**BUT** the *Billing Address* is always required regardless of delivery option\n**Evidence:** domain-sketch.md — Store KA, `click-and-collect` concept: pickup replaces shipping; Order KA, `order` concept: billing address always captured",
                     "4. **WHEN** express or same-day options are not yet available (deferred per thin slicing)\n**THEN** they do not appear in the selection — the customer sees only *Standard Delivery* and *Click-and-Collect*\n**BUT** the UI is structured to accommodate additional options in future increments without redesign\n**Evidence:** story-map.md — Context Gaps: \"Same-day delivery — geographic eligibility rules and cut-off times not specified. Awaiting PO decision.\""
                   ],
-                  "behavior": null
+                  "behavior": null,
+                  "scenario_outlines": []
                 },
                 {
                   "name": "Select Click-and-Collect Store",
@@ -1166,13 +1679,48 @@
                   "story_type": "Customer",
                   "users": [],
                   "test_class": null,
-                  "scenarios": [],
+                  "scenarios": [
+                    {
+                      "name": "Available stores shown at delivery step",
+                      "steps": [
+                        "Given the **StoreLocator** contains **Store** *PawPlace Camden* (*STR-001*) and **Store** *PawPlace Bristol* (*STR-002*)",
+                        "And the customer has reached the delivery step in checkout",
+                        "When the customer views the *Store Selector* for **ClickAndCollect**",
+                        "Then the selector displays *2* stores",
+                        "And **Store** *STR-001* shows *42 High Street*, *London*, *NW1 8QP*, and operating hours",
+                        "And **Store** *STR-002* shows *15 Harbour Road*, *Bristol*, *BS1 4DJ*, and operating hours",
+                        "And if customer location is known, distance from **StoreLocator.calculateDistanceFromCustomer** is displayed"
+                      ]
+                    },
+                    {
+                      "name": "Pickup store recorded without shipping address",
+                      "steps": [
+                        "Given the customer selects **Store** *PawPlace Camden* (*STR-001*) from the *Store Selector*",
+                        "When the customer confirms **ClickAndCollect** at **selectedPickupStore** *STR-001*",
+                        "Then **ClickAndCollect** records **selectedPickupStore** as **Store** *STR-001*",
+                        "And the checkout displays confirmation label *Collecting from PawPlace Camden*",
+                        "And the shipping address form is not presented"
+                      ]
+                    },
+                    {
+                      "name": "Stores listed with location entry prompt",
+                      "steps": [
+                        "Given the customer has not provided location data",
+                        "And the **StoreLocator** contains *2* active **Store** entries",
+                        "When the customer views the *Store Selector* for **ClickAndCollect**",
+                        "Then *2* stores are listed in alphabetical order",
+                        "And each store shows name, address, and operating hours",
+                        "And the selector displays prompt *Enter a postcode or share location for distance-sorted results*"
+                      ]
+                    }
+                  ],
                   "acceptance_criteria": [
                     "1. **WHEN** the customer reaches the delivery step in checkout\n**THEN** the *Store Selector* shows available stores for *Click-and-Collect*\n**AND** each store shows its address, operating hours, and distance (if customer location is known from Increment 1)\n**Evidence:** requirements-chat-with-product-owner.md — line 29, \"click-and-collect should probably be an option. Order online, pick up at your local store\"",
                     "2. **WHEN** the customer selects a *Pickup Store*\n**THEN** that store is recorded as the fulfillment destination for the order\n**AND** no shipping address is required (pickup replaces delivery)\n**Evidence:** domain-sketch.md — Store KA, `click-and-collect` concept: \"requires the customer to select a specific store at checkout\"; invariant: \"must reference a specific store for pickup\"",
                     "3. **WHEN** no stores are within a reasonable distance (or customer has no location)\n**THEN** all stores are still listed (the customer may be willing to travel)\n**BUT** a note suggests entering a postcode or sharing location for distance-sorted results\n**Evidence:** inferred — click-and-collect should not be blocked by missing location data; distance sorting is a convenience from Increment 1"
                   ],
-                  "behavior": null
+                  "behavior": null,
+                  "scenario_outlines": []
                 },
                 {
                   "name": "Check Out as Guest",
@@ -1181,14 +1729,55 @@
                   "story_type": "Customer",
                   "users": [],
                   "test_class": null,
-                  "scenarios": [],
+                  "scenarios": [
+                    {
+                      "name": "Guest checkout offered as default",
+                      "steps": [
+                        "Given the customer has items in the **ShoppingCart**",
+                        "And the customer is not logged in",
+                        "When the customer proceeds to checkout",
+                        "Then the system offers *Guest Checkout* as the default path",
+                        "And the system collects **guestEmail**, **guestFirstName**, and **guestLastName**"
+                      ]
+                    },
+                    {
+                      "name": "Order placed with guest details",
+                      "steps": [
+                        "Given the customer provides **GuestCheckout** with **guestEmail** *sarah.jones@example.com*, **guestFirstName** *Sarah*, **guestLastName** *Jones*",
+                        "When the customer completes **GuestCheckout**",
+                        "Then an **Order** is placed via **GuestCheckout.completePurchaseWithoutAccount**",
+                        "And a confirmation email is sent to *sarah.jones@example.com*",
+                        "And guest details are retained only for this transaction"
+                      ]
+                    },
+                    {
+                      "name": "Email validation shows inline error",
+                      "steps": [
+                        "Given the customer enters **guestEmail** *not-an-email*",
+                        "When the customer attempts to proceed from the email step",
+                        "Then the email field shows validation message *Please enter a valid email address*",
+                        "And the checkout remains on the current step until a valid email is provided"
+                      ]
+                    },
+                    {
+                      "name": "Account creation prompted after guest checkout",
+                      "steps": [
+                        "Given the customer has completed **GuestCheckout** with **guestEmail** *sarah.jones@example.com*",
+                        "When the order confirmation page is displayed",
+                        "Then the system calls **GuestCheckout.promoteAccountCreation**",
+                        "And displays prompt *Create an account for order history, saved addresses, and reorder*",
+                        "And the prompt is dismissible — the **Order** is already placed regardless"
+                      ]
+                    }
+                  ],
                   "acceptance_criteria": [
                     "1. **WHEN** the customer proceeds to checkout without being logged in\n**THEN** the system offers *Guest Checkout* as the default path (no account required)\n**AND** the customer is asked for a *Guest Email* for order communications\n**Evidence:** requirements-chat-with-product-owner.md — line 13, \"Guest checkout has to work too, though; not everyone wants to create an account just to buy a bag of cat litter\"",
                     "2. **WHEN** the customer completes *Guest Checkout*\n**THEN** the order is placed and a confirmation email is sent to the *Guest Email*\n**BUT** no account is created — guest details are not persisted beyond this transaction\n**Evidence:** domain-sketch.md — Customer Account KA, `guest checkout` concept: \"collects shipping and billing details for the single transaction only — no persistence\"",
                     "3. **WHEN** the customer enters an invalid *Guest Email* (missing @, malformed)\n**THEN** the checkout shows a validation error on the email field\n**BUT** the checkout does not proceed until a valid email is provided\n**Evidence:** inferred — email is the only contact surface for guest order communications",
                     "4. **WHEN** a guest customer completes checkout\n**THEN** the system prompts account creation by surfacing the value of order history, saved addresses, and reorder\n**BUT** the prompt is dismissible — the order is already placed regardless of the customer's choice\n**Evidence:** requirements-chat-with-product-owner.md — line 13, \"we should make account creation appealing — order history, saved addresses, saved payment methods, reorder functionality\""
                   ],
-                  "behavior": null
+                  "behavior": null,
+                  "scenario_outlines": []
                 },
                 {
                   "name": "Allow Backorder Purchase",
@@ -1199,7 +1788,8 @@
                   "test_class": null,
                   "scenarios": [],
                   "acceptance_criteria": [],
-                  "behavior": null
+                  "behavior": null,
+                  "scenario_outlines": []
                 }
               ]
             }
@@ -1226,13 +1816,63 @@
                   "story_type": "Customer",
                   "users": [],
                   "test_class": null,
-                  "scenarios": [],
+                  "scenarios": [
+                    {
+                      "name": "StripeWave card entry presented",
+                      "steps": [
+                        "Given the customer has reached the payment step in checkout",
+                        "And **PaymentVendor** *StripeWave* is the only active vendor with **supportedPaymentTypes** containing *credit and debit card*",
+                        "When the payment method selection is displayed",
+                        "Then *StripeWave (Credit/Debit Card)* is the available option",
+                        "And the form collects: card number, expiry month/year, and CVV"
+                      ]
+                    }
+                  ],
                   "acceptance_criteria": [
                     "1. **WHEN** the customer reaches the payment step in checkout\n**THEN** *StripeWave* (*Credit/Debit Card*) is the available *Payment Method Selection*\n**AND** the customer enters card number, expiry, and CVV\n**Evidence:** requirements-chat-with-product-owner.md — line 17, \"StripeWave handles the credit and debit card processing and is our primary gateway\"",
                     "2. **WHEN** the customer enters valid card details\n**THEN** the checkout advances to the order review/confirmation step\n**Evidence:** inferred — standard card checkout flow",
                     "3. **WHEN** the customer enters invalid or incomplete card details\n**THEN** the form shows a validation error identifying the problem (invalid number, expired card, missing CVV)\n**BUT** no payment is attempted until all fields are valid\n**Evidence:** inferred — card validation before submission"
                   ],
-                  "behavior": null
+                  "behavior": null,
+                  "scenario_outlines": [
+                    {
+                      "name": "Card details validated before payment",
+                      "steps": [
+                        "Given the customer enters card number {card_number}, expiry {expiry}, CVV {cvv}",
+                        "When the card details are validated client-side",
+                        "Then the validation result is {expected_result}",
+                        "And the checkout {expected_action}"
+                      ],
+                      "examples": {
+                        "columns": [
+                          "scenario",
+                          "card_number",
+                          "expiry",
+                          "cvv",
+                          "expected_result",
+                          "expected_action"
+                        ],
+                        "rows": [
+                          [
+                            "1",
+                            "4242 4242 4242 4242",
+                            "12/27",
+                            "123",
+                            "valid",
+                            "advances to order review"
+                          ],
+                          [
+                            "2",
+                            "4242 4242 4242 4242",
+                            "01/22",
+                            "123",
+                            "invalid — card expired",
+                            "shows error: Card expiry date is in the past"
+                          ]
+                        ]
+                      }
+                    }
+                  ]
                 },
                 {
                   "name": "Select Saved Payment Method at Checkout",
@@ -1248,7 +1888,8 @@
                     "3. **WHEN** the customer wants to use a new payment method not yet saved\n**THEN** a \"use a different payment method\" option reveals the manual card entry form\n**AND** a \"save this payment method\" checkbox is shown so the new method is stored when checked (see *Save Payment Method*)\n**Evidence:** inferred — saved methods do not block manual entry",
                     "4. **WHEN** a saved payment method's token has expired or been revoked by the vendor\n**THEN** the *Payment Selector* marks that method as \"expired\" or removes it\n**AND** the remaining valid methods and the manual entry form are displayed as alternatives\n**BUT** the expired token is never silently used for a charge attempt\n**Evidence:** inferred — token lifecycle management"
                   ],
-                  "behavior": null
+                  "behavior": null,
+                  "scenario_outlines": []
                 },
                 {
                   "name": "Process Card Payment via StripeWave",
@@ -1257,7 +1898,67 @@
                   "story_type": "System",
                   "users": [],
                   "test_class": null,
-                  "scenarios": [],
+                  "scenarios": [
+                    {
+                      "name": "Successful authorize-capture-settle confirms order",
+                      "steps": [
+                        "Given the customer has confirmed an **Order** with **orderTotal** *£44.97*",
+                        "And **PaymentVendor** *StripeWave* is the **processingVendor**",
+                        "When **Payment.authorize** is called on **Payment** *PAY-20250507-001*",
+                        "And **StripeWave** returns success",
+                        "Then **Payment** transitions **paymentStatus** to *authorized*",
+                        "When **Payment.capture** is called",
+                        "Then **Payment** transitions **paymentStatus** to *captured*",
+                        "When **Payment.settle** is called",
+                        "Then **Payment** transitions **paymentStatus** to *settled*",
+                        "And **Order.confirm** is called with the completed **Payment**",
+                        "And **Order** *ORD-2001* transitions **orderStatus** to *confirmed*"
+                      ]
+                    },
+                    {
+                      "name": "Card declined shows decline reason and retry",
+                      "steps": [
+                        "Given the customer has confirmed an **Order** with **orderTotal** *£89.99*",
+                        "And **PaymentVendor** *StripeWave* is the **processingVendor**",
+                        "When **Payment.authorize** is called and **StripeWave** declines the card",
+                        "Then the customer sees error message *Your card was declined — please check your details or try another card*",
+                        "And the checkout displays a *Try another card* button",
+                        "And **Payment** *PAY-20250507-002* has **paymentStatus** *failed*"
+                      ]
+                    },
+                    {
+                      "name": "Webhook callback reconciles after timeout",
+                      "steps": [
+                        "Given the customer's **Payment** *PAY-20250507-003* timed out during authorize",
+                        "And **paymentStatus** is *pending*",
+                        "When **Payment.handleWebhookCallback** receives a success payload from **StripeWave**",
+                        "Then **Payment** updates **paymentStatus** to *settled*",
+                        "And **Order** *ORD-2002* transitions **orderStatus** to *confirmed*",
+                        "And the confirmation email is sent to the customer"
+                      ]
+                    },
+                    {
+                      "name": "Webhook failure notifies customer to retry",
+                      "steps": [
+                        "Given the customer's **Payment** *PAY-20250507-003* timed out during authorize",
+                        "And **paymentStatus** is *pending*",
+                        "When **Payment.handleWebhookCallback** receives a failure payload from **StripeWave**",
+                        "Then **Payment** updates **paymentStatus** to *failed*",
+                        "And the customer receives notification *Your payment could not be processed — please try again*",
+                        "And the order page displays a *Retry payment* link"
+                      ]
+                    },
+                    {
+                      "name": "Payment service unavailable shows retry option",
+                      "steps": [
+                        "Given the customer has confirmed an **Order** with **orderTotal** *£34.99*",
+                        "When **Payment.authorize** is called and the connection to **StripeWave** is unavailable",
+                        "Then the customer sees message *Payment service temporarily unavailable — please try again shortly*",
+                        "And a *Retry* button is displayed after a brief wait",
+                        "And no charge is attempted"
+                      ]
+                    }
+                  ],
                   "acceptance_criteria": [
                     "1. **WHEN** the customer confirms the order\n**THEN** the system initiates *Authorize-Capture-Settle* with *StripeWave* for the order total\n**AND** the customer sees a processing indicator while the payment is in flight\n**Evidence:** requirements-chat-with-product-owner.md — line 17, \"StripeWave handles the credit and debit card processing and is our primary gateway\"",
                     "2. **WHEN** *StripeWave* returns a successful *Payment Confirmation*\n**THEN** the order status transitions to *Confirmed*\n**AND** the system proceeds to send the confirmation email (see *Confirm Order and Send Confirmation Email*)\n**Evidence:** requirements-chat-with-product-owner.md — line 17, \"The system should handle all the webhook callbacks, payment confirmations\"",
@@ -1265,7 +1966,8 @@
                     "4. **WHEN** the *Webhook Callback* from *StripeWave* arrives after a timeout\n**THEN** the system reconciles the callback against the pending order\n**AND** if payment succeeded, the order transitions to *Confirmed* and the confirmation email fires\n**BUT** if payment failed, the order remains unpaid and the customer is notified to retry\n**Evidence:** requirements-chat-with-product-owner.md — line 17, \"webhook callbacks\"",
                     "5. **WHEN** the connection to *StripeWave* is temporarily unavailable\n**THEN** the customer sees a \"payment service temporarily unavailable\" message\n**AND** a retry option is displayed after a brief wait\n**BUT** no charge is attempted and no order is confirmed\n**Evidence:** domain-sketch.md — Payment KA, `payment` invariant: \"must be associated with exactly one order\""
                   ],
-                  "behavior": null
+                  "behavior": null,
+                  "scenario_outlines": []
                 },
                 {
                   "name": "Process Digital Wallet Payment via PayNova",
@@ -1282,7 +1984,8 @@
                     "4. **WHEN** the PayNova *Webhook Callback* arrives after a timeout\n**THEN** the system reconciles the callback against the pending order (same pattern as StripeWave in Increment 2)\n**Evidence:** requirements-chat-with-product-owner.md — line 17, \"webhook callbacks\"",
                     "5. **WHEN** a logged-in customer completes a PayNova payment\n**THEN** the system offers to save PayNova as a *Saved Payment Method* under the customer account (same save-payment flow as Increment 4, vendor = PayNova)\n**Evidence:** domain-sketch.md — Payment KA, `saved payment method` concept: \"tokenised reference stored under the customer account\""
                   ],
-                  "behavior": null
+                  "behavior": null,
+                  "scenario_outlines": []
                 },
                 {
                   "name": "Process Buy-Now-Pay-Later via VaultPay",
@@ -1299,7 +2002,8 @@
                     "4. **WHEN** the VaultPay *Webhook Callback* arrives after a timeout\n**THEN** the system reconciles the callback against the pending order (same pattern as StripeWave/PayNova)\n**Evidence:** requirements-chat-with-product-owner.md — line 17, \"webhook callbacks\"",
                     "5. **WHEN** a logged-in customer completes a VaultPay payment\n**THEN** the system offers to save VaultPay as a *Saved Payment Method*\n**AND** future VaultPay usage pre-fills the customer's VaultPay identity — they still go through the eligibility check per transaction\n**Evidence:** inferred — BNPL eligibility is per-transaction; saving the method saves identity, not approval"
                   ],
-                  "behavior": null
+                  "behavior": null,
+                  "scenario_outlines": []
                 },
                 {
                   "name": "Retry Failed Payment",
@@ -1316,7 +2020,8 @@
                     "4. **WHEN** a *Payment* fails due to a *Hard Decline* (insufficient funds, card blocked, fraud flag)\n**THEN** the system does **not** automatically retry\n**AND** the customer is immediately shown the decline reason and offered alternatives (different card, different vendor)\n**Evidence:** inferred — retrying a hard decline wastes time and may trigger vendor fraud flags",
                     "5. **WHEN** a *Payment Retry* is in progress and the customer navigates away\n**THEN** the retry continues in the background\n**AND** if it succeeds, the order is confirmed and the confirmation email fires\n**BUT** if all retries exhaust, the order remains unpaid and the customer is notified (via guest email or account notification)\n**Evidence:** inferred — retry should not depend on the customer keeping the page open"
                   ],
-                  "behavior": null
+                  "behavior": null,
+                  "scenario_outlines": []
                 }
               ]
             }
@@ -1343,13 +2048,38 @@
                   "story_type": "System",
                   "users": [],
                   "test_class": null,
-                  "scenarios": [],
+                  "scenarios": [
+                    {
+                      "name": "Confirmation page and email sent on payment success",
+                      "steps": [
+                        "Given **Payment** for **Order** *ORD-2001* has **paymentStatus** *settled*",
+                        "And **ClickAndCollect** for **Order** *ORD-2001* has **selectedPickupStore** *PawPlace Camden* at *42 High Street, London NW1 8QP*",
+                        "And **GuestCheckout** has **guestEmail** *sarah.jones@example.com*",
+                        "When **Order.confirm** is called with the completed **Payment**",
+                        "Then the *Order Confirmation Page* displays **orderNumber** *ORD-2001*, items, **orderTotal** *£44.97*, and **ClickAndCollect** store details",
+                        "And **Notification.createTransactional** fires with type *order-confirmation*, recipient *sarah.jones@example.com*",
+                        "And the **Notification** includes: **orderNumber** *ORD-2001*, itemized list, total paid *£44.97*, masked payment method, pickup **Store** address *42 High Street, London NW1 8QP* and operating hours"
+                      ]
+                    },
+                    {
+                      "name": "Email queued, confirmation page still displayed",
+                      "steps": [
+                        "Given **Payment** for **Order** *ORD-2001* has **paymentStatus** *settled*",
+                        "When **Order.confirm** is called with the completed **Payment**",
+                        "And the email delivery system is temporarily unavailable",
+                        "Then the *Order Confirmation Page* displays to the customer with **orderNumber** *ORD-2001*",
+                        "And the **Notification** is queued with **deliveryStatus** *queued* for retry",
+                        "And **Order** *ORD-2001* remains *confirmed*"
+                      ]
+                    }
+                  ],
                   "acceptance_criteria": [
                     "1. **WHEN** *Payment* is confirmed (see *Process Card Payment via StripeWave*)\n**THEN** the system displays the *Order Confirmation Page* with order number, items, total, and *Pickup Store* details\n**AND** the system sends a *Confirmation Email* to the *Guest Email*\n**Evidence:** requirements-chat-with-product-owner.md — line 19, \"Order confirmation page, confirmation email\"",
                     "2. **WHEN** the *Confirmation Email* is sent\n**THEN** it includes: order number, itemized list, total paid, payment method (masked), and *Pickup Store* address with operating hours\n**Evidence:** requirements-chat-with-product-owner.md — line 19, \"The usual stuff but done well\"; domain-sketch.md — Store KA, `click-and-collect` concept",
                     "3. **WHEN** the email delivery system is temporarily unavailable\n**THEN** the *Order Confirmation Page* still displays to the customer (the order is not blocked by email failure)\n**AND** the email is queued for retry\n**BUT** the order is not rolled back due to email failure\n**Evidence:** inferred — email is a side-effect, not a gate on order completion"
                   ],
-                  "behavior": null
+                  "behavior": null,
+                  "scenario_outlines": []
                 },
                 {
                   "name": "Send Shipping Notification with Tracking Number",
@@ -1358,14 +2088,56 @@
                   "story_type": "System",
                   "users": [],
                   "test_class": null,
-                  "scenarios": [],
+                  "scenarios": [
+                    {
+                      "name": "Shipping notification sent with tracking details",
+                      "steps": [
+                        "Given **Order** *ORD-3001* has **orderStatus** *Fulfilled*",
+                        "And the *Store Employee* has entered **trackingNumber** *RM-1Z999AA10123456784*",
+                        "And **Order** *ORD-3001* has **estimatedDeliveryDate** *2025-05-12*",
+                        "When the fulfillment is confirmed",
+                        "Then **Notification.createTransactional** fires with type *shipping-update* to **guestEmail** *sarah.jones@example.com*",
+                        "And the notification includes: **orderNumber** *ORD-3001*, items shipped, carrier name, **trackingNumber** *RM-1Z999AA10123456784*, and **estimatedDeliveryDate** *2025-05-12*",
+                        "And **Order** *ORD-3001* transitions **orderStatus** from *Fulfilled* to *Shipped*"
+                      ]
+                    },
+                    {
+                      "name": "Email unavailable queues notification without blocking fulfillment",
+                      "steps": [
+                        "Given **Order** *ORD-3001* has **orderStatus** *Fulfilled*",
+                        "And the *Store Employee* enters **trackingNumber** *RM-1Z999AA10123456784*",
+                        "When the email delivery system is temporarily unavailable",
+                        "Then the **Notification** is queued with **deliveryStatus** *queued* for retry",
+                        "And **Order** *ORD-3001* still transitions **orderStatus** to *Shipped*"
+                      ]
+                    },
+                    {
+                      "name": "Order fulfilled without tracking shows add-tracking entry point",
+                      "steps": [
+                        "Given **Order** *ORD-3001* was marked *Fulfilled* without a **trackingNumber**",
+                        "When the fulfillment completes",
+                        "Then the order detail displays an *Add Tracking Number* field",
+                        "And **Order** *ORD-3001* has **orderStatus** *Fulfilled*"
+                      ]
+                    },
+                    {
+                      "name": "Late tracking number triggers shipping notification",
+                      "steps": [
+                        "Given **Order** *ORD-3003* has **orderStatus** *Fulfilled* and no **trackingNumber**",
+                        "When the *Store Employee* adds **trackingNumber** *RM-2Z888BB20234567895*",
+                        "Then **Notification.createTransactional** fires with type *shipping-update* to **guestEmail** *alex.white@example.com*",
+                        "And **Order** *ORD-3003* transitions **orderStatus** to *Shipped*"
+                      ]
+                    }
+                  ],
                   "acceptance_criteria": [
                     "1. **WHEN** *Store Staff* enters a *Tracking Number* and confirms fulfillment\n**THEN** the system sends a *Shipping Notification* to the *Guest Email*\n**AND** the notification includes: order number, items shipped, carrier name, *Tracking Number*, and estimated delivery window\n**Evidence:** requirements-chat-with-product-owner.md — line 19, \"shipping notifications with tracking numbers. The usual stuff but done well.\"",
                     "2. **WHEN** the *Shipping Notification* is sent\n**THEN** the *Order* status transitions from *Fulfilled* to *Shipped*\n**Evidence:** domain-sketch.md — Order KA, `order` concept: lifecycle \"fulfilled → shipped\"",
                     "3. **WHEN** the email delivery system is temporarily unavailable\n**THEN** the notification is queued for retry\n**AND** the order status still transitions to *Shipped* (email failure does not block fulfillment)\n**BUT** the customer may not receive the notification immediately — a retry window applies\n**Evidence:** inferred — same resilience pattern as Increment 2 confirmation email",
                     "4. **WHEN** staff did not enter a *Tracking Number* (see *View and Process Incoming Orders* AC 4)\n**THEN** no *Shipping Notification* is sent automatically\n**AND** the order detail provides an \"Add Tracking Number\" field so the notification fires when staff enter it later\n**Evidence:** inferred — manual process in Increment 3"
                   ],
-                  "behavior": null
+                  "behavior": null,
+                  "scenario_outlines": []
                 },
                 {
                   "name": "Fulfill Click-and-Collect Order",
@@ -1374,13 +2146,46 @@
                   "story_type": "Store Employee",
                   "users": [],
                   "test_class": null,
-                  "scenarios": [],
+                  "scenarios": [
+                    {
+                      "name": "Customer collects order, status transitions to collected",
+                      "steps": [
+                        "Given **Order** *ORD-2001* has **orderStatus** *Ready for Pickup*",
+                        "And **ClickAndCollect** for **Order** *ORD-2001* has **pickupStatus** *ready*",
+                        "And the customer arrives at **Store** *PawPlace Camden*",
+                        "When the *Store Employee* confirms the handoff for **Order** *ORD-2001*",
+                        "Then **Order** *ORD-2001* transitions **orderStatus** to *Collected*",
+                        "And **ClickAndCollect** updates **pickupStatus** to *collected*"
+                      ]
+                    },
+                    {
+                      "name": "Uncollected order shows contact details for outreach",
+                      "steps": [
+                        "Given **Order** *ORD-2001* has **orderStatus** *Ready for Pickup*",
+                        "And the collection window has passed without customer arrival",
+                        "When the *Store Employee* views **Order** *ORD-2001* on the staff dashboard",
+                        "Then **Order** *ORD-2001* displays **orderStatus** *Ready for Pickup*",
+                        "And the customer's **guestEmail** *sarah.jones@example.com* is shown for outreach",
+                        "And the dashboard displays prompt *Contact customer — collection window elapsed*"
+                      ]
+                    },
+                    {
+                      "name": "All orders fulfilled shows completion state",
+                      "steps": [
+                        "Given **Order** *ORD-2001* is the last pending order in the *Click-and-Collect Queue*",
+                        "When the *Store Employee* marks **Order** *ORD-2001* as *Collected*",
+                        "Then the *Click-and-Collect Queue* shows heading *All orders fulfilled*",
+                        "And the queue displays *No pending orders — check back later*"
+                      ]
+                    }
+                  ],
                   "acceptance_criteria": [
                     "1. **WHEN** the customer arrives and *Store Staff* confirms the handoff\n**THEN** the staff member marks the order as *Collected*\n**AND** the order status transitions from *Ready for Pickup* to *Collected*\n**Evidence:** domain-sketch.md — Store KA, `click-and-collect` concept: \"offers an alternative to shipping: order online, pick up at a local store\"",
                     "2. **WHEN** the customer does not pick up the order within a reasonable window\n**THEN** the order remains in *Ready for Pickup* status on the staff dashboard\n**AND** the customer's *Guest Email* is shown on the order detail for staff to reach out\n**BUT** the order is not auto-cancelled — staff handle uncollected orders manually in Increment 2\n**Evidence:** inferred — context gap noted in story-map.md: \"Click-and-collect confirmation flow — source does not detail the pickup notification, window, or ID-check process\"",
                     "3. **WHEN** *Store Staff* fulfills the last pending order in the queue\n**THEN** the *Click-and-Collect Queue* shows an empty state (all orders collected)\n**Evidence:** inferred — standard queue behavior"
                   ],
-                  "behavior": null
+                  "behavior": null,
+                  "scenario_outlines": []
                 },
                 {
                   "name": "Track Order Status",
@@ -1389,7 +2194,16 @@
                   "story_type": "Customer",
                   "users": [],
                   "test_class": null,
-                  "scenarios": [],
+                  "scenarios": [
+                    {
+                      "name": "Status change reflected on next page visit",
+                      "steps": [
+                        "Given **Order** *ORD-3001* previously showed **orderStatus** *Shipped*",
+                        "When **Order** *ORD-3001* transitions **orderStatus** to *Delivered*",
+                        "Then the customer's next visit to the *Order Status Page* shows **orderStatus** *Delivered*"
+                      ]
+                    }
+                  ],
                   "acceptance_criteria": [
                     "1. **WHEN** a guest customer follows the order link in their *Confirmation Email* or *Shipping Notification*\n**THEN** the *Order Status Page* shows the current *Order Lifecycle* state, itemized contents, and delivery details\n**Evidence:** requirements-chat-with-product-owner.md — line 19, \"Order confirmation page, confirmation email, shipping notifications with tracking numbers\"",
                     "2. **WHEN** the order has a *Tracking Number*\n**THEN** the *Order Status Page* displays the tracking number and links to the carrier's tracking page\n**AND** the shipment date and estimated delivery date are displayed\n**Evidence:** requirements-chat-with-product-owner.md — line 19, \"shipping notifications with tracking numbers\"",
@@ -1397,7 +2211,101 @@
                     "4. **WHEN** the order has not yet shipped (status is *Confirmed* or *Fulfilled*)\n**THEN** the *Order Status Page* shows the current state without a tracking number\n**AND** the page indicates that tracking will be available once the order ships\n**Evidence:** inferred — order lifecycle states before shipping do not have carrier data",
                     "5. **WHEN** the order status changes (e.g. from *Shipped* to *Delivered*)\n**THEN** the *Order Status Page* reflects the updated state on the customer's next visit\n**BUT** no push notification is sent for status changes in Increment 3 — the customer must check the page or wait for the shipping email\n**Evidence:** inferred — transactional notification infrastructure is minimal in Increment 3; full notification system lands in Increment 8"
                   ],
-                  "behavior": null
+                  "behavior": null,
+                  "scenario_outlines": [
+                    {
+                      "name": "Order status page displays status-appropriate content",
+                      "steps": [
+                        "Given **Order** {order_number} has **orderStatus** {status} with **trackingNumber** {tracking} and **estimatedDeliveryDate** {delivery_date}",
+                        "And the customer received a notification with a link",
+                        "When the guest customer views the *Order Status Page* for **Order** {order_number}",
+                        "Then the page shows **orderStatus** {expected_status_label}",
+                        "And the tracking section shows {expected_tracking_display}",
+                        "And the delivery section shows {expected_delivery_display}"
+                      ],
+                      "examples": {
+                        "columns": [
+                          "scenario",
+                          "order_number",
+                          "status",
+                          "tracking",
+                          "delivery_date",
+                          "expected_status_label",
+                          "expected_tracking_display",
+                          "expected_delivery_display"
+                        ],
+                        "rows": [
+                          [
+                            "1",
+                            "ORD-3001",
+                            "Shipped",
+                            "RM-1Z999AA10123456784",
+                            "2025-05-12",
+                            "Shipped",
+                            "RM-1Z999AA10123456784 (carrier link)",
+                            "Estimated delivery: 2025-05-12"
+                          ],
+                          [
+                            "2",
+                            "ORD-3002",
+                            "Confirmed",
+                            "—",
+                            "—",
+                            "Confirmed",
+                            "Tracking available once order ships",
+                            "Order being prepared"
+                          ],
+                          [
+                            "3",
+                            "ORD-3001",
+                            "Delivered",
+                            "RM-1Z999AA10123456784",
+                            "2025-05-12",
+                            "Delivered",
+                            "RM-1Z999AA10123456784 (carrier link)",
+                            "Delivered on 2025-05-12"
+                          ]
+                        ]
+                      }
+                    },
+                    {
+                      "name": "Order lookup by number and email",
+                      "steps": [
+                        "Given **Order** {order_number} was placed by **guestEmail** {actual_email}",
+                        "When someone enters **orderNumber** {order_number} and email {entered_email} on the lookup page",
+                        "Then the system shows {expected_result}",
+                        "And the page displays {expected_content}"
+                      ],
+                      "examples": {
+                        "columns": [
+                          "scenario",
+                          "order_number",
+                          "actual_email",
+                          "entered_email",
+                          "expected_result",
+                          "expected_content"
+                        ],
+                        "rows": [
+                          [
+                            "4",
+                            "ORD-3001",
+                            "sarah.jones@example.com",
+                            "sarah.jones@example.com",
+                            "success",
+                            "Order Status Page for ORD-3001"
+                          ],
+                          [
+                            "5",
+                            "ORD-3001",
+                            "sarah.jones@example.com",
+                            "wrong@example.com",
+                            "access denied",
+                            "We couldn't find an order matching those details"
+                          ]
+                        ]
+                      }
+                    }
+                  ]
                 }
               ]
             }
@@ -1440,7 +2348,8 @@
                     "3. **WHEN** the order is outside the return window or items are not eligible\n**THEN** the \"Return\" action is hidden or disabled with a clear reason (e.g. \"return window expired\")\n**BUT** the order detail is still viewable\n**Evidence:** inferred — return eligibility gate; specific window rules are a configuration",
                     "4. **WHEN** the customer has already initiated a return for some items in the order\n**THEN** those items are shown as \"return in progress\" and cannot be returned again\n**BUT** remaining eligible items can still be returned separately\n**Evidence:** inferred — partial returns supported; no double-return"
                   ],
-                  "behavior": null
+                  "behavior": null,
+                  "scenario_outlines": []
                 },
                 {
                   "name": "Generate Return Label or QR Code",
@@ -1456,7 +2365,8 @@
                     "3. **WHEN** the customer chooses the *Return QR Code* option\n**THEN** the QR code is displayable on a mobile device at a carrier drop-off point\n**AND** it encodes the same return reference as the label\n**Evidence:** requirements-chat-with-product-owner.md — line 21, \"QR code they can show at a drop-off point\"",
                     "4. **WHEN** the label/QR generation service is temporarily unavailable\n**THEN** the return is still recorded\n**AND** the customer is told to check back or contact support for the label\n**BUT** the return is not cancelled due to label failure\n**Evidence:** inferred — label generation is a side-effect, not a gate on return creation"
                   ],
-                  "behavior": null
+                  "behavior": null,
+                  "scenario_outlines": []
                 }
               ]
             }
@@ -1491,7 +2401,8 @@
                     "4. **WHEN** the original payment was via VaultPay (BNPL)\n**THEN** the refund routes through VaultPay's refund API\n**AND** the instalment plan is adjusted accordingly by VaultPay\n**Evidence:** domain-sketch.md — Payment KA, `refund` invariant",
                     "5. **WHEN** the refund request to the vendor fails (vendor downtime, API error)\n**THEN** the refund is queued for retry\n**AND** the customer sees \"refund processing\" status — not \"refund failed\"\n**BUT** if retries exhaust, the return status escalates to \"refund requires manual review\"\n**Evidence:** inferred — refund resilience; aligns with payment retry pattern from Increment 5"
                   ],
-                  "behavior": null
+                  "behavior": null,
+                  "scenario_outlines": []
                 },
                 {
                   "name": "Track Refund Status",
@@ -1507,7 +2418,8 @@
                     "3. **WHEN** the *Refund Status* is \"processing\" for an extended period\n**THEN** the *Order Detail* shows a note: \"refunds typically take X business days depending on your payment provider\"\n**Evidence:** inferred — expectation management; refund speed depends on the vendor",
                     "4. **WHEN** the *Refund Status* is \"requires review\"\n**THEN** the customer sees a message to contact support\n**AND** the support team has access to the return and refund details\n**Evidence:** inferred — manual escalation path"
                   ],
-                  "behavior": null
+                  "behavior": null,
+                  "scenario_outlines": []
                 },
                 {
                   "name": "Process In-Store Return",
@@ -1523,7 +2435,8 @@
                     "3. **WHEN** the original order was placed by a guest (no account)\n**THEN** the order lookup and return flow work identically using the order number and guest email\n**AND** the refund routes through the original vendor\n**BUT** the return is not visible in an \"account\" because the customer has no account\n**Evidence:** inferred — guest returns are valid; refund routing is order-level, not account-level",
                     "4. **WHEN** the item is not eligible for return (outside window, wrong condition)\n**THEN** the staff dashboard shows the ineligibility reason\n**AND** a \"Manager Override\" action is displayed, requiring manager approval before the return proceeds\n**Evidence:** inferred — in-store staff have discretion with approval; online flow does not offer overrides"
                   ],
-                  "behavior": null
+                  "behavior": null,
+                  "scenario_outlines": []
                 }
               ]
             }
@@ -1565,7 +2478,8 @@
                     "2. **WHEN** the customer has disabled order-related notifications in *Notification Preferences*\n**THEN** the *Order Confirmation Notification* is still sent — it is a mandatory transactional notification\n**Evidence:** inferred — order confirmation cannot be suppressed",
                     "3. **WHEN** the email delivery system is unavailable\n**THEN** the notification is queued for retry\n**Evidence:** inferred — same resilience pattern"
                   ],
-                  "behavior": null
+                  "behavior": null,
+                  "scenario_outlines": []
                 },
                 {
                   "name": "Send Shipping Update with Tracking",
@@ -1580,7 +2494,8 @@
                     "2. **WHEN** additional status changes occur (e.g. *Out for Delivery*, *Delivered*)\n**THEN** the system sends follow-up notifications if carrier data is available\n**Evidence:** inferred — extended shipping lifecycle notifications",
                     "3. **WHEN** the customer has disabled shipping notifications in *Notification Preferences*\n**THEN** the initial shipping notification is still sent (mandatory transactional)\n**BUT** optional follow-up status updates respect the preference\n**Evidence:** inferred — initial shipping notification is non-suppressible; follow-ups are optional"
                   ],
-                  "behavior": null
+                  "behavior": null,
+                  "scenario_outlines": []
                 },
                 {
                   "name": "Send Appointment Reminder",
@@ -1596,7 +2511,8 @@
                     "3. **WHEN** the pet has been marked *Adopted* before the reminder trigger time\n**THEN** the *Appointment Reminder* is suppressed\n**AND** the *Pet Adopted Before Visit Notification* takes precedence (if not already sent)\n**Evidence:** domain-sketch.md — Notification KA, `pet-adopted-before-visit alert` decision",
                     "4. **WHEN** the email delivery system is temporarily unavailable\n**THEN** the reminder is queued for retry within a reasonable window before the appointment\n**Evidence:** inferred — same email resilience pattern"
                   ],
-                  "behavior": null
+                  "behavior": null,
+                  "scenario_outlines": []
                 },
                 {
                   "name": "Send Pet Adopted Before Visit Notification",
@@ -1612,7 +2528,8 @@
                     "3. **WHEN** the pet is adopted but no pending appointments exist\n**THEN** no notification is sent\n**Evidence:** inferred — notification is appointment-dependent",
                     "4. **WHEN** the email delivery system is temporarily unavailable\n**THEN** the notification is queued for retry\n**AND** the appointment still shows the \"pet adopted\" badge on both customer and staff views\n**Evidence:** inferred — email failure does not suppress the status badge"
                   ],
-                  "behavior": null
+                  "behavior": null,
+                  "scenario_outlines": []
                 },
                 {
                   "name": "Send Return and Refund Status Update",
@@ -1628,7 +2545,8 @@
                     "3. **WHEN** the refund requires manual review (vendor failure, policy exception)\n**THEN** the system sends a \"refund under review\" notification with guidance to contact support if needed\n**Evidence:** inferred — customer should not be left in the dark",
                     "4. **WHEN** the email delivery system is temporarily unavailable\n**THEN** the notification is queued for retry\n**AND** the return/refund status is still updated in the system (notification failure does not block processing)\n**Evidence:** inferred — same email resilience pattern"
                   ],
-                  "behavior": null
+                  "behavior": null,
+                  "scenario_outlines": []
                 },
                 {
                   "name": "Send Visit Follow-Up Notification",
@@ -1639,7 +2557,8 @@
                   "test_class": null,
                   "scenarios": [],
                   "acceptance_criteria": [],
-                  "behavior": null
+                  "behavior": null,
+                  "scenario_outlines": []
                 },
                 {
                   "name": "Send Click-and-Collect Ready Notification",
@@ -1650,7 +2569,8 @@
                   "test_class": null,
                   "scenarios": [],
                   "acceptance_criteria": [],
-                  "behavior": null
+                  "behavior": null,
+                  "scenario_outlines": []
                 }
               ]
             }
@@ -1683,7 +2603,8 @@
                     "2. **WHEN** the customer opts in during account registration or checkout\n**THEN** the opt-in checkbox is unchecked by default (opt-in must be affirmative)\n**AND** if checked, the customer is added to the *Marketing Email List*\n**Evidence:** domain-sketch.md — Notification KA, `communication preferences` invariant: \"no broadcast without explicit opt-in\"",
                     "3. **WHEN** the customer has not opted in\n**THEN** no marketing emails are sent to them — zero exceptions\n**Evidence:** domain-sketch.md — Notification KA invariant"
                   ],
-                  "behavior": null
+                  "behavior": null,
+                  "scenario_outlines": []
                 },
                 {
                   "name": "Send Promotional Email",
@@ -1698,7 +2619,8 @@
                     "2. **WHEN** a customer on the list has since opted out\n**THEN** the email is not delivered to that customer\n**AND** their opt-out is respected even if the email batch was queued before the opt-out\n**Evidence:** inferred — real-time preference check at send time, not at batch creation",
                     "3. **WHEN** the email includes an unsubscribe link\n**THEN** clicking the link immediately opts the customer out of the promotions category\n**AND** the customer sees a \"you've been unsubscribed\" confirmation page\n**Evidence:** requirements-chat-with-product-owner.md — line 25, \"easy unsubscribe\""
                   ],
-                  "behavior": null
+                  "behavior": null,
+                  "scenario_outlines": []
                 },
                 {
                   "name": "Send Personalized Recommendation",
@@ -1713,7 +2635,8 @@
                     "2. **WHEN** the customer has no purchase history or browsing data\n**THEN** no *Personalized Recommendation* is sent (rather than sending generic suggestions)\n**Evidence:** inferred — recommendations must be personalised; generic blasts are covered by *Send Promotional Email*",
                     "3. **WHEN** the recommended product is *Out of Stock*\n**THEN** it is excluded from the recommendation (do not recommend unavailable products)\n**Evidence:** inferred — recommending out-of-stock items damages trust"
                   ],
-                  "behavior": null
+                  "behavior": null,
+                  "scenario_outlines": []
                 },
                 {
                   "name": "Send Restock Alert",
@@ -1728,7 +2651,8 @@
                     "2. **WHEN** the customer has not opted in to restock alerts\n**THEN** no alert is sent even if the product is on their wishlist\n**Evidence:** domain-sketch.md — Notification KA, `communication preferences` invariant",
                     "3. **WHEN** the product goes back out of stock before the customer acts on the alert\n**THEN** the product page shows the updated *Out of Stock* status (the alert is best-effort, not a guarantee of availability)\n**Evidence:** inferred — stock changes are real-time; alerts reflect a moment in time"
                   ],
-                  "behavior": null
+                  "behavior": null,
+                  "scenario_outlines": []
                 },
                 {
                   "name": "Send In-Store Event Notification",
@@ -1743,7 +2667,8 @@
                     "2. **WHEN** the customer has not set a preferred store\n**THEN** no event notification is sent (the system does not guess proximity)\n**BUT** the event is visible on the store's detail page for walk-in discovery\n**Evidence:** inferred — event notifications are targeted, not broadcast",
                     "3. **WHEN** the customer has opted out of event notifications\n**THEN** no alert is sent\n**Evidence:** domain-sketch.md — Notification KA, `communication preferences` invariant"
                   ],
-                  "behavior": null
+                  "behavior": null,
+                  "scenario_outlines": []
                 }
               ]
             }
@@ -1776,7 +2701,8 @@
                     "2. **WHEN** the customer toggles a notification category\n**THEN** the preference is saved immediately\n**AND** future notifications respect the updated preference\n**Evidence:** inferred — standard preference management",
                     "3. **WHEN** the customer disables all transactional notifications\n**THEN** critical notifications (e.g. order confirmation, refund completion) are still sent — they are non-optional\n**AND** a note explains that some notifications cannot be disabled\n**Evidence:** inferred — legal/operational transactional emails cannot be suppressed"
                   ],
-                  "behavior": null
+                  "behavior": null,
+                  "scenario_outlines": []
                 },
                 {
                   "name": "Unsubscribe from Marketing Emails",
@@ -1791,7 +2717,8 @@
                     "2. **WHEN** the customer unsubscribes via the *Communication Preferences* page\n**THEN** the change takes effect immediately\n**AND** no further marketing emails of that category are sent\n**Evidence:** inferred — preference page and email link produce the same effect",
                     "3. **WHEN** the customer unsubscribes from all marketing categories\n**THEN** transactional notifications (order confirmations, shipping, appointments) are unaffected\n**Evidence:** inferred — marketing opt-out does not suppress operational emails"
                   ],
-                  "behavior": null
+                  "behavior": null,
+                  "scenario_outlines": []
                 }
               ]
             }
@@ -1875,14 +2802,48 @@
                   "story_type": "Store Employee",
                   "users": [],
                   "test_class": null,
-                  "scenarios": [],
+                  "scenarios": [
+                    {
+                      "name": "Current stock displayed in admin form",
+                      "steps": [
+                        "Given a *Store Employee* at **Store** *PawPlace Camden* (*STR-001*)",
+                        "And **StockAvailability** for **Product** *Premium Dog Harness* (*PET-HAR-001*) at **Store** *STR-001* has **quantityOnHand** *25*",
+                        "When the *Store Employee* opens the admin form for **Product** *Premium Dog Harness* at **Store** *PawPlace Camden*",
+                        "Then the system displays current **quantityOnHand** *25*",
+                        "And an editable stock quantity field is displayed"
+                      ]
+                    },
+                    {
+                      "name": "Update at one store does not affect other stores",
+                      "steps": [
+                        "Given **StockAvailability** for **Product** *PET-HAR-001* at **Store** *STR-001* has **quantityOnHand** *25*",
+                        "And **StockAvailability** for **Product** *PET-HAR-001* at **Store** *STR-002* has **quantityOnHand** *12*",
+                        "When the *Store Employee* at **Store** *STR-001* submits new **quantityOnHand** *40*",
+                        "Then **StockAvailability** for **Product** *PET-HAR-001* at **Store** *STR-001* updates to **quantityOnHand** *40* and **availableToSellQuantity** *37*",
+                        "But **StockAvailability** for **Product** *PET-HAR-001* at **Store** *STR-002* remains **quantityOnHand** *12* and **availableToSellQuantity** *11*"
+                      ]
+                    }
+                  ],
                   "acceptance_criteria": [
                     "1. **WHEN** *Store Staff* opens the *Admin Form* for a *Product*\n**THEN** the system displays the current *Stock Levels* for that product at the selected *Store*\n**AND** an editable stock quantity field is displayed\n**Evidence:** requirements-chat-with-product-owner.md — line 29, \"store staff need a dashboard to manage inventory\"; thin-slicing.md — Increment 1, \"Manual stock updates by staff via a bare-bones admin form\"",
                     "2. **WHEN** *Store Staff* submits an updated stock quantity\n**THEN** the system saves the new *Stock Levels*\n**AND** the *Stock Availability* shown to customers reflects the change\n**Evidence:** domain-sketch.md — Product Catalog > stock availability, \"reflects in real time\"; thin-slicing.md — Increment 1, \"Manual stock updates by staff\"",
                     "3. **WHEN** *Store Staff* enters an invalid stock value (negative number or non-numeric input)\n**THEN** the system rejects the update with a clear error message\n**BUT** the previous *Stock Levels* remain unchanged\n**Evidence:** domain-sketch.md — Product Catalog > stock availability invariant, \"must be current\" (invalid state must not corrupt stock truth); inferred from standard input validation — flagged as assumption",
                     "4. **WHEN** *Store Staff* updates stock for a *Product* at one *Store*\n**THEN** only that store's *Stock Levels* for that product are changed\n**BUT** other stores' stock for the same product remains unaffected\n**Evidence:** requirements-chat-with-product-owner.md — line 9, \"multiple physical stores\"; thin-slicing.md — Increment 1, \"stock availability for a product at that store\" (per-store granularity)"
                   ],
-                  "behavior": null
+                  "behavior": null,
+                  "scenario_outlines": [
+                    {
+                      "name": "Stock update result",
+                      "steps": [
+                        "Given a *Store Employee* at **Store** *{store_name}* (*{store_code}*)",
+                        "And **StockAvailability** for **Product** *{product_name}* (*{product_sku}*) at **Store** *{store_code}* has **quantityOnHand** *{quantity_on_hand}* and **reservedQuantity** *{reserved_quantity}*",
+                        "When the *Store Employee* submits new **quantityOnHand** *{submitted_quantity}*",
+                        "Then the update result is *{expected_result}*",
+                        "And **quantityOnHand** is *{expected_quantity_on_hand}*",
+                        "And **availableToSellQuantity** is *{expected_available_to_sell}*"
+                      ]
+                    }
+                  ]
                 },
                 {
                   "name": "View Inventory Dashboard",
@@ -1899,7 +2860,8 @@
                     "4. **WHEN** *Store Staff* views the dashboard for the first time after Increment 9 deployment\n**THEN** the *Inventory Dashboard* replaces the bare-bones *Admin Stock Form* from Increment 1\n**AND** all existing stock data is intact — no data migration loss\n**Evidence:** inferred — upgrade path from simple form to full dashboard",
                     "5. **WHEN** *Store Staff* exports inventory data (e.g. CSV)\n**THEN** the export includes: product name, category, current stock level, and last updated timestamp\n**AND** the export covers the staff member's store only\n**Evidence:** inferred — reporting and offline analysis capability"
                   ],
-                  "behavior": null
+                  "behavior": null,
+                  "scenario_outlines": []
                 }
               ]
             }
@@ -1926,14 +2888,58 @@
                   "story_type": "Store Employee",
                   "users": [],
                   "test_class": null,
-                  "scenarios": [],
+                  "scenarios": [
+                    {
+                      "name": "Order queue shows all delivery types",
+                      "steps": [
+                        "Given the *Store Employee* opens the *Order Queue*",
+                        "And the queue contains **Order** *ORD-3001* (delivery type *Standard Delivery*) and **Order** *ORD-3002* (delivery type *Click-and-Collect*)",
+                        "When the *Store Employee* views the *Order Queue*",
+                        "Then each order shows: **orderNumber**, **OrderLineItem** details, delivery type label, and **guestEmail**",
+                        "And **Order** *ORD-3001* shows delivery label *Standard Delivery*",
+                        "And **Order** *ORD-3002* shows delivery label *Click-and-Collect*"
+                      ]
+                    },
+                    {
+                      "name": "Shipping order detail shows address and items",
+                      "steps": [
+                        "Given the *Store Employee* selects **Order** *ORD-3001* with delivery type *Standard Delivery*",
+                        "When the order detail is displayed",
+                        "Then the *Shipping Address* shows *28 Oak Lane, Edinburgh EH1 3DG*",
+                        "And the items to pack are listed: *Premium Dog Harness* (qty *1*), *Large Dog Bed* (qty *1*)",
+                        "And a *Mark as Fulfilled* action is displayed"
+                      ]
+                    },
+                    {
+                      "name": "Mark fulfilled with tracking number",
+                      "steps": [
+                        "Given the *Store Employee* views **Order** *ORD-3001* with **orderStatus** *confirmed*",
+                        "When the *Store Employee* marks **Order** *ORD-3001* as *Fulfilled*",
+                        "Then the system prompts for a **trackingNumber**",
+                        "When the *Store Employee* enters **trackingNumber** *RM-1Z999AA10123456784*",
+                        "Then **Order** *ORD-3001* transitions **orderStatus** to *Fulfilled*",
+                        "And the shipping notification is triggered (see *Send Shipping Notification with Tracking Number*)"
+                      ]
+                    },
+                    {
+                      "name": "Fulfilled without tracking number shows tracking prompt",
+                      "steps": [
+                        "Given the *Store Employee* views **Order** *ORD-3001* with **orderStatus** *confirmed*",
+                        "When the *Store Employee* marks **Order** *ORD-3001* as *Fulfilled* without entering a **trackingNumber**",
+                        "Then the system displays warning *Customer will not receive a tracking notification*",
+                        "And the **Order** can still be marked *Fulfilled*",
+                        "And the order detail shows an *Add Tracking Number* field for later entry"
+                      ]
+                    }
+                  ],
                   "acceptance_criteria": [
                     "1. **WHEN** *Store Staff* opens the *Order Queue*\n**THEN** they see all confirmed orders across delivery types (shipped and click-and-collect)\n**AND** each order shows: order number, items, quantities, delivery type, and customer name or guest email\n**Evidence:** requirements-chat-with-product-owner.md — line 29, \"store staff need a dashboard to manage inventory, see incoming appointments... handle order fulfilment\"",
                     "2. **WHEN** *Store Staff* selects a *Shipping Order* from the queue\n**THEN** the order detail shows the *Shipping Address*, items to pack, and any special notes\n**AND** a \"Mark as Fulfilled\" action is displayed on the order detail\n**Evidence:** domain-sketch.md — Order KA, `order` concept: lifecycle \"placed → confirmed → fulfilled → shipped → delivered\"",
                     "3. **WHEN** *Store Staff* marks a *Shipping Order* as *Fulfilled*\n**THEN** the system prompts for a tracking number (manual entry in Increment 3)\n**AND** entering the tracking number triggers the shipping notification (see *Send Shipping Notification with Tracking Number*)\n**Evidence:** requirements-chat-with-product-owner.md — line 19, \"shipping notifications with tracking numbers\"",
                     "4. **WHEN** *Store Staff* marks a *Shipping Order* as *Fulfilled* without entering a tracking number\n**THEN** the system warns that the customer will not receive a tracking notification\n**BUT** the order can still be marked fulfilled — the tracking number is recommended but not blocking in Increment 3\n**Evidence:** inferred — manual label creation in Increment 3; full automation deferred"
                   ],
-                  "behavior": null
+                  "behavior": null,
+                  "scenario_outlines": []
                 },
                 {
                   "name": "Prepare Click-and-Collect Orders for Pickup",
@@ -1942,13 +2948,46 @@
                   "story_type": "Store Employee",
                   "users": [],
                   "test_class": null,
-                  "scenarios": [],
+                  "scenarios": [
+                    {
+                      "name": "Queue shows confirmed orders sorted by date",
+                      "steps": [
+                        "Given the *Store Employee* is at **Store** *PawPlace Camden* (*STR-001*)",
+                        "And the **ClickAndCollect** queue contains **Order** *ORD-2001* (date *2025-05-06*) and **Order** *ORD-2002* (date *2025-05-07*)",
+                        "When the *Store Employee* opens the *Click-and-Collect Queue*",
+                        "Then orders are sorted oldest first: *ORD-2001* at position *1*, *ORD-2002* at position *2*",
+                        "And each order shows **orderNumber**, **OrderLineItem** details (product name, quantity), and **guestEmail**"
+                      ]
+                    },
+                    {
+                      "name": "Order marked prepared transitions to ready for pickup",
+                      "steps": [
+                        "Given the *Store Employee* views **Order** *ORD-2001* in the *Click-and-Collect Queue*",
+                        "And **Order** *ORD-2001* has **orderStatus** *confirmed*",
+                        "When the *Store Employee* marks **Order** *ORD-2001* as \"prepared\"",
+                        "Then **ClickAndCollect** for **Order** *ORD-2001* updates **pickupStatus** to *ready*",
+                        "And **Order** *ORD-2001* transitions **orderStatus** to *Ready for Pickup*"
+                      ]
+                    },
+                    {
+                      "name": "Stock warning shown with contact details",
+                      "steps": [
+                        "Given **Order** *ORD-2002* contains **OrderLineItem** *Exotic Fish Filter* (*PET-FLT-099*) with **quantity** *1*",
+                        "And **StockAvailability** for **Product** *PET-FLT-099* at **Store** *STR-001* has **availableToSellQuantity** *0*",
+                        "When the *Store Employee* views **Order** *ORD-2002* in the *Click-and-Collect Queue*",
+                        "Then a stock warning *Out of stock at this store* appears on the line item for *Exotic Fish Filter*",
+                        "And the customer's **guestEmail** *tom.brown@example.com* is displayed for manual contact",
+                        "And the **Order** remains in *confirmed* status for employee resolution"
+                      ]
+                    }
+                  ],
                   "acceptance_criteria": [
                     "1. **WHEN** *Store Staff* opens the *Click-and-Collect Queue* for their *Pickup Store*\n**THEN** they see all confirmed *Orders* pending preparation, sorted by order date (oldest first)\n**AND** each order shows the order number, items, quantities, and customer name or guest email\n**Evidence:** requirements-chat-with-product-owner.md — line 29, \"handle order fulfilment for click-and-collect if we offer that\"",
                     "2. **WHEN** *Store Staff* marks an order as \"prepared\" (items gathered and ready for customer)\n**THEN** the order status transitions from *Confirmed* to *Ready for Pickup*\n**Evidence:** domain-sketch.md — Store KA, `click-and-collect` concept: \"triggers store-side fulfillment preparation by staff\"",
                     "3. **WHEN** an order in the *Click-and-Collect Queue* contains a product that is now *Out of Stock*\n**THEN** the staff member sees a stock warning on that line item\n**AND** the customer's *Guest Email* is displayed so staff may contact them to resolve (substitute, partial fulfillment, or cancel)\n**BUT** the order is not auto-cancelled — staff handle it manually in Increment 2\n**Evidence:** inferred — stock can change between order and fulfillment; no automated resolution in scope yet"
                   ],
-                  "behavior": null
+                  "behavior": null,
+                  "scenario_outlines": []
                 }
               ]
             }

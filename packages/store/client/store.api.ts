@@ -1,4 +1,5 @@
 import type { StoreData } from '@pawplace/store-shared';
+import { storeSchema } from '@pawplace/store-shared';
 
 export interface StoreResponse extends StoreData {
   distance_km?: number;
@@ -8,7 +9,10 @@ export async function fetchStores(): Promise<StoreResponse[]> {
   const response = await fetch('/api/stores');
   if (!response.ok) throw new Error(`Failed to fetch stores: ${response.status}`);
   const body = await response.json();
-  return body.stores;
+  return (body.stores as unknown[]).map((s) => {
+    const result = storeSchema.safeParse(s);
+    return result.success ? { ...result.data } : (s as StoreResponse);
+  });
 }
 
 export async function fetchStoresNearby(

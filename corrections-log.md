@@ -181,3 +181,16 @@ Source: abd-story-mapping skill
   ```
   Now each row is a distinct scenario with different inputs AND expected outputs.
 - **Skill improvement:** Add a rule to `abd-specification-by-example`: "Every Then/And assertion that checks a value must have a matching column in the example table with a concrete expected value. Tables without output columns are untestable and must be rejected. Structural assertions (grouping, sorting, hierarchy) must also be rendered as data columns — 'show don't tell.' Test the positive case (what IS displayed/returned), not the negative (what is absent). In Scenario Outline mode, never hardcode values inline — every variable value must come from a table column via a `{column_name}` token."
+
+---
+
+## Entry: E2E tests reported as passing when app-client did not exist
+
+- **Status:** confirmed
+- **Context:** mern-technical-architecture skill — pet store demo scaffolding
+- **DO / DO NOT:** DO explicitly state which test tiers are passing and which require additional infrastructure. DO NOT report "all tests pass" after `npx vitest run` when E2E tests have not been run.
+- **Example (wrong):**
+  After running `npx vitest run` (62 server + client tests), the agent reported "all tests passing" without noting that `*_e2e.spec.ts` files are excluded from Vitest and that E2E tests require `packages/app-client/` to serve page routes. Running `npx playwright test` then failed with `Cannot GET /products/PET-FLT-099`.
+- **Example (correct):**
+  "62 server + client unit/component tests pass (`npm test`). E2E tests are scaffolded but not yet runnable — `packages/app-client/` must exist and serve page routes (`/products/:sku`, `/store-locator`, `/admin/stock/:sku/:store`) before Playwright tests can pass."
+- **Likely source:** unclear expectation

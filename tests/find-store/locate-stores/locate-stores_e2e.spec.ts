@@ -136,10 +136,10 @@ test.describe('Locate Stores', () => {
   });
 
   test.describe('View Store List', () => {
-    for (const [i, store] of LocateStoresHelper.STORES.entries()) {
+    for (const store of LocateStoresHelper.STORE_LIST_ENTRIES) {
       test(`store listed with address and contact details - ${store.store_name}`, async () => {
         const tests = new TestViewStoreList(helper);
-        await tests.store_listed_with_details(store, i + 1);
+        await tests.store_listed_with_details(store, store.expected_list_position);
       });
     }
   });

@@ -1,3 +1,5 @@
+import { stockAvailabilitySchema } from '@pawplace/product-catalog-shared';
+
 const BASE_URL = '';
 
 export interface ProductDetailDTO {
@@ -49,7 +51,10 @@ export async function getStockAvailability(productSku: string, storeCode: string
   const response = await fetch(`${BASE_URL}/api/stock/${productSku}/${storeCode}`);
   if (!response.ok) throw new Error(`Failed to fetch stock detail: ${response.status}`);
   const data = await response.json();
-  return { productSku, storeCode, ...data };
+  const raw = { productSku, storeCode, ...data };
+  const result = stockAvailabilitySchema.safeParse(raw);
+  if (!result.success) console.warn('[api] Stock data failed validation:', result.error.flatten());
+  return raw as StockDetailDTO;
 }
 
 export async function updateStockQuantity(

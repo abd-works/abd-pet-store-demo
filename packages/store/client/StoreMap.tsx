@@ -9,7 +9,7 @@ export function StoreMap() {
     fetchStores().then(setStores);
   }, []);
 
-  if (stores.length === 0) return null;
+  if (stores.length === 0) return <p style={{ color: '#888' }}>Loading stores...</p>;
 
   return (
     <div data-testid="store-map">

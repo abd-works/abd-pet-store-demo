@@ -15,11 +15,6 @@ export function StoreList() {
 
   useEffect(() => {
     async function load() {
-      const nearby = await fetchStoresNearby();
-      if (nearby && nearby.length > 0) {
-        setStores(nearby);
-        return;
-      }
       const all = await fetchStores();
       if (all) {
         setStores([...all].sort((a, b) => a.storeName.localeCompare(b.storeName)));
@@ -28,6 +23,13 @@ export function StoreList() {
     load();
   }, []);
 
+  const handleShareLocation = () => {
+    navigator.geolocation.getCurrentPosition((pos) => {
+      fetchStoresNearby(pos.coords.latitude, pos.coords.longitude)
+        .then((results) => { if (results) setStores(results); });
+    });
+  };
+
   const handleFind = async () => {
     const coords = geocodePostcode(postcode);
     if (!coords) return;
@@ -35,10 +37,11 @@ export function StoreList() {
     if (results) setStores(results);
   };
 
-  if (stores.length === 0) return null;
+  if (stores.length === 0) return <p style={{ color: '#888' }}>Loading stores...</p>;
 
   return (
     <div data-testid="store-list">
+      <button onClick={handleShareLocation}>Share Location</button>
       <div>
         <input
           aria-label="Postcode"

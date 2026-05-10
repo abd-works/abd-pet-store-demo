@@ -25,7 +25,19 @@ export interface StoredStockAvailability {
   backorderEnabled: boolean;
 }
 
-export class ProductCatalogRepository {
+export interface ProductCatalogRepository {
+  saveProduct(product: StoredProduct): void;
+  findProductBySku(sku: string): StoredProduct | undefined;
+  deleteProducts(skus: string[]): void;
+  saveStockAvailability(stock: StoredStockAvailability): void;
+  findStockByProduct(productSku: string): StoredStockAvailability[];
+  findStock(productSku: string, storeCode: string): StoredStockAvailability | undefined;
+  deleteStockByIds(ids: string[]): void;
+  deleteStockByKeys(keys: string[]): void;
+  allStockKeys(): string[];
+}
+
+export class InMemoryProductCatalogRepository implements ProductCatalogRepository {
   private products = new Map<string, StoredProduct>();
   private stockByKey = new Map<string, StoredStockAvailability>();
 

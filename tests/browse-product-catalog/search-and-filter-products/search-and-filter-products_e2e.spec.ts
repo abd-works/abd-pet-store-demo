@@ -43,7 +43,7 @@ test.describe('DisplayRealTimeStockAvailability', () => {
    * THEN: subsequent customer page view reflects recalculated availability
    */
   for (const scenario of SearchAndFilterProductsHelper.STOCK_UPDATE_SCENARIOS) {
-    test(`stock update recalculates: ${scenario.product_sku} at ${scenario.store_code}`, async () => {
+    test(`stock update recalculates: ${scenario.product_sku} at ${scenario.store_code} → ${scenario.new_quantity_on_hand} units`, async () => {
       // When
       await helper.whenStoreEmployeeUpdatesQuantity(
         scenario.product_sku, scenario.store_code, scenario.new_quantity_on_hand,

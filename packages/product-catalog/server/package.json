@@ -1,0 +1,11 @@
+{
+  "name": "@pawplace/product-catalog-server",
+  "version": "1.0.0",
+  "type": "module",
+  "main": "./index.ts",
+  "dependencies": {
+    "@pawplace/product-catalog-shared": "*",
+    "express": "*",
+    "mongodb": "*"
+  }
+}

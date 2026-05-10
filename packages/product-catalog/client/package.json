@@ -1,0 +1,15 @@
+{
+  "name": "@pawplace/product-catalog-client",
+  "version": "1.0.0",
+  "type": "module",
+  "main": "./index.ts",
+  "exports": {
+    ".": "./index.ts",
+    "./product-catalog.api": "./product-catalog.api.ts"
+  },
+  "dependencies": {
+    "@pawplace/product-catalog-shared": "*",
+    "react": "*",
+    "react-dom": "*"
+  }
+}

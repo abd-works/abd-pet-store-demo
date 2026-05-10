@@ -1,10 +1,18 @@
 import express from 'express';
-import { storeRouter, storeTestRouter } from '@pawplace/store-server';
-import { productCatalogRouter } from '@pawplace/product-catalog-server';
+import type { Db } from 'mongodb';
+import { createStoreModule } from '@pawplace/store-server';
+import { createProductCatalogModule } from '@pawplace/product-catalog-server';
 
-export const app = express();
+export function createApp(db: Db) {
+  const app = express();
+  app.use(express.json());
 
-app.use(express.json());
-app.use('/api', storeRouter);
-app.use('/api', storeTestRouter);
-app.use(productCatalogRouter);
+  const { storeRouter, storeTestRouter, repository: storeRepo } = createStoreModule(db);
+  const { productCatalogRouter, repository: productRepo } = createProductCatalogModule(db);
+
+  app.use('/api', storeRouter);
+  app.use('/api', storeTestRouter);
+  app.use(productCatalogRouter);
+
+  return { app, storeRepo, productRepo };
+}

@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { getStockAvailability, updateStockQuantity } from './product-catalog.api';
+import { getStockAvailability, updateStockQuantity, type StockDetailDTO } from './product-catalog.api';
 
 interface StockAdminFormProps {
   productSku: string;
@@ -7,23 +7,32 @@ interface StockAdminFormProps {
 }
 
 export function StockAdminForm({ productSku, storeCode }: StockAdminFormProps) {
-  const [quantityOnHand, setQuantityOnHand] = useState<number>(0);
+  const [stock, setStock] = useState<StockDetailDTO | null>(null);
+  const [inputQty, setInputQty] = useState<number>(0);
   const [successMessage, setSuccessMessage] = useState('');
   const [errorMessage, setErrorMessage] = useState('');
 
   useEffect(() => {
     getStockAvailability(productSku, storeCode).then((data) => {
-      setQuantityOnHand(data.quantityOnHand);
+      setStock(data);
+      setInputQty(data.quantityOnHand);
     });
   }, [productSku, storeCode]);
 
   function handleSubmit() {
     setSuccessMessage('');
     setErrorMessage('');
-    updateStockQuantity(productSku, storeCode, quantityOnHand)
-      .then(() => setSuccessMessage('Stock updated'))
+    updateStockQuantity(productSku, storeCode, inputQty)
+      .then(() => getStockAvailability(productSku, storeCode))
+      .then((updated) => {
+        setStock(updated);
+        setInputQty(updated.quantityOnHand);
+        setSuccessMessage('Stock updated');
+      })
       .catch((err: Error) => setErrorMessage(err.message));
   }
+
+  if (!stock) return null;
 
   return (
     <div>
@@ -32,10 +41,12 @@ export function StockAdminForm({ productSku, storeCode }: StockAdminFormProps) {
         <input
           type="number"
           aria-label="Quantity on hand"
-          value={quantityOnHand}
-          onChange={(e) => setQuantityOnHand(Number(e.target.value))}
+          value={inputQty}
+          onChange={(e) => setInputQty(Number(e.target.value))}
         />
       </label>
+      <div data-testid="quantity-on-hand">{stock.quantityOnHand}</div>
+      <div data-testid="available-to-sell">{stock.availableToSellQuantity}</div>
       <button type="button" onClick={handleSubmit}>
         Update Stock
       </button>

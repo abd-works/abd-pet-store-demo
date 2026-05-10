@@ -58,8 +58,8 @@ export class LocateStoresE2EHelper extends LocateStoresHelper {
 
   async then_detail_shows_address(store: StoreTestData): Promise<void> {
     await expect(this.page.getByText(store.address_line_one)).toBeVisible();
-    await expect(this.page.getByText(store.city)).toBeVisible();
-    await expect(this.page.getByText(store.postcode)).toBeVisible();
+    await expect(this.page.getByText(store.city, { exact: true })).toBeVisible();
+    await expect(this.page.getByText(store.postcode, { exact: true })).toBeVisible();
   }
 
   async then_detail_shows_contact(store: StoreTestData): Promise<void> {
@@ -78,7 +78,7 @@ export class LocateStoresE2EHelper extends LocateStoresHelper {
   async then_list_entry_shows_address(store: StoreTestData, position: number): Promise<void> {
     const entry = this.page.getByTestId('store-list-entry').nth(position - 1);
     await expect(entry.getByText(store.address_line_one)).toBeVisible();
-    await expect(entry.getByText(store.city)).toBeVisible();
+    await expect(entry.getByText(store.city, { exact: true })).toBeVisible();
   }
 
   async then_list_entry_shows_contact(store: StoreTestData, position: number): Promise<void> {
