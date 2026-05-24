@@ -52,50 +52,78 @@ Do NOT guess past a block. Stop and wait.
 
 ---
 
-# Slot 01 — Start
+# Slot 05 — Start
 
 ```yaml
 team-role: business-expert
 workspace: c:\dev\abd-pet-store-demo
 stage: discovery
-run_scope: system-wide — gap-check domain terms against existing PawPlace artifacts
+run_scope: system-wide — refresh ubiquitous language from domain-terms.md and existing domain artifacts
 skills:
-  - abd-domain-terms
-corrections: none yet — log domain corrections in repo-root corrections-log.md when they arise
-checkpoint: after_stage
+  - abd-ubiquitous-language
+  - drawio-domain-sync
+corrections: docs/corrections-log.md — filter by Affects discovery + business-expert
+checkpoint: after_slot
 entry_conditions_met:
-  - story/story-graph.json exists
-  - docs/domain/key-abstractions.md, crc.md, object-model.md exist
-  - partial MERN code exists at packages/ — Increment 1 only, incomplete
+  - slot-04-finished.md on disk — abd-domain-terms pair PASS (rework validated)
+  - docs/domain/domain-terms.md present with state: domain-terms front matter
+  - docs/domain/key-abstractions.md, crc.md, object-model.md exist (brownfield baseline)
 early_questions:
-  - scope-unclear: Cannot reconcile story-graph story names with key-abstractions terms — STOP and write blocked.md
-  - term-conflict: Same concept named differently in graph vs domain with no clear canonical choice — STOP and write blocked.md
+  - scope-unclear: Cannot reconcile domain-terms KA grouping with key-abstractions without documented gap — STOP and write blocked.md
+  - term-conflict: pet profile vs customer pet with no defensible canonical choice — STOP and write blocked.md (see open questions below)
 ```
 
 ## Context
 
-- Upstream artifacts:
-  - `story/story-graph.json` — 10 epics, 65 stories, 9 increments
-  - `story/thin-slicing.md` — Increment 1: walk-in driver (store locator + catalog + stock)
-  - `docs/domain/key-abstractions.md`, `crc.md`, `object-model.md`
-  - `packages/product-catalog/`, `packages/store/` — Increment 1 spike only; Run 2 delivers the full slice from UX onward
-  - `conf/` — vitest, playwright, tsconfig, package deps (`npm install --prefix conf`)
-  - `.cursor/agents/`, `.cursor/skills/` — delivery harness agents and planning skills
+- **Upstream artifacts:**
+  - `docs/domain/domain-terms.md` — authoritative term grouping from slot 01/03 (8 core KAs + 2 boundary terms; 10 epics aligned)
+  - `docs/domain/key-abstractions.md` — prior domain sketch (`state: domain-sketch`); may be superseded or merged by UL output
+  - `docs/domain/crc.md`, `docs/domain/object-model.md` — brownfield modeling baseline
+  - `story/story-graph.json` — 10 epics, 65 stories
+  - `story/thin-slicing.md` — increment order authoritative
   - `docs/external-context/requirements-chat-with-product-owner.md`
-- Decisions from prior stages:
-  - MERN stack chosen; module layout follows Run 1 IA and Run 2 interface spec
-  - Increment 1 is payment-free, account-free — no cart/checkout
-  - Shaping waived — brownfield; thin slicing authoritative at `story/thin-slicing.md`
-- Open questions:
-  - Whether `key-abstractions.md` should be superseded by `domain-terms.md` output or merged
+- **Decisions from prior slots:**
+  - Light refresh only — domain-terms pair complete; do not rewrite vocabulary from scratch unless gaps documented
+  - Increment 1 is payment-free, account-free — no cart/checkout in scope
+  - Shaping waived; thin slicing authoritative at `story/thin-slicing.md`
+  - `key-abstractions.md` relationship to new UL output: refresh or supersede — document choice in finished file
+- **Prior pair outcome (slots 01–04):**
+  - domain-terms executor → reviewer FAIL (8 Ref gaps) → rework executor → reviewer PASS
+  - Corrections in `docs/corrections-log.md` confirmed — Ref format and boundary `Owned by:` format
 
-## Filtered corrections
+## Expected deliverables
 
-- Domain attribute details belong in KA term definitions, not story titles (record in `corrections-log.md` when created)
+| Artifact | Path |
+|----------|------|
+| Ubiquitous language | `docs/domain/ubiquitous-language.md` |
+| Domain diagram (optional sync) | `docs/domain/ubiquitous-language.drawio` |
+
+Per plan slot 02 / manifest: refresh UL + domain diagram if arch/UX surfaces gaps. Use `drawio-domain-sync` after UL draft is stable.
+
+## Open questions (resolve or document in finished file)
+
+1. **`pet profile` vs `customer pet`** — domain-terms lists `pet profile` under Pet KA; key-abstractions had it under Customer Account. Confirm canonical placement and naming in UL output.
+2. **Visit outcome terms in CRC** — optional future CRC sync; not blocking UL
+3. **Story-graph gap terms** — Track Visit Outcomes stories have empty `acceptance_criteria`; carry forward as documented gaps
+4. **key-abstractions.md supersession** — state whether UL replaces, merges with, or references the existing sketch
+
+## Filtered corrections (carry forward — do not regress)
+
+### Ref traceability format for gap and CRC-derived terms
+
+- **Status:** confirmed (domain-terms pair)
+- **Affects:** discovery · business-expert · abd-domain-terms
+- **DO / DO NOT:** DO use full `**Ref —**` / Source/Locator/Extract + fenced `source` block for every term reference when UL cites sources. DO NOT use prose-only References where structured Ref blocks are required by skill rules.
+
+### Boundary term owner field format
+
+- **Status:** confirmed (domain-terms pair)
+- **Affects:** discovery · business-expert · abd-domain-terms
+- **DO / DO NOT:** DO use `Owned by: <Module>` field line for boundary terms when UL includes boundary vocabulary.
 
 ## Deliverable
 
-Produce or refresh `docs/domain/domain-terms.md` per `abd-domain-terms` skill — grouped terms ready for ubiquitous-language pass in slot 02. Light refresh only; do not rewrite domain from scratch unless gaps are documented in finished file.
+Follow `delivery-team-member/AGENT.md` Steps 1–8 for `abd-ubiquitous-language` then `drawio-domain-sync`. Write `slot-05-finished.md` per `templates/slot-finished.md`. Scanners deferred to reviewer slot 06.
 
 
 ---
