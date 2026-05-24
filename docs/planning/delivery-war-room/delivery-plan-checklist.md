@@ -12,10 +12,10 @@ This file lives in the **war room** — authoritative progress for the delivery 
 
 ## Orchestration (abd-delivery-lead AGENT.md)
 
-- [ ] **Step 1 — Establish workspace** — workspace path confirmed and existing artifacts noted
-- [ ] **Step 2 — Build the plan** — plan presented at CHECKPOINT and `agile-delivery-plan.md` written
-- [ ] **Step 3 — Open first stage of first run** — entry conditions verified for the current stage
-- [ ] **Step 4 — Bootstrap team member** — team-role, workspace, scope, corrections handed off
+- [x] **Step 1 — Establish workspace** — workspace path confirmed and existing artifacts noted
+- [x] **Step 2 — Build the plan** — plan presented at CHECKPOINT and `agile-delivery-plan.md` written
+- [x] **Step 3 — Open first stage of first run** — entry conditions verified for the current stage
+- [x] **Step 4 — Bootstrap team member** — team-role, workspace, scope, corrections handed off
 - [ ] **Step 5 — Validate stage exit** — reviewer scanned + reviewed; fixes incorporated; exit gate at CHECKPOINT
 - [ ] **Step 6 — Handoff to next stage** — artifacts, decisions, corrections passed forward
 - [ ] **Step 7 — Run complete, revise plan** — run summary + revised plan presented at CHECKPOINT
@@ -27,15 +27,15 @@ This file lives in the **war room** — authoritative progress for the delivery 
 - **Scope:** Foundation backfill — domain refresh, full story map, UX IA, architecture blueprint, SLOs
 - **Checkpoint policy:** **After Discovery stage** (end of run)
 
-- [ ] **discovery** — entry verified
-  - [ ] **Executor** — slot authored and `abd-team-member` bootstrapped (role + workspace + scope + corrections)
-  - [ ] **Executor** — draft stage artifacts produced
-  - [ ] **Executor** — self-review against skill rules complete
-  - [ ] **Executor CHECKPOINT** — operator confirms drafts
-  - [ ] **Executor** — story-graph updated via story-graph-ops (if stage produces graph content)
+- [x] **discovery** — entry verified
+  - [x] **Executor** — slot authored and `abd-team-member` bootstrapped (role + workspace + scope + corrections)
+  - [x] **Executor** — draft stage artifacts produced
+  - [x] **Executor** — self-review against skill rules complete
+  - [x] **Executor CHECKPOINT** — operator confirms drafts
+  - [x] **Executor** — story-graph updated via story-graph-ops (if stage produces graph content)
   - [ ] **Executor** — scanners green (all practice skills)
-  - [ ] **Executor** — slot finished (`slot-NN-finished.md` on disk)
-  - [ ] **Reviewer** — slot authored (`team-role: reviewer`; scope = executor artifacts only)
+  - [x] **Executor** — slot finished (`slot-NN-finished.md` on disk)
+  - [x] **Reviewer** — slot authored (`team-role: reviewer`; scope = executor artifacts only)
   - [ ] **Reviewer** — bootstrapped; read executor `slot-NN-finished.md` + artifact paths
   - [ ] **Reviewer** — scanners run (`execute-skill-using-skills-rules`); pass/fail in reviewer finished file
   - [ ] **Reviewer** — exit-gate review complete; findings in reviewer `slot-MM-finished.md`
