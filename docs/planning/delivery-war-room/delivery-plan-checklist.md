@@ -33,14 +33,14 @@ This file lives in the **war room** — authoritative progress for the delivery 
   - [x] **Executor** — self-review against skill rules complete
   - [x] **Executor CHECKPOINT** — operator confirms drafts
   - [x] **Executor** — story-graph updated via story-graph-ops (if stage produces graph content)
-  - [ ] **Executor** — scanners green (all practice skills) — deferred to slot 02 reviewer (`abd-domain-terms`)
+  - [ ] **Executor** — scanners green (all practice skills) — deferred to slot 02 reviewer (`abd-domain-terms`); slot 02 FAIL — rework slot 03
   - [x] **Executor** — slot finished (`slot-NN-finished.md` on disk)
   - [x] **Reviewer** — slot authored (`team-role: reviewer`; scope = executor artifacts only)
   - [x] **Reviewer** — bootstrapped; read executor `slot-NN-finished.md` + artifact paths
-  - [ ] **Reviewer** — scanners run (`execute-skill-using-skills-rules`); pass/fail in reviewer finished file
-  - [ ] **Reviewer** — exit-gate review complete; findings in reviewer `slot-MM-finished.md`
-  - [ ] **Reviewer CHECKPOINT** — delivery lead reads findings
-  - [ ] **Rework** — corrections logged for reviewer findings (or N/A if clean pass)
+  - [x] **Reviewer** — scanners run (`execute-skill-using-skills-rules`); pass/fail in reviewer finished file — slot 02 FAIL (scanner crash + manual refs-per-term violations)
+  - [x] **Reviewer** — exit-gate review complete; findings in reviewer `slot-MM-finished.md` — slot 02-finished.md
+  - [x] **Reviewer CHECKPOINT** — delivery lead reads findings — rework required for 8 Ref format gaps
+  - [x] **Rework** — corrections logged for reviewer findings (or N/A if clean pass) — docs/corrections-log.md
   - [ ] **Rework** — team member incorporated suggested fixes (rework slot complete)
   - [ ] **Rework** — scanners green after fix incorporation
   - [ ] **Delivery lead** — exit gate verified against `stages/discovery.md`

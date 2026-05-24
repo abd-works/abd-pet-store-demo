@@ -250,7 +250,24 @@ On the admin side, store staff need a dashboard to manage inventory, see incomin
 
 ### References
 
-*No direct source quote — derived from CRC refinement of the Pet KA.*
+**Ref — CRC Pet Source provenance**
+Source: docs/domain/crc.md
+Locator: ### Pet Source / decisions made
+Extract: partial
+
+```source
+### **Pet Source**
+supplier type                      |
+supplier name                      |
+supplier location                  |
+supplier phone                     |
+supplier email                     |
+intake date                        |
+provenance documentation           |
+                                   |   invariant: every pet must trace to exactly one source
+
+- Introduced Pet Source for provenance — breeders, rescues, shelters, private surrenders.
+```
 
 ---
 
@@ -266,7 +283,20 @@ On the admin side, store staff need a dashboard to manage inventory, see incomin
 
 ### References
 
-*No direct source quote — derived from CRC refinement of the Pet KA.*
+**Ref — CRC Pet Lineage pedigree**
+Source: docs/domain/crc.md
+Locator: ### Pet Lineage / decisions made
+Extract: partial
+
+```source
+### **Pet Lineage**
+sire                               | Pet
+dam                                | Pet
+pedigree documentation             |
+generation depth                   |
+
+- Introduced Pet Lineage for pedigree — sire, dam, documentation.
+```
 
 ---
 
@@ -333,7 +363,25 @@ When someone's browsing pets, they should see which store that animal is at, how
 
 ### References
 
-*Source: docs/story/story-graph.json — "Track Visit Outcomes" sub-epic, "Record Visit Outcome" story (inferred from story-graph gap analysis).*
+**Ref — Track Visit Outcomes (story-graph)**
+Source: docs/story/story-graph.json
+Locator: epic "Book Pet Visit" / sub-epic "Track Visit Outcomes" / story "Record Visit Outcome"
+Extract: partial (acceptance_criteria pending exploration)
+
+```source
+{
+  "name": "Record Visit Outcome",
+  "sequential_order": 2.0,
+  "connector": null,
+  "story_type": "Store Employee",
+  "users": [],
+  "test_class": null,
+  "scenarios": [],
+  "acceptance_criteria": [],
+  "behavior": null,
+  "scenario_outlines": []
+}
+```
 
 ---
 
@@ -349,7 +397,25 @@ When someone's browsing pets, they should see which store that animal is at, how
 
 ### References
 
-*Source: docs/story/story-graph.json — "Track Visit Outcomes" sub-epic, "Check In Customer" story (inferred from story-graph gap analysis).*
+**Ref — Track Visit Outcomes (story-graph)**
+Source: docs/story/story-graph.json
+Locator: epic "Book Pet Visit" / sub-epic "Track Visit Outcomes" / story "Check In Customer"
+Extract: partial (acceptance_criteria pending exploration)
+
+```source
+{
+  "name": "Check In Customer",
+  "sequential_order": 1.0,
+  "connector": null,
+  "story_type": "Store Employee",
+  "users": [],
+  "test_class": null,
+  "scenarios": [],
+  "acceptance_criteria": [],
+  "behavior": null,
+  "scenario_outlines": []
+}
+```
 
 ---
 
@@ -365,7 +431,36 @@ When someone's browsing pets, they should see which store that animal is at, how
 
 ### References
 
-*Source: docs/story/story-graph.json — "Track Visit Outcomes" sub-epic, "Record No-Show" story (inferred from story-graph gap analysis).*
+**Ref — Track Visit Outcomes (story-graph)**
+Source: docs/story/story-graph.json
+Locator: epic "Book Pet Visit" / sub-epic "Track Visit Outcomes" / story "Record No-Show"
+Extract: partial (acceptance_criteria pending exploration)
+
+```source
+{
+  "name": "Record No-Show",
+  "sequential_order": 3.0,
+  "connector": null,
+  "story_type": "Store Employee",
+  "users": [],
+  "test_class": null,
+  "scenarios": [],
+  "acceptance_criteria": [],
+  "behavior": null,
+  "scenario_outlines": []
+}
+```
+
+**Ref — Cancel or Rebook Appointment After Pet Adoption (story-graph)**
+Source: docs/story/story-graph.json
+Locator: story "Cancel or Rebook Appointment After Pet Adoption" / acceptance_criteria item 4
+Extract: partial
+
+```source
+4. **WHEN** the customer neither cancels nor rebooks before the appointment date
+**THEN** the appointment remains in the system but staff see a "pet adopted" warning on their incoming appointments view
+**AND** the appointment is treated as a no-show after the date passes
+```
 
 ---
 
@@ -380,7 +475,25 @@ When someone's browsing pets, they should see which store that animal is at, how
 
 ### References
 
-*Source: docs/story/story-graph.json — "Track Visit Outcomes" sub-epic, "Set Follow-Up Action" story (inferred from story-graph gap analysis).*
+**Ref — Track Visit Outcomes (story-graph)**
+Source: docs/story/story-graph.json
+Locator: epic "Book Pet Visit" / sub-epic "Track Visit Outcomes" / story "Set Follow-Up Action"
+Extract: partial (acceptance_criteria pending exploration)
+
+```source
+{
+  "name": "Set Follow-Up Action",
+  "sequential_order": 4.0,
+  "connector": null,
+  "story_type": "Store Employee",
+  "users": [],
+  "test_class": null,
+  "scenarios": [],
+  "acceptance_criteria": [],
+  "behavior": null,
+  "scenario_outlines": []
+}
+```
 
 ---
 
@@ -595,7 +708,30 @@ A shopping cart that persists — if someone adds three things on their phone at
 
 ### References
 
-*No direct source quote — derived from standard e-commerce cart item pattern; consistent with requirements-chat-with-product-owner.md line 13.*
+**Ref — CRC Cart Item state-carrier**
+Source: docs/domain/crc.md
+Locator: ### Cart Item / decisions made
+Extract: partial
+
+```source
+### **Cart Item**
+product in cart                     | Product
+quantity                            |
+                                    |   invariant: must be at least one
+unit price at time of adding        |
+line price                          |
+
+- Introduced Order Line Item and Cart Item as state-carrier classes — many-to-many relationships with their own data.
+```
+
+**Ref — Shopping cart persistence**
+Source: docs/external-context/requirements-chat-with-product-owner.md
+Locator: line 13
+Extract: partial
+
+```source
+A shopping cart that persists — if someone adds three things on their phone at lunch and comes back on their laptop in the evening, the cart should still be there (assuming they're logged in).
+```
 
 ---
 
@@ -610,7 +746,23 @@ A shopping cart that persists — if someone adds three things on their phone at
 
 ### References
 
-*No direct source quote — derived from standard e-commerce order record pattern; price-snapshot requirement from requirements-chat-with-product-owner.md (inferred from "historical orders retain the price at time of purchase").*
+**Ref — CRC Order Line Item price snapshot**
+Source: docs/domain/crc.md
+Locator: ### Order Line Item / Product Catalog decisions made
+Extract: partial
+
+```source
+### **Order Line Item**
+ordered product                     | Product
+product name snapshot               |
+SKU snapshot                        |
+unit price snapshot                  |
+                                    |   invariant: must capture the price at the moment the order is confirmed, not the current catalog price
+quantity                            |
+                                    |   invariant: must be at least one
+
+- Product carries price as a domain property — price is snapshotted to Order Line Item at purchase time so historical orders survive price changes.
+```
 
 ---
 
@@ -786,7 +938,9 @@ There should be clear preference management so people can choose what they get: 
 
 # Boundary Domain
 
-### content *(owned by: Content Management)*
+### content
+
+Owned by: Content Management
 
 - *Content* includes blog posts and guides ("How to introduce a new cat to your household," "Best food for senior dogs") that build trust, support SEO, and provide material for marketing *notifications*.
 - PawPlace defines the content surfaces; *Content Management* (future module) owns authoring, publishing workflow, and CMS operations.
@@ -809,7 +963,9 @@ Finally, content. We should have space for blog posts or guides — "How to intr
 
 ---
 
-### admin dashboard *(owned by: Store Operations)*
+### admin dashboard
+
+Owned by: Store Operations
 
 - The *admin dashboard* is the staff-facing surface for managing inventory, viewing incoming *appointments*, updating *pet profiles*, and handling *click-and-collect* fulfillment.
 - PawPlace defines the data surfaces store staff need; *Store Operations* (future module) owns the dashboard UI, staff permissions, and fulfillment workflow.
