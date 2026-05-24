@@ -1,0 +1,198 @@
+{
+  "_comment": "Machine-readable vocabulary extracted from ubiquitous-language.md. Read by specification-by-example scanner to validate example-table column names.",
+  "concepts": {
+    "product catalog": {
+      "attributes": [],
+      "inherits": null
+    },
+    "product": {
+      "attributes": ["description", "weight", "dimensions", "aggregate star rating"],
+      "inherits": null
+    },
+    "product image": {
+      "attributes": ["source file reference", "alt text", "display order"],
+      "inherits": null
+    },
+    "category": {
+      "attributes": [],
+      "inherits": null
+    },
+    "customer review": {
+      "attributes": ["star rating", "written text", "photo"],
+      "inherits": null
+    },
+    "stock availability": {
+      "attributes": ["quantity on hand", "reserved quantity"],
+      "inherits": null
+    },
+    "pet": {
+      "attributes": ["age", "current status"],
+      "inherits": null
+    },
+    "breed": {
+      "attributes": ["species", "variety"],
+      "inherits": null
+    },
+    "pet photo": {
+      "attributes": [],
+      "inherits": null
+    },
+    "temperament assessment": {
+      "attributes": [],
+      "inherits": null
+    },
+    "health record": {
+      "attributes": ["vaccinations", "vet check dates", "treatments"],
+      "inherits": null
+    },
+    "pet lifecycle event": {
+      "attributes": ["status"],
+      "inherits": null
+    },
+    "pet source": {
+      "attributes": ["provenance type", "supplier name", "intake date"],
+      "inherits": null
+    },
+    "pet lineage": {
+      "attributes": ["sire", "dam", "pedigree documentation", "generation depth"],
+      "inherits": null
+    },
+    "pet profile": {
+      "attributes": [],
+      "inherits": null
+    },
+    "appointment": {
+      "attributes": ["date", "visit note"],
+      "inherits": null
+    },
+    "time slot": {
+      "attributes": ["date-and-time window"],
+      "inherits": null
+    },
+    "visit outcome": {
+      "attributes": ["result"],
+      "inherits": null
+    },
+    "check-in": {
+      "attributes": [],
+      "inherits": null
+    },
+    "no-show": {
+      "attributes": [],
+      "inherits": null
+    },
+    "follow-up action": {
+      "attributes": [],
+      "inherits": null
+    },
+    "store": {
+      "attributes": ["address", "geo-coordinates", "operating hours", "contact details", "specializations"],
+      "inherits": null
+    },
+    "store locator": {
+      "attributes": [],
+      "inherits": null
+    },
+    "click-and-collect": {
+      "attributes": ["pickup store"],
+      "inherits": null
+    },
+    "customer account": {
+      "attributes": ["email", "preferred store"],
+      "inherits": null
+    },
+    "guest checkout": {
+      "attributes": ["shipping details", "billing details"],
+      "inherits": null
+    },
+    "wishlist": {
+      "attributes": [],
+      "inherits": null
+    },
+    "communication preferences": {
+      "attributes": ["opt-in categories"],
+      "inherits": null
+    },
+    "saved address": {
+      "attributes": ["shipping or billing address"],
+      "inherits": null
+    },
+    "customer pet": {
+      "attributes": ["name", "age", "dietary needs"],
+      "inherits": null
+    },
+    "order": {
+      "attributes": ["shipping address", "billing address", "tracking number"],
+      "inherits": null
+    },
+    "shopping cart": {
+      "attributes": [],
+      "inherits": null
+    },
+    "cart item": {
+      "attributes": ["quantity", "unit price at time of adding", "line price"],
+      "inherits": null
+    },
+    "order line item": {
+      "attributes": ["quantity", "product name snapshot", "SKU snapshot", "unit price snapshot"],
+      "inherits": null
+    },
+    "delivery option": {
+      "attributes": ["shipping method"],
+      "inherits": null
+    },
+    "return": {
+      "attributes": ["return label", "QR code", "refund status"],
+      "inherits": null
+    },
+    "payment": {
+      "attributes": [],
+      "inherits": null
+    },
+    "payment vendor": {
+      "attributes": [],
+      "inherits": null
+    },
+    "StripeWave": {
+      "attributes": [],
+      "inherits": "payment vendor"
+    },
+    "PayNova": {
+      "attributes": [],
+      "inherits": "payment vendor"
+    },
+    "VaultPay": {
+      "attributes": [],
+      "inherits": "payment vendor"
+    },
+    "saved payment method": {
+      "attributes": ["token"],
+      "inherits": null
+    },
+    "refund": {
+      "attributes": ["refund status"],
+      "inherits": null
+    },
+    "notification": {
+      "attributes": ["message content"],
+      "inherits": null
+    },
+    "notification preferences": {
+      "attributes": ["categories"],
+      "inherits": null
+    },
+    "restock alert": {
+      "attributes": [],
+      "inherits": null
+    },
+    "content": {
+      "attributes": ["blog posts", "guides"],
+      "inherits": null
+    },
+    "admin dashboard": {
+      "attributes": [],
+      "inherits": null
+    }
+  },
+  "aliases": {}
+}
