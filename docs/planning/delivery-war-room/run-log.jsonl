@@ -169,3 +169,6 @@
 {"timestamp": "2026-05-24T03:44:30.058677+00:00", "event": "BLOCKED", "slot_id": "07", "question": "## CHECKPOINT \u2014 awaiting operator confirmation"}
 {"timestamp": "2026-05-24T03:44:30.059961+00:00", "event": "ANSWERED", "slot_id": "07", "answer": "confirm"}
 {"timestamp": "2026-05-24T03:45:17.863142+00:00", "event": "RUNNING", "slot_id": "07", "agent_id": "92f1ad66-f923-40a0-b504-28830e67b542", "run_id": "a2224063-6022-4b0c-b7f6-c44cc0604e42", "mode": "cli-local"}
+{"timestamp": "2026-05-24T03:45:35.120537+00:00", "event": "FINISHED", "slot_id": "07", "summary": "Artifacts produced", "commit": ""}
+{"timestamp": "2026-05-24T03:45:37.273147+00:00", "event": "FINISHED", "slot_id": "07", "summary": "Artifacts produced", "commit": "https://github.com/abd-works/abd-pet-store-demo/commit/be343b2"}
+{"timestamp": "2026-05-24T03:45:37.297202+00:00", "event": "FINISHED", "slot_id": "07", "summary": "Artifacts produced", "commit": ""}
