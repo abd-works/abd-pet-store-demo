@@ -33,10 +33,10 @@ This file lives in the **war room** — authoritative progress for the delivery 
   - [x] **Executor** — self-review against skill rules complete
   - [x] **Executor CHECKPOINT** — operator confirms drafts
   - [x] **Executor** — story-graph updated via story-graph-ops (if stage produces graph content)
-  - [ ] **Executor** — scanners green (all practice skills)
+  - [ ] **Executor** — scanners green (all practice skills) — deferred to slot 02 reviewer (`abd-domain-terms`)
   - [x] **Executor** — slot finished (`slot-NN-finished.md` on disk)
   - [x] **Reviewer** — slot authored (`team-role: reviewer`; scope = executor artifacts only)
-  - [ ] **Reviewer** — bootstrapped; read executor `slot-NN-finished.md` + artifact paths
+  - [x] **Reviewer** — bootstrapped; read executor `slot-NN-finished.md` + artifact paths
   - [ ] **Reviewer** — scanners run (`execute-skill-using-skills-rules`); pass/fail in reviewer finished file
   - [ ] **Reviewer** — exit-gate review complete; findings in reviewer `slot-MM-finished.md`
   - [ ] **Reviewer CHECKPOINT** — delivery lead reads findings
