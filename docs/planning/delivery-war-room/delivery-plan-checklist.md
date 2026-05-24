@@ -33,7 +33,7 @@ This file lives in the **war room** — authoritative progress for the delivery 
   - [x] **Executor** — self-review against skill rules complete
   - [x] **Executor CHECKPOINT** — operator confirms drafts
   - [x] **Executor** — story-graph updated via story-graph-ops (if stage produces graph content)
-  - [ ] **Executor** — scanners green (all practice skills) — deferred to slot 02 reviewer (`abd-domain-terms`); slot 02 FAIL — rework slot 03
+  - [ ] **Executor** — scanners green (all practice skills) — deferred to slot 04 reviewer re-review after rework slot 03
   - [x] **Executor** — slot finished (`slot-NN-finished.md` on disk)
   - [x] **Reviewer** — slot authored (`team-role: reviewer`; scope = executor artifacts only)
   - [x] **Reviewer** — bootstrapped; read executor `slot-NN-finished.md` + artifact paths
@@ -41,8 +41,8 @@ This file lives in the **war room** — authoritative progress for the delivery 
   - [x] **Reviewer** — exit-gate review complete; findings in reviewer `slot-MM-finished.md` — slot 02-finished.md
   - [x] **Reviewer CHECKPOINT** — delivery lead reads findings — rework required for 8 Ref format gaps
   - [x] **Rework** — corrections logged for reviewer findings (or N/A if clean pass) — docs/corrections-log.md
-  - [ ] **Rework** — team member incorporated suggested fixes (rework slot complete)
-  - [ ] **Rework** — scanners green after fix incorporation
+  - [x] **Rework** — team member incorporated suggested fixes (rework slot complete) — slot 03
+  - [ ] **Rework** — scanners green after fix incorporation — deferred to slot 04 reviewer
   - [ ] **Delivery lead** — exit gate verified against `stages/discovery.md`
   - [ ] **CHECKPOINT** — user confirms stage complete
 - [ ] **Run 1 CHECKPOINT** — run summary + plan revision presented

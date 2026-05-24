@@ -256,7 +256,7 @@ Locator: ### Pet Source / decisions made
 Extract: partial
 
 ```source
-### **Pet Source**
+Pet Source
 supplier type                      |
 supplier name                      |
 supplier location                  |
@@ -289,7 +289,7 @@ Locator: ### Pet Lineage / decisions made
 Extract: partial
 
 ```source
-### **Pet Lineage**
+Pet Lineage
 sire                               | Pet
 dam                                | Pet
 pedigree documentation             |
@@ -714,7 +714,7 @@ Locator: ### Cart Item / decisions made
 Extract: partial
 
 ```source
-### **Cart Item**
+Cart Item
 product in cart                     | Product
 quantity                            |
                                     |   invariant: must be at least one
@@ -752,7 +752,7 @@ Locator: ### Order Line Item / Product Catalog decisions made
 Extract: partial
 
 ```source
-### **Order Line Item**
+Order Line Item
 ordered product                     | Product
 product name snapshot               |
 SKU snapshot                        |
