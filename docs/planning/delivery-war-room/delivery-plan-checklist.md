@@ -29,12 +29,12 @@ This file lives in the **war room** — authoritative progress for the delivery 
 
 - [x] **discovery** — entry verified
   - [x] **Executor** — slot authored and `abd-team-member` bootstrapped (role + workspace + scope + corrections) — slot 05 abd-ubiquitous-language
-  - [ ] **Executor** — draft stage artifacts produced
-  - [ ] **Executor** — self-review against skill rules complete
-  - [ ] **Executor CHECKPOINT** — operator confirms drafts
-  - [ ] **Executor** — story-graph updated via story-graph-ops (if stage produces graph content)
-  - [ ] **Executor** — scanners green (all practice skills) — abd-ubiquitous-language; deferred to reviewer after slot 05
-  - [ ] **Executor** — slot finished (`slot-NN-finished.md` on disk)
+  - [x] **Executor** — draft stage artifacts produced — `docs/domain/ubiquitous-language.md`, `docs/domain/domain.json`
+  - [x] **Executor** — self-review against skill rules complete
+  - [x] **Executor CHECKPOINT** — operator confirms drafts (harness auto-unblock)
+  - [x] **Executor** — story-graph updated via story-graph-ops (N/A — UL does not produce graph content)
+  - [ ] **Executor** — scanners green (all practice skills) — abd-ubiquitous-language; deferred to reviewer slot 06
+  - [x] **Executor** — slot finished (`slot-05-finished.md` on disk)
   - [ ] **Reviewer** — slot authored (`team-role: reviewer`; scope = executor artifacts only)
   - [ ] **Reviewer** — bootstrapped; read executor `slot-NN-finished.md` + artifact paths
   - [ ] **Reviewer** — scanners run (`execute-skill-using-skills-rules`); pass/fail in reviewer finished file
