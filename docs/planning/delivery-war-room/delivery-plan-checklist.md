@@ -28,22 +28,29 @@ This file lives in the **war room** — authoritative progress for the delivery 
 - **Checkpoint policy:** **After Discovery stage** (end of run)
 
 - [x] **discovery** — entry verified
-  - [x] **Executor** — slot authored and `abd-team-member` bootstrapped (role + workspace + scope + corrections) — slot 05 abd-ubiquitous-language
+  - [x] **Executor** — slot authored and `abd-team-member` bootstrapped (role + workspace + scope + corrections) — slot 05 abd-ubiquitous-language (pair complete)
   - [x] **Executor** — draft stage artifacts produced — `docs/domain/ubiquitous-language.md`, `docs/domain/domain.json`
   - [x] **Executor** — self-review against skill rules complete
   - [x] **Executor CHECKPOINT** — operator confirms drafts (harness auto-unblock)
   - [x] **Executor** — story-graph updated via story-graph-ops (N/A — UL does not produce graph content)
-  - [ ] **Executor** — scanners green (all practice skills) — abd-ubiquitous-language; deferred to reviewer slot 06
+  - [x] **Executor** — scanners green (all practice skills) — abd-ubiquitous-language; manual supplement in slot 06 reviewer
   - [x] **Executor** — slot finished (`slot-05-finished.md` on disk)
-  - [ ] **Reviewer** — slot authored (`team-role: reviewer`; scope = executor artifacts only)
-  - [ ] **Reviewer** — bootstrapped; read executor `slot-NN-finished.md` + artifact paths
-  - [ ] **Reviewer** — scanners run (`execute-skill-using-skills-rules`); pass/fail in reviewer finished file
-  - [ ] **Reviewer** — exit-gate review complete; findings in reviewer `slot-MM-finished.md`
-  - [ ] **Reviewer CHECKPOINT** — delivery lead reads findings
-  - [ ] **Rework** — corrections logged for reviewer findings (or N/A if clean pass)
-  - [ ] **Rework** — team member incorporated suggested fixes (rework slot complete)
-  - [ ] **Rework** — scanners green after fix incorporation
-  - [ ] **Delivery lead** — exit gate verified against `stages/discovery.md`
+  - [x] **Reviewer** — slot authored (`team-role: reviewer`; scope = executor artifacts only) — slot 06
+  - [x] **Reviewer** — bootstrapped; read executor `slot-05-finished.md` + artifact paths
+  - [x] **Reviewer** — scanners run (`execute-skill-using-skills-rules`); pass/fail in `slot-06-finished.md`
+  - [x] **Reviewer** — exit-gate review complete; findings in `slot-06-finished.md` — PASS
+  - [x] **Reviewer CHECKPOINT** — delivery lead reads findings — no blockers; non-blocking notes only
+  - [x] **Rework** — corrections logged for reviewer findings (N/A — clean pass)
+  - [x] **Rework** — team member incorporated suggested fixes (N/A)
+  - [x] **Rework** — scanners green after fix incorporation (N/A)
+  - [ ] **Executor** — slot authored and `abd-team-member` bootstrapped — slot 07 abd-story-mapping (in progress)
+  - [ ] **Executor** — draft stage artifacts produced — `docs/story/story-map.md`, `docs/story/story-graph.json`
+  - [ ] **Executor** — self-review against skill rules complete
+  - [ ] **Executor CHECKPOINT** — operator confirms drafts
+  - [ ] **Executor** — story-graph updated via story-graph-ops
+  - [ ] **Executor** — scanners green (all practice skills) — abd-story-mapping; deferred to reviewer
+  - [ ] **Executor** — slot finished (`slot-07-finished.md` on disk)
+  - [ ] **Delivery lead** — exit gate verified against `stages/discovery.md` (after all skill pairs)
   - [ ] **CHECKPOINT** — user confirms stage complete
 - [ ] **Run 1 CHECKPOINT** — run summary + plan revision presented
 

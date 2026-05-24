@@ -1,6 +1,6 @@
 # PawPlace — Story Map  
 
-Source: external-context/requirements-chat-with-product-owner.md  
+Source: docs/external-context/requirements-chat-with-product-owner.md · canonical vocabulary: docs/domain/ubiquitous-language.md (`state: ubiquitous-language`)  
 
 ## Personas  
 
@@ -8,7 +8,7 @@ Source: external-context/requirements-chat-with-product-owner.md
 
 **Prospective Pet Owner** — Looking to adopt, wants to meet animals in person. Browses the pet gallery, books visits, values breed info and temperament notes.  
 
-**Store Employee** — Front-line staff at a physical store location. Handles day-to-day operations: pet profiles, appointments, check-ins, visit outcomes, order fulfillment, stock updates, click-and-collect, and in-store returns.  
+**Store Employee** — Front-line staff at a physical store location. Handles day-to-day operations: store *pet profile* listings, appointments, check-ins, visit outcomes, order fulfillment, stock updates, click-and-collect, and in-store returns.  
 
 **Store Owner** — Business-level oversight of a store. Reviews inventory dashboard, monitors order flow, and manages operational decisions that span across employees.  
 
@@ -78,8 +78,8 @@ Source: external-context/requirements-chat-with-product-owner.md
         (S) Customer --> Manage Saved Addresses  
         (S) Customer --> Save Payment Method  
         (S) Customer --> Manage Saved Payment Methods  
-        (S) Customer --> Create Pet Profile  
-        (S) Customer --> Update Pet Profile  
+        (S) Customer --> Create Customer Pet  
+        (S) Customer --> Update Customer Pet  
         (S) Customer --> Set Communication Preferences  
     (E) Track Activity  
         (S) Customer --> View Order History  
@@ -159,6 +159,12 @@ Source: external-context/requirements-chat-with-product-owner.md
 
 ## Consolidation Notes (for AC phase)  
 
+### Pet profile vs customer pet (canonical naming)  
+Per `docs/domain/ubiquitous-language.md` — Pet KA vs Customer Account KA:  
+- **View Pet Profile** / **Update Pet Profile** (under Browse Available Pets) — store animal's online *pet profile* for adoption browsing  
+- **Create Customer Pet** / **Update Customer Pet** (under Manage Customer Account) — customer's own *customer pet* record for recommendations and reorder timing  
+AC must keep these concepts distinct; do not reuse Pet KA field sets (temperament, health record, adoption status) on customer pet stories.  
+
 ### Filter Products (by category, pet type, brand)  
 Groups three filter dimensions into one parameterized story — same filtering mechanic, different data dimension.  
 AC must specify per dimension:  
@@ -210,7 +216,7 @@ Two parameterized branches share one story — same trigger (pet adopted out fro
 ### Send Restock Alert (back-in-stock vs reorder reminder split — deferred)  
 The current `Send Restock Alert` story conflates two source-distinct triggers (per `docs/domain-sketch.md` → Notification → `### decisions made`):  
 - **Back-in-stock alert** — a previously-purchased product just came back into stock (cross-KA with Product Catalog stock data)  
-- **Reorder reminder** — purchase frequency suggests the customer is running low (cross-KA with Customer Account pet profile + order history)  
+- **Reorder reminder** — purchase frequency suggests the customer is running low (cross-KA with Customer Account *customer pet* + order history)  
 
 Until either trigger is prioritized as a real story, AC for this story should cover the **frequency-driven** case only, since that's what the source implies most clearly. When the team prioritizes the stock-driven case, split into two stories (`Send Back-in-Stock Alert`, `Send Reorder Reminder`) and update this map.  
 

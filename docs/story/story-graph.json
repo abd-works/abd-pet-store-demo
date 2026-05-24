@@ -1082,7 +1082,7 @@
                   "scenario_outlines": []
                 },
                 {
-                  "name": "Create Pet Profile",
+                  "name": "Create Customer Pet",
                   "sequential_order": 5.0,
                   "connector": null,
                   "story_type": "Customer",
@@ -1099,7 +1099,7 @@
                   "scenario_outlines": []
                 },
                 {
-                  "name": "Update Pet Profile",
+                  "name": "Update Customer Pet",
                   "sequential_order": 6.0,
                   "connector": null,
                   "story_type": "Customer",
@@ -3399,7 +3399,7 @@
           "sequential_order": 5.0
         },
         {
-          "name": "Create Pet Profile",
+          "name": "Create Customer Pet",
           "sequential_order": 6.0
         },
         {
