@@ -1,41 +1,15 @@
 {
   "name": "@pawplace/root",
   "private": true,
-  "type": "module",
   "scripts": {
-    "dev:api": "node --import tsx/esm packages/app-server/dev.ts",
-    "dev:client": "node --import tsx/esm packages/app-client/dev.ts",
-    "dev": "node --import tsx/esm --import tsconfig-paths/register packages/app-server/dev.ts",
-    "test": "vitest run",
-    "test:server": "vitest run --config vitest.config.ts",
-    "test:client": "vitest run --config vitest.client.config.ts",
-    "test:e2e": "playwright test --config playwright.config.ts"
-  },
-  "devDependencies": {
-    "@playwright/test": "^1.45.0",
-    "@testing-library/jest-dom": "^6.0.0",
-    "@testing-library/react": "^16.0.0",
-    "@testing-library/user-event": "^14.0.0",
-    "@types/express": "^5.0.6",
-    "@types/node": "^22.19.18",
-    "@types/react": "^18.3.0",
-    "@types/react-dom": "^18.3.0",
-    "@types/supertest": "^6.0.0",
-    "@vitejs/plugin-react": "^4.3.0",
-    "jsdom": "^24.0.0",
-    "react": "^18.3.0",
-    "react-dom": "^18.3.0",
-    "react-router-dom": "^6.26.0",
-    "supertest": "^7.0.0",
-    "tsconfig-paths": "^4.2.0",
-    "tsx": "^4.21.0",
-    "typescript": "^5.4.0",
-    "vite": "^5.4.0",
-    "vitest": "^2.0.0"
-  },
-  "dependencies": {
-    "express": "^5.2.1",
-    "mongodb": "^7.2.0",
-    "zod": "^4.4.3"
+    "dev:api": "npm run dev:api --prefix conf",
+    "dev:client": "npm run dev:client --prefix conf",
+    "dev": "npm run dev --prefix conf",
+    "dev:server": "npm run dev:server --prefix conf",
+    "test": "node conf/node_modules/vitest/vitest.mjs run --config conf/vitest.config.ts",
+    "test:server": "node conf/node_modules/vitest/vitest.mjs run --config conf/vitest.config.ts",
+    "test:client": "node conf/node_modules/vitest/vitest.mjs run --config conf/vitest.config.ts",
+    "test:e2e": "node conf/node_modules/@playwright/test/cli.js test --config conf/playwright.config.ts",
+    "install:conf": "npm install --prefix conf"
   }
 }

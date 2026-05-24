@@ -1,0 +1,589 @@
+# ABD Delivery Plan — Checklist
+
+<!-- generated-by: skills/skill-helpers/track_task/scripts/generate_delivery_checklist.py -->
+<!-- generated-at: 2026-05-23T22:42:37+00:00 -->
+<!-- source-plan: C:\dev\abd-pet-store-demo\docs\planning\abd-delivery-lead\agile-delivery-plan.md -->
+
+**Do not edit structure by hand.** Regenerate from `agile-delivery-plan.md`.
+Slot completion is **`slot-NN-finished.md`** on disk — not a checkbox in this file.
+This file lives in the **war room** — authoritative progress for the delivery lead and CLI harness.
+
+**Per-stage tracking:** each stage is executor slot -> **reviewer slot** (scan + gate review as separate checkboxes) -> **rework** (fixes incorporated) -> delivery-lead exit gate. Tick each line; do not skip reviewer or rework steps.
+
+## Orchestration (abd-delivery-lead AGENT.md)
+
+- [ ] **Step 1 — Establish workspace** — workspace path confirmed and existing artifacts noted
+- [ ] **Step 2 — Build the plan** — plan presented at CHECKPOINT and `agile-delivery-plan.md` written
+- [ ] **Step 3 — Open first stage of first run** — entry conditions verified for the current stage
+- [ ] **Step 4 — Bootstrap team member** — team-role, workspace, scope, corrections handed off
+- [ ] **Step 5 — Validate stage exit** — reviewer scanned + reviewed; fixes incorporated; exit gate at CHECKPOINT
+- [ ] **Step 6 — Handoff to next stage** — artifacts, decisions, corrections passed forward
+- [ ] **Step 7 — Run complete, revise plan** — run summary + revised plan presented at CHECKPOINT
+- [ ] **Step 8 — Plan complete** — final summary, open items, strategy save proposal at CHECKPOINT
+
+## Runs
+
+### Run 1 — Missing IA + blueprint block increment delivery
+- **Scope:** Foundation backfill — domain refresh, full story map, UX IA, architecture blueprint, SLOs
+- **Checkpoint policy:** **After Discovery stage** (end of run)
+
+- [ ] **discovery** — entry verified
+  - [ ] **Executor** — slot authored and `abd-team-member` bootstrapped (role + workspace + scope + corrections)
+  - [ ] **Executor** — draft stage artifacts produced
+  - [ ] **Executor** — self-review against skill rules complete
+  - [ ] **Executor CHECKPOINT** — operator confirms drafts
+  - [ ] **Executor** — story-graph updated via story-graph-ops (if stage produces graph content)
+  - [ ] **Executor** — scanners green (all practice skills)
+  - [ ] **Executor** — slot finished (`slot-NN-finished.md` on disk)
+  - [ ] **Reviewer** — slot authored (`team-role: reviewer`; scope = executor artifacts only)
+  - [ ] **Reviewer** — bootstrapped; read executor `slot-NN-finished.md` + artifact paths
+  - [ ] **Reviewer** — scanners run (`execute-skill-using-skills-rules`); pass/fail in reviewer finished file
+  - [ ] **Reviewer** — exit-gate review complete; findings in reviewer `slot-MM-finished.md`
+  - [ ] **Reviewer CHECKPOINT** — delivery lead reads findings
+  - [ ] **Rework** — corrections logged for reviewer findings (or N/A if clean pass)
+  - [ ] **Rework** — team member incorporated suggested fixes (rework slot complete)
+  - [ ] **Rework** — scanners green after fix incorporation
+  - [ ] **Delivery lead** — exit gate verified against `stages/discovery.md`
+  - [ ] **CHECKPOINT** — user confirms stage complete
+- [ ] **Run 1 CHECKPOINT** — run summary + plan revision presented
+
+### Run 2 — First vertical slice; establishes UX, arch reference, prototype, OM, tests, code
+- **Scope:** Increment 1 — walk-in driver (full skill chain)
+- **Checkpoint policy:** **After each stage** — Exploration, Specification, Engineering
+
+- [ ] **exploration** — entry verified
+  - [ ] **Executor** — slot authored and `abd-team-member` bootstrapped (role + workspace + scope + corrections)
+  - [ ] **Executor** — draft stage artifacts produced
+  - [ ] **Executor** — self-review against skill rules complete
+  - [ ] **Executor CHECKPOINT** — operator confirms drafts
+  - [ ] **Executor** — story-graph updated via story-graph-ops (if stage produces graph content)
+  - [ ] **Executor** — scanners green (all practice skills)
+  - [ ] **Executor** — slot finished (`slot-NN-finished.md` on disk)
+  - [ ] **Reviewer** — slot authored (`team-role: reviewer`; scope = executor artifacts only)
+  - [ ] **Reviewer** — bootstrapped; read executor `slot-NN-finished.md` + artifact paths
+  - [ ] **Reviewer** — scanners run (`execute-skill-using-skills-rules`); pass/fail in reviewer finished file
+  - [ ] **Reviewer** — exit-gate review complete; findings in reviewer `slot-MM-finished.md`
+  - [ ] **Reviewer CHECKPOINT** — delivery lead reads findings
+  - [ ] **Rework** — corrections logged for reviewer findings (or N/A if clean pass)
+  - [ ] **Rework** — team member incorporated suggested fixes (rework slot complete)
+  - [ ] **Rework** — scanners green after fix incorporation
+  - [ ] **Delivery lead** — exit gate verified against `stages/exploration.md`
+  - [ ] **CHECKPOINT** — user confirms stage complete
+- [ ] **specification** — entry verified
+  - [ ] **Executor** — slot authored and `abd-team-member` bootstrapped (role + workspace + scope + corrections)
+  - [ ] **Executor** — draft stage artifacts produced
+  - [ ] **Executor** — self-review against skill rules complete
+  - [ ] **Executor CHECKPOINT** — operator confirms drafts
+  - [ ] **Executor** — story-graph updated via story-graph-ops (if stage produces graph content)
+  - [ ] **Executor** — scanners green (all practice skills)
+  - [ ] **Executor** — slot finished (`slot-NN-finished.md` on disk)
+  - [ ] **Reviewer** — slot authored (`team-role: reviewer`; scope = executor artifacts only)
+  - [ ] **Reviewer** — bootstrapped; read executor `slot-NN-finished.md` + artifact paths
+  - [ ] **Reviewer** — scanners run (`execute-skill-using-skills-rules`); pass/fail in reviewer finished file
+  - [ ] **Reviewer** — exit-gate review complete; findings in reviewer `slot-MM-finished.md`
+  - [ ] **Reviewer CHECKPOINT** — delivery lead reads findings
+  - [ ] **Rework** — corrections logged for reviewer findings (or N/A if clean pass)
+  - [ ] **Rework** — team member incorporated suggested fixes (rework slot complete)
+  - [ ] **Rework** — scanners green after fix incorporation
+  - [ ] **Delivery lead** — exit gate verified against `stages/specification.md`
+  - [ ] **CHECKPOINT** — user confirms stage complete
+- [ ] **engineering** — entry verified
+  - [ ] **Executor** — slot authored and `abd-team-member` bootstrapped (role + workspace + scope + corrections)
+  - [ ] **Executor** — draft stage artifacts produced
+  - [ ] **Executor** — self-review against skill rules complete
+  - [ ] **Executor CHECKPOINT** — operator confirms drafts
+  - [ ] **Executor** — story-graph updated via story-graph-ops (if stage produces graph content)
+  - [ ] **Executor** — scanners green (all practice skills)
+  - [ ] **Executor** — slot finished (`slot-NN-finished.md` on disk)
+  - [ ] **Reviewer** — slot authored (`team-role: reviewer`; scope = executor artifacts only)
+  - [ ] **Reviewer** — bootstrapped; read executor `slot-NN-finished.md` + artifact paths
+  - [ ] **Reviewer** — scanners run (`execute-skill-using-skills-rules`); pass/fail in reviewer finished file
+  - [ ] **Reviewer** — exit-gate review complete; findings in reviewer `slot-MM-finished.md`
+  - [ ] **Reviewer CHECKPOINT** — delivery lead reads findings
+  - [ ] **Rework** — corrections logged for reviewer findings (or N/A if clean pass)
+  - [ ] **Rework** — team member incorporated suggested fixes (rework slot complete)
+  - [ ] **Rework** — scanners green after fix incorporation
+  - [ ] **Delivery lead** — exit gate verified against `stages/engineering.md`
+  - [ ] **CHECKPOINT** — user confirms stage complete
+- [ ] **Run 2 CHECKPOINT** — run summary + plan revision presented
+
+### Run 3 — Payment + cart — new UX and payment mechanisms
+- **Scope:** Increment 2 — click-and-collect
+- **Checkpoint policy:** **After full run**
+
+- [ ] **exploration** — entry verified
+  - [ ] **Executor** — slot authored and `abd-team-member` bootstrapped (role + workspace + scope + corrections)
+  - [ ] **Executor** — draft stage artifacts produced
+  - [ ] **Executor** — self-review against skill rules complete
+  - [ ] **Executor CHECKPOINT** — operator confirms drafts
+  - [ ] **Executor** — story-graph updated via story-graph-ops (if stage produces graph content)
+  - [ ] **Executor** — scanners green (all practice skills)
+  - [ ] **Executor** — slot finished (`slot-NN-finished.md` on disk)
+  - [ ] **Reviewer** — slot authored (`team-role: reviewer`; scope = executor artifacts only)
+  - [ ] **Reviewer** — bootstrapped; read executor `slot-NN-finished.md` + artifact paths
+  - [ ] **Reviewer** — scanners run (`execute-skill-using-skills-rules`); pass/fail in reviewer finished file
+  - [ ] **Reviewer** — exit-gate review complete; findings in reviewer `slot-MM-finished.md`
+  - [ ] **Reviewer CHECKPOINT** — delivery lead reads findings
+  - [ ] **Rework** — corrections logged for reviewer findings (or N/A if clean pass)
+  - [ ] **Rework** — team member incorporated suggested fixes (rework slot complete)
+  - [ ] **Rework** — scanners green after fix incorporation
+  - [ ] **Delivery lead** — exit gate verified against `stages/exploration.md`
+  - [ ] **CHECKPOINT** — user confirms stage complete
+- [ ] **specification** — entry verified
+  - [ ] **Executor** — slot authored and `abd-team-member` bootstrapped (role + workspace + scope + corrections)
+  - [ ] **Executor** — draft stage artifacts produced
+  - [ ] **Executor** — self-review against skill rules complete
+  - [ ] **Executor CHECKPOINT** — operator confirms drafts
+  - [ ] **Executor** — story-graph updated via story-graph-ops (if stage produces graph content)
+  - [ ] **Executor** — scanners green (all practice skills)
+  - [ ] **Executor** — slot finished (`slot-NN-finished.md` on disk)
+  - [ ] **Reviewer** — slot authored (`team-role: reviewer`; scope = executor artifacts only)
+  - [ ] **Reviewer** — bootstrapped; read executor `slot-NN-finished.md` + artifact paths
+  - [ ] **Reviewer** — scanners run (`execute-skill-using-skills-rules`); pass/fail in reviewer finished file
+  - [ ] **Reviewer** — exit-gate review complete; findings in reviewer `slot-MM-finished.md`
+  - [ ] **Reviewer CHECKPOINT** — delivery lead reads findings
+  - [ ] **Rework** — corrections logged for reviewer findings (or N/A if clean pass)
+  - [ ] **Rework** — team member incorporated suggested fixes (rework slot complete)
+  - [ ] **Rework** — scanners green after fix incorporation
+  - [ ] **Delivery lead** — exit gate verified against `stages/specification.md`
+  - [ ] **CHECKPOINT** — user confirms stage complete
+- [ ] **engineering** — entry verified
+  - [ ] **Executor** — slot authored and `abd-team-member` bootstrapped (role + workspace + scope + corrections)
+  - [ ] **Executor** — draft stage artifacts produced
+  - [ ] **Executor** — self-review against skill rules complete
+  - [ ] **Executor CHECKPOINT** — operator confirms drafts
+  - [ ] **Executor** — story-graph updated via story-graph-ops (if stage produces graph content)
+  - [ ] **Executor** — scanners green (all practice skills)
+  - [ ] **Executor** — slot finished (`slot-NN-finished.md` on disk)
+  - [ ] **Reviewer** — slot authored (`team-role: reviewer`; scope = executor artifacts only)
+  - [ ] **Reviewer** — bootstrapped; read executor `slot-NN-finished.md` + artifact paths
+  - [ ] **Reviewer** — scanners run (`execute-skill-using-skills-rules`); pass/fail in reviewer finished file
+  - [ ] **Reviewer** — exit-gate review complete; findings in reviewer `slot-MM-finished.md`
+  - [ ] **Reviewer CHECKPOINT** — delivery lead reads findings
+  - [ ] **Rework** — corrections logged for reviewer findings (or N/A if clean pass)
+  - [ ] **Rework** — team member incorporated suggested fixes (rework slot complete)
+  - [ ] **Rework** — scanners green after fix incorporation
+  - [ ] **Delivery lead** — exit gate verified against `stages/engineering.md`
+  - [ ] **CHECKPOINT** — user confirms stage complete
+- [ ] **Run 3 CHECKPOINT** — run summary + plan revision presented
+
+### Run 4 — Shipping + order lifecycle
+- **Scope:** Increment 3 — ship to home
+- **Checkpoint policy:** **After full run**
+
+- [ ] **exploration** — entry verified
+  - [ ] **Executor** — slot authored and `abd-team-member` bootstrapped (role + workspace + scope + corrections)
+  - [ ] **Executor** — draft stage artifacts produced
+  - [ ] **Executor** — self-review against skill rules complete
+  - [ ] **Executor CHECKPOINT** — operator confirms drafts
+  - [ ] **Executor** — story-graph updated via story-graph-ops (if stage produces graph content)
+  - [ ] **Executor** — scanners green (all practice skills)
+  - [ ] **Executor** — slot finished (`slot-NN-finished.md` on disk)
+  - [ ] **Reviewer** — slot authored (`team-role: reviewer`; scope = executor artifacts only)
+  - [ ] **Reviewer** — bootstrapped; read executor `slot-NN-finished.md` + artifact paths
+  - [ ] **Reviewer** — scanners run (`execute-skill-using-skills-rules`); pass/fail in reviewer finished file
+  - [ ] **Reviewer** — exit-gate review complete; findings in reviewer `slot-MM-finished.md`
+  - [ ] **Reviewer CHECKPOINT** — delivery lead reads findings
+  - [ ] **Rework** — corrections logged for reviewer findings (or N/A if clean pass)
+  - [ ] **Rework** — team member incorporated suggested fixes (rework slot complete)
+  - [ ] **Rework** — scanners green after fix incorporation
+  - [ ] **Delivery lead** — exit gate verified against `stages/exploration.md`
+  - [ ] **CHECKPOINT** — user confirms stage complete
+- [ ] **specification** — entry verified
+  - [ ] **Executor** — slot authored and `abd-team-member` bootstrapped (role + workspace + scope + corrections)
+  - [ ] **Executor** — draft stage artifacts produced
+  - [ ] **Executor** — self-review against skill rules complete
+  - [ ] **Executor CHECKPOINT** — operator confirms drafts
+  - [ ] **Executor** — story-graph updated via story-graph-ops (if stage produces graph content)
+  - [ ] **Executor** — scanners green (all practice skills)
+  - [ ] **Executor** — slot finished (`slot-NN-finished.md` on disk)
+  - [ ] **Reviewer** — slot authored (`team-role: reviewer`; scope = executor artifacts only)
+  - [ ] **Reviewer** — bootstrapped; read executor `slot-NN-finished.md` + artifact paths
+  - [ ] **Reviewer** — scanners run (`execute-skill-using-skills-rules`); pass/fail in reviewer finished file
+  - [ ] **Reviewer** — exit-gate review complete; findings in reviewer `slot-MM-finished.md`
+  - [ ] **Reviewer CHECKPOINT** — delivery lead reads findings
+  - [ ] **Rework** — corrections logged for reviewer findings (or N/A if clean pass)
+  - [ ] **Rework** — team member incorporated suggested fixes (rework slot complete)
+  - [ ] **Rework** — scanners green after fix incorporation
+  - [ ] **Delivery lead** — exit gate verified against `stages/specification.md`
+  - [ ] **CHECKPOINT** — user confirms stage complete
+- [ ] **engineering** — entry verified
+  - [ ] **Executor** — slot authored and `abd-team-member` bootstrapped (role + workspace + scope + corrections)
+  - [ ] **Executor** — draft stage artifacts produced
+  - [ ] **Executor** — self-review against skill rules complete
+  - [ ] **Executor CHECKPOINT** — operator confirms drafts
+  - [ ] **Executor** — story-graph updated via story-graph-ops (if stage produces graph content)
+  - [ ] **Executor** — scanners green (all practice skills)
+  - [ ] **Executor** — slot finished (`slot-NN-finished.md` on disk)
+  - [ ] **Reviewer** — slot authored (`team-role: reviewer`; scope = executor artifacts only)
+  - [ ] **Reviewer** — bootstrapped; read executor `slot-NN-finished.md` + artifact paths
+  - [ ] **Reviewer** — scanners run (`execute-skill-using-skills-rules`); pass/fail in reviewer finished file
+  - [ ] **Reviewer** — exit-gate review complete; findings in reviewer `slot-MM-finished.md`
+  - [ ] **Reviewer CHECKPOINT** — delivery lead reads findings
+  - [ ] **Rework** — corrections logged for reviewer findings (or N/A if clean pass)
+  - [ ] **Rework** — team member incorporated suggested fixes (rework slot complete)
+  - [ ] **Rework** — scanners green after fix incorporation
+  - [ ] **Delivery lead** — exit gate verified against `stages/engineering.md`
+  - [ ] **CHECKPOINT** — user confirms stage complete
+- [ ] **Run 4 CHECKPOINT** — run summary + plan revision presented
+
+### Run 5 — Accounts, saved entities, wishlist
+- **Scope:** Increment 4 — returning customers
+- **Checkpoint policy:** **After full run**
+
+- [ ] **exploration** — entry verified
+  - [ ] **Executor** — slot authored and `abd-team-member` bootstrapped (role + workspace + scope + corrections)
+  - [ ] **Executor** — draft stage artifacts produced
+  - [ ] **Executor** — self-review against skill rules complete
+  - [ ] **Executor CHECKPOINT** — operator confirms drafts
+  - [ ] **Executor** — story-graph updated via story-graph-ops (if stage produces graph content)
+  - [ ] **Executor** — scanners green (all practice skills)
+  - [ ] **Executor** — slot finished (`slot-NN-finished.md` on disk)
+  - [ ] **Reviewer** — slot authored (`team-role: reviewer`; scope = executor artifacts only)
+  - [ ] **Reviewer** — bootstrapped; read executor `slot-NN-finished.md` + artifact paths
+  - [ ] **Reviewer** — scanners run (`execute-skill-using-skills-rules`); pass/fail in reviewer finished file
+  - [ ] **Reviewer** — exit-gate review complete; findings in reviewer `slot-MM-finished.md`
+  - [ ] **Reviewer CHECKPOINT** — delivery lead reads findings
+  - [ ] **Rework** — corrections logged for reviewer findings (or N/A if clean pass)
+  - [ ] **Rework** — team member incorporated suggested fixes (rework slot complete)
+  - [ ] **Rework** — scanners green after fix incorporation
+  - [ ] **Delivery lead** — exit gate verified against `stages/exploration.md`
+  - [ ] **CHECKPOINT** — user confirms stage complete
+- [ ] **specification** — entry verified
+  - [ ] **Executor** — slot authored and `abd-team-member` bootstrapped (role + workspace + scope + corrections)
+  - [ ] **Executor** — draft stage artifacts produced
+  - [ ] **Executor** — self-review against skill rules complete
+  - [ ] **Executor CHECKPOINT** — operator confirms drafts
+  - [ ] **Executor** — story-graph updated via story-graph-ops (if stage produces graph content)
+  - [ ] **Executor** — scanners green (all practice skills)
+  - [ ] **Executor** — slot finished (`slot-NN-finished.md` on disk)
+  - [ ] **Reviewer** — slot authored (`team-role: reviewer`; scope = executor artifacts only)
+  - [ ] **Reviewer** — bootstrapped; read executor `slot-NN-finished.md` + artifact paths
+  - [ ] **Reviewer** — scanners run (`execute-skill-using-skills-rules`); pass/fail in reviewer finished file
+  - [ ] **Reviewer** — exit-gate review complete; findings in reviewer `slot-MM-finished.md`
+  - [ ] **Reviewer CHECKPOINT** — delivery lead reads findings
+  - [ ] **Rework** — corrections logged for reviewer findings (or N/A if clean pass)
+  - [ ] **Rework** — team member incorporated suggested fixes (rework slot complete)
+  - [ ] **Rework** — scanners green after fix incorporation
+  - [ ] **Delivery lead** — exit gate verified against `stages/specification.md`
+  - [ ] **CHECKPOINT** — user confirms stage complete
+- [ ] **engineering** — entry verified
+  - [ ] **Executor** — slot authored and `abd-team-member` bootstrapped (role + workspace + scope + corrections)
+  - [ ] **Executor** — draft stage artifacts produced
+  - [ ] **Executor** — self-review against skill rules complete
+  - [ ] **Executor CHECKPOINT** — operator confirms drafts
+  - [ ] **Executor** — story-graph updated via story-graph-ops (if stage produces graph content)
+  - [ ] **Executor** — scanners green (all practice skills)
+  - [ ] **Executor** — slot finished (`slot-NN-finished.md` on disk)
+  - [ ] **Reviewer** — slot authored (`team-role: reviewer`; scope = executor artifacts only)
+  - [ ] **Reviewer** — bootstrapped; read executor `slot-NN-finished.md` + artifact paths
+  - [ ] **Reviewer** — scanners run (`execute-skill-using-skills-rules`); pass/fail in reviewer finished file
+  - [ ] **Reviewer** — exit-gate review complete; findings in reviewer `slot-MM-finished.md`
+  - [ ] **Reviewer CHECKPOINT** — delivery lead reads findings
+  - [ ] **Rework** — corrections logged for reviewer findings (or N/A if clean pass)
+  - [ ] **Rework** — team member incorporated suggested fixes (rework slot complete)
+  - [ ] **Rework** — scanners green after fix incorporation
+  - [ ] **Delivery lead** — exit gate verified against `stages/engineering.md`
+  - [ ] **CHECKPOINT** — user confirms stage complete
+- [ ] **Run 5 CHECKPOINT** — run summary + plan revision presented
+
+### Run 6 — Multi-vendor payments
+- **Scope:** Increment 5 — pay your way
+- **Checkpoint policy:** **After full run**
+
+- [ ] **exploration** — entry verified
+  - [ ] **Executor** — slot authored and `abd-team-member` bootstrapped (role + workspace + scope + corrections)
+  - [ ] **Executor** — draft stage artifacts produced
+  - [ ] **Executor** — self-review against skill rules complete
+  - [ ] **Executor CHECKPOINT** — operator confirms drafts
+  - [ ] **Executor** — story-graph updated via story-graph-ops (if stage produces graph content)
+  - [ ] **Executor** — scanners green (all practice skills)
+  - [ ] **Executor** — slot finished (`slot-NN-finished.md` on disk)
+  - [ ] **Reviewer** — slot authored (`team-role: reviewer`; scope = executor artifacts only)
+  - [ ] **Reviewer** — bootstrapped; read executor `slot-NN-finished.md` + artifact paths
+  - [ ] **Reviewer** — scanners run (`execute-skill-using-skills-rules`); pass/fail in reviewer finished file
+  - [ ] **Reviewer** — exit-gate review complete; findings in reviewer `slot-MM-finished.md`
+  - [ ] **Reviewer CHECKPOINT** — delivery lead reads findings
+  - [ ] **Rework** — corrections logged for reviewer findings (or N/A if clean pass)
+  - [ ] **Rework** — team member incorporated suggested fixes (rework slot complete)
+  - [ ] **Rework** — scanners green after fix incorporation
+  - [ ] **Delivery lead** — exit gate verified against `stages/exploration.md`
+  - [ ] **CHECKPOINT** — user confirms stage complete
+- [ ] **specification** — entry verified
+  - [ ] **Executor** — slot authored and `abd-team-member` bootstrapped (role + workspace + scope + corrections)
+  - [ ] **Executor** — draft stage artifacts produced
+  - [ ] **Executor** — self-review against skill rules complete
+  - [ ] **Executor CHECKPOINT** — operator confirms drafts
+  - [ ] **Executor** — story-graph updated via story-graph-ops (if stage produces graph content)
+  - [ ] **Executor** — scanners green (all practice skills)
+  - [ ] **Executor** — slot finished (`slot-NN-finished.md` on disk)
+  - [ ] **Reviewer** — slot authored (`team-role: reviewer`; scope = executor artifacts only)
+  - [ ] **Reviewer** — bootstrapped; read executor `slot-NN-finished.md` + artifact paths
+  - [ ] **Reviewer** — scanners run (`execute-skill-using-skills-rules`); pass/fail in reviewer finished file
+  - [ ] **Reviewer** — exit-gate review complete; findings in reviewer `slot-MM-finished.md`
+  - [ ] **Reviewer CHECKPOINT** — delivery lead reads findings
+  - [ ] **Rework** — corrections logged for reviewer findings (or N/A if clean pass)
+  - [ ] **Rework** — team member incorporated suggested fixes (rework slot complete)
+  - [ ] **Rework** — scanners green after fix incorporation
+  - [ ] **Delivery lead** — exit gate verified against `stages/specification.md`
+  - [ ] **CHECKPOINT** — user confirms stage complete
+- [ ] **engineering** — entry verified
+  - [ ] **Executor** — slot authored and `abd-team-member` bootstrapped (role + workspace + scope + corrections)
+  - [ ] **Executor** — draft stage artifacts produced
+  - [ ] **Executor** — self-review against skill rules complete
+  - [ ] **Executor CHECKPOINT** — operator confirms drafts
+  - [ ] **Executor** — story-graph updated via story-graph-ops (if stage produces graph content)
+  - [ ] **Executor** — scanners green (all practice skills)
+  - [ ] **Executor** — slot finished (`slot-NN-finished.md` on disk)
+  - [ ] **Reviewer** — slot authored (`team-role: reviewer`; scope = executor artifacts only)
+  - [ ] **Reviewer** — bootstrapped; read executor `slot-NN-finished.md` + artifact paths
+  - [ ] **Reviewer** — scanners run (`execute-skill-using-skills-rules`); pass/fail in reviewer finished file
+  - [ ] **Reviewer** — exit-gate review complete; findings in reviewer `slot-MM-finished.md`
+  - [ ] **Reviewer CHECKPOINT** — delivery lead reads findings
+  - [ ] **Rework** — corrections logged for reviewer findings (or N/A if clean pass)
+  - [ ] **Rework** — team member incorporated suggested fixes (rework slot complete)
+  - [ ] **Rework** — scanners green after fix incorporation
+  - [ ] **Delivery lead** — exit gate verified against `stages/engineering.md`
+  - [ ] **CHECKPOINT** — user confirms stage complete
+- [ ] **Run 6 CHECKPOINT** — run summary + plan revision presented
+
+### Run 7 — New customer surface + staff workflow
+- **Scope:** Increment 6 — pet visits
+- **Checkpoint policy:** **After full run**
+
+- [ ] **exploration** — entry verified
+  - [ ] **Executor** — slot authored and `abd-team-member` bootstrapped (role + workspace + scope + corrections)
+  - [ ] **Executor** — draft stage artifacts produced
+  - [ ] **Executor** — self-review against skill rules complete
+  - [ ] **Executor CHECKPOINT** — operator confirms drafts
+  - [ ] **Executor** — story-graph updated via story-graph-ops (if stage produces graph content)
+  - [ ] **Executor** — scanners green (all practice skills)
+  - [ ] **Executor** — slot finished (`slot-NN-finished.md` on disk)
+  - [ ] **Reviewer** — slot authored (`team-role: reviewer`; scope = executor artifacts only)
+  - [ ] **Reviewer** — bootstrapped; read executor `slot-NN-finished.md` + artifact paths
+  - [ ] **Reviewer** — scanners run (`execute-skill-using-skills-rules`); pass/fail in reviewer finished file
+  - [ ] **Reviewer** — exit-gate review complete; findings in reviewer `slot-MM-finished.md`
+  - [ ] **Reviewer CHECKPOINT** — delivery lead reads findings
+  - [ ] **Rework** — corrections logged for reviewer findings (or N/A if clean pass)
+  - [ ] **Rework** — team member incorporated suggested fixes (rework slot complete)
+  - [ ] **Rework** — scanners green after fix incorporation
+  - [ ] **Delivery lead** — exit gate verified against `stages/exploration.md`
+  - [ ] **CHECKPOINT** — user confirms stage complete
+- [ ] **specification** — entry verified
+  - [ ] **Executor** — slot authored and `abd-team-member` bootstrapped (role + workspace + scope + corrections)
+  - [ ] **Executor** — draft stage artifacts produced
+  - [ ] **Executor** — self-review against skill rules complete
+  - [ ] **Executor CHECKPOINT** — operator confirms drafts
+  - [ ] **Executor** — story-graph updated via story-graph-ops (if stage produces graph content)
+  - [ ] **Executor** — scanners green (all practice skills)
+  - [ ] **Executor** — slot finished (`slot-NN-finished.md` on disk)
+  - [ ] **Reviewer** — slot authored (`team-role: reviewer`; scope = executor artifacts only)
+  - [ ] **Reviewer** — bootstrapped; read executor `slot-NN-finished.md` + artifact paths
+  - [ ] **Reviewer** — scanners run (`execute-skill-using-skills-rules`); pass/fail in reviewer finished file
+  - [ ] **Reviewer** — exit-gate review complete; findings in reviewer `slot-MM-finished.md`
+  - [ ] **Reviewer CHECKPOINT** — delivery lead reads findings
+  - [ ] **Rework** — corrections logged for reviewer findings (or N/A if clean pass)
+  - [ ] **Rework** — team member incorporated suggested fixes (rework slot complete)
+  - [ ] **Rework** — scanners green after fix incorporation
+  - [ ] **Delivery lead** — exit gate verified against `stages/specification.md`
+  - [ ] **CHECKPOINT** — user confirms stage complete
+- [ ] **engineering** — entry verified
+  - [ ] **Executor** — slot authored and `abd-team-member` bootstrapped (role + workspace + scope + corrections)
+  - [ ] **Executor** — draft stage artifacts produced
+  - [ ] **Executor** — self-review against skill rules complete
+  - [ ] **Executor CHECKPOINT** — operator confirms drafts
+  - [ ] **Executor** — story-graph updated via story-graph-ops (if stage produces graph content)
+  - [ ] **Executor** — scanners green (all practice skills)
+  - [ ] **Executor** — slot finished (`slot-NN-finished.md` on disk)
+  - [ ] **Reviewer** — slot authored (`team-role: reviewer`; scope = executor artifacts only)
+  - [ ] **Reviewer** — bootstrapped; read executor `slot-NN-finished.md` + artifact paths
+  - [ ] **Reviewer** — scanners run (`execute-skill-using-skills-rules`); pass/fail in reviewer finished file
+  - [ ] **Reviewer** — exit-gate review complete; findings in reviewer `slot-MM-finished.md`
+  - [ ] **Reviewer CHECKPOINT** — delivery lead reads findings
+  - [ ] **Rework** — corrections logged for reviewer findings (or N/A if clean pass)
+  - [ ] **Rework** — team member incorporated suggested fixes (rework slot complete)
+  - [ ] **Rework** — scanners green after fix incorporation
+  - [ ] **Delivery lead** — exit gate verified against `stages/engineering.md`
+  - [ ] **CHECKPOINT** — user confirms stage complete
+- [ ] **Run 7 CHECKPOINT** — run summary + plan revision presented
+
+### Run 8 — Return lifecycle + vendor routing
+- **Scope:** Increment 7 — returns and refunds
+- **Checkpoint policy:** **After full run**
+
+- [ ] **exploration** — entry verified
+  - [ ] **Executor** — slot authored and `abd-team-member` bootstrapped (role + workspace + scope + corrections)
+  - [ ] **Executor** — draft stage artifacts produced
+  - [ ] **Executor** — self-review against skill rules complete
+  - [ ] **Executor CHECKPOINT** — operator confirms drafts
+  - [ ] **Executor** — story-graph updated via story-graph-ops (if stage produces graph content)
+  - [ ] **Executor** — scanners green (all practice skills)
+  - [ ] **Executor** — slot finished (`slot-NN-finished.md` on disk)
+  - [ ] **Reviewer** — slot authored (`team-role: reviewer`; scope = executor artifacts only)
+  - [ ] **Reviewer** — bootstrapped; read executor `slot-NN-finished.md` + artifact paths
+  - [ ] **Reviewer** — scanners run (`execute-skill-using-skills-rules`); pass/fail in reviewer finished file
+  - [ ] **Reviewer** — exit-gate review complete; findings in reviewer `slot-MM-finished.md`
+  - [ ] **Reviewer CHECKPOINT** — delivery lead reads findings
+  - [ ] **Rework** — corrections logged for reviewer findings (or N/A if clean pass)
+  - [ ] **Rework** — team member incorporated suggested fixes (rework slot complete)
+  - [ ] **Rework** — scanners green after fix incorporation
+  - [ ] **Delivery lead** — exit gate verified against `stages/exploration.md`
+  - [ ] **CHECKPOINT** — user confirms stage complete
+- [ ] **specification** — entry verified
+  - [ ] **Executor** — slot authored and `abd-team-member` bootstrapped (role + workspace + scope + corrections)
+  - [ ] **Executor** — draft stage artifacts produced
+  - [ ] **Executor** — self-review against skill rules complete
+  - [ ] **Executor CHECKPOINT** — operator confirms drafts
+  - [ ] **Executor** — story-graph updated via story-graph-ops (if stage produces graph content)
+  - [ ] **Executor** — scanners green (all practice skills)
+  - [ ] **Executor** — slot finished (`slot-NN-finished.md` on disk)
+  - [ ] **Reviewer** — slot authored (`team-role: reviewer`; scope = executor artifacts only)
+  - [ ] **Reviewer** — bootstrapped; read executor `slot-NN-finished.md` + artifact paths
+  - [ ] **Reviewer** — scanners run (`execute-skill-using-skills-rules`); pass/fail in reviewer finished file
+  - [ ] **Reviewer** — exit-gate review complete; findings in reviewer `slot-MM-finished.md`
+  - [ ] **Reviewer CHECKPOINT** — delivery lead reads findings
+  - [ ] **Rework** — corrections logged for reviewer findings (or N/A if clean pass)
+  - [ ] **Rework** — team member incorporated suggested fixes (rework slot complete)
+  - [ ] **Rework** — scanners green after fix incorporation
+  - [ ] **Delivery lead** — exit gate verified against `stages/specification.md`
+  - [ ] **CHECKPOINT** — user confirms stage complete
+- [ ] **engineering** — entry verified
+  - [ ] **Executor** — slot authored and `abd-team-member` bootstrapped (role + workspace + scope + corrections)
+  - [ ] **Executor** — draft stage artifacts produced
+  - [ ] **Executor** — self-review against skill rules complete
+  - [ ] **Executor CHECKPOINT** — operator confirms drafts
+  - [ ] **Executor** — story-graph updated via story-graph-ops (if stage produces graph content)
+  - [ ] **Executor** — scanners green (all practice skills)
+  - [ ] **Executor** — slot finished (`slot-NN-finished.md` on disk)
+  - [ ] **Reviewer** — slot authored (`team-role: reviewer`; scope = executor artifacts only)
+  - [ ] **Reviewer** — bootstrapped; read executor `slot-NN-finished.md` + artifact paths
+  - [ ] **Reviewer** — scanners run (`execute-skill-using-skills-rules`); pass/fail in reviewer finished file
+  - [ ] **Reviewer** — exit-gate review complete; findings in reviewer `slot-MM-finished.md`
+  - [ ] **Reviewer CHECKPOINT** — delivery lead reads findings
+  - [ ] **Rework** — corrections logged for reviewer findings (or N/A if clean pass)
+  - [ ] **Rework** — team member incorporated suggested fixes (rework slot complete)
+  - [ ] **Rework** — scanners green after fix incorporation
+  - [ ] **Delivery lead** — exit gate verified against `stages/engineering.md`
+  - [ ] **CHECKPOINT** — user confirms stage complete
+- [ ] **Run 8 CHECKPOINT** — run summary + plan revision presented
+
+### Run 9 — Reviews, alerts, recommendations
+- **Scope:** Increment 8 — marketing engine
+- **Checkpoint policy:** **After full run**
+
+- [ ] **exploration** — entry verified
+  - [ ] **Executor** — slot authored and `abd-team-member` bootstrapped (role + workspace + scope + corrections)
+  - [ ] **Executor** — draft stage artifacts produced
+  - [ ] **Executor** — self-review against skill rules complete
+  - [ ] **Executor CHECKPOINT** — operator confirms drafts
+  - [ ] **Executor** — story-graph updated via story-graph-ops (if stage produces graph content)
+  - [ ] **Executor** — scanners green (all practice skills)
+  - [ ] **Executor** — slot finished (`slot-NN-finished.md` on disk)
+  - [ ] **Reviewer** — slot authored (`team-role: reviewer`; scope = executor artifacts only)
+  - [ ] **Reviewer** — bootstrapped; read executor `slot-NN-finished.md` + artifact paths
+  - [ ] **Reviewer** — scanners run (`execute-skill-using-skills-rules`); pass/fail in reviewer finished file
+  - [ ] **Reviewer** — exit-gate review complete; findings in reviewer `slot-MM-finished.md`
+  - [ ] **Reviewer CHECKPOINT** — delivery lead reads findings
+  - [ ] **Rework** — corrections logged for reviewer findings (or N/A if clean pass)
+  - [ ] **Rework** — team member incorporated suggested fixes (rework slot complete)
+  - [ ] **Rework** — scanners green after fix incorporation
+  - [ ] **Delivery lead** — exit gate verified against `stages/exploration.md`
+  - [ ] **CHECKPOINT** — user confirms stage complete
+- [ ] **specification** — entry verified
+  - [ ] **Executor** — slot authored and `abd-team-member` bootstrapped (role + workspace + scope + corrections)
+  - [ ] **Executor** — draft stage artifacts produced
+  - [ ] **Executor** — self-review against skill rules complete
+  - [ ] **Executor CHECKPOINT** — operator confirms drafts
+  - [ ] **Executor** — story-graph updated via story-graph-ops (if stage produces graph content)
+  - [ ] **Executor** — scanners green (all practice skills)
+  - [ ] **Executor** — slot finished (`slot-NN-finished.md` on disk)
+  - [ ] **Reviewer** — slot authored (`team-role: reviewer`; scope = executor artifacts only)
+  - [ ] **Reviewer** — bootstrapped; read executor `slot-NN-finished.md` + artifact paths
+  - [ ] **Reviewer** — scanners run (`execute-skill-using-skills-rules`); pass/fail in reviewer finished file
+  - [ ] **Reviewer** — exit-gate review complete; findings in reviewer `slot-MM-finished.md`
+  - [ ] **Reviewer CHECKPOINT** — delivery lead reads findings
+  - [ ] **Rework** — corrections logged for reviewer findings (or N/A if clean pass)
+  - [ ] **Rework** — team member incorporated suggested fixes (rework slot complete)
+  - [ ] **Rework** — scanners green after fix incorporation
+  - [ ] **Delivery lead** — exit gate verified against `stages/specification.md`
+  - [ ] **CHECKPOINT** — user confirms stage complete
+- [ ] **engineering** — entry verified
+  - [ ] **Executor** — slot authored and `abd-team-member` bootstrapped (role + workspace + scope + corrections)
+  - [ ] **Executor** — draft stage artifacts produced
+  - [ ] **Executor** — self-review against skill rules complete
+  - [ ] **Executor CHECKPOINT** — operator confirms drafts
+  - [ ] **Executor** — story-graph updated via story-graph-ops (if stage produces graph content)
+  - [ ] **Executor** — scanners green (all practice skills)
+  - [ ] **Executor** — slot finished (`slot-NN-finished.md` on disk)
+  - [ ] **Reviewer** — slot authored (`team-role: reviewer`; scope = executor artifacts only)
+  - [ ] **Reviewer** — bootstrapped; read executor `slot-NN-finished.md` + artifact paths
+  - [ ] **Reviewer** — scanners run (`execute-skill-using-skills-rules`); pass/fail in reviewer finished file
+  - [ ] **Reviewer** — exit-gate review complete; findings in reviewer `slot-MM-finished.md`
+  - [ ] **Reviewer CHECKPOINT** — delivery lead reads findings
+  - [ ] **Rework** — corrections logged for reviewer findings (or N/A if clean pass)
+  - [ ] **Rework** — team member incorporated suggested fixes (rework slot complete)
+  - [ ] **Rework** — scanners green after fix incorporation
+  - [ ] **Delivery lead** — exit gate verified against `stages/engineering.md`
+  - [ ] **CHECKPOINT** — user confirms stage complete
+- [ ] **Run 9 CHECKPOINT** — run summary + plan revision presented
+
+### Run 10 — Search, personalization, admin polish
+- **Scope:** Increment 9 — power-ups
+- **Checkpoint policy:** **After full run**
+
+- [ ] **exploration** — entry verified
+  - [ ] **Executor** — slot authored and `abd-team-member` bootstrapped (role + workspace + scope + corrections)
+  - [ ] **Executor** — draft stage artifacts produced
+  - [ ] **Executor** — self-review against skill rules complete
+  - [ ] **Executor CHECKPOINT** — operator confirms drafts
+  - [ ] **Executor** — story-graph updated via story-graph-ops (if stage produces graph content)
+  - [ ] **Executor** — scanners green (all practice skills)
+  - [ ] **Executor** — slot finished (`slot-NN-finished.md` on disk)
+  - [ ] **Reviewer** — slot authored (`team-role: reviewer`; scope = executor artifacts only)
+  - [ ] **Reviewer** — bootstrapped; read executor `slot-NN-finished.md` + artifact paths
+  - [ ] **Reviewer** — scanners run (`execute-skill-using-skills-rules`); pass/fail in reviewer finished file
+  - [ ] **Reviewer** — exit-gate review complete; findings in reviewer `slot-MM-finished.md`
+  - [ ] **Reviewer CHECKPOINT** — delivery lead reads findings
+  - [ ] **Rework** — corrections logged for reviewer findings (or N/A if clean pass)
+  - [ ] **Rework** — team member incorporated suggested fixes (rework slot complete)
+  - [ ] **Rework** — scanners green after fix incorporation
+  - [ ] **Delivery lead** — exit gate verified against `stages/exploration.md`
+  - [ ] **CHECKPOINT** — user confirms stage complete
+- [ ] **specification** — entry verified
+  - [ ] **Executor** — slot authored and `abd-team-member` bootstrapped (role + workspace + scope + corrections)
+  - [ ] **Executor** — draft stage artifacts produced
+  - [ ] **Executor** — self-review against skill rules complete
+  - [ ] **Executor CHECKPOINT** — operator confirms drafts
+  - [ ] **Executor** — story-graph updated via story-graph-ops (if stage produces graph content)
+  - [ ] **Executor** — scanners green (all practice skills)
+  - [ ] **Executor** — slot finished (`slot-NN-finished.md` on disk)
+  - [ ] **Reviewer** — slot authored (`team-role: reviewer`; scope = executor artifacts only)
+  - [ ] **Reviewer** — bootstrapped; read executor `slot-NN-finished.md` + artifact paths
+  - [ ] **Reviewer** — scanners run (`execute-skill-using-skills-rules`); pass/fail in reviewer finished file
+  - [ ] **Reviewer** — exit-gate review complete; findings in reviewer `slot-MM-finished.md`
+  - [ ] **Reviewer CHECKPOINT** — delivery lead reads findings
+  - [ ] **Rework** — corrections logged for reviewer findings (or N/A if clean pass)
+  - [ ] **Rework** — team member incorporated suggested fixes (rework slot complete)
+  - [ ] **Rework** — scanners green after fix incorporation
+  - [ ] **Delivery lead** — exit gate verified against `stages/specification.md`
+  - [ ] **CHECKPOINT** — user confirms stage complete
+- [ ] **engineering** — entry verified
+  - [ ] **Executor** — slot authored and `abd-team-member` bootstrapped (role + workspace + scope + corrections)
+  - [ ] **Executor** — draft stage artifacts produced
+  - [ ] **Executor** — self-review against skill rules complete
+  - [ ] **Executor CHECKPOINT** — operator confirms drafts
+  - [ ] **Executor** — story-graph updated via story-graph-ops (if stage produces graph content)
+  - [ ] **Executor** — scanners green (all practice skills)
+  - [ ] **Executor** — slot finished (`slot-NN-finished.md` on disk)
+  - [ ] **Reviewer** — slot authored (`team-role: reviewer`; scope = executor artifacts only)
+  - [ ] **Reviewer** — bootstrapped; read executor `slot-NN-finished.md` + artifact paths
+  - [ ] **Reviewer** — scanners run (`execute-skill-using-skills-rules`); pass/fail in reviewer finished file
+  - [ ] **Reviewer** — exit-gate review complete; findings in reviewer `slot-MM-finished.md`
+  - [ ] **Reviewer CHECKPOINT** — delivery lead reads findings
+  - [ ] **Rework** — corrections logged for reviewer findings (or N/A if clean pass)
+  - [ ] **Rework** — team member incorporated suggested fixes (rework slot complete)
+  - [ ] **Rework** — scanners green after fix incorporation
+  - [ ] **Delivery lead** — exit gate verified against `stages/engineering.md`
+  - [ ] **CHECKPOINT** — user confirms stage complete
+- [ ] **Run 10 CHECKPOINT** — run summary + plan revision presented
+

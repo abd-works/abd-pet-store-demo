@@ -1,0 +1,26 @@
+{
+  "compilerOptions": {
+    "target": "ES2022",
+    "module": "ESNext",
+    "moduleResolution": "bundler",
+    "strict": true,
+    "esModuleInterop": true,
+    "jsx": "react-jsx",
+    "outDir": "../dist",
+    "rootDir": "..",
+    "baseUrl": "..",
+    "types": ["vitest/globals", "@testing-library/jest-dom"],
+    "paths": {
+      "@pawplace/store-shared": ["packages/store/shared/index.ts"],
+      "@pawplace/store-server": ["packages/store/server/index.ts"],
+      "@pawplace/store-client": ["packages/store/client/index.ts"],
+      "@pawplace/store-client/*": ["packages/store/client/*"],
+      "@pawplace/product-catalog-shared": ["packages/product-catalog/shared/index.ts"],
+      "@pawplace/product-catalog-server": ["packages/product-catalog/server/index.ts"],
+      "@pawplace/product-catalog-client": ["packages/product-catalog/client/index.ts"],
+      "@pawplace/product-catalog-client/*": ["packages/product-catalog/client/*"],
+      "@pawplace/app-server": ["packages/app-server/index.ts"]
+    }
+  },
+  "include": ["../packages/**/*.ts", "../packages/**/*.tsx", "../tests/**/*.ts", "../tests/**/*.tsx"]
+}

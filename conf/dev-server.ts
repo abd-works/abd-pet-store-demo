@@ -1,6 +1,6 @@
 import express from 'express';
-import { storeRouter, storeTestRouter } from './packages/store/server/index';
-import { productCatalogRouter } from './packages/product-catalog/server/index';
+import { storeRouter, storeTestRouter } from '../packages/store/server/index';
+import { productCatalogRouter } from '../packages/product-catalog/server/index';
 
 const app = express();
 app.use(express.json());
