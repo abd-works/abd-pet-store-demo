@@ -148,3 +148,5 @@
 {"timestamp": "2026-05-24T03:11:08.637995+00:00", "event": "RUNNING", "slot_id": "05", "agent_id": "4fe8122c-0c08-40ad-8479-3bfa8b78fd21", "run_id": "e79398ae-d6ae-4826-8d8e-05a7a65d9760", "mode": "cli-local"}
 {"timestamp": "2026-05-24T03:19:37.280903+00:00", "event": "RUNNING", "slot_id": "05", "agent_id": "manual-d546e894-0186-4c61-b856-ba7583634576", "run_id": "manual-93e9ccfe-7985-447d-99e1-d76bee8e4fa9", "mode": "manual"}
 {"timestamp": "2026-05-24T03:26:19.940283+00:00", "event": "RUNNING", "slot_id": "05", "agent_id": "c1e7bf5a-4b01-4792-93c1-bba1bbb41ffb", "run_id": "e5cbad35-3e29-4935-a336-ab6090db8be3", "mode": "cli-local"}
+{"timestamp": "2026-05-24T03:33:34.365194+00:00", "event": "FINISHED", "slot_id": "05", "summary": "Artifacts produced", "commit": ""}
+{"timestamp": "2026-05-24T03:33:36.063699+00:00", "event": "FINISHED", "slot_id": "05", "summary": "Artifacts produced", "commit": "https://github.com/abd-works/abd-pet-store-demo/commit/194dbc7"}
