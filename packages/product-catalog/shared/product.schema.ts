@@ -20,6 +20,7 @@ export type CategoryData = z.infer<typeof categorySchema>;
 export const stockAvailabilitySchema = z.object({
   productSku: z.string().min(1),
   storeCode: z.string().min(1),
+  stockLevel: z.number().int().min(0),
   quantityOnHand: z.number().int().min(0),
   reservedQuantity: z.number().int().min(0).default(0),
   availableToSellQuantity: z.number().int().default(0),

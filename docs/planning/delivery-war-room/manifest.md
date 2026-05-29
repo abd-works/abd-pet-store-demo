@@ -1,116 +1,66 @@
 # War Room Manifest — PawPlace
 
 ```yaml
-goal: "PawPlace brownfield delivery - Discovery foundation, then Increments 1-9 via Exploration, Specification, Engineering"
+goal: "PawPlace delivery — complete all increments through Increment 9 (Power-ups); operator: no CHECKPOINT stops until last increment done"
 profile: brownfield
-autonomy: tight
-checkpoint_policy: after_every_run
+autonomy: full
+checkpoint_policy: on_block_only
+operator_directive: "Chain all runs (2–10) without operator pause; delivery-lead orchestrates only; eight role agents via isolated subagents; stop only on slot-NN-blocked.md"
+scanner_infra_policy: block_chain_until_fixed
+scanner_exception_policy: documented_obvious_irrelevance_only
+scanner_infra:
+  abd_clean_code: fixed_2026-05-24
+  abd_object_model: fixed_2026-05-24
+  mern_technical_architecture: fixed_2026-05-24
+  note: "MERN scanners need tree-sitter (`pip install tree-sitter tree-sitter-typescript`). Report: scanner-report/mern-technical-architecture.md — ALL CLEAN"
 checkpoint_phases:
-  runs_1_2: stage_gate
-  runs_3_plus: after_every_run
+  runs_2_10: on_block_only
 run_sizing_policy:
   stories_per_slot: 1
   stages_per_run: 1
   stall_timeout_minutes: 20
   notification_detail: high
-agent_mode: local
+agent_mode: cloud
 agent_mode_phases:
   runs_1_2: local
   runs_3_plus: cloud
 notification_channel: cursor-teams
 repo_url: https://github.com/abd-works/abd-pet-store-demo
 repo_ref: main
+runtime: isolated-subagent
+role_agents_bootstrapped: true
+operator_restart:
+  at: "2026-05-25T23:45:00Z"
+  reason: "Kanban war room — stop prior agent sessions; re-bootstrap eight role agents with board.json pull model"
+  resume_from_board: true
+cross_run_pipeline:
+  next_run_opens_after: prior_run_specification_exit
+  parallel_while_prior_run_engineering: true
+  upstream_roles: [business-expert, product-owner]
+planning_model:
+  system_of_work: delivery-war-room/system-of-work.json
+  run_catalog: delivery-war-room/run-catalog.json
+  run_state: delivery-war-room/run-state.json
+  slot_generation: generate_run_slots.py at run open
 ```
 
 ## Slots
 
-Run 1 slots are defined below. Run 2+ slots are authored by the delivery lead after each gate (see `agile-delivery-plan.md` slot map).
-
-```yaml
-slots:
-  - id: "01"
-    run: "Run 1 — Discovery foundation"
-    stage: discovery
-    role: business-expert
-    skills:
-      - abd-domain-terms
-    expected_artifacts:
-      - docs/domain/domain-terms.md
-    entry_conditions:
-      - story/story-graph.json exists
-      - docs/domain/ artifacts exist
-    early_question_triggers:
-      - scope-unclear: Cannot reconcile existing key-abstractions with story-graph terms
-  - id: "02"
-    run: "Run 1 — Discovery foundation"
-    stage: discovery
-    role: business-expert
-    skills:
-      - abd-ubiquitous-language
-      - drawio-domain-sync
-    expected_artifacts:
-      - docs/domain/ubiquitous-language.md
-      - docs/domain/ubiquitous-language.drawio
-    entry_conditions:
-      - slot-01-finished exists OR operator waives domain-terms refresh
-  - id: "03"
-    run: "Run 1 — Discovery foundation"
-    stage: discovery
-    role: product-owner
-    skills:
-      - abd-story-mapping
-      - drawio-story-sync
-    expected_artifacts:
-      - story/story-map.md
-      - story/story-map.drawio
-    entry_conditions:
-      - slot-02-finished exists OR operator waives UL dependency
-  - id: "04"
-    run: "Run 1 — Discovery foundation"
-    stage: discovery
-    role: ux-designer
-    skills:
-      - abd-information-architecture
-    expected_artifacts:
-      - docs/ux/information-architecture.md
-      - docs/ux/information-architecture.drawio
-    entry_conditions:
-      - slot-03-finished exists OR operator waives story refresh
-  - id: "05"
-    run: "Run 1 — Discovery foundation"
-    stage: discovery
-    role: engineer
-    skills:
-      - abd-architecture-blueprint
-    expected_artifacts:
-      - docs/architecture/architecture-blueprint.md
-    entry_conditions:
-      - slot-04-finished exists OR operator waives IA dependency
-    early_question_triggers:
-      - scope-unclear: Cannot determine bounded contexts or deployment topology
-  - id: "06"
-    run: "Run 1 — Discovery foundation"
-    stage: discovery
-    role: engineer
-    skills:
-      - abd-service-level-objectives
-    expected_artifacts:
-      - docs/architecture/service-level-objectives.md
-    entry_conditions:
-      - slot-05-finished exists
-```
+Skill order and stage rails: **`system-of-work.json`**. Runs: **`run-catalog.json`**. Slot files live under **`runs/run-NN/<stage>/`** (materialized at run open via **`generate_run_slots.py`**).
 
 ## Notes
 
 - **Workspace:** `c:\dev\abd-pet-store-demo`
-- **Delivery agents/skills:** `.cursor/agents/`, `.cursor/skills/` (deployed from agilebydesign-skills `delivery/`)
-- **Tooling config:** `conf/` (package.json, vitest, playwright, tsconfig)
-- **Plan:** `docs/planning/abd-delivery-lead/agile-delivery-plan.md`
-- **Progress (authoritative):** `delivery-plan-checklist.md`, `slot-NN-finished.md`, `run-log.jsonl` in this folder
-- **Stages:** shaping (waived) · discovery · exploration · specification · engineering
-- **Roles:** product-owner · business-expert · ux-designer · engineer
-- **Agent mode:** local Runs 1–2; switch to **cloud** before Run 3 (after Run 2 slot 19 checkpoint)
-- **Notifications:** `cursor-teams` — set `teams_webhook_url` in `~/.cursor/cli-config.json` (or `cli_harness/cli-config.json`); harness posts on slot start, finish, block, and stall
-- **Run 1 gate:** operator CHECKPOINT after Discovery stage (slot 06); then author Run 2 slots
-- **Run 2:** operator CHECKPOINT after Exploration (10), Specification (15), Engineering (19)
-- **Runs 3+:** operator CHECKPOINT after full run only
+- **Plan:** `docs/planning/abd-delivery-lead/agile-delivery-plan.md` (narrative + system of work)
+- **Machine plan:** `system-of-work.json`, `run-catalog.json`, `run-state.json`
+- **Progress (authoritative):** `board.json` (delivery-lead sync), `delivery-plan-checklist.md`, `slot-NN-finished.md`, `run-log.jsonl`
+- **Kanban UI:** read-only except `wip-policy.json` (agent +/−)
+- **Sync board** (delivery-lead after slot/stage events):
+  ```powershell
+  python .cursor/skills/abd-delivery-war-room/scripts/sync_kanban_board.py --workspace C:\dev\abd-pet-store-demo
+  ```
+- **Open next run:**
+  ```powershell
+  python .cursor/skills/abd-delivery-war-room/scripts/generate_run_slots.py --workspace C:\dev\abd-pet-store-demo --run N
+  ```
+- **Resume:** read `board.json` + checklist `<!-- resume: slot NN -->` — Run 7 specification in progress (153 / 159 / 161 parallel)

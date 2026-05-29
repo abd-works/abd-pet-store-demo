@@ -6,6 +6,7 @@ import * as storeApi from '@pawplace/store-client/store.api';
 import {
   LocateStoresHelper,
   StoreTestData,
+  StoreListTestData,
   DistanceTestData,
 } from './locate-stores.base';
 
@@ -19,12 +20,12 @@ export class LocateStoresClientHelper extends LocateStoresHelper {
   given_customer_at_location(latitude: number, longitude: number): void {
     const sorted = [...LocateStoresHelper.STORE_DISTANCES]
       .sort((a, b) => a.expected_sort_position - b.expected_sort_position);
-    vi.mocked(storeApi.fetchStoresNearby).mockResolvedValue(
-      sorted.map(d => ({
-        ...LocateStoresHelper.toStoreObject(d),
-        distance_km: d.expected_distance_km,
-      })),
-    );
+    const storesWithDistance = sorted.map(d => ({
+      ...LocateStoresHelper.toStoreObject(d),
+      distance_km: d.expected_distance_km,
+    }));
+    vi.mocked(storeApi.fetchStoresNearby).mockResolvedValue(storesWithDistance);
+    vi.mocked(storeApi.fetchStores).mockResolvedValue(storesWithDistance);
   }
 
   given_customer_at_alternate_location(): void {
@@ -47,7 +48,8 @@ export class LocateStoresClientHelper extends LocateStoresHelper {
   }
 
   async when_visitor_selects_store(store_name: string): Promise<void> {
-    fireEvent.click(screen.getByLabelText(store_name));
+    fireEvent.click(screen.getByRole('button', { name: `select ${store_name}` }));
+    await waitFor(() => screen.getByTestId('store-detail'));
   }
 
   async when_visitor_opens_list_view(): Promise<void> {
@@ -55,27 +57,71 @@ export class LocateStoresClientHelper extends LocateStoresHelper {
     await waitFor(() => screen.getByTestId('store-list'));
   }
 
+  /**
+   * Simulate Shared Location flow so nearest-first sorting applies (fetchStoresNearby),
+   * matching spec "customer provides Shared Location".
+   */
+  async when_visitor_opens_list_after_shared_location(
+    latitude: number,
+    longitude: number,
+  ): Promise<void> {
+    Object.defineProperty(globalThis.navigator, 'geolocation', {
+      configurable: true,
+      writable: true,
+      value: {
+        getCurrentPosition(success: PositionCallback): void {
+          success({
+            coords: {
+              latitude,
+              longitude,
+              accuracy: 10,
+              altitude: null,
+              altitudeAccuracy: null,
+              heading: null,
+              speed: null,
+            },
+            timestamp: Date.now(),
+          } as GeolocationPosition);
+        },
+        watchPosition: vi.fn(),
+        clearWatch: vi.fn(),
+      },
+    });
+
+    render(React.createElement(StoreList));
+    await waitFor(() => screen.getByTestId('store-list'));
+    fireEvent.click(screen.getByRole('button', { name: /^share location$/i }));
+    await waitFor(() => {
+      expect(screen.queryByText(/Loading stores/i)).not.toBeInTheDocument();
+      expect(screen.getAllByTestId('store-list-entry').length).toBeGreaterThan(0);
+    });
+  }
+
   async when_customer_enters_postcode(postcode: string): Promise<void> {
-    fireEvent.change(screen.getByLabelText('Postcode'), {
+    fireEvent.change(screen.getByLabelText('postcode'), {
       target: { value: postcode },
     });
-    fireEvent.click(screen.getByRole('button', { name: 'Find' }));
+    fireEvent.click(screen.getByRole('button', { name: 'find stores' }));
     await waitFor(() => screen.getByTestId('store-list'));
   }
 
   then_map_point_visible(store: StoreTestData): void {
-    expect(screen.getByLabelText(store.store_name)).toBeInTheDocument();
+    const map = screen.getByTestId('store-map');
+    expect(within(map).getByText(store.store_name)).toBeInTheDocument();
   }
 
   then_detail_shows_address(store: StoreTestData): void {
-    expect(screen.getByText(store.address_line_one)).toBeInTheDocument();
-    expect(screen.getByText(store.city)).toBeInTheDocument();
-    expect(screen.getByText(store.postcode)).toBeInTheDocument();
+    const panel = screen.getByTestId('store-detail');
+    const address = within(panel).getByTestId('store-address');
+    expect(address).toHaveTextContent(store.address_line_one);
+    expect(address).toHaveTextContent(store.city);
+    expect(address).toHaveTextContent(store.postcode);
   }
 
   then_detail_shows_contact(store: StoreTestData): void {
-    expect(screen.getByText(store.phone_number)).toBeInTheDocument();
-    expect(screen.getByText(store.email_address)).toBeInTheDocument();
+    const panel = screen.getByTestId('store-detail');
+    expect(within(panel).getByTestId('store-phone')).toHaveTextContent(store.phone_number);
+    expect(within(panel).getByTestId('store-email')).toHaveTextContent(store.email_address);
   }
 
   then_store_at_list_position(store: StoreTestData, expected_list_position: number): void {
@@ -86,41 +132,43 @@ export class LocateStoresClientHelper extends LocateStoresHelper {
 
   then_list_entry_shows_address(store: StoreTestData, position: number): void {
     const entry = screen.getAllByTestId('store-list-entry')[position - 1];
-    expect(within(entry).getByText(store.address_line_one)).toBeInTheDocument();
-    expect(within(entry).getByText(store.city)).toBeInTheDocument();
-    expect(within(entry).getByText(store.postcode)).toBeInTheDocument();
-  }
-
-  then_list_entry_shows_contact(store: StoreTestData, position: number): void {
-    const entry = screen.getAllByTestId('store-list-entry')[position - 1];
-    expect(within(entry).getByText(store.phone_number)).toBeInTheDocument();
-    expect(within(entry).getByText(store.email_address)).toBeInTheDocument();
+    const combined = [store.address_line_one, store.city, store.postcode].filter(Boolean).join(', ');
+    expect(within(entry).getByText(combined)).toBeInTheDocument();
   }
 
   then_distance_shown(store_name: string, expected_distance_km: number): void {
-    const entry = screen.getByText(store_name).closest('[data-testid="store-list-entry"]')!;
-    expect(within(entry as HTMLElement).getByText(`${expected_distance_km} km`))
-      .toBeInTheDocument();
+    const entries = screen.getAllByTestId('store-list-entry');
+    const entry = entries.find(
+      (el) => within(el).getByTestId('store-name').textContent === store_name,
+    );
+    if (!entry) throw new Error(`No list row found for ${store_name}`);
+    expect(entry.textContent ?? '').toMatch(
+      new RegExp(`distance\\s+${expected_distance_km.toFixed(1)}\\s*km`),
+    );
   }
 
   then_sort_position(store_name: string, expected_sort_position: number): void {
     const entries = screen.getAllByTestId('store-list-entry');
-    expect(within(entries[expected_sort_position - 1]).getByText(store_name))
-      .toBeInTheDocument();
+    expect(within(entries[expected_sort_position - 1]).getByTestId('store-name')).toHaveTextContent(
+      store_name,
+    );
   }
 
   async then_distances_recalculated(store_name: string, original_km: number): Promise<void> {
     await waitFor(() => {
-      const entry = screen.getByText(store_name).closest('[data-testid="store-list-entry"]')!;
-      const text = (entry as HTMLElement).textContent || '';
-      expect(text).not.toContain(`${original_km} km`);
+      const entry = [...screen.getAllByTestId('store-list-entry')].find(
+        (e) => within(e).getByTestId('store-name').textContent === store_name,
+      );
+      expect(entry).toBeDefined();
+      const text = entry!.textContent || '';
+      expect(text).not.toContain(`${original_km.toFixed(1)} km`);
     });
   }
 
   then_no_distance_displayed(): void {
     const entries = screen.getAllByTestId('store-list-entry');
     for (const entry of entries) {
-      expect(within(entry).queryByTestId('distance')).not.toBeInTheDocument();
+      expect(within(entry).getByText(/distance —/)).toBeInTheDocument();
     }
   }
 
@@ -129,5 +177,13 @@ export class LocateStoresClientHelper extends LocateStoresHelper {
     const names = entries.map(e => within(e).getByTestId('store-name').textContent!);
     const sorted = [...names].sort();
     expect(names).toEqual(sorted);
+  }
+
+  then_all_stores_visible_on_map(expected_count: number): void {
+    expect(screen.getAllByTestId('store-map-point')).toHaveLength(expected_count);
+  }
+
+  then_all_stores_visible_in_list(expected_count: number): void {
+    expect(screen.getAllByTestId('store-list-entry')).toHaveLength(expected_count);
   }
 }

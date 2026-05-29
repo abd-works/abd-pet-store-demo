@@ -45,13 +45,33 @@ export class SearchAndFilterProductsServerHelper extends SearchAndFilterProducts
     assert.strictEqual(store.stock_label, expected_stock_label);
   }
 
+  thenCustomerStockOmitsRawCounts(response: request.Response): void {
+    for (const store of response.body.stores as Record<string, unknown>[]) {
+      assert.ok(
+        !('available_to_sell_quantity' in store),
+        `Customer GET must not expose available_to_sell_quantity for ${String(store.store_name)}`,
+      );
+    }
+  }
+
   thenAvailableToSellRecalculates(response: request.Response, expected_available_to_sell: number): void {
     assert.strictEqual(response.body.available_to_sell_quantity, expected_available_to_sell);
   }
 
-  async thenSubsequentViewReflectsAvailability(product_sku: string, store_code: string, expected_available_to_sell: number): Promise<void> {
+  async thenSubsequentViewReflectsAvailability(
+    product_sku: string,
+    store_code: string,
+    expected_available_to_sell: number,
+  ): Promise<void> {
     const response = await this.whenCustomerViewsProductStock(product_sku);
     const store = response.body.stores.find((s: { store_code: string }) => s.store_code === store_code);
-    assert.strictEqual(store.available_to_sell_quantity, expected_available_to_sell);
+    assert.ok(store, `No customer-facing stock row for ${store_code}`);
+    const expectedWalkInLabel =
+      expected_available_to_sell > 0 ? 'In Stock' : 'Out of Stock';
+    assert.strictEqual(
+      store.stock_label,
+      expectedWalkInLabel,
+      'Walk-in product page reflects stock status label after admin updates underlying ATS',
+    );
   }
 }

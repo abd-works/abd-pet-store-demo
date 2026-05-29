@@ -1,0 +1,79 @@
+{
+  "schema": "abd-delivery-run-state/v1",
+  "next_slot_id": 197,
+  "runs": {
+    "1": {
+      "slots_generated": true,
+      "first_slot": 5,
+      "last_slot": 16,
+      "system_of_work": "pawplace-discovery",
+      "status": "complete"
+    },
+    "2": {
+      "slots_generated": true,
+      "first_slot": 19,
+      "last_slot": 42,
+      "system_of_work": "pawplace-increment-vertical",
+      "spec_exit_slot": 36,
+      "status": "complete"
+    },
+    "3": {
+      "slots_generated": true,
+      "first_slot": 43,
+      "last_slot": 68,
+      "system_of_work": "pawplace-increment-vertical",
+      "spec_exit_slot": 62,
+      "status": "complete"
+    },
+    "4": {
+      "slots_generated": true,
+      "first_slot": 69,
+      "last_slot": 92,
+      "system_of_work": "pawplace-increment-vertical",
+      "spec_exit_slot": 86,
+      "status": "complete"
+    },
+    "5": {
+      "slots_generated": true,
+      "first_slot": 93,
+      "last_slot": 118,
+      "system_of_work": "pawplace-increment-vertical",
+      "spec_exit_slot": 110,
+      "status": "complete"
+    },
+    "6": {
+      "slots_generated": true,
+      "first_slot": 119,
+      "last_slot": 144,
+      "system_of_work": "pawplace-increment-vertical",
+      "spec_exit_slot": 136,
+      "status": "complete"
+    },
+    "7": {
+      "slots_generated": true,
+      "first_slot": 145,
+      "last_slot": 170,
+      "system_of_work": "pawplace-increment-vertical",
+      "spec_exit_slot": 162,
+      "status": "complete"
+    },
+    "8": {
+      "slots_generated": true,
+      "system_of_work": "pawplace-increment-vertical",
+      "status": "complete",
+      "first_slot": 171,
+      "last_slot": 196,
+      "spec_exit_slot": 188
+    },
+    "9": {
+      "slots_generated": false,
+      "system_of_work": "pawplace-increment-vertical",
+      "status": "registered"
+    },
+    "10": {
+      "slots_generated": false,
+      "system_of_work": "pawplace-increment-vertical",
+      "status": "registered"
+    }
+  }
+}

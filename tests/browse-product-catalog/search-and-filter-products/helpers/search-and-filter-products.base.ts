@@ -42,8 +42,8 @@ export abstract class SearchAndFilterProductsHelper {
   ] as const;
 
   static readonly STOCK_AVAILABILITY_SCENARIOS: readonly StockAvailabilityScenario[] = [
-    { product_name: 'Premium Dog Harness', product_sku: 'PET-HAR-001', store_code: 'STR-001', store_name: 'PawPlace Camden', quantity_on_hand: 25, reserved_quantity: 3, available_to_sell_quantity: 22, backorder_enabled: false, expected_stock_label: 'In Stock -- 22 available' },
-    { product_name: 'Premium Dog Harness', product_sku: 'PET-HAR-001', store_code: 'STR-002', store_name: 'PawPlace Bristol', quantity_on_hand: 8, reserved_quantity: 0, available_to_sell_quantity: 8, backorder_enabled: false, expected_stock_label: 'In Stock -- 8 available' },
+    { product_name: 'Premium Dog Harness', product_sku: 'PET-HAR-001', store_code: 'STR-001', store_name: 'PawPlace Camden', quantity_on_hand: 25, reserved_quantity: 3, available_to_sell_quantity: 22, backorder_enabled: false, expected_stock_label: 'In Stock' },
+    { product_name: 'Premium Dog Harness', product_sku: 'PET-HAR-001', store_code: 'STR-002', store_name: 'PawPlace Bristol', quantity_on_hand: 8, reserved_quantity: 0, available_to_sell_quantity: 8, backorder_enabled: false, expected_stock_label: 'In Stock' },
     { product_name: 'Exotic Fish Filter', product_sku: 'PET-FLT-099', store_code: 'STR-001', store_name: 'PawPlace Camden', quantity_on_hand: 0, reserved_quantity: 0, available_to_sell_quantity: 0, backorder_enabled: false, expected_stock_label: 'Out of Stock' },
     { product_name: 'Exotic Fish Filter', product_sku: 'PET-FLT-099', store_code: 'STR-002', store_name: 'PawPlace Bristol', quantity_on_hand: 0, reserved_quantity: 0, available_to_sell_quantity: 0, backorder_enabled: false, expected_stock_label: 'Out of Stock' },
   ];

@@ -1,12 +1,14 @@
 # Specification by Example — Increment 1: Walk-in driver — find the store, see what's in stock  
 
+**Refresh:** Run 2 slot 27 — aligned to `docs/domain/ubiquitous-language.md`, `docs/domain/crc.md`, and `increment-1-acceptance-criteria.md` (canonical *store locator*, *map view*, *stock level*, *admin dashboard*).
+
 ---  
 
 ## Story: `View Store Map`  
 
 **Story type:** user  
 
-**Sources / context:** object-model.md, increment-1-acceptance-criteria.md  
+**Sources / context:** ubiquitous-language.md, crc.md, increment-1-acceptance-criteria.md  
 
 ---  
 
@@ -22,22 +24,22 @@
 
 ### Scenario Outline 1: `All stores visible on map without login`  
 
-Given the **StoreLocator** has **Store** *{store_name}* with **storeCode** *{store_code}* at coordinates *{latitude}*, *{longitude}*  
+Given the **Store Locator** has **Store** *{store_name}* with **storeCode** *{store_code}* at coordinates *{latitude}*, *{longitude}*  
 And the visitor is not logged in  
-When the visitor opens the **StoreLocator** *Map View*  
+When the visitor opens the **Store Locator** *map view*  
 Then a selectable point appears at latitude *{latitude}* and longitude *{longitude}* for **Store** *{store_name}*  
 
 ### Scenario Outline 2: `Store details shown on selection`  
 
-Given the **StoreLocator** *Map View* is displaying **Store** *{store_name}*  
+Given the **Store Locator** *map view* is displaying **Store** *{store_name}*  
 When the visitor selects the map point for **Store** *{store_name}*  
 Then the system displays **addressLineOne** *{address_line_one}*, **city** *{city}*, **postcode** *{postcode}*  
 And the system displays **phoneNumber** *{phone_number}* and **emailAddress** *{email_address}*  
 
 ### Scenario 3: `All stores shown simultaneously without search`  
 
-Given the **StoreLocator** contains *3* active **Store** entries  
-When the visitor opens the **StoreLocator** *Map View*  
+Given the **Store Locator** contains *3* active **Store** entries  
+When the visitor opens the **Store Locator** *map view*  
 Then all *3* **Store** locations are visible simultaneously  
 And no search or filter is required to see them  
 
@@ -47,7 +49,7 @@ And no search or filter is required to see them
 
 **Story type:** user  
 
-**Sources / context:** object-model.md, increment-1-acceptance-criteria.md  
+**Sources / context:** ubiquitous-language.md, crc.md, increment-1-acceptance-criteria.md  
 
 ---  
 
@@ -63,22 +65,22 @@ And no search or filter is required to see them
 
 ### Scenario Outline 1: `All stores listed without login`  
 
-Given the **StoreLocator** has **Store** *{store_name}* with **storeCode** *{store_code}*  
+Given the **Store Locator** has **Store** *{store_name}* with **storeCode** *{store_code}*  
 And the visitor is not logged in  
-When the visitor opens the **StoreLocator** *List View*  
+When the visitor opens the **Store Locator** *list view*  
 Then the list shows **Store** *{store_name}* with **addressLineOne** *{address_line_one}*, **city** *{city}*  
 
 ### Scenario Outline 2: `Store details shown on list selection`  
 
-Given the **StoreLocator** *List View* is displaying **Store** *{store_name}*  
-When the visitor selects **Store** *{store_name}* from the *List View*  
+Given the **Store Locator** *list view* is displaying **Store** *{store_name}*  
+When the visitor selects **Store** *{store_name}* from the *list view*  
 Then the system displays **addressLineOne** *{address_line_one}*, **city** *{city}*, **postcode** *{postcode}*  
 And the system displays **phoneNumber** *{phone_number}* and **emailAddress** *{email_address}*  
 
 ### Scenario 3: `All stores appear without search or filtering`  
 
-Given the **StoreLocator** contains *3* active **Store** entries  
-When the visitor opens the **StoreLocator** *List View*  
+Given the **Store Locator** contains *3* active **Store** entries  
+When the visitor opens the **Store Locator** *list view*  
 Then all *3* **Store** entries are visible without requiring search or filtering  
 
 ---  
@@ -87,7 +89,7 @@ Then all *3* **Store** entries are visible without requiring search or filtering
 
 **Story type:** user  
 
-**Sources / context:** object-model.md, increment-1-acceptance-criteria.md  
+**Sources / context:** ubiquitous-language.md, crc.md, increment-1-acceptance-criteria.md  
 
 ---  
 
@@ -111,17 +113,17 @@ Then all *3* **Store** entries are visible without requiring search or filtering
 
 ### Scenario Outline 1: `Stores sorted nearest-first when location provided`  
 
-Given the **StoreLocator** contains **Store** *{store_name}* at coordinates *{latitude}*, *{longitude}*  
+Given the **Store Locator** contains **Store** *{store_name}* at coordinates *{latitude}*, *{longitude}*  
 And the customer provides location via *{location_method}*  
-When the **StoreLocator** calculates distance using **calculateDistanceFromCustomer** for each **Store**  
+When the **Store Locator** calculates distance using **calculate distance from customer** for each **Store**  
 Then **Store** *{store_name}* shows distance *{expected_distance_km}* km  
-And **Store** *{store_name}* appears at sort position *{expected_sort_position}* in the **sortNearestFirst** ordering  
+And **Store** *{store_name}* appears at sort position *{expected_sort_position}* in the **sort nearest-first** ordering  
 
 ### Scenario 2: `No distance shown when location not provided`  
 
-Given the **StoreLocator** contains *3* active **Store** entries  
+Given the **Store Locator** contains *3* active **Store** entries  
 And the customer has not provided any location  
-When the visitor opens the **StoreLocator**  
+When the visitor opens the **Store Locator**  
 Then all **Store** entries are displayed without distance information  
 And stores appear in their default order  
 
@@ -130,7 +132,7 @@ And stores appear in their default order
 Given the customer previously provided *Shared Location* with latitude *51.5074*, longitude *-0.1278*  
 And **Store** *PawPlace Camden* is shown at distance *3.7 km*  
 When the customer enters a new **postcode** *M1 1AA*  
-Then the **StoreLocator** recalculates distance using **calculateDistanceFromCustomer** for each **Store**  
+Then the **Store Locator** recalculates distance using **calculate distance from customer** for each **Store**  
 And the *Nearest-First* ordering updates to reflect the new location  
 
 ---  
@@ -139,7 +141,7 @@ And the *Nearest-First* ordering updates to reflect the new location
 
 **Story type:** user  
 
-**Sources / context:** object-model.md, increment-1-acceptance-criteria.md  
+**Sources / context:** ubiquitous-language.md, crc.md, increment-1-acceptance-criteria.md  
 
 ---  
 
@@ -171,15 +173,15 @@ And the *Nearest-First* ordering updates to reflect the new location
 
 ### Scenario Outline 1: `Product page shows full details`  
 
-Given the **ProductCatalog** contains **Product** *{product_name}* with **sku** *{sku}*  
+Given the **Product Catalog** contains **Product** *{product_name}* with **sku** *{sku}*  
 And **Product** *{product_name}* has **price** *{price}* and **brand** *{brand}*  
 And **Product** *{product_name}* has **description** *{description}*  
-When the customer selects **Product** *{product_name}* from the **ProductCatalog**  
+When the customer selects **Product** *{product_name}* from the **Product Catalog**  
 Then the system displays the product page with name *{product_name}*, **description** *{description}*, and **price** *{price}*  
 
 ### Scenario 2: `Weight and dimensions shown where relevant`  
 
-Given the **ProductCatalog** contains **Product** *Premium Dog Harness* with **sku** *PET-HAR-001*  
+Given the **Product Catalog** contains **Product** *Premium Dog Harness* with **sku** *PET-HAR-001*  
 And **Product** *Premium Dog Harness* has **weight** *0.35 kg*, **length** *30.0 cm*, **width** *20.0 cm*, **height** *5.0 cm*  
 When the customer views the product page for **Product** *Premium Dog Harness*  
 Then the system displays **weight** *0.35 kg* and dimensions *30.0 × 20.0 × 5.0 cm*  
@@ -196,9 +198,9 @@ And navigation controls allow browsing between images
 
 ### Scenario 4: `Products organized by category, no keyword search`  
 
-Given the **ProductCatalog** contains **Product** *Premium Dog Harness* in **Category** *Harnesses & Leads*  
+Given the **Product Catalog** contains **Product** *Premium Dog Harness* in **Category** *Harnesses & Leads*  
 And **Category** *Harnesses & Leads* has **parentCategory** *Dog Supplies*  
-When the customer browses the **ProductCatalog**  
+When the customer browses the **Product Catalog**  
 Then products are organized by **Category** for browsing  
 But no keyword search is available  
 
@@ -214,7 +216,7 @@ Then no cart, checkout, or review actions are available on the product page
 
 **Story type:** system  
 
-**Sources / context:** object-model.md, increment-1-acceptance-criteria.md  
+**Sources / context:** ubiquitous-language.md, crc.md, increment-1-acceptance-criteria.md  
 
 ---  
 
@@ -239,25 +241,25 @@ Then no cart, checkout, or review actions are available on the product page
 
 ### Scenario Outline 1: `Real-time stock shown per store`  
 
-Given the **ProductCatalog** contains **Product** *{product_name}* with **sku** *{product_sku}*  
-And **StockAvailability** for **Product** *{product_sku}* at **Store** *{store_code}* has **availableToSellQuantity** *{available_to_sell_quantity}*  
+Given the **Product Catalog** contains **Product** *{product_name}* with **sku** *{product_sku}*  
+And **Stock Availability** for **Product** *{product_sku}* at **Store** *{store_code}* has **availableToSellQuantity** *{available_to_sell_quantity}*  
 When the customer views the product page for **Product** *{product_name}*  
-Then the system displays current **StockAvailability** showing **Store** *{store_code}* has *{available_to_sell_quantity}* available  
+Then the system displays current **Stock Availability** showing **Store** *{store_code}* has *{available_to_sell_quantity}* available  
 
 ### Scenario 2: `Out of stock shown clearly with no purchase option`  
 
-Given the **ProductCatalog** contains **Product** *Exotic Fish Filter* with **sku** *PET-FLT-099*  
-And **StockAvailability** for **Product** *PET-FLT-099* has **availableToSellQuantity** *0* at all stores  
+Given the **Product Catalog** contains **Product** *Exotic Fish Filter* with **sku** *PET-FLT-099*  
+And **Stock Availability** for **Product** *PET-FLT-099* has **availableToSellQuantity** *0* at all stores  
 When the customer views the product page for **Product** *Exotic Fish Filter*  
 Then the system clearly indicates the product is currently unavailable  
 But no backorder, pre-order, or purchase option is offered  
 
 ### Scenario 3: `Stock updates reflected on next view`  
 
-Given **StockAvailability** for **Product** *PET-HAR-001* at **Store** *STR-001* has **availableToSellQuantity** *22*  
-When a store employee calls **updateQuantityOnHand** with *newQuantity* *30* on **StockAvailability** for **Product** *PET-HAR-001* at **Store** *STR-001*  
-Then **availableToSellQuantity** recalculates to *27* (quantityOnHand *30* minus reservedQuantity *3*)  
-And subsequent customer views of the product page reflect **availableToSellQuantity** *27*  
+Given **Stock Availability** for **Product** *PET-HAR-001* at **Store** *STR-001* has **availableToSellQuantity** *22*  
+When a *store employee* updates **stock level** to *30* via the **admin dashboard** for **Stock Availability** of **Product** *PET-HAR-001* at **Store** *STR-001*  
+Then **available-to-sell quantity** recalculates to *27* (stock level *30* minus reserved quantity *3*)  
+And subsequent customer views of the **product page** reflect **available-to-sell quantity** *27*  
 
 ---  
 
@@ -265,7 +267,7 @@ And subsequent customer views of the product page reflect **availableToSellQuant
 
 **Story type:** store employee  
 
-**Sources / context:** object-model.md, increment-1-acceptance-criteria.md  
+**Sources / context:** ubiquitous-language.md, crc.md, increment-1-acceptance-criteria.md  
 
 ---  
 
@@ -279,27 +281,27 @@ And subsequent customer views of the product page reflect **availableToSellQuant
 
 ---  
 
-### Scenario 1: `Current stock displayed in admin form`  
+### Scenario 1: `Current stock level displayed in admin dashboard`  
 
-Given a *Store Employee* at **Store** *PawPlace Camden* (*STR-001*)  
-And **StockAvailability** for **Product** *Premium Dog Harness* (*PET-HAR-001*) at **Store** *STR-001* has **quantityOnHand** *25*  
-When the *Store Employee* opens the admin form for **Product** *Premium Dog Harness* at **Store** *PawPlace Camden*  
-Then the system displays current **quantityOnHand** *25*  
-And an editable stock quantity field is displayed  
+Given a *store employee* at **Store** *PawPlace Camden* (*STR-001*)  
+And **Stock Availability** for **Product** *Premium Dog Harness* (*PET-HAR-001*) at **Store** *STR-001* has **stock level** *25*  
+When the *store employee* opens the **admin dashboard** stock form for **Product** *Premium Dog Harness* at **Store** *PawPlace Camden*  
+Then the system displays current **stock level** *25*  
+And an editable **stock level** field is displayed  
 
-### Scenario Outline 2: `Stock update result`  
+### Scenario Outline 2: `Stock level update result`  
 
-Given a *Store Employee* at **Store** *{store_name}* (*{store_code}*)  
-And **StockAvailability** for **Product** *{product_name}* (*{product_sku}*) at **Store** *{store_code}* has **quantityOnHand** *{quantity_on_hand}* and **reservedQuantity** *{reserved_quantity}*  
-When the *Store Employee* submits new **quantityOnHand** *{submitted_quantity}*  
+Given a *store employee* at **Store** *{store_name}* (*{store_code}*)  
+And **Stock Availability** for **Product** *{product_name}* (*{product_sku}*) at **Store** *{store_code}* has **stock level** *{quantity_on_hand}* and **reserved quantity** *{reserved_quantity}*  
+When the *store employee* submits new **stock level** *{submitted_quantity}* on the **admin dashboard**  
 Then the update result is *{expected_result}*  
-And **quantityOnHand** is *{expected_quantity_on_hand}*  
-And **availableToSellQuantity** is *{expected_available_to_sell}*  
+And **stock level** is *{expected_quantity_on_hand}*  
+And **available-to-sell quantity** is *{expected_available_to_sell}*  
 
 ### Scenario 3: `Update at one store does not affect other stores`  
 
-Given **StockAvailability** for **Product** *PET-HAR-001* at **Store** *STR-001* has **quantityOnHand** *25*  
-And **StockAvailability** for **Product** *PET-HAR-001* at **Store** *STR-002* has **quantityOnHand** *12*  
+Given **Stock Availability** for **Product** *PET-HAR-001* at **Store** *STR-001* has **quantityOnHand** *25*  
+And **Stock Availability** for **Product** *PET-HAR-001* at **Store** *STR-002* has **quantityOnHand** *12*  
 When the *Store Employee* at **Store** *STR-001* submits new **quantityOnHand** *40*  
-Then **StockAvailability** for **Product** *PET-HAR-001* at **Store** *STR-001* updates to **quantityOnHand** *40* and **availableToSellQuantity** *37*  
-But **StockAvailability** for **Product** *PET-HAR-001* at **Store** *STR-002* remains **quantityOnHand** *12* and **availableToSellQuantity** *11*  
+Then **Stock Availability** for **Product** *PET-HAR-001* at **Store** *STR-001* updates to **quantityOnHand** *40* and **availableToSellQuantity** *37*  
+But **Stock Availability** for **Product** *PET-HAR-001* at **Store** *STR-002* remains **quantityOnHand** *12* and **availableToSellQuantity** *11*  

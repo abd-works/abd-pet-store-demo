@@ -1,5 +1,32 @@
 import { z } from 'zod';
 
+export const sharedLocationSchema = z.object({
+  latitude: z.number().min(-90).max(90),
+  longitude: z.number().min(-180).max(180),
+});
+
+export type SharedLocationData = z.infer<typeof sharedLocationSchema>;
+
+function createSharedLocation(latitude: number, longitude: number): SharedLocation {
+  const parsed = sharedLocationSchema.parse({ latitude, longitude });
+  return new SharedLocation(parsed.latitude, parsed.longitude);
+}
+
+export class SharedLocation {
+  readonly latitude: number;
+  readonly longitude: number;
+
+  constructor(latitude: number, longitude: number) {
+    const parsed = sharedLocationSchema.parse({ latitude, longitude });
+    this.latitude = parsed.latitude;
+    this.longitude = parsed.longitude;
+  }
+
+  static fromData(data: SharedLocationData): SharedLocation {
+    return createSharedLocation(data.latitude, data.longitude);
+  }
+}
+
 export const storeSchema = z.object({
   storeName: z.string().min(1),
   storeCode: z.string().min(1),

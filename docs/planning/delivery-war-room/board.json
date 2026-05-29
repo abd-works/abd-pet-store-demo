@@ -1,0 +1,119 @@
+{
+  "schema": "abd-delivery-war-room-kanban/v1",
+  "synced_at": "2026-05-27T04:39:00.000000+00:00",
+  "columns": [
+    "backlog",
+    "in_progress",
+    "review",
+    "done",
+    "blocked",
+    "stalled"
+  ],
+  "stage_flow": [
+    "in_progress",
+    "review",
+    "done"
+  ],
+  "backlog": [],
+  "tickets": {
+    "7": {
+      "run": 7,
+      "title": "Run 7 \u2014 Increment 6: Pet visits",
+      "stage": "engineering",
+      "column": "done",
+      "active_slot": null,
+      "active_role": null,
+      "slot_type": null,
+      "note": "RUN COMPLETE — all 4 engineering pairs PASS; 115 tests GREEN; stage exit gate PASS 2026-05-27T21:45Z"
+    },
+    "8": {
+      "run": 8,
+      "title": "Run 8 \u2014 Increment 7: Returns and refunds",
+      "stage": "specification",
+      "column": "in_progress",
+      "active_slot": "179",
+      "active_role": "business-expert",
+      "slot_type": "executor",
+      "note": "Exploration stage PASS (4 pairs). Specification opens — CRC slot 179 first. 5 spec pairs ahead."
+    },
+    "9": {
+      "run": 9,
+      "title": "Run 9 \u2014 Increment 8: Marketing engine",
+      "stage": "discovery",
+      "column": "done",
+      "active_slot": null,
+      "active_role": null,
+      "note": "discovery_precompleted_by_parent"
+    },
+    "10": {
+      "run": 10,
+      "title": "Run 10 \u2014 Increment 9: Power-ups",
+      "stage": "discovery",
+      "column": "done",
+      "active_slot": null,
+      "active_role": null,
+      "note": "discovery_precompleted_by_parent"
+    }
+  },
+  "completed_runs": [
+    {
+      "run": 1,
+      "title": "Run 1 \u2014 Discovery foundation"
+    },
+    {
+      "run": 2,
+      "title": "Run 2 \u2014 Increment 1: Walk-in driver"
+    },
+    {
+      "run": 3,
+      "title": "Run 3 \u2014 Increment 2: Click-and-collect"
+    },
+    {
+      "run": 4,
+      "title": "Run 4 \u2014 Increment 3: Ship to home"
+    },
+    {
+      "run": 5,
+      "title": "Run 5 \u2014 Increment 4: Returning customers"
+    },
+    {
+      "run": 6,
+      "title": "Run 6 \u2014 Increment 5: Pay your way"
+    },
+    {
+      "run": 7,
+      "title": "Run 7 \u2014 Increment 6: Pet visits"
+    }
+  ],
+  "notes": "Scan cycle 2026-05-27T04:44Z — BE agent re-spawned (operator flagged prior spawn dead). Engineer slot 167 claimed. Two subagents active: engineer (167 ATDD) + business-expert (171-rework UL italicization).",
+  "active_agents": {
+    "business-expert": { "executor": 1, "reviewer": 0 },
+    "product-owner": {
+      "executor": 0,
+      "reviewer": 0
+    },
+    "ux-designer": {
+      "executor": 0,
+      "reviewer": 0
+    },
+    "engineer": { "executor": 1, "reviewer": 0 }
+  },
+  "wip_policy": {
+    "business-expert": {
+      "executor": 1,
+      "reviewer": 1
+    },
+    "product-owner": {
+      "executor": 1,
+      "reviewer": 1
+    },
+    "ux-designer": {
+      "executor": 1,
+      "reviewer": 1
+    },
+    "engineer": {
+      "executor": 1,
+      "reviewer": 1
+    }
+  }
+}

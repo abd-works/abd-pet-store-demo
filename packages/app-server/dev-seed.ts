@@ -36,17 +36,17 @@ export function seedDevData(
   storeRepo: MongoStoreRepository,
   productRepo: MongoProductCatalogRepository,
 ): void {
-  for (const s of DEV_STORES) {
+  for (const storeSeed of DEV_STORES) {
     storeRepo.save(Store.fromData({
-      storeName: s.storeName, storeCode: s.storeCode,
-      addressLineOne: s.addressLineOne, addressLineTwo: '', city: s.city,
-      countyOrRegion: '', postcode: s.postcode, country: '',
-      latitude: s.latitude, longitude: s.longitude,
-      phoneNumber: s.phoneNumber, emailAddress: s.emailAddress, activeStatus: s.activeStatus,
+      storeName: storeSeed.storeName, storeCode: storeSeed.storeCode,
+      addressLineOne: storeSeed.addressLineOne, addressLineTwo: '', city: storeSeed.city,
+      countyOrRegion: '', postcode: storeSeed.postcode, country: '',
+      latitude: storeSeed.latitude, longitude: storeSeed.longitude,
+      phoneNumber: storeSeed.phoneNumber, emailAddress: storeSeed.emailAddress, activeStatus: storeSeed.activeStatus,
     }));
   }
-  for (const p of DEV_PRODUCTS) {
-    productRepo.saveProduct(p);
+  for (const productSeed of DEV_PRODUCTS) {
+    productRepo.saveProduct(productSeed);
   }
   for (const stock of DEV_STOCK) {
     productRepo.saveStockAvailability(stock);

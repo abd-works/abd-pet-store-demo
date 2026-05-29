@@ -1,11 +1,9 @@
-# Runs Playwright end-to-end tests.
+# Runs Playwright end-to-end tests (playwright test).
 #
 # REQUIRES: packages/app-client must exist and serve the React frontend.
 # Without it, page routes like /products/:sku and /store-locator do not exist
 # and every test will fail with "Cannot GET /<route>".
-#
-# The conf/playwright.config.ts webServer block auto-starts the Express API server.
-# The React frontend (app-client) must be started separately if not using
-# Playwright's webServer to manage it.
 Set-Location (Split-Path -Parent $PSScriptRoot)
-npm run test:e2e
+npm run install:conf --silent 2>$null
+Set-Location conf
+npx playwright test --config ../playwright.config.ts

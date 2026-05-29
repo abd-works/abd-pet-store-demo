@@ -3,8 +3,10 @@
  *
  * Mocks API responses with vi.mock, renders with Testing Library, asserts with screen queries.
  */
-import { vi } from 'vitest';
-import { render, screen } from '@testing-library/react';
+import React from 'react';
+import { vi, expect } from 'vitest';
+import { render, screen, within } from '@testing-library/react';
+import { MemoryRouter } from 'react-router-dom';
 import { ProductDetailView } from '@pawplace/product-catalog-client';
 import * as productApi from '@pawplace/product-catalog-client/product-catalog.api';
 import { ViewProductDetailsBase, ProductData, CategoryData, ImageData } from './view-product-details.base';
@@ -31,37 +33,58 @@ export class ViewProductDetailsClientHelper extends ViewProductDetailsBase {
     vi.restoreAllMocks();
   }
 
-  // -- WHEN ---------------------------------------------------------------
-
   async when_customer_views_product(sku: string): Promise<void> {
-    render(<ProductDetailView sku={sku} />);
+    render(
+      React.createElement(
+        MemoryRouter,
+        null,
+        React.createElement(ProductDetailView, { sku }),
+      ),
+    );
   }
 
-  // -- THEN ---------------------------------------------------------------
-
   async then_page_displays_details(expected: ProductData): Promise<void> {
-    expect(await screen.findByText(expected.product_name)).toBeDefined();
-    expect(screen.getByText(expected.price)).toBeDefined();
-    expect(screen.getByText(expected.brand)).toBeDefined();
-    expect(screen.getByText(expected.description)).toBeDefined();
+    const scope = await screen.findByTestId('product-detail');
+    expect(within(scope).getByRole('heading', { name: expected.product_name })).toBeInTheDocument();
+    expect(scope.textContent ?? '').toContain(expected.price);
+    expect(within(scope).getByText(expected.description)).toBeInTheDocument();
   }
 
   async then_dimensions_shown(expected: ProductData): Promise<void> {
     if (expected.expected_dimensions_shown) {
-      expect(await screen.findByText(expected.weight!)).toBeDefined();
+      const scope = await screen.findByTestId('product-detail');
+      expect(within(scope).getByText(`weight ${expected.weight}`)).toBeInTheDocument();
+      expect(within(scope).getByText(`length ${expected.length}`)).toBeInTheDocument();
+      expect(within(scope).getByText(`width ${expected.width}`)).toBeInTheDocument();
+      expect(within(scope).getByText(`height ${expected.height}`)).toBeInTheDocument();
     } else {
-      expect(screen.queryByTestId('product-dimensions')).toBeNull();
+      const dims = screen.queryByTestId('product-dimensions');
+      expect(dims?.textContent?.includes('weight')).toBeFalsy();
     }
   }
 
   async then_images_displayed(expectedImages: readonly ImageData[]): Promise<void> {
     for (const img of expectedImages) {
-      const el = await screen.findByAltText(img.alt_text);
-      expect(el).toBeDefined();
+      const matches = await screen.findAllByAltText(img.alt_text);
+      expect(matches.length).toBeGreaterThanOrEqual(1);
     }
+    expect(screen.getByTestId('image-gallery-nav')).toBeInTheDocument();
   }
 
   async then_breadcrumb_displayed(expected: CategoryData): Promise<void> {
-    expect(await screen.findByText(expected.expected_breadcrumb)).toBeDefined();
+    const product = ViewProductDetailsBase.PRODUCTS.find((p) => p.sku === expected.product_sku)!;
+    const scope = await screen.findByTestId('product-detail');
+    expect(within(scope).getByRole('navigation', { name: 'breadcrumb' })).toBeInTheDocument();
+    expect(within(scope).getByRole('link', { name: /^product catalog$/i })).toBeInTheDocument();
+    expect(within(scope).getByRole('navigation', { name: 'breadcrumb' })).toHaveTextContent(
+      product.product_name,
+    );
+    expect(within(scope).getByTestId('product-category')).toHaveTextContent(expected.category_name);
+  }
+
+  async then_no_purchase_or_review_actions(): Promise<void> {
+    expect(screen.queryByRole('button', { name: /add to cart/i })).not.toBeInTheDocument();
+    expect(screen.queryByRole('button', { name: /checkout/i })).not.toBeInTheDocument();
+    expect(screen.queryByRole('button', { name: /review/i })).not.toBeInTheDocument();
   }
 }

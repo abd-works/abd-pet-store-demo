@@ -1,799 +1,778 @@
-# Specification by Example — Increment 4: Returning customers — accounts, history, reorder  
+---
+state: specification-by-example
+increment_scope: Increment 4 — Returning customers
+specification_refresh: Run 5 slot 103
+---
 
-**Template:** Scenario Outline (parameterized with Examples tables)  
+# Specification by Example — Increment 4: Returning customers — accounts, history, reorder
 
----  
+**Refresh:** Run 5 slot 103 — aligned to `docs/domain/ubiquitous-language.md`, `docs/domain/crc.md`, `docs/domain/domain.json`, and `docs/story/acceptance-criteria/increment-4-acceptance-criteria.md`. *Guest checkout* coexists with authenticated checkout; *StripeWave* sole active *payment vendor*; mandatory *email verification* gates account-only features; PayNova, VaultPay, *customer pet* CRUD, *communication preferences* UI, express/same-day delivery, and *return* deferred.
 
-## Story: `Register Account`  
+---
 
-### CustomerAccount (Given — above scenarios):  
-| customer_account_id | emailAddress          | passwordHash | accountStatus |  
-|---------------------|-----------------------|--------------|---------------|  
-| CUST-001            | jane@example.com      | hashed_valid | Unverified    |  
-| CUST-002            | existing@example.com  | hashed_valid | Verified      |  
+## Story: `Register Account`
 
----  
+**Story type:** user
 
-### Scenario Outline: Account created with unverified status  
+**Sources / context:** ubiquitous-language.md, crc.md, increment-4-acceptance-criteria.md
 
-Given the **Registration Form** is open  
-When the customer submits **emailAddress** *{emailAddress}* and a valid password *{passwordHash}*  
-Then a **CustomerAccount** *{customer_account_id}* is created with **accountStatus** *{accountStatus}*  
-  And the system triggers *Send Email Verification* to *{emailAddress}*  
-  And the customer sees a *{expected_confirmation}* confirmation screen  
+---
 
-### CustomerAccount (Then — below scenario):  
-| scenario | customer_account_id | emailAddress     | passwordHash | accountStatus | expected_confirmation        |  
-|----------|---------------------|------------------|--------------|---------------|------------------------------|  
-| 1        | CUST-001            | jane@example.com | hashed_valid | Unverified    | check your email to verify   |  
+### Scenario 1: `Registration form collects email and password with requirements visible`
 
----  
+When the customer opens the registration screen
+Then the form collects **email address** and **password** (with confirmation)
+And password requirements are shown clearly before submission: *minimum 8 characters*, *at least one uppercase letter*, *at least one digit*, *at least one special character*
 
-### Scenario Outline: Registration rejected for duplicate email  
+### Scenario 2: `Valid registration creates unverified customer account and triggers email verification`
 
-Given a **CustomerAccount** *{existing_account_id}* exists with **emailAddress** *{emailAddress}*  
-When the customer submits **emailAddress** *{emailAddress}* on the **Registration Form**  
-Then the form shows an error: *{expected_error}*  
-  And a *{expected_link}* link is offered (*{login_link_offered}*)  
-  And the error message is generic regardless of **accountStatus** (*{error_is_generic}*)  
+Given no **Customer Account** exists for **email address** *jane.doe@example.com*
+When the customer submits **email address** *jane.doe@example.com* and password *Str0ngP@ss!* with matching confirmation
+Then a **Customer Account** is created for *Jane Doe* with **account verification status** *unverified*
+And the system triggers **Email Verification** to *jane.doe@example.com*
+And the customer sees confirmation screen *check your email to verify*
 
-### CustomerAccount (Given — above / Then — below):  
-| scenario | existing_account_id | emailAddress         | accountStatus | expected_error       | expected_link  | login_link_offered | error_is_generic |  
-|----------|---------------------|----------------------|---------------|----------------------|----------------|--------------------|------------------|  
-| 1        | CUST-002            | existing@example.com | Verified      | email already in use | Log In instead | true               | true             |  
+### Scenario 3: `Duplicate email rejected without revealing verification status`
 
----  
+Given a **Customer Account** exists with **email address** *existing@example.com* and **account verification status** *verified*
+When the customer submits **email address** *existing@example.com* on the registration form
+Then the form shows error *This email is already in use*
+And a *Log In instead* link is displayed
+And the error does not reveal whether the existing **account verification status** is *verified* or *unverified*
 
-### Scenario Outline: Registration rejected for invalid password  
+### Scenario Outline 1: `Password failing requirements blocks account creation`
 
-Given the **Registration Form** is open  
-When the customer submits **emailAddress** *{emailAddress}* with password *{attempted_password}*  
-Then the form shows which password requirements are unmet: *{unmet_requirement}*  
-  And the **Registration Form** remains displayed for correction (*{form_preserved}*)  
+Given the registration form is open
+When the customer submits **email address** *new.user@example.com* with password {attempted_password}
+Then the form shows which requirements are unmet: {unmet_requirement}
+And no **Customer Account** is created
 
-### Registration attempt (When — below / Then — below):  
-| scenario | emailAddress    | attempted_password | unmet_requirement             | form_preserved |  
-|----------|-----------------|--------------------|------------------------------ |----------------|  
-| 1        | new@example.com | short              | minimum 8 characters          | true           |  
-| 2        | new@example.com | nouppercase1       | at least one uppercase letter | true           |  
-| 3        | new@example.com | NoDigits!          | at least one digit            | true           |  
+#### Examples:
 
----  
+| scenario | attempted_password | unmet_requirement |
+|---|---|---|
+| 1 | short | minimum 8 characters |
+| 2 | nouppercase1! | at least one uppercase letter |
+| 3 | NoDigits! | at least one digit |
 
-## Story: `Send Email Verification`  
+---
 
-### Scenario Outline: Verification email sent on account creation  
+## Story: `Send Email Verification`
 
-Given a **CustomerAccount** *{customer_account_id}* has just been created with **emailAddress** *{emailAddress}*  
-When the system processes the *Send Email Verification* trigger  
-Then a **Notification** is sent to *{emailAddress}* with **notificationChannel** *{notification_channel}*  
-  And the notification contains a unique, time-limited *Verification Link* (*{verification_link_included}*)  
+**Story type:** system
 
-### CustomerAccount (Given — above / Then — below):  
-| scenario | customer_account_id | emailAddress     | accountStatus | notification_channel | verification_link_included |  
-|----------|---------------------|------------------|---------------|----------------------|----------------------------|  
-| 1        | CUST-001            | jane@example.com | Unverified    | email                | true                       |  
+**Sources / context:** ubiquitous-language.md, crc.md, increment-4-acceptance-criteria.md
 
----  
+---
 
-### Scenario Outline: Verification link expired  
+### Customer Account:
 
-Given a **CustomerAccount** *{customer_account_id}* with **emailAddress** *{emailAddress}*  
-  And a *Verification Link* issued *{hours_since_issued}* hours ago  
-When the customer clicks the expired *Verification Link*  
-Then the system shows a *{expected_message}* message  
-  And offers a *{expected_action}* action (*{resend_offered}*)  
+| scenario | email_address | account_verification_status |
+|---|---|---|
+| 1 | jane.doe@example.com | unverified |
 
-### Verification attempt (When — below / Then — below):  
-| scenario | customer_account_id | emailAddress     | hours_since_issued | expected_message | expected_action     | resend_offered |  
-|----------|---------------------|------------------|--------------------|------------------|---------------------|----------------|  
-| 1        | CUST-001            | jane@example.com | 25                 | link expired     | resend verification | true           |  
+### Verification Link:
 
----  
+| scenario | email_address | unique_link_token | expiry_time | one_time_use_flag |
+|---|---|---|---|---|
+| 1 | jane.doe@example.com | vlink-abc123 | 2025-05-25T12:00:00Z | true |
 
-### Scenario Outline: Email delivery system unavailable — queued for retry  
+---
 
-Given a **CustomerAccount** *{customer_account_id}* triggers *Send Email Verification*  
-  And the email delivery system is temporarily unavailable  
-When the system attempts to send the verification email  
-Then the verification email is queued for retry (*{email_queued}*)  
-  And the registration confirmation screen tells the customer *{expected_confirmation}* (*{confirmation_shown}*)  
+### Scenario 1: `Verification email sent with unique time-limited link on account creation`
 
-### CustomerAccount (Given — above / Then — below):  
-| scenario | customer_account_id | emailAddress     | email_queued | expected_confirmation    | confirmation_shown |  
-|----------|---------------------|------------------|--------------|--------------------------|---------------------|  
-| 1        | CUST-001            | jane@example.com | true         | expect the email shortly | true                |  
+Given a **Customer Account** was just created with **email address** *jane.doe@example.com* and **account verification status** *unverified*
+When the system processes **Email Verification**
+Then a **Notification** is sent to *jane.doe@example.com* with **notification channel** *email*
+And the **Notification** body contains a **Verification Link** that is unique and time-limited
 
----  
+### Scenario 2: `Expired verification link shows message and resend action`
 
-## Story: `Verify Email Address`  
+Given a **Customer Account** with **email address** *jane.doe@example.com*
+And a **Verification Link** with **expiry time** *2025-05-23T12:00:00Z* was issued more than 24 hours ago
+When the customer clicks the expired **Verification Link**
+Then the system shows message *This verification link has expired*
+And a *resend verification* action is offered
 
-### Scenario Outline: Email successfully verified  
+### Scenario 3: `Email delivery unavailable queues verification for retry`
 
-Given a **CustomerAccount** *{customer_account_id}* with **accountStatus** *{initial_status}*  
-  And a valid, non-expired *Verification Link* for *{customer_account_id}*  
-When the customer clicks the *Verification Link*  
-Then the **CustomerAccount** *{customer_account_id}* transitions to **accountStatus** *{final_status}*  
-  And the customer is redirected to a *{expected_page}* confirmation page with a *{expected_prompt}*  
+Given a **Customer Account** with **email address** *jane.doe@example.com* triggers **Email Verification**
+And the email delivery system is temporarily unavailable
+When the system attempts to send the verification email
+Then the **Notification** is queued with **delivery status** *queued* for retry
+And the registration confirmation screen tells the customer *expect the email shortly*
 
-### CustomerAccount (Given — above / Then — below):  
-| scenario | customer_account_id | emailAddress     | initial_status | final_status | expected_page   | expected_prompt |  
-|----------|---------------------|------------------|----------------|--------------|-----------------|-----------------|  
-| 1        | CUST-001            | jane@example.com | Unverified     | Verified     | you're verified | login prompt    |  
+---
 
----  
+## Story: `Verify Email Address`
 
-### Scenario Outline: Already-used verification link handled idempotently  
+**Story type:** user
 
-Given a **CustomerAccount** *{customer_account_id}* with **accountStatus** *{accountStatus}*  
-  And the *Verification Link* has already been used  
-When the customer clicks the used *Verification Link*  
-Then the system shows *{expected_message}* with a *{expected_link}*  
-  And the **CustomerAccount** retains **accountStatus** *{accountStatus}* (*{account_unchanged}*)  
+**Sources / context:** ubiquitous-language.md, crc.md, increment-4-acceptance-criteria.md
 
-### CustomerAccount (Given — above / Then — below):  
-| scenario | customer_account_id | emailAddress     | accountStatus | expected_message | expected_link | account_unchanged |  
-|----------|---------------------|------------------|---------------|------------------|---------------|-------------------|  
-| 1        | CUST-001            | jane@example.com | Verified      | already verified | login link    | true              |  
+---
 
----  
+### Scenario 1: `Valid verification link transitions account to verified`
 
-### Scenario Outline: Expired verification link prompts resend  
+Given a **Customer Account** with **email address** *jane.doe@example.com* and **account verification status** *unverified*
+And a valid, non-expired **Verification Link** for that **Customer Account**
+When the customer clicks the **Verification Link**
+Then the **Customer Account** **account verification status** becomes *verified*
+And the customer is redirected to confirmation page *you're verified* with prompt *log in to your account*
 
-Given a **CustomerAccount** *{customer_account_id}* with **accountStatus** *{accountStatus}*  
-  And the *Verification Link* has expired  
-When the customer clicks the expired *Verification Link*  
-Then the system shows a *{expected_message}* message with a *{expected_action}* action  
+### Scenario 2: `Already-used verification link is idempotent`
 
-### CustomerAccount (Given — above / Then — below):  
-| scenario | customer_account_id | emailAddress     | accountStatus | expected_message | expected_action     |  
-|----------|---------------------|------------------|---------------|------------------|---------------------|  
-| 1        | CUST-001            | jane@example.com | Unverified    | link expired     | resend verification |  
+Given a **Customer Account** with **email address** *jane.doe@example.com* and **account verification status** *verified*
+And the **Verification Link** has **one-time use flag** *used*
+When the customer clicks the used **Verification Link**
+Then the system shows message *already verified* with a *login* link
+And the **Customer Account** **account verification status** remains *verified*
 
----  
+### Scenario 3: `Expired verification link offers resend`
 
-## Story: `Log In`  
+Given a **Customer Account** with **email address** *jane.doe@example.com* and **account verification status** *unverified*
+And the **Verification Link** has expired
+When the customer clicks the expired **Verification Link**
+Then the system shows message *link expired*
+And a *resend verification* action is displayed
 
-### CustomerAccount (Given — above scenarios):  
-| customer_account_id | emailAddress         | username     | passwordHash | accountStatus |  
-|---------------------|----------------------|--------------|--------------|---------------|  
-| CUST-001            | jane@example.com     | janedoe      | hashed_pw1   | Verified      |  
-| CUST-002            | unverified@test.com  | unverified1  | hashed_pw2   | Unverified    |  
+---
 
----  
+## Story: `Log In`
 
-### Scenario Outline: Session created on valid login  
+**Story type:** user
 
-Given a **CustomerAccount** *{customer_account_id}* with **accountStatus** *{accountStatus}*  
-  And **username** *{username}* and **passwordHash** matching *{password_input}*  
-When the customer submits *{username}* and *{password_input}* on the *Login Form*  
-Then a *Session* is created for **CustomerAccount** *{customer_account_id}* (*{session_created}*)  
-  And the customer is redirected to *{expected_redirect}*  
+**Sources / context:** ubiquitous-language.md, crc.md, increment-4-acceptance-criteria.md
 
-### Login attempt (When — below / Then — below):  
-| scenario | customer_account_id | username | password_input | accountStatus | session_created | expected_redirect |  
-|----------|---------------------|----------|----------------|---------------|-----------------|-------------------|  
-| 1        | CUST-001            | janedoe  | correct_pw     | Verified      | true            | account dashboard |  
+---
 
----  
+### Customer Account:
 
-### Scenario Outline: Login rejected for invalid credentials  
+| scenario | email_address | account_verification_status |
+|---|---|---|
+| 1 | jane.doe@example.com | verified |
+| 2 | tom.reed@example.com | unverified |
 
-Given a **CustomerAccount** *{customer_account_id}* with **username** *{username}*  
-When the customer submits *{username}* and an incorrect password *{password_input}*  
-Then the *Login Form* shows error *{expected_error}*  
-  And both email and password fields remain editable for correction (*{fields_editable}*)  
+### Product:
 
-### Login attempt (When — below / Then — below):  
-| scenario | customer_account_id | username | password_input | expected_error            | fields_editable |  
-|----------|---------------------|----------|----------------|---------------------------|-----------------|  
-| 1        | CUST-001            | janedoe  | wrong_pw       | invalid email or password | true            |  
+| scenario | sku | product_name |
+|---|---|---|
+| 1 | SKU-DOG-FOOD-01 | Premium Dog Kibble 5kg |
+| 2 | SKU-CAT-TOY-05 | Feather Wand Cat Toy |
 
----  
+---
 
-### Scenario Outline: Login blocked for unverified account  
+### Scenario 1: `Valid credentials create customer session and redirect`
 
-Given a **CustomerAccount** *{customer_account_id}* with **accountStatus** *{accountStatus}*  
-When the customer submits valid credentials for *{customer_account_id}*  
-Then the system shows a *{expected_message}* message  
-  And a *{expected_action}* option is offered (*{action_offered}*)  
-  And the customer remains on the *Login Form* (*{stays_on_form}*)  
+Given a **Customer Account** with **email address** *jane.doe@example.com* and **account verification status** *verified*
+When the customer submits valid credentials on the login screen
+Then a **Customer Session** is created for that **Customer Account**
+And the customer is redirected to the account dashboard
 
-### CustomerAccount (Given — above / Then — below):  
-| scenario | customer_account_id | accountStatus | expected_message               | expected_action     | action_offered | stays_on_form |  
-|----------|---------------------|---------------|--------------------------------|---------------------|----------------|---------------|  
-| 1        | CUST-002            | Unverified    | please verify your email first | resend verification | true           | true          |  
+### Scenario 2: `Invalid credentials show generic error`
 
----  
+Given a **Customer Account** with **email address** *jane.doe@example.com*
+When the customer submits **email address** *jane.doe@example.com* and an incorrect password
+Then the login screen shows error *invalid email or password*
+And the error does not specify which field is wrong
 
-### Scenario Outline: Guest cart merged on login  
+### Scenario 3: `Unverified account blocked from customer session with account-only access`
 
-Given a **CustomerAccount** *{customer_account_id}* with an existing **ShoppingCart** containing **Product** *{existing_product_sku}* quantity *{existing_qty}*  
-  And the guest session has a **ShoppingCart** containing **Product** *{guest_product_sku}* quantity *{guest_qty}*  
-When the customer logs into **CustomerAccount** *{customer_account_id}*  
-Then the guest cart is merged into the customer's **ShoppingCart**  
-  And **Product** *{merged_product_sku}* has quantity *{merged_qty}*  
+Given a **Customer Account** with **email address** *tom.reed@example.com* and **account verification status** *unverified*
+When the customer submits valid credentials for that **Customer Account**
+Then the system shows message *please verify your email first*
+And a *resend verification* option is offered
+And no **Customer Session** with account-only feature access is created
 
-### ShoppingCart merge (Given — above / Then — below):  
-| scenario | customer_account_id | existing_product_sku | existing_qty | guest_product_sku | guest_qty | merged_product_sku | merged_qty |  
-|----------|---------------------|----------------------|--------------|-------------------|-----------|--------------------|------------|  
-| 1        | CUST-001            | SKU-DOG-FOOD-01      | 1            | SKU-DOG-FOOD-01   | 2         | SKU-DOG-FOOD-01    | 3          |  
-| 2        | CUST-001            | SKU-CAT-TOY-05       | 1            | SKU-LEASH-03      | 1         | SKU-CAT-TOY-05     | 1          |  
+### Scenario 4: `Guest shopping cart merges into account cart on login`
 
----  
+Given a **Customer Account** with **email address** *jane.doe@example.com* has a **Shopping Cart** containing **Product** *SKU-CAT-TOY-05* with quantity *1*
+And a guest **Shopping Cart** contains **Product** *SKU-DOG-FOOD-01* with quantity *2*
+When the customer logs into the **Customer Account**
+Then the guest **Shopping Cart** merges into the account **Shopping Cart**
+And **Product** *SKU-DOG-FOOD-01* has quantity *2* in the merged **Shopping Cart**
+And **Product** *SKU-CAT-TOY-05* has quantity *1* in the merged **Shopping Cart**
 
-## Story: `Log Out`  
+### Scenario 5: `Merge sums quantities when both carts contain same product`
 
-### Scenario Outline: Session invalidated on logout  
+Given a **Customer Account** **Shopping Cart** contains **Product** *SKU-DOG-FOOD-01* with quantity *1*
+And a guest **Shopping Cart** contains **Product** *SKU-DOG-FOOD-01* with quantity *2*
+When the customer logs into the **Customer Account**
+Then **Product** *SKU-DOG-FOOD-01* has quantity *3* in the merged **Shopping Cart**
 
-Given a **CustomerAccount** *{customer_account_id}* with an active *Session* on device *{device}*  
-When the customer selects *{logout_action}* on device *{device}*  
-Then the *Session* on *{device}* is invalidated (*{session_status_after}*)  
-  And the customer is redirected to the *{expected_redirect}* in a guest state  
-  And sessions on other devices remain active (*{other_sessions_active}*)  
+---
 
-### Session (Given — above / Then — below):  
-| scenario | customer_account_id | device       | logout_action | session_status_after | expected_redirect | other_sessions_active |  
-|----------|---------------------|--------------|---------------|----------------------|-------------------|-----------------------|  
-| 1        | CUST-001            | mobile-phone | Log Out       | invalidated          | home page         | true                  |  
+## Story: `Log Out`
 
----  
+**Story type:** user
 
-### Scenario Outline: Log out everywhere invalidates all sessions  
+**Sources / context:** ubiquitous-language.md, crc.md, increment-4-acceptance-criteria.md
 
-Given a **CustomerAccount** *{customer_account_id}* with active sessions on devices *{device_1}* and *{device_2}*  
-When the customer selects *{logout_action}*  
-Then all sessions for **CustomerAccount** *{customer_account_id}* are invalidated (*{all_sessions_invalidated}*)  
-  And the customer must re-authenticate on every device (*{reauth_required}*)  
+---
 
-### Session (Given — above / Then — below):  
-| scenario | customer_account_id | device_1     | device_2 | logout_action      | all_sessions_invalidated | reauth_required |  
-|----------|---------------------|--------------|----------|--------------------|--------------------------|-----------------|  
-| 1        | CUST-001            | mobile-phone | laptop   | Log out everywhere | true                     | true            |  
+### Scenario 1: `Logout invalidates current customer session only`
 
----  
+Given a **Customer Account** with **email address** *jane.doe@example.com* has an active **Customer Session** on device *mobile phone*
+And an active **Customer Session** on device *laptop*
+When the customer selects *Log Out* on device *mobile phone*
+Then the **Customer Session** on device *mobile phone* is invalidated
+And the customer is redirected to the home page in a guest state
+And the **Customer Session** on device *laptop* remains active
 
-## Story: `Reset Password`  
+### Scenario 2: `Log out everywhere invalidates all customer sessions`
 
-### Scenario Outline: Reset link sent regardless of account existence  
+Given a **Customer Account** with active **Customer Session** on devices *mobile phone* and *laptop*
+When the customer selects *Log out everywhere*
+Then all **Customer Session** for that **Customer Account** are invalidated
+And the customer must re-authenticate on every device
 
-Given the customer requests a password reset for **emailAddress** *{emailAddress}*  
-When the system processes the password reset request  
-Then the customer sees the confirmation message *{expected_message}*  
-  And a *Reset Link* is sent only if a **CustomerAccount** exists (*{reset_link_sent}*)  
+---
 
-### Reset request (When — below / Then — below):  
-| scenario | emailAddress        | account_exists | expected_message | reset_link_sent |  
-|----------|---------------------|----------------|------------------|-----------------|  
-| 1        | jane@example.com    | true           | check your email | true            |  
-| 2        | unknown@example.com | false          | check your email | false           |  
+## Story: `Reset Password`
 
----  
+**Story type:** user
 
-### Scenario Outline: Password successfully reset  
+**Sources / context:** ubiquitous-language.md, crc.md, increment-4-acceptance-criteria.md
 
-Given a **CustomerAccount** *{customer_account_id}* with a valid, non-expired *Reset Link*  
-When the customer submits a new password *{new_password}* meeting all requirements  
-Then the **passwordHash** on *{customer_account_id}* is updated (*{password_updated}*)  
-  And all existing *Sessions* are invalidated (*{sessions_invalidated}*)  
-  And the customer is redirected to the *{expected_redirect}* to re-login  
+---
 
-### CustomerAccount (Given — above / Then — below):  
-| scenario | customer_account_id | new_password | password_updated | sessions_invalidated | expected_redirect |  
-|----------|---------------------|--------------|------------------|----------------------|-------------------|  
-| 1        | CUST-001            | NewStr0ngPw! | true             | true                 | Login Form        |  
+### Scenario Outline 1: `Reset request shows same confirmation regardless of account existence`
 
----  
+When the customer requests password reset for **email address** {email_address}
+Then the customer sees confirmation message *check your email*
+And a password reset link is sent only when a **Customer Account** exists for {email_address} ({reset_link_sent})
 
-### Scenario Outline: Expired or used reset link rejected  
+#### Examples:
 
-Given a *Reset Link* for **CustomerAccount** *{customer_account_id}* with status *{link_status}*  
-When the customer clicks the *Reset Link*  
-Then the system shows a *{expected_message}* message with a *{expected_action}* action  
-  And the **passwordHash** remains unchanged (*{password_unchanged}*)  
+| scenario | email_address | reset_link_sent |
+|---|---|---|
+| 1 | jane.doe@example.com | true |
+| 2 | unknown@example.com | false |
 
-### Reset Link (Given — above / Then — below):  
-| scenario | customer_account_id | link_status | expected_message  | expected_action   | password_unchanged |  
-|----------|---------------------|-------------|-------------------|-------------------|--------------------|  
-| 1        | CUST-001            | expired     | link expired      | request new reset | true               |  
-| 2        | CUST-001            | used        | link already used | request new reset | true               |  
+### Scenario 2: `Valid reset link opens set-new-password form`
 
----  
+Given a **Customer Account** with **email address** *jane.doe@example.com*
+And a valid, non-expired password reset **Verification Link**
+When the customer clicks the reset link
+Then the customer is taken to a *set new password* form
+And the new password must meet the same requirements as registration
 
-## Story: `Maintain Session Across Devices`  
+### Scenario 3: `Password update invalidates all customer sessions`
 
-### Scenario Outline: New session created on additional device  
+Given a **Customer Account** with **email address** *jane.doe@example.com* has active **Customer Session** on devices *mobile phone* and *laptop*
+When the customer submits new password *NewStr0ngP@ss!* through the reset form
+Then the **Customer Account** password is updated
+And all **Customer Session** on all devices are invalidated
+And the customer must log in again on each device
 
-Given a **CustomerAccount** *{customer_account_id}* with an active *Session* on *{existing_device}*  
-When the customer logs in on *{new_device}*  
-Then a new *Session* is created for *{new_device}* (*{new_session_created}*)  
-  And the *Session* on *{existing_device}* remains active (*{existing_session_active}*)  
+### Scenario Outline 2: `Expired or used reset link rejected`
 
-### Session (Given — above / Then — below):  
-| scenario | customer_account_id | existing_device | new_device | new_session_created | existing_session_active |  
-|----------|---------------------|-----------------|------------|---------------------|-------------------------|  
-| 1        | CUST-001            | laptop          | mobile     | true                | true                    |  
+Given a password reset **Verification Link** for **Customer Account** *jane.doe@example.com* with status {link_status}
+When the customer clicks the reset link
+Then the system shows message {expected_message}
+And a {expected_action} action is offered
+And the **Customer Account** password remains unchanged
 
----  
+#### Examples:
 
-### Scenario Outline: Session token expiry preserves cart  
+| scenario | link_status | expected_message | expected_action |
+|---|---|---|---|
+| 1 | expired | link expired | Request new reset |
+| 2 | used | link already used | Request new reset |
 
-Given a **CustomerAccount** *{customer_account_id}* with **ShoppingCart** containing *{cart_items_count}* items  
-  And the *Session Token* has expired due to *{expiry_reason}*  
-When the session is evaluated  
-Then the customer is redirected to the *{expected_redirect}* (*{redirect_shown}*)  
-  And the **ShoppingCart** retains all *{cart_items_count}* items (*{cart_preserved}*)  
+---
 
-### Session expiry (Given — above / Then — below):  
-| scenario | customer_account_id | cart_items_count | expiry_reason        | expected_redirect | redirect_shown | cart_preserved |  
-|----------|---------------------|------------------|----------------------|-------------------|----------------|----------------|  
-| 1        | CUST-001            | 3                | inactivity timeout   | Login Form        | true           | true           |  
-| 2        | CUST-001            | 5                | max session duration | Login Form        | true           | true           |  
+## Story: `Maintain Session Across Devices`
 
----  
+**Story type:** system
 
-## Story: `Save Delivery Address`  
+**Sources / context:** ubiquitous-language.md, crc.md, increment-4-acceptance-criteria.md
 
-### Scenario Outline: Address saved from checkout  
+---
 
-Given a **CustomerAccount** *{customer_account_id}* is logged in during checkout  
-  And the customer enters a new shipping address with **addressLineOne** *{addressLineOne}*, **city** *{city}*, **postcode** *{postcode}*, **country** *{country}*  
-When the customer accepts *{save_prompt}*  
-Then a **SavedAddress** is stored in the customer's address book  
-  And **defaultShippingFlag** is *{default_flag}*  
+### Scenario 1: `Login on new device creates additional customer session`
 
-### SavedAddress (Then — below scenario):  
-| scenario | customer_account_id | addressLineOne | city    | postcode | country | save_prompt                         | default_flag |  
-|----------|---------------------|----------------|---------|----------|---------|-------------------------------------|--------------|  
-| 1        | CUST-001            | 42 Oak Lane    | Bristol | BS1 4QT  | UK      | save this address for future orders | true         |  
-| 2        | CUST-001            | 10 High Street | London  | E1 6AN   | UK      | save this address for future orders | false        |  
+Given a **Customer Account** with **email address** *jane.doe@example.com* has an active **Customer Session** on device *laptop*
+When the customer logs in on device *tablet*
+Then a new **Customer Session** is created for device *tablet*
+And the **Customer Session** on device *laptop* remains active
 
----  
+### Scenario Outline 1: `Session expiry redirects to login but preserves shopping cart`
 
-### Scenario Outline: First address becomes default automatically  
+Given a **Customer Account** with **email address** *jane.doe@example.com* has a **Shopping Cart** containing *3* **Cart Item** entries
+And the **Customer Session** **session token** has expired due to {expiry_reason}
+When the session is evaluated
+Then the customer is redirected to the login screen
+And the **Shopping Cart** tied to the **Customer Account** retains all *3* **Cart Item** entries
 
-Given a **CustomerAccount** *{customer_account_id}* has no **SavedAddress** entries  
-When the customer saves address **addressLineOne** *{addressLineOne}*, **city** *{city}*, **postcode** *{postcode}*  
-Then the **SavedAddress** is created with **defaultShippingFlag** *{expected_default_flag}*  
+#### Examples:
 
-### SavedAddress (Then — below scenario):  
-| scenario | customer_account_id | addressLineOne | city    | postcode | expected_default_flag |  
-|----------|---------------------|----------------|---------|----------|-----------------------|  
-| 1        | CUST-001            | 42 Oak Lane    | Bristol | BS1 4QT  | true                  |  
+| scenario | expiry_reason |
+|---|---|
+| 1 | inactivity timeout |
+| 2 | max session duration |
 
----  
+### Scenario 2: `Password reset invalidates all customer sessions`
 
-## Story: `Manage Saved Addresses`  
+Given a **Customer Account** has active **Customer Session** on devices *laptop* and *tablet*
+When the customer changes password through **Reset Password**
+Then all **Customer Session** on all devices are invalidated
+And the customer must re-authenticate on each device
 
-### SavedAddress (Given — above scenarios):  
-| saved_address_id | customer_account_id | addressLineOne | city    | postcode | country | defaultShippingFlag |  
-|------------------|---------------------|----------------|---------|----------|---------|---------------------|  
-| ADDR-001         | CUST-001            | 42 Oak Lane    | Bristol | BS1 4QT  | UK      | true                |  
-| ADDR-002         | CUST-001            | 10 High Street | London  | E1 6AN   | UK      | false               |  
+---
 
----  
+## Story: `Save Delivery Address`
 
-### Scenario Outline: Address book lists all saved addresses  
+**Story type:** user
 
-Given a **CustomerAccount** *{customer_account_id}* with **SavedAddress** entries *{saved_address_id_list}*  
-When the customer opens the *Address Book* from account settings  
-Then all **SavedAddress** entries are listed with full details (*{addresses_displayed}*)  
-  And the address *{default_address_id}* is visually indicated as the default (*{default_indicated}*)  
+**Sources / context:** ubiquitous-language.md, crc.md, increment-4-acceptance-criteria.md
 
-### Address Book display (Then — below scenario):  
-| scenario | customer_account_id | saved_address_id_list | default_address_id | addresses_displayed | default_indicated |  
-|----------|---------------------|-----------------------|--------------------|---------------------|-------------------|  
-| 1        | CUST-001            | ADDR-001, ADDR-002    | ADDR-001           | 2                   | true              |  
+---
 
----  
+### Saved Address:
 
-### Scenario Outline: Deleted default address prompts new default selection  
+| scenario | address_label | address_line_one | city | postcode | country | default_shipping_flag |
+|---|---|---|---|---|---|---|
+| 1 | Home | 42 Oak Lane | Bristol | BS1 4QT | United Kingdom | true |
+| 2 | Work | 10 High Street | London | E1 6AN | United Kingdom | false |
 
-Given a **CustomerAccount** *{customer_account_id}* with **SavedAddress** *{deleted_address_id}* as the default  
-  And another **SavedAddress** *{remaining_address_id}* exists  
-When the customer deletes **SavedAddress** *{deleted_address_id}*  
-Then *{deleted_address_id}* is removed from the *Address Book*  
-  And *{remaining_address_id}* becomes the new default (*{new_default}*)  
+---
 
-### SavedAddress deletion (Given — above / Then — below):  
-| scenario | customer_account_id | deleted_address_id | remaining_address_id | new_default |  
-|----------|---------------------|--------------------|----------------------|-------------|  
-| 1        | CUST-001            | ADDR-001           | ADDR-002             | ADDR-002    |  
+### Scenario 1: `Checkout offers save address option for logged-in customer`
 
----  
+Given a logged-in **Customer Account** with **email address** *jane.doe@example.com* is completing checkout
+And the customer enters **Shipping Address** with **address line one** *42 Oak Lane*, **city** *Bristol*, **postcode** *BS1 4QT*, **country** *United Kingdom*
+When the customer accepts *save this address for future orders*
+Then a **Saved Address** is stored in the **Address Book** for that **Customer Account**
+And the **Saved Address** has **address line one** *42 Oak Lane*, **city** *Bristol*, **postcode** *BS1 4QT*
 
-## Story: `Save Payment Method`  
+### Scenario 2: `First saved address becomes default address automatically`
 
-### Scenario Outline: Payment method saved as token after checkout  
+Given a **Customer Account** with **email address** *jane.doe@example.com* has no **Saved Address** entries in the **Address Book**
+When the customer saves **Shipping Address** with **address line one** *42 Oak Lane*, **city** *Bristol*, **postcode** *BS1 4QT*
+Then the **Saved Address** is created with **default shipping flag** *true*
+And that **Saved Address** is the **Default Address** for future checkouts
 
-Given a **CustomerAccount** *{customer_account_id}* completes payment via **PaymentVendor** *{vendorName}*  
-When the customer accepts *{save_prompt}*  
-Then a **SavedPaymentMethod** is created with **vendorTokenReference** *{vendorTokenReference}*  
-  And **lastFourDigits** *{lastFourDigits}*, **cardBrand** *{cardBrand}*, **expiryMonth** *{expiryMonth}*, **expiryYear** *{expiryYear}* are stored for display  
-  And payment details are stored as token references only (*{storage_method}*)  
+### Scenario 3: `Additional saved address does not replace existing entries`
 
-### SavedPaymentMethod (Then — below scenario):  
-| scenario | customer_account_id | vendorName | save_prompt                              | vendorTokenReference | lastFourDigits | cardBrand | expiryMonth | expiryYear | storage_method |  
-|----------|---------------------|------------|------------------------------------------|----------------------|----------------|-----------|-------------|------------|----------------|  
-| 1        | CUST-001            | StripeWave | save this payment method for future orders | tok_sw_abc123      | 4242           | Visa      | 12          | 2027       | tokenized      |  
-| 2        | CUST-001            | PayNova    | save this payment method for future orders | tok_pn_def456      | 8888           | Wallet    | 06          | 2028       | tokenized      |  
+Given a **Customer Account** **Address Book** already contains **Saved Address** *Home* at *42 Oak Lane, Bristol BS1 4QT* with **default shipping flag** *true*
+When the customer saves a new **Saved Address** with **address line one** *10 High Street*, **city** *London*, **postcode** *E1 6AN*
+Then the **Address Book** contains both **Saved Address** entries
+And the new **Saved Address** has **default shipping flag** *false*
+And account settings **Address Book** shows the new entry with a *set as default* option
 
----  
+---
 
-### Scenario Outline: First saved method becomes default  
+## Story: `Manage Saved Addresses`
 
-Given a **CustomerAccount** *{customer_account_id}* has no **SavedPaymentMethod** entries  
-When the customer saves a payment method with **vendorTokenReference** *{vendorTokenReference}*  
-Then the **SavedPaymentMethod** is created as the default payment method (*{is_default}*)  
+**Story type:** user
 
-### SavedPaymentMethod (Then — below scenario):  
-| scenario | customer_account_id | vendorTokenReference | is_default |  
-|----------|---------------------|----------------------|------------|  
-| 1        | CUST-001            | tok_sw_abc123        | true       |  
+**Sources / context:** ubiquitous-language.md, crc.md, increment-4-acceptance-criteria.md
 
----  
+---
 
-## Story: `Manage Saved Payment Methods`  
+### Saved Address:
 
-### SavedPaymentMethod (Given — above scenarios):  
-| saved_payment_id | customer_account_id | vendorTokenReference | lastFourDigits | cardBrand | expiryMonth | expiryYear | is_default |  
-|------------------|---------------------|----------------------|----------------|-----------|-------------|------------|------------|  
-| PAY-001          | CUST-001            | tok_sw_abc123        | 4242           | Visa      | 12          | 2027       | true       |  
-| PAY-002          | CUST-001            | tok_pn_def456        | 8888           | Wallet    | 06          | 2028       | false      |  
+| scenario | address_label | address_line_one | city | postcode | country | default_shipping_flag |
+|---|---|---|---|---|---|---|
+| 1 | Home | 42 Oak Lane | Bristol | BS1 4QT | United Kingdom | true |
+| 2 | Work | 10 High Street | London | E1 6AN | United Kingdom | false |
 
----  
+---
 
-### Scenario Outline: Payment methods listed with default indicated  
+### Scenario 1: `Address book lists all saved addresses with default indicated`
 
-Given a **CustomerAccount** *{customer_account_id}* with **SavedPaymentMethod** entries *{saved_payment_id_list}*  
-When the customer opens the *Payment Methods List* from account settings  
-Then all saved methods are shown with **lastFourDigits**, **cardBrand**, and expiry (*{methods_displayed}*)  
-  And the **SavedPaymentMethod** *{default_payment_id}* is visually indicated as default (*{default_indicated}*)  
+Given a **Customer Account** with **email address** *jane.doe@example.com* has **Address Book** containing two **Saved Address** entries
+When the customer opens the **Address Book** from account settings
+Then all **Saved Address** entries are listed with full details
+And the **Saved Address** *Home* at *42 Oak Lane* is visually indicated as the **Default Address**
 
-### Payment methods display (Then — below scenario):  
-| scenario | customer_account_id | saved_payment_id_list | default_payment_id | methods_displayed | default_indicated |  
-|----------|---------------------|-----------------------|--------------------|-------------------|-------------------|  
-| 1        | CUST-001            | PAY-001, PAY-002      | PAY-001            | 2                 | true              |  
+### Scenario 2: `Edited saved address persists for future checkouts`
 
----  
+Given a **Saved Address** with **address line one** *42 Oak Lane*, **city** *Bristol*, **postcode** *BS1 4QT*
+When the customer edits **city** to *Bath* and saves the **Saved Address**
+Then the **Saved Address** shows **city** *Bath*
+And future checkouts using that **Saved Address** reflect **city** *Bath*
 
-### Scenario Outline: Removed default payment method prompts new default  
+### Scenario 3: `Deleting default saved address prompts new default selection`
 
-Given a **CustomerAccount** *{customer_account_id}* with default **SavedPaymentMethod** *{removed_payment_id}*  
-  And another **SavedPaymentMethod** *{remaining_payment_id}* exists  
-When the customer removes **SavedPaymentMethod** *{removed_payment_id}*  
-Then *{removed_payment_id}* is removed and the customer is prompted to select a new default (*{prompted_for_new_default}*)  
-  And *{remaining_payment_id}* is offered as the new default  
+Given a **Customer Account** **Address Book** has **Saved Address** *Home* as **Default Address**
+And **Saved Address** *Work* at *10 High Street, London E1 6AN* also exists
+When the customer deletes **Saved Address** *Home*
+Then **Saved Address** *Home* is removed from the **Address Book**
+And the customer is prompted to select a new **Default Address**
+And **Saved Address** *Work* is offered as the new **Default Address**
 
-### SavedPaymentMethod removal (Given — above / Then — below):  
-| scenario | customer_account_id | removed_payment_id | remaining_payment_id | prompted_for_new_default |  
-|----------|---------------------|--------------------|----------------------|--------------------------|  
-| 1        | CUST-001            | PAY-001            | PAY-002              | true                     |  
+### Scenario 4: `Setting new default address demotes previous default`
 
----  
+Given **Saved Address** *Home* has **default shipping flag** *true*
+And **Saved Address** *Work* has **default shipping flag** *false*
+When the customer sets **Saved Address** *Work* as **Default Address**
+Then **Saved Address** *Work* has **default shipping flag** *true*
+And **Saved Address** *Home* has **default shipping flag** *false*
+And future checkouts pre-select **Saved Address** *Work*
 
-## Story: `Select Saved Address at Checkout`  
+---
 
-Background:  
-  Given a **CustomerAccount** *{customer_account_id}* is logged in  
-  And the **ShoppingCart** for *{customer_account_id}* has items ready for checkout  
+## Story: `Save Payment Method`
 
-### CustomerAccount (Given — above scenarios):  
-| customer_account_id | emailAddress     |  
-|---------------------|------------------|  
-| CUST-001            | jane@example.com |  
+**Story type:** user
 
-### SavedAddress (Given — above scenarios):  
-| saved_address_id | customer_account_id | addressLineOne | city    | postcode | defaultShippingFlag |  
-|------------------|---------------------|----------------|---------|----------|---------------------|  
-| ADDR-001         | CUST-001            | 42 Oak Lane    | Bristol | BS1 4QT  | true                |  
-| ADDR-002         | CUST-001            | 10 High Street | London  | E1 6AN   | false               |  
+**Sources / context:** ubiquitous-language.md, crc.md, increment-4-acceptance-criteria.md
 
----  
+---
 
-### Scenario Outline: Default address pre-selected at checkout  
+### Saved Payment Method:
 
-When the customer reaches the shipping step during checkout  
-Then the *Address Selector* shows all **SavedAddress** entries from the *Address Book* (*{addresses_shown}*)  
-  And **SavedAddress** *{default_address_id}* with **defaultShippingFlag** *{expected_default_flag}* is pre-selected  
+| scenario | vendor_token_reference | last_four_digits | card_brand | expiry_month | expiry_year | default_payment_method_flag |
+|---|---|---|---|---|---|---|
+| 1 | tok_sw_4242 | 4242 | Visa | 12 | 2027 | true |
 
-### Address selection (Then — below scenario):  
-| scenario | customer_account_id | default_address_id | expected_default_flag | addresses_shown |  
-|----------|---------------------|--------------------|-----------------------|-----------------|  
-| 1        | CUST-001            | ADDR-001           | true                  | 2               |  
+---
 
----  
+### Scenario 1: `Checkout offers save payment method via StripeWave token`
 
-### Scenario Outline: Saved address auto-fills shipping fields  
+Given a logged-in **Customer Account** with **email address** *jane.doe@example.com* completes **Payment** through **StripeWave**
+When the customer accepts *save this payment method for future orders*
+Then a **Saved Payment Method** is created with **vendor-token reference** *tok_sw_4242*
+And raw card numbers are not stored on the **Customer Account**
 
-When the customer selects **SavedAddress** *{saved_address_id}*  
-Then the shipping address fields are auto-filled with **addressLineOne** *{addressLineOne}*, **city** *{city}*, **postcode** *{postcode}*  
-  And checkout advances to the next step (*{auto_advanced}*)  
+### Scenario 2: `Saved payment method stores display metadata only`
 
-### SavedAddress (When — below / Then — below):  
-| scenario | saved_address_id | addressLineOne | city    | postcode | auto_advanced |  
-|----------|------------------|----------------|---------|----------|---------------|  
-| 1        | ADDR-001         | 42 Oak Lane    | Bristol | BS1 4QT  | true          |  
-| 2        | ADDR-002         | 10 High Street | London  | E1 6AN   | true          |  
+Given the customer saves a payment method during checkout via **StripeWave**
+When the **Saved Payment Method** is persisted
+Then the **Customer Account** stores **last four digits** *4242*, **card brand** *Visa*, **expiry month** *12*, and **expiry year** *2027* for display
+And future **Payment** uses the **vendor-token reference** without re-entering full card details
 
----  
+### Scenario 3: `Second saved payment method retains first as default`
 
-### Scenario Outline: Guest customer sees manual address form at checkout  
+Given a **Customer Account** already has **Saved Payment Method** ending *4242* as **Default Payment Method**
+When the customer saves a second **Saved Payment Method** ending *5555* via **StripeWave**
+Then both **Saved Payment Method** entries appear in account settings
+And the first **Saved Payment Method** ending *4242* remains the **Default Payment Method**
 
-Given a guest customer (not logged in) with a **ShoppingCart**  
-When the guest reaches the shipping step  
-Then the manual *Address Form* is displayed (*{address_form_shown}*)  
-  And a prompt to *{expected_prompt}* is displayed (*{login_prompt_shown}*)  
+---
 
-### Guest checkout (Then — below scenario):  
-| scenario | address_form_shown | expected_prompt             | login_prompt_shown |  
-|----------|--------------------|-----------------------------|---------------------|  
-| 1        | true               | log in or create an account | true                |  
+## Story: `Manage Saved Payment Methods`
 
----  
+**Story type:** user
 
-## Story: `Select Saved Payment Method at Checkout`  
+**Sources / context:** ubiquitous-language.md, crc.md, increment-4-acceptance-criteria.md
 
-Background:  
-  Given a **CustomerAccount** *{customer_account_id}* is logged in  
-  And the **ShoppingCart** for *{customer_account_id}* has items ready for checkout  
+---
 
-### SavedPaymentMethod (Given — above scenarios):  
-| saved_payment_id | customer_account_id | vendorTokenReference | lastFourDigits | cardBrand | expiryMonth | expiryYear | is_default |  
-|------------------|---------------------|----------------------|----------------|-----------|-------------|------------|------------|  
-| PAY-001          | CUST-001            | tok_sw_abc123        | 4242           | Visa      | 12          | 2027       | true       |  
-| PAY-002          | CUST-001            | tok_pn_def456        | 8888           | Wallet    | 06          | 2028       | false      |  
+### Saved Payment Method:
 
----  
+| scenario | vendor_token_reference | last_four_digits | card_brand | expiry_month | expiry_year | default_payment_method_flag |
+|---|---|---|---|---|---|---|
+| 1 | tok_sw_4242 | 4242 | Visa | 12 | 2027 | true |
+| 2 | tok_sw_5555 | 5555 | Mastercard | 06 | 2028 | false |
 
-### Scenario Outline: Default payment method pre-selected at checkout  
+---
 
-When the customer reaches the payment step during checkout  
-Then the *Payment Selector* shows all **SavedPaymentMethod** entries (*{methods_shown}*)  
-  And **SavedPaymentMethod** *{default_payment_id}* is pre-selected (*{pre_selected}*)  
+### Scenario 1: `Saved payment methods listed with default indicated`
 
-### Payment selection (Then — below scenario):  
-| scenario | customer_account_id | default_payment_id | methods_shown | pre_selected |  
-|----------|---------------------|--------------------|---------------|--------------|  
-| 1        | CUST-001            | PAY-001            | 2             | true         |  
+Given a **Customer Account** with two **Saved Payment Method** entries
+When the customer opens saved payment methods from account settings
+Then all **Saved Payment Method** entries show **last four digits**, **card brand**, and expiry
+And **Saved Payment Method** ending *4242* is visually indicated as the **Default Payment Method**
 
----  
+### Scenario 2: `Removing default payment method prompts new default`
 
-### Scenario Outline: Saved payment proceeds without card re-entry  
+Given **Saved Payment Method** ending *4242* is the **Default Payment Method**
+And **Saved Payment Method** ending *5555* also exists
+When the customer removes **Saved Payment Method** ending *4242*
+Then the **vendor-token reference** for that method is deleted
+And the method no longer appears at checkout
+And the customer is prompted to select a new **Default Payment Method**
+And **Saved Payment Method** ending *5555* is offered as the new default
 
-When the customer selects **SavedPaymentMethod** *{saved_payment_id}*  
-Then the payment proceeds using **vendorTokenReference** *{vendorTokenReference}*  
-  And the customer is shown **lastFourDigits** *{lastFourDigits}* and **cardBrand** *{cardBrand}* for confirmation (*{confirmation_displayed}*)  
+### Scenario 3: `Setting new default payment method demotes previous default`
 
-### SavedPaymentMethod (When — below / Then — below):  
-| scenario | saved_payment_id | vendorTokenReference | lastFourDigits | cardBrand | confirmation_displayed |  
-|----------|------------------|----------------------|----------------|-----------|------------------------|  
-| 1        | PAY-001          | tok_sw_abc123        | 4242           | Visa      | true                   |  
+Given **Saved Payment Method** ending *4242* has **default payment method flag** *true*
+When the customer sets **Saved Payment Method** ending *5555* as **Default Payment Method**
+Then **Saved Payment Method** ending *5555* has **default payment method flag** *true*
+And **Saved Payment Method** ending *4242* has **default payment method flag** *false*
+And future checkouts pre-select **Saved Payment Method** ending *5555*
 
----  
+---
 
-### Scenario Outline: Expired token marked and alternatives shown  
+## Story: `Select Saved Address at Checkout`
 
-Given a **SavedPaymentMethod** *{saved_payment_id}* with **expiryMonth** *{expiryMonth}* / **expiryYear** *{expiryYear}* that has expired  
-When the customer reaches the payment step  
-Then **SavedPaymentMethod** *{saved_payment_id}* is marked as *{expected_label}*  
-  And remaining valid methods and the manual entry form are displayed as alternatives (*{alternatives_shown}*)  
-  And the payment step requires the customer to select a valid method before proceeding (*{valid_method_required}*)  
+**Story type:** user
 
-### SavedPaymentMethod (Given — above / Then — below):  
-| scenario | saved_payment_id | expiryMonth | expiryYear | expected_label | alternatives_shown | valid_method_required |  
-|----------|------------------|-------------|------------|----------------|--------------------|-----------------------|  
-| 1        | PAY-001          | 01          | 2024       | expired        | true               | true                  |  
+**Sources / context:** ubiquitous-language.md, crc.md, increment-4-acceptance-criteria.md
 
----  
+---
 
-## Story: `View Order History`  
+Background:
+  Given a logged-in **Customer Account** with **email address** *jane.doe@example.com*
+  And the **Shopping Cart** for that **Customer Account** has items ready for checkout
 
-### Order (Given — above scenarios):  
-| orderNumber | customer_account_id | orderDate  | orderStatus | orderTotal |  
-|-------------|---------------------|------------|-------------|------------|  
-| ORD-1001    | CUST-001            | 2025-01-15 | Delivered   | £45.99     |  
-| ORD-1002    | CUST-001            | 2025-03-20 | Shipped     | £82.50     |  
+### Saved Address:
 
-### OrderLineItem (Given — above scenarios):  
-| orderNumber | skuSnapshot     | productNameSnapshot     | quantity | unitPriceSnapshot |  
-|-------------|-----------------|-------------------------|----------|-------------------|  
-| ORD-1001    | SKU-DOG-FOOD-01 | Premium Dog Kibble 5kg  | 1        | £29.99            |  
-| ORD-1001    | SKU-LEASH-03    | Leather Retractable Lead| 1        | £16.00            |  
-| ORD-1002    | SKU-CAT-TOY-05  | Feather Wand Cat Toy    | 3        | £7.50             |  
-| ORD-1002    | SKU-BED-02      | Orthopaedic Dog Bed     | 1        | £60.00            |  
+| scenario | address_label | address_line_one | city | postcode | default_shipping_flag |
+|---|---|---|---|---|---|
+| 1 | Home | 42 Oak Lane | Bristol | BS1 4QT | true |
+| 2 | Work | 10 High Street | London | E1 6AN | false |
 
----  
+---
 
-### Scenario Outline: Order history listed most recent first  
+### Scenario 1: `Saved addresses shown with default pre-selected at shipping step`
 
-Given a **CustomerAccount** *{customer_account_id}* with **Order** entries *{order_numbers}*  
-When the customer opens *Order History*  
-Then all orders are listed most recent first (*{first_displayed}*)  
-  And each row shows **orderNumber** *{orderNumber}*, **orderDate** *{orderDate}*, items (condensed), **orderTotal** *{orderTotal}*, and **orderStatus** *{orderStatus}*  
+When the customer reaches the shipping step during checkout
+Then all **Saved Address** entries from the **Address Book** are shown for selection
+And **Saved Address** *Home* with **default shipping flag** *true* is pre-selected
 
-### Order History display (Then — below scenario):  
-| scenario | customer_account_id | order_numbers      | first_displayed | orderNumber | orderDate  | orderTotal | orderStatus |  
-|----------|---------------------|--------------------|-----------------|-------------|------------|------------|-------------|  
-| 1        | CUST-001            | ORD-1001, ORD-1002 | ORD-1002        | ORD-1002    | 2025-03-20 | £82.50     | Shipped     |  
+### Scenario 2: `Selecting saved address auto-fills shipping fields and advances checkout`
 
----  
+When the customer selects **Saved Address** *Work* with **address line one** *10 High Street*, **city** *London*, **postcode** *E1 6AN*
+Then the **Shipping Address** fields are auto-filled with *10 High Street, London, E1 6AN*
+And checkout advances to the next step without manual entry
 
-### Scenario Outline: Empty order history shows prompt  
+### Scenario 3: `Use different address reveals manual entry and save option`
 
-Given a **CustomerAccount** *{customer_account_id}* with *{order_count}* **Order** entries  
-When the customer opens *Order History*  
-Then a *{expected_prompt}* prompt is shown (*{prompt_shown}*)  
+When the customer chooses *use a different address*
+Then manual **Shipping Address** entry fields are displayed
+And a *save this address* checkbox is available to add the new address to the **Address Book** when checked
 
-### CustomerAccount (Given — above / Then — below):  
-| scenario | customer_account_id | order_count | expected_prompt | prompt_shown |  
-|----------|---------------------|-------------|-----------------|--------------|  
-| 1        | CUST-003            | 0           | start shopping  | true         |  
+### Scenario 4: `Guest checkout shows manual address entry only`
 
----  
+Given a guest customer with a **Shopping Cart** is not logged in
+When the guest reaches the shipping step during **Guest Checkout**
+Then no **Address Book** selection is shown — only manual **Shipping Address** entry
+And a prompt *log in or create an account to save addresses* is displayed
+And **Guest Checkout** proceeds without requiring a **Customer Account**
 
-### Scenario Outline: Guest order associated retroactively on account creation  
+---
 
-Given a guest **Order** *{orderNumber}* placed with **emailAddress** *{emailAddress}*  
-  And a **CustomerAccount** *{customer_account_id}* is later created with the same **emailAddress** *{emailAddress}*  
-When the system associates orders by email  
-Then **Order** *{orderNumber}* appears in *{customer_account_id}*'s *Order History* (*{associated}*)  
+## Story: `Select Saved Payment Method at Checkout`
 
-### Order association (Given — above / Then — below):  
-| scenario | orderNumber | emailAddress     | customer_account_id | associated |  
-|----------|-------------|------------------|---------------------|------------|  
-| 1        | ORD-0999    | jane@example.com | CUST-001            | true       |  
+**Story type:** user
 
----  
+**Sources / context:** ubiquitous-language.md, crc.md, increment-4-acceptance-criteria.md
 
-## Story: `Manage Wishlist`  
+---
 
-### Product (Given — above scenarios):  
-| sku             | name                    | price  |  
-|-----------------|-------------------------|--------|  
-| SKU-DOG-FOOD-01 | Premium Dog Kibble 5kg  | £29.99 |  
-| SKU-CAT-TOY-05  | Feather Wand Cat Toy    | £7.50  |  
+Background:
+  Given a logged-in **Customer Account** with **email address** *jane.doe@example.com*
+  And the **Shopping Cart** for that **Customer Account** has items ready for checkout
 
-### Wishlist (Given — above scenarios):  
-| customer_account_id | wishlist_id |  
-|---------------------|-------------|  
-| CUST-001            | WISH-001    |  
+### Saved Payment Method:
 
----  
+| scenario | vendor_token_reference | last_four_digits | card_brand | expiry_month | expiry_year | default_payment_method_flag |
+|---|---|---|---|---|---|---|
+| 1 | tok_sw_4242 | 4242 | Visa | 12 | 2027 | true |
+| 2 | tok_sw_5555 | 5555 | Mastercard | 06 | 2028 | false |
 
-### Scenario Outline: Product added to wishlist from product page  
+---
 
-Given a **CustomerAccount** *{customer_account_id}* with **Wishlist** *{wishlist_id}*  
-  And **Product** *{sku}* is not currently on the **Wishlist**  
-When the customer selects *{add_action}* on the **Product** *{sku}* details page  
-Then **Product** *{sku}* is added to **Wishlist** *{wishlist_id}* (*{added}*)  
-  And the button changes to *{expected_button_state}*  
+### Scenario 1: `Saved payment methods shown with default pre-selected`
 
-### Wishlist addition (Then — below scenario):  
-| scenario | customer_account_id | wishlist_id | sku             | add_action      | added | expected_button_state |  
-|----------|---------------------|-------------|-----------------|-----------------|-------|-----------------------|  
-| 1        | CUST-001            | WISH-001    | SKU-DOG-FOOD-01 | Add to Wishlist | true  | Remove from Wishlist  |  
+When the customer reaches the payment step during checkout
+Then all **Saved Payment Method** entries are shown for selection
+And **Saved Payment Method** ending *4242* is pre-selected as the **Default Payment Method**
 
----  
+### Scenario 2: `Selecting saved payment method charges via vendor token`
 
-### Scenario Outline: Wishlist shows live stock availability  
+When the customer selects **Saved Payment Method** with **vendor-token reference** *tok_sw_4242*
+Then **Payment** proceeds through **StripeWave** using the stored token — no card re-entry required
+And the customer sees confirmation **last four digits** *4242* and **card brand** *Visa*
 
-Given a **Wishlist** *{wishlist_id}* contains **Product** *{sku}*  
-  And **StockAvailability** for *{sku}* has **availableToSellQuantity** *{available_qty}*  
-When the customer opens their **Wishlist**  
-Then **Product** *{sku}* is shown with name, image, price, and current stock: *{stock_display}*  
+### Scenario 3: `Use different payment method reveals manual entry and save option`
 
-### StockAvailability (Given — above / Then — below):  
-| scenario | wishlist_id | sku             | available_qty | stock_display |  
-|----------|-------------|-----------------|---------------|---------------|  
-| 1        | WISH-001    | SKU-DOG-FOOD-01 | 15            | In Stock      |  
-| 2        | WISH-001    | SKU-CAT-TOY-05  | 0             | Out of Stock  |  
+When the customer chooses *use a different payment method*
+Then manual card entry for **StripeWave** is displayed
+And a *save this payment method* checkbox stores a new **Saved Payment Method** when checked
 
----  
+### Scenario 4: `Expired vendor token marked and not silently charged`
 
-### Scenario Outline: Add to cart from wishlist — item remains on wishlist  
+Given **Saved Payment Method** with **vendor-token reference** *tok_sw_expired* has **expiry month** *01* and **expiry year** *2024*
+When the customer reaches the payment step
+Then that **Saved Payment Method** is marked *expired*
+And remaining valid **Saved Payment Method** entries and manual card entry are displayed as alternatives
+And the expired token is not used for a **Payment** charge attempt
 
-Given a **Wishlist** *{wishlist_id}* contains **Product** *{sku}*  
-When the customer selects *{cart_action}* from the **Wishlist** item  
-Then **Product** *{sku}* is added to the **ShoppingCart** (*{in_cart}*)  
-  And **Product** *{sku}* remains on **Wishlist** *{wishlist_id}* (*{still_on_wishlist}*)  
+---
 
-### Wishlist to cart (Then — below scenario):  
-| scenario | wishlist_id | sku             | cart_action | in_cart | still_on_wishlist |  
-|----------|-------------|-----------------|-------------|---------|-------------------|  
-| 1        | WISH-001    | SKU-DOG-FOOD-01 | Add to Cart | true    | true              |  
+## Story: `View Order History`
 
----  
+**Story type:** user
 
-### Scenario Outline: Guest user prompted to log in for wishlist  
+**Sources / context:** ubiquitous-language.md, crc.md, increment-4-acceptance-criteria.md
 
-Given a guest customer (not logged in) is viewing **Product** *{sku}*  
-When the guest selects *{add_action}*  
-Then a *{expected_prompt}* prompt is shown, explaining wishlists require an account (*{prompt_shown}*)  
-  And the customer remains on the **Product** *{sku}* details page (*{stays_on_page}*)  
+---
 
-### Guest wishlist attempt (Then — below scenario):  
-| scenario | sku             | add_action      | expected_prompt    | prompt_shown | stays_on_page |  
-|----------|-----------------|-----------------|--------------------| -------------|---------------|  
-| 1        | SKU-DOG-FOOD-01 | Add to Wishlist | log in or register | true         | true          |  
+### Order:
 
----  
+| scenario | order_number | order_date | order_status | order_total | guest_email_snapshot |
+|---|---|---|---|---|---|
+| 1 | ORD-1001 | 2025-01-15 | delivered | £45.99 | — |
+| 2 | ORD-1002 | 2025-03-20 | shipped | £82.50 | — |
+| 3 | ORD-0999 | 2025-02-10 | delivered | £34.99 | sarah.jones@example.com |
 
-## Story: `Reorder Previous Purchase`  
+### Order Line Item:
 
-### Order (Given — above scenarios):  
-| orderNumber | customer_account_id | orderDate  |  
-|-------------|---------------------|------------|  
-| ORD-1001    | CUST-001            | 2025-01-15 |  
+| scenario | order_number | sku_snapshot | product_name_snapshot | quantity | unit_price_snapshot |
+|---|---|---|---|---|---|
+| 1 | ORD-1001 | SKU-DOG-FOOD-01 | Premium Dog Kibble 5kg | 1 | £29.99 |
+| 2 | ORD-1001 | SKU-LEASH-03 | Leather Retractable Lead | 1 | £16.00 |
+| 3 | ORD-1002 | SKU-CAT-TOY-05 | Feather Wand Cat Toy | 3 | £7.50 |
 
-### OrderLineItem (Given — above scenarios):  
-| orderNumber | sku             | productNameSnapshot      | quantity |  
-|-------------|-----------------|--------------------------|----------|  
-| ORD-1001    | SKU-DOG-FOOD-01 | Premium Dog Kibble 5kg   | 2        |  
-| ORD-1001    | SKU-LEASH-03    | Leather Retractable Lead | 1        |  
+---
 
-### StockAvailability (Given — above scenarios):  
-| sku             | availableToSellQuantity | product_active |  
-|-----------------|-------------------------|----------------|  
-| SKU-DOG-FOOD-01 | 10                      | true           |  
-| SKU-LEASH-03    | 0                       | true           |  
+### Scenario 1: `Order history lists orders most recent first`
 
----  
+Given a logged-in **Customer Account** with **email address** *jane.doe@example.com* has **Order** *ORD-1001* and **Order** *ORD-1002*
+When the customer opens **Order History**
+Then **Order** *ORD-1002* appears before **Order** *ORD-1001*
+And each row shows **order number**, **order date**, condensed **Order Line Item** items, **order total**, and **order status**
 
-### Scenario Outline: Reorder adds all products to cart  
+### Scenario 2: `Order detail shows full snapshot including tracking`
 
-Given a **CustomerAccount** *{customer_account_id}* with **Order** *{orderNumber}* in *Order History*  
-  And all **OrderLineItem** products are active and in stock  
-When the customer selects *{reorder_action}* on **Order** *{orderNumber}*  
-Then all **Product** items from *{orderNumber}* are added to the **ShoppingCart** with their original quantities  
-  And the customer is taken to the cart to review before checkout (*{redirected_to_cart}*)  
+Given **Order** *ORD-1002* has **order status** *shipped*
+When the customer selects **Order** *ORD-1002* from **Order History**
+Then full order detail opens with all **Order Line Item** entries, **Shipping Address** snapshot, **Billing Address** snapshot, **Delivery Option**, masked **Saved Payment Method**, and **Tracking Number** *RM-1Z999AA10123456784*
 
-### Reorder result (Then — below scenario):  
-| scenario | customer_account_id | orderNumber | sku             | reorder_action | quantity_in_cart | redirected_to_cart |  
-|----------|---------------------|-------------|-----------------|----------------|------------------|--------------------|  
-| 1        | CUST-001            | ORD-1001    | SKU-DOG-FOOD-01 | Reorder        | 2                | true               |  
-| 2        | CUST-001            | ORD-1001    | SKU-LEASH-03    | Reorder        | 1                | true               |  
+### Scenario 3: `Empty order history shows start shopping prompt`
 
----  
+Given a logged-in **Customer Account** with **email address** *new.customer@example.com* has no **Order** entries
+When the customer opens **Order History**
+Then an empty state shows prompt *start shopping*
 
-### Scenario Outline: Reorder with delisted product — partial success  
+### Scenario 4: `Guest order retroactively associated when email matches new account`
 
-Given **Order** *{orderNumber}* contains **OrderLineItem** with **Product** *{delisted_sku}*  
-  And **Product** *{delisted_sku}* has been delisted (no longer active)  
-When the customer selects *{reorder_action}* on **Order** *{orderNumber}*  
-Then available products are added to the **ShoppingCart** (*{partial_reorder}*)  
-  And a clear message lists *{delisted_sku}* as unavailable: *{reason}*  
+Given a **Guest Checkout** **Order** *ORD-0999* was placed with **Guest Email** *sarah.jones@example.com*
+When a **Customer Account** is created with **email address** *sarah.jones@example.com*
+Then **Order** *ORD-0999* is retroactively associated with that **Customer Account**
+And **Order** *ORD-0999* appears in **Order History**
 
-### Delisted product (Given — above / Then — below):  
-| scenario | orderNumber | delisted_sku | reorder_action | reason           | partial_reorder |  
-|----------|-------------|--------------|----------------|------------------|-----------------|  
-| 1        | ORD-1001    | SKU-LEASH-03 | Reorder        | product delisted | true            |  
+---
 
----  
+## Story: `Manage Wishlist`
 
-### Scenario Outline: Reorder with out-of-stock product — stock warning shown  
+**Story type:** user
 
-Given **Order** *{orderNumber}* contains **OrderLineItem** with **Product** *{oos_sku}*  
-  And **StockAvailability** for *{oos_sku}* has **availableToSellQuantity** *{available_qty}*  
-When the customer selects *{reorder_action}* on **Order** *{orderNumber}*  
-Then **Product** *{oos_sku}* is added to the cart (*{added_to_cart}*) with a stock warning (*{warning_shown}*)  
-  And a *{expected_proceed_option}* option and a *{expected_remove_option}* option are shown (*{options_shown}*)  
+**Sources / context:** ubiquitous-language.md, crc.md, increment-4-acceptance-criteria.md
 
-### StockAvailability (Given — above / Then — below):  
-| scenario | orderNumber | oos_sku      | available_qty | reorder_action | added_to_cart | warning_shown | expected_proceed_option | expected_remove_option | options_shown |  
-|----------|-------------|--------------|---------------|----------------|---------------|---------------|-------------------------|------------------------|---------------|  
-| 1        | ORD-1001    | SKU-LEASH-03 | 0             | Reorder        | true          | true          | proceed anyway          | remove                 | true          |  
+---
 
----  
+### Product:
 
-### Scenario Outline: Reorder merges into existing cart  
+| scenario | sku | product_name |
+|---|---|---|
+| 1 | SKU-DOG-FOOD-01 | Premium Dog Kibble 5kg |
+| 2 | SKU-CAT-TOY-05 | Feather Wand Cat Toy |
 
-Given a **CustomerAccount** *{customer_account_id}* with existing **ShoppingCart** containing **Product** *{existing_sku}* quantity *{existing_qty}*  
-  And **Order** *{orderNumber}* contains **Product** *{existing_sku}* with quantity *{reorder_qty}*  
-When the customer selects *{reorder_action}* on **Order** *{orderNumber}*  
-Then **Product** *{existing_sku}* in the **ShoppingCart** has quantity *{merged_qty}*  
+### Stock Availability:
 
-### Cart merge on reorder (Given — above / Then — below):  
-| scenario | customer_account_id | orderNumber | existing_sku    | existing_qty | reorder_qty | reorder_action | merged_qty |  
-|----------|---------------------|-------------|-----------------|--------------|-------------|----------------|------------|  
-| 1        | CUST-001            | ORD-1001    | SKU-DOG-FOOD-01 | 1            | 2           | Reorder        | 3          |  
+| scenario | sku | available_to_sell_quantity |
+|---|---|---|
+| 1 | SKU-DOG-FOOD-01 | 15 |
+| 2 | SKU-CAT-TOY-05 | 0 |
+
+---
+
+### Scenario 1: `Add to wishlist from product details page`
+
+Given a logged-in **Customer Account** with **email address** *jane.doe@example.com* and verified **account verification status**
+And **Product** *SKU-DOG-FOOD-01* is not on the **Wishlist**
+When the customer selects *Add to Wishlist* on the **Product** details page
+Then **Product** *SKU-DOG-FOOD-01* is added to the **Wishlist** as a **Wishlist Item**
+And the control changes to *Remove from Wishlist*
+
+### Scenario 2: `Wishlist shows product details and stock availability`
+
+Given the **Wishlist** contains **Wishlist Item** for **Product** *SKU-DOG-FOOD-01* and **Product** *SKU-CAT-TOY-05*
+And **Stock Availability** for *SKU-DOG-FOOD-01* has **available to sell quantity** *15*
+And **Stock Availability** for *SKU-CAT-TOY-05* has **available to sell quantity** *0*
+When the customer opens the **Wishlist**
+Then **Wishlist Item** for *SKU-DOG-FOOD-01* shows product name, image, price, and *In Stock*
+And **Wishlist Item** for *SKU-CAT-TOY-05* shows *Out of Stock*
+
+### Scenario 3: `Add to cart from wishlist leaves item on wishlist`
+
+Given the **Wishlist** contains **Wishlist Item** for **Product** *SKU-DOG-FOOD-01*
+When the customer selects *Add to Cart* from the **Wishlist Item**
+Then **Product** *SKU-DOG-FOOD-01* is added to the **Shopping Cart**
+And **Product** *SKU-DOG-FOOD-01* remains on the **Wishlist**
+
+### Scenario 4: `Remove wishlist item resets product page control`
+
+Given the **Wishlist** contains **Wishlist Item** for **Product** *SKU-DOG-FOOD-01*
+When the customer removes the **Wishlist Item**
+Then **Product** *SKU-DOG-FOOD-01* is removed from the **Wishlist**
+And the *Add to Wishlist* control on the **Product** details page returns to its default state
+
+### Scenario 5: `Guest add to wishlist shows dismissible login prompt`
+
+Given a guest customer is viewing **Product** *SKU-DOG-FOOD-01*
+When the guest selects *Add to Wishlist*
+Then a prompt *log in or register* explains that **Wishlist** requires a verified **Customer Account**
+And the customer remains on the **Product** details page
+And the prompt is dismissible so browsing continues
+
+---
+
+## Story: `Reorder Previous Purchase`
+
+**Story type:** user
+
+**Sources / context:** ubiquitous-language.md, crc.md, increment-4-acceptance-criteria.md
+
+---
+
+### Order:
+
+| scenario | order_number | order_date |
+|---|---|---|
+| 1 | ORD-1001 | 2025-01-15 |
+
+### Order Line Item:
+
+| scenario | order_number | sku_snapshot | product_name_snapshot | quantity |
+|---|---|---|---|---|
+| 1 | ORD-1001 | SKU-DOG-FOOD-01 | Premium Dog Kibble 5kg | 2 |
+| 2 | ORD-1001 | SKU-LEASH-03 | Leather Retractable Lead | 1 |
+
+### Stock Availability:
+
+| scenario | sku_snapshot | available_to_sell_quantity | product_active |
+|---|---|---|---|
+| 1 | SKU-DOG-FOOD-01 | 10 | true |
+| 2 | SKU-LEASH-03 | 0 | true |
+| 3 | SKU-DISCONTINUED | 0 | false |
+
+---
+
+### Scenario 1: `Reorder adds all order line items to shopping cart`
+
+Given a logged-in **Customer Account** has **Order** *ORD-1001* in **Order History**
+And all **Order Line Item** **Product** entries are active and in stock
+When the customer selects *Reorder* on **Order** *ORD-1001*
+Then **Reorder** adds **Product** *SKU-DOG-FOOD-01* with quantity *2* and **Product** *SKU-LEASH-03* with quantity *1* to the **Shopping Cart**
+And the customer is taken to the **Shopping Cart** to review before checkout
+
+### Scenario 2: `Reorder skips delisted product with partial success`
+
+Given **Order** *ORD-1001* contains **Order Line Item** for **Product** *SKU-DISCONTINUED*
+And **Product** *SKU-DISCONTINUED* is no longer active in the **Product Catalog**
+When the customer selects *Reorder* on **Order** *ORD-1001*
+Then available **Product** entries are added to the **Shopping Cart**
+And a clear message lists *SKU-DISCONTINUED* as unavailable because *product delisted*
+And partial **Reorder** succeeds — available items are not blocked
+
+### Scenario 3: `Reorder adds out-of-stock product with warning and options`
+
+Given **Order** *ORD-1001* contains **Order Line Item** for **Product** *SKU-LEASH-03*
+And **Stock Availability** for *SKU-LEASH-03* has **available to sell quantity** *0*
+When the customer selects *Reorder* on **Order** *ORD-1001*
+Then **Product** *SKU-LEASH-03* is added to the **Shopping Cart** with a **Stock Availability** warning
+And *proceed anyway* and *remove* options are shown on that **Cart Item**
+
+### Scenario 4: `Reorder merges quantities into existing shopping cart`
+
+Given a **Customer Account** **Shopping Cart** contains **Product** *SKU-DOG-FOOD-01* with quantity *1*
+And **Order** *ORD-1001* contains **Order Line Item** for **Product** *SKU-DOG-FOOD-01* with quantity *2*
+When the customer selects *Reorder* on **Order** *ORD-1001*
+Then **Product** *SKU-DOG-FOOD-01* in the **Shopping Cart** has quantity *3*

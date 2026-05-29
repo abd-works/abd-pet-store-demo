@@ -1,17 +1,33 @@
 import type { Db } from 'mongodb';
-import { InMemoryProductCatalogRepository } from './product-catalog.repository';
+import {
+  InMemoryProductCatalogRepository,
+  InMemoryProductStorage,
+  InMemoryStockStorage,
+} from './product-catalog.repository';
 import { MongoProductCatalogRepository } from './product-catalog.mongo-repository';
-import { ProductCatalogService } from './product-catalog.service';
-import { ProductCatalogController } from './product-catalog.controller';
+import { CatalogProductBrowse } from './catalog-product-browse';
+import { CatalogStockLevels } from './catalog-stock-levels';
+import { CatalogFixtureLoader } from './catalog-fixture-loader';
+import { CatalogProductApi } from './catalog-product-api';
+import { CatalogFixtureApi } from './catalog-fixture-api';
 import { createProductCatalogRouter } from './product-catalog.routes';
 
 export function createProductCatalogModule(db?: Db) {
-  const repository = db ? new MongoProductCatalogRepository(db) : new InMemoryProductCatalogRepository();
-  const service = new ProductCatalogService(repository);
-  const controller = new ProductCatalogController(service);
+  const productStorage = new InMemoryProductStorage();
+  const stockStorage = new InMemoryStockStorage();
+  const repository = db
+    ? new MongoProductCatalogRepository(db, productStorage, stockStorage)
+    : new InMemoryProductCatalogRepository(productStorage, stockStorage);
+  const browse = new CatalogProductBrowse(repository);
+  const stockLevels = new CatalogStockLevels(repository);
+  const fixtures = new CatalogFixtureLoader(repository, repository);
+  const productApi = new CatalogProductApi(browse, stockLevels);
+  const fixtureApi = new CatalogFixtureApi(fixtures);
   return {
     repository,
-    productCatalogRouter: createProductCatalogRouter(controller),
+    browse,
+    stockLevels,
+    productCatalogRouter: createProductCatalogRouter(productApi, fixtureApi),
   };
 }
 

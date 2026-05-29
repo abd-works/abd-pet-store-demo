@@ -1,596 +1,2820 @@
 # ABD Delivery Plan — Checklist
 
-<!-- generated-by: skills/skill-helpers/track_task/scripts/generate_delivery_checklist.py -->
-<!-- generated-at: 2026-05-23T22:42:37+00:00 -->
+<!-- generated-by: skill-helpers/skills/track_task/scripts/generate_delivery_checklist.py -->
+<!-- generated-at: 2026-05-26T13:40:17+00:00 -->
 <!-- source-plan: C:\dev\abd-pet-store-demo\docs\planning\abd-delivery-lead\agile-delivery-plan.md -->
 
-**Do not edit structure by hand.** Regenerate from `agile-delivery-plan.md`.
-Slot completion is **`slot-NN-finished.md`** on disk — not a checkbox in this file.
-This file lives in the **war room** — authoritative progress for the delivery lead and CLI harness.
+**Sub-bullets** under a stage are ticked when that **run's** stage exit gate is in `run-log.jsonl`.
+**Structure:** `#### stage` -> `##### role` (Executor / Reviewer / Rework / Delivery lead) -> `###### skill` -> activity checkboxes.
+**Synced:** all activity lines under a completed stage, **Run N CHECKPOINT**, orchestration Steps, **Progress at a glance**.
 
-**Per-stage tracking:** each stage is executor slot -> **reviewer slot** (scan + gate review as separate checkboxes) -> **rework** (fixes incorporated) -> delivery-lead exit gate. Tick each line; do not skip reviewer or rework steps.
 
-## Orchestration (abd-delivery-lead AGENT.md)
+
+
+<!-- resume: slot 163 next; synced-at: 2026-05-26T13:40:17+00:00 -->
+
+## Progress at a glance (from run-log — authoritative)
+
+- **Next slot:** 163
+- **Runs complete:** 1, 2, 3, 4, 5, 6
+- **Run 1 stages done:** discovery; slots 5–16
+- **Run 2 stages done:** engineering, exploration, specification; slots 17–42
+- **Run 3 stages done:** engineering, exploration, specification; slots 43–68
+- **Run 4 stages done:** engineering, exploration, specification; slots 69–92
+- **Run 5 stages done:** engineering, exploration, specification
+- **Run 6 stages done:** engineering, exploration, specification
+- **Run 7 stages done:** exploration
+
+**Per-stage tracking:** each skill is executor slot -> role-matched reviewer slot -> stage-level rework -> delivery-lead exit gate. Tick each line.
+
+## Orchestration (delivery-lead AGENT.md)
 
 - [x] **Step 1 — Establish workspace** — workspace path confirmed and existing artifacts noted
 - [x] **Step 2 — Build the plan** — plan presented at CHECKPOINT and `agile-delivery-plan.md` written
 - [x] **Step 3 — Open first stage of first run** — entry conditions verified for the current stage
-- [x] **Step 4 — Bootstrap team member** — team-role, workspace, scope, corrections handed off
-- [ ] **Step 5 — Validate stage exit** — reviewer scanned + reviewed; fixes incorporated; exit gate at CHECKPOINT
-- [ ] **Step 6 — Handoff to next stage** — artifacts, decisions, corrections passed forward
-- [ ] **Step 7 — Run complete, revise plan** — run summary + revised plan presented at CHECKPOINT
+- [x] **Step 4 — Monitor role agents** — eight role agents bootstrapped; pipeline monitored on disk
+- [x] **Step 5 — Validate stage exit** — reviewer scanned + reviewed; fixes incorporated; exit gate at CHECKPOINT
+- [x] **Step 6 — Handoff to next stage** — artifacts, decisions, corrections passed forward
+- [x] **Step 7 — Run complete, revise plan** — run summary + revised plan presented at CHECKPOINT
 - [ ] **Step 8 — Plan complete** — final summary, open items, strategy save proposal at CHECKPOINT
 
 ## Runs
 
-### Run 1 — Missing IA + blueprint block increment delivery
-- **Scope:** Foundation backfill — domain refresh, full story map, UX IA, architecture blueprint, SLOs
-- **Checkpoint policy:** **After Discovery stage** (end of run)
+### Run 1 — Discovery foundation
+- **Scope:** Foundation backfill — domain, story, UX IA, architecture blueprint, SLOs
 
-- [x] **discovery** — entry verified
-  - [x] **Executor** — slot authored and `abd-team-member` bootstrapped (role + workspace + scope + corrections) — slot 05 abd-ubiquitous-language (pair complete)
-  - [x] **Executor** — draft stage artifacts produced — `docs/domain/ubiquitous-language.md`, `docs/domain/domain.json`
-  - [x] **Executor** — self-review against skill rules complete
-  - [x] **Executor CHECKPOINT** — operator confirms drafts (harness auto-unblock)
-  - [x] **Executor** — story-graph updated via story-graph-ops (N/A — UL does not produce graph content)
-  - [x] **Executor** — scanners green (all practice skills) — abd-ubiquitous-language; manual supplement in slot 06 reviewer
-  - [x] **Executor** — slot finished (`slot-05-finished.md` on disk)
-  - [x] **Reviewer** — slot authored (`team-role: reviewer`; scope = executor artifacts only) — slot 06
-  - [x] **Reviewer** — bootstrapped; read executor `slot-05-finished.md` + artifact paths
-  - [x] **Reviewer** — scanners run (`execute-skill-using-skills-rules`); pass/fail in `slot-06-finished.md`
-  - [x] **Reviewer** — exit-gate review complete; findings in `slot-06-finished.md` — PASS
-  - [x] **Reviewer CHECKPOINT** — delivery lead reads findings — no blockers; non-blocking notes only
-  - [x] **Rework** — corrections logged for reviewer findings (N/A — clean pass)
-  - [x] **Rework** — team member incorporated suggested fixes (N/A)
-  - [x] **Rework** — scanners green after fix incorporation (N/A)
-  - [ ] **Executor** — slot authored and `abd-team-member` bootstrapped — slot 07 abd-story-mapping (in progress)
-  - [ ] **Executor** — draft stage artifacts produced — `docs/story/story-map.md`, `docs/story/story-graph.json`
-  - [ ] **Executor** — self-review against skill rules complete
-  - [ ] **Executor CHECKPOINT** — operator confirms drafts
-  - [ ] **Executor** — story-graph updated via story-graph-ops
-  - [ ] **Executor** — scanners green (all practice skills) — abd-story-mapping; deferred to reviewer
-  - [ ] **Executor** — slot finished (`slot-07-finished.md` on disk)
-  - [ ] **Delivery lead** — exit gate verified against `stages/discovery.md` (after all skill pairs)
-  - [ ] **CHECKPOINT** — user confirms stage complete
-- [ ] **Run 1 CHECKPOINT** — run summary + plan revision presented
+#### discovery
 
-### Run 2 — First vertical slice; establishes UX, arch reference, prototype, OM, tests, code
-- **Scope:** Increment 1 — walk-in driver (full skill chain)
-- **Checkpoint policy:** **After each stage** — Exploration, Specification, Engineering
+- [x] **Stage opened** — entry conditions verified for this run
 
-- [ ] **exploration** — entry verified
-  - [ ] **Executor** — slot authored and `abd-team-member` bootstrapped (role + workspace + scope + corrections)
-  - [ ] **Executor** — draft stage artifacts produced
-  - [ ] **Executor** — self-review against skill rules complete
-  - [ ] **Executor CHECKPOINT** — operator confirms drafts
-  - [ ] **Executor** — story-graph updated via story-graph-ops (if stage produces graph content)
-  - [ ] **Executor** — scanners green (all practice skills)
-  - [ ] **Executor** — slot finished (`slot-NN-finished.md` on disk)
-  - [ ] **Reviewer** — slot authored (`team-role: reviewer`; scope = executor artifacts only)
-  - [ ] **Reviewer** — bootstrapped; read executor `slot-NN-finished.md` + artifact paths
-  - [ ] **Reviewer** — scanners run (`execute-skill-using-skills-rules`); pass/fail in reviewer finished file
-  - [ ] **Reviewer** — exit-gate review complete; findings in reviewer `slot-MM-finished.md`
-  - [ ] **Reviewer CHECKPOINT** — delivery lead reads findings
-  - [ ] **Rework** — corrections logged for reviewer findings (or N/A if clean pass)
-  - [ ] **Rework** — team member incorporated suggested fixes (rework slot complete)
-  - [ ] **Rework** — scanners green after fix incorporation
-  - [ ] **Delivery lead** — exit gate verified against `stages/exploration.md`
-  - [ ] **CHECKPOINT** — user confirms stage complete
-- [ ] **specification** — entry verified
-  - [ ] **Executor** — slot authored and `abd-team-member` bootstrapped (role + workspace + scope + corrections)
-  - [ ] **Executor** — draft stage artifacts produced
-  - [ ] **Executor** — self-review against skill rules complete
-  - [ ] **Executor CHECKPOINT** — operator confirms drafts
-  - [ ] **Executor** — story-graph updated via story-graph-ops (if stage produces graph content)
-  - [ ] **Executor** — scanners green (all practice skills)
-  - [ ] **Executor** — slot finished (`slot-NN-finished.md` on disk)
-  - [ ] **Reviewer** — slot authored (`team-role: reviewer`; scope = executor artifacts only)
-  - [ ] **Reviewer** — bootstrapped; read executor `slot-NN-finished.md` + artifact paths
-  - [ ] **Reviewer** — scanners run (`execute-skill-using-skills-rules`); pass/fail in reviewer finished file
-  - [ ] **Reviewer** — exit-gate review complete; findings in reviewer `slot-MM-finished.md`
-  - [ ] **Reviewer CHECKPOINT** — delivery lead reads findings
-  - [ ] **Rework** — corrections logged for reviewer findings (or N/A if clean pass)
-  - [ ] **Rework** — team member incorporated suggested fixes (rework slot complete)
-  - [ ] **Rework** — scanners green after fix incorporation
-  - [ ] **Delivery lead** — exit gate verified against `stages/specification.md`
-  - [ ] **CHECKPOINT** — user confirms stage complete
-- [ ] **engineering** — entry verified
-  - [ ] **Executor** — slot authored and `abd-team-member` bootstrapped (role + workspace + scope + corrections)
-  - [ ] **Executor** — draft stage artifacts produced
-  - [ ] **Executor** — self-review against skill rules complete
-  - [ ] **Executor CHECKPOINT** — operator confirms drafts
-  - [ ] **Executor** — story-graph updated via story-graph-ops (if stage produces graph content)
-  - [ ] **Executor** — scanners green (all practice skills)
-  - [ ] **Executor** — slot finished (`slot-NN-finished.md` on disk)
-  - [ ] **Reviewer** — slot authored (`team-role: reviewer`; scope = executor artifacts only)
-  - [ ] **Reviewer** — bootstrapped; read executor `slot-NN-finished.md` + artifact paths
-  - [ ] **Reviewer** — scanners run (`execute-skill-using-skills-rules`); pass/fail in reviewer finished file
-  - [ ] **Reviewer** — exit-gate review complete; findings in reviewer `slot-MM-finished.md`
-  - [ ] **Reviewer CHECKPOINT** — delivery lead reads findings
-  - [ ] **Rework** — corrections logged for reviewer findings (or N/A if clean pass)
-  - [ ] **Rework** — team member incorporated suggested fixes (rework slot complete)
-  - [ ] **Rework** — scanners green after fix incorporation
-  - [ ] **Delivery lead** — exit gate verified against `stages/engineering.md`
-  - [ ] **CHECKPOINT** — user confirms stage complete
-- [ ] **Run 2 CHECKPOINT** — run summary + plan revision presented
+##### Executor
 
-### Run 3 — Payment + cart — new UX and payment mechanisms
+###### abd-domain-terms
+- *Domain terms · business-expert*
+- [x] slot queued / claimed (`slot-NN-claim.md`)
+- [x] draft artifacts produced
+- [x] self-review against `abd-domain-terms` rules complete
+- [x] **EXECUTOR CHECKPOINT** — operator confirms drafts
+- [x] story-graph updated via story-graph-ops (when stage produces graph content)
+- [x] scanners green (`execute-skill-using-skills-rules`)
+- [x] slot finished (`slot-NN-finished.md` on disk)
+
+###### abd-ubiquitous-language
+- *UL · business-expert*
+- [x] slot queued / claimed (`slot-NN-claim.md`)
+- [x] draft artifacts produced
+- [x] self-review against `abd-ubiquitous-language` rules complete
+- [x] **EXECUTOR CHECKPOINT** — operator confirms drafts
+- [x] story-graph updated via story-graph-ops (when stage produces graph content)
+- [x] scanners green (`execute-skill-using-skills-rules`)
+- [x] slot finished (`slot-NN-finished.md` on disk)
+
+###### abd-story-mapping
+- *Story map · product-owner*
+- [x] slot queued / claimed (`slot-NN-claim.md`)
+- [x] draft artifacts produced
+- [x] self-review against `abd-story-mapping` rules complete
+- [x] **EXECUTOR CHECKPOINT** — operator confirms drafts
+- [x] story-graph updated via story-graph-ops (when stage produces graph content)
+- [x] scanners green (`execute-skill-using-skills-rules`)
+- [x] slot finished (`slot-NN-finished.md` on disk)
+
+###### abd-information-architecture
+- *Information architecture · ux-designer*
+- [x] slot queued / claimed (`slot-NN-claim.md`)
+- [x] draft artifacts produced
+- [x] self-review against `abd-information-architecture` rules complete
+- [x] **EXECUTOR CHECKPOINT** — operator confirms drafts
+- [x] story-graph updated via story-graph-ops (when stage produces graph content)
+- [x] scanners green (`execute-skill-using-skills-rules`)
+- [x] slot finished (`slot-NN-finished.md` on disk)
+
+###### abd-architecture-blueprint
+- *Architecture blueprint · engineer*
+- [x] slot queued / claimed (`slot-NN-claim.md`)
+- [x] draft artifacts produced
+- [x] self-review against `abd-architecture-blueprint` rules complete
+- [x] **EXECUTOR CHECKPOINT** — operator confirms drafts
+- [x] story-graph updated via story-graph-ops (when stage produces graph content)
+- [x] scanners green (`execute-skill-using-skills-rules`)
+- [x] slot finished (`slot-NN-finished.md` on disk)
+
+###### abd-service-level-objectives
+- *SLOs · engineer*
+- [x] slot queued / claimed (`slot-NN-claim.md`)
+- [x] draft artifacts produced
+- [x] self-review against `abd-service-level-objectives` rules complete
+- [x] **EXECUTOR CHECKPOINT** — operator confirms drafts
+- [x] story-graph updated via story-graph-ops (when stage produces graph content)
+- [x] scanners green (`execute-skill-using-skills-rules`)
+- [x] slot finished (`slot-NN-finished.md` on disk)
+
+##### Reviewer
+
+###### abd-domain-terms
+- *Domain terms*
+- [x] reviewer claimed slot (`slot_type: reviewer`; same `team-role` as executor)
+- [x] read executor `slot-NN-finished.md` + artifact paths
+- [x] scanners run; pass/fail recorded in reviewer finished file
+- [x] exit-gate review complete; findings in reviewer `slot-MM-finished.md`
+- [x] **REVIEWER CHECKPOINT** — delivery lead reads findings
+
+###### abd-ubiquitous-language
+- *UL*
+- [x] reviewer claimed slot (`slot_type: reviewer`; same `team-role` as executor)
+- [x] read executor `slot-NN-finished.md` + artifact paths
+- [x] scanners run; pass/fail recorded in reviewer finished file
+- [x] exit-gate review complete; findings in reviewer `slot-MM-finished.md`
+- [x] **REVIEWER CHECKPOINT** — delivery lead reads findings
+
+###### abd-story-mapping
+- *Story map*
+- [x] reviewer claimed slot (`slot_type: reviewer`; same `team-role` as executor)
+- [x] read executor `slot-NN-finished.md` + artifact paths
+- [x] scanners run; pass/fail recorded in reviewer finished file
+- [x] exit-gate review complete; findings in reviewer `slot-MM-finished.md`
+- [x] **REVIEWER CHECKPOINT** — delivery lead reads findings
+
+###### abd-information-architecture
+- *Information architecture*
+- [x] reviewer claimed slot (`slot_type: reviewer`; same `team-role` as executor)
+- [x] read executor `slot-NN-finished.md` + artifact paths
+- [x] scanners run; pass/fail recorded in reviewer finished file
+- [x] exit-gate review complete; findings in reviewer `slot-MM-finished.md`
+- [x] **REVIEWER CHECKPOINT** — delivery lead reads findings
+
+###### abd-architecture-blueprint
+- *Architecture blueprint*
+- [x] reviewer claimed slot (`slot_type: reviewer`; same `team-role` as executor)
+- [x] read executor `slot-NN-finished.md` + artifact paths
+- [x] scanners run; pass/fail recorded in reviewer finished file
+- [x] exit-gate review complete; findings in reviewer `slot-MM-finished.md`
+- [x] **REVIEWER CHECKPOINT** — delivery lead reads findings
+
+###### abd-service-level-objectives
+- *SLOs*
+- [x] reviewer claimed slot (`slot_type: reviewer`; same `team-role` as executor)
+- [x] read executor `slot-NN-finished.md` + artifact paths
+- [x] scanners run; pass/fail recorded in reviewer finished file
+- [x] exit-gate review complete; findings in reviewer `slot-MM-finished.md`
+- [x] **REVIEWER CHECKPOINT** — delivery lead reads findings
+
+##### Rework
+
+- [x] corrections logged for reviewer findings (or N/A if clean pass)
+- [x] executor incorporated suggested fixes (rework slot complete)
+- [x] scanners green after fix incorporation
+
+##### Delivery lead
+
+- [x] exit gate verified against `stages/discovery.md`
+- [x] **STAGE CHECKPOINT** — user confirms `discovery` complete for this run
+
+- [x] **Run 1 CHECKPOINT** — run summary + plan revision presented
+
+### Run 2 — Increment 1: Walk-in driver
+- **Scope:** Increment 1 — walk-in driver (thin-slicing.md)
+
+#### exploration
+
+- [x] **Stage opened** — entry conditions verified for this run
+
+##### Executor
+
+###### abd-ubiquitous-language
+- *UL · business-expert*
+- [x] slot queued / claimed (`slot-NN-claim.md`)
+- [x] draft artifacts produced
+- [x] self-review against `abd-ubiquitous-language` rules complete
+- [x] **EXECUTOR CHECKPOINT** — operator confirms drafts
+- [x] story-graph updated via story-graph-ops (when stage produces graph content)
+- [x] scanners green (`execute-skill-using-skills-rules`)
+- [x] slot finished (`slot-NN-finished.md` on disk)
+
+###### abd-acceptance-criteria
+- *AC · product-owner*
+- [x] slot queued / claimed (`slot-NN-claim.md`)
+- [x] draft artifacts produced
+- [x] self-review against `abd-acceptance-criteria` rules complete
+- [x] **EXECUTOR CHECKPOINT** — operator confirms drafts
+- [x] story-graph updated via story-graph-ops (when stage produces graph content)
+- [x] scanners green (`execute-skill-using-skills-rules`)
+- [x] slot finished (`slot-NN-finished.md` on disk)
+
+###### abd-ux-mockup
+- *UX mockup · ux-designer*
+- [x] slot queued / claimed (`slot-NN-claim.md`)
+- [x] draft artifacts produced
+- [x] self-review against `abd-ux-mockup` rules complete
+- [x] **EXECUTOR CHECKPOINT** — operator confirms drafts
+- [x] story-graph updated via story-graph-ops (when stage produces graph content)
+- [x] scanners green (`execute-skill-using-skills-rules`)
+- [x] slot finished (`slot-NN-finished.md` on disk)
+
+###### abd-architecture-template
+- *Arch template · engineer*
+- [x] slot queued / claimed (`slot-NN-claim.md`)
+- [x] draft artifacts produced
+- [x] self-review against `abd-architecture-template` rules complete
+- [x] **EXECUTOR CHECKPOINT** — operator confirms drafts
+- [x] story-graph updated via story-graph-ops (when stage produces graph content)
+- [x] scanners green (`execute-skill-using-skills-rules`)
+- [x] slot finished (`slot-NN-finished.md` on disk)
+
+##### Reviewer
+
+###### abd-ubiquitous-language
+- *UL*
+- [x] reviewer claimed slot (`slot_type: reviewer`; same `team-role` as executor)
+- [x] read executor `slot-NN-finished.md` + artifact paths
+- [x] scanners run; pass/fail recorded in reviewer finished file
+- [x] exit-gate review complete; findings in reviewer `slot-MM-finished.md`
+- [x] **REVIEWER CHECKPOINT** — delivery lead reads findings
+
+###### abd-acceptance-criteria
+- *AC*
+- [x] reviewer claimed slot (`slot_type: reviewer`; same `team-role` as executor)
+- [x] read executor `slot-NN-finished.md` + artifact paths
+- [x] scanners run; pass/fail recorded in reviewer finished file
+- [x] exit-gate review complete; findings in reviewer `slot-MM-finished.md`
+- [x] **REVIEWER CHECKPOINT** — delivery lead reads findings
+
+###### abd-ux-mockup
+- *UX mockup*
+- [x] reviewer claimed slot (`slot_type: reviewer`; same `team-role` as executor)
+- [x] read executor `slot-NN-finished.md` + artifact paths
+- [x] scanners run; pass/fail recorded in reviewer finished file
+- [x] exit-gate review complete; findings in reviewer `slot-MM-finished.md`
+- [x] **REVIEWER CHECKPOINT** — delivery lead reads findings
+
+###### abd-architecture-template
+- *Arch template*
+- [x] reviewer claimed slot (`slot_type: reviewer`; same `team-role` as executor)
+- [x] read executor `slot-NN-finished.md` + artifact paths
+- [x] scanners run; pass/fail recorded in reviewer finished file
+- [x] exit-gate review complete; findings in reviewer `slot-MM-finished.md`
+- [x] **REVIEWER CHECKPOINT** — delivery lead reads findings
+
+##### Rework
+
+- [x] corrections logged for reviewer findings (or N/A if clean pass)
+- [x] executor incorporated suggested fixes (rework slot complete)
+- [x] scanners green after fix incorporation
+
+##### Delivery lead
+
+- [x] exit gate verified against `stages/exploration.md`
+- [x] **STAGE CHECKPOINT** — user confirms `exploration` complete for this run
+
+#### specification
+
+- [x] **Stage opened** — entry conditions verified for this run
+
+##### Executor
+
+###### abd-class-responsibility-collaborator
+- *CRC · business-expert*
+- [x] slot queued / claimed (`slot-NN-claim.md`)
+- [x] draft artifacts produced
+- [x] self-review against `abd-class-responsibility-collaborator` rules complete
+- [x] **EXECUTOR CHECKPOINT** — operator confirms drafts
+- [x] story-graph updated via story-graph-ops (when stage produces graph content)
+- [x] scanners green (`execute-skill-using-skills-rules`)
+- [x] slot finished (`slot-NN-finished.md` on disk)
+
+###### abd-specification-by-example
+- *SBE · product-owner*
+- [x] slot queued / claimed (`slot-NN-claim.md`)
+- [x] draft artifacts produced
+- [x] self-review against `abd-specification-by-example` rules complete
+- [x] **EXECUTOR CHECKPOINT** — operator confirms drafts
+- [x] story-graph updated via story-graph-ops (when stage produces graph content)
+- [x] scanners green (`execute-skill-using-skills-rules`)
+- [x] slot finished (`slot-NN-finished.md` on disk)
+
+###### abd-scenario-walkthrough
+- *Walkthrough · business-expert*
+- [x] slot queued / claimed (`slot-NN-claim.md`)
+- [x] draft artifacts produced
+- [x] self-review against `abd-scenario-walkthrough` rules complete
+- [x] **EXECUTOR CHECKPOINT** — operator confirms drafts
+- [x] story-graph updated via story-graph-ops (when stage produces graph content)
+- [x] scanners green (`execute-skill-using-skills-rules`)
+- [x] slot finished (`slot-NN-finished.md` on disk)
+
+###### abd-interface-design
+- *Interface design · ux-designer*
+- [x] slot queued / claimed (`slot-NN-claim.md`)
+- [x] draft artifacts produced
+- [x] self-review against `abd-interface-design` rules complete
+- [x] **EXECUTOR CHECKPOINT** — operator confirms drafts
+- [x] story-graph updated via story-graph-ops (when stage produces graph content)
+- [x] scanners green (`execute-skill-using-skills-rules`)
+- [x] slot finished (`slot-NN-finished.md` on disk)
+
+###### abd-architecture-reference
+- *Arch reference · engineer*
+- [x] slot queued / claimed (`slot-NN-claim.md`)
+- [x] draft artifacts produced
+- [x] self-review against `abd-architecture-reference` rules complete
+- [x] **EXECUTOR CHECKPOINT** — operator confirms drafts
+- [x] story-graph updated via story-graph-ops (when stage produces graph content)
+- [x] scanners green (`execute-skill-using-skills-rules`)
+- [x] slot finished (`slot-NN-finished.md` on disk)
+
+##### Reviewer
+
+###### abd-class-responsibility-collaborator
+- *CRC*
+- [x] reviewer claimed slot (`slot_type: reviewer`; same `team-role` as executor)
+- [x] read executor `slot-NN-finished.md` + artifact paths
+- [x] scanners run; pass/fail recorded in reviewer finished file
+- [x] exit-gate review complete; findings in reviewer `slot-MM-finished.md`
+- [x] **REVIEWER CHECKPOINT** — delivery lead reads findings
+
+###### abd-specification-by-example
+- *SBE*
+- [x] reviewer claimed slot (`slot_type: reviewer`; same `team-role` as executor)
+- [x] read executor `slot-NN-finished.md` + artifact paths
+- [x] scanners run; pass/fail recorded in reviewer finished file
+- [x] exit-gate review complete; findings in reviewer `slot-MM-finished.md`
+- [x] **REVIEWER CHECKPOINT** — delivery lead reads findings
+
+###### abd-scenario-walkthrough
+- *Walkthrough*
+- [x] reviewer claimed slot (`slot_type: reviewer`; same `team-role` as executor)
+- [x] read executor `slot-NN-finished.md` + artifact paths
+- [x] scanners run; pass/fail recorded in reviewer finished file
+- [x] exit-gate review complete; findings in reviewer `slot-MM-finished.md`
+- [x] **REVIEWER CHECKPOINT** — delivery lead reads findings
+
+###### abd-interface-design
+- *Interface design*
+- [x] reviewer claimed slot (`slot_type: reviewer`; same `team-role` as executor)
+- [x] read executor `slot-NN-finished.md` + artifact paths
+- [x] scanners run; pass/fail recorded in reviewer finished file
+- [x] exit-gate review complete; findings in reviewer `slot-MM-finished.md`
+- [x] **REVIEWER CHECKPOINT** — delivery lead reads findings
+
+###### abd-architecture-reference
+- *Arch reference*
+- [x] reviewer claimed slot (`slot_type: reviewer`; same `team-role` as executor)
+- [x] read executor `slot-NN-finished.md` + artifact paths
+- [x] scanners run; pass/fail recorded in reviewer finished file
+- [x] exit-gate review complete; findings in reviewer `slot-MM-finished.md`
+- [x] **REVIEWER CHECKPOINT** — delivery lead reads findings
+
+##### Rework
+
+- [x] corrections logged for reviewer findings (or N/A if clean pass)
+- [x] executor incorporated suggested fixes (rework slot complete)
+- [x] scanners green after fix incorporation
+
+##### Delivery lead
+
+- [x] exit gate verified against `stages/specification.md`
+- [x] **STAGE CHECKPOINT** — user confirms `specification` complete for this run
+
+#### engineering
+
+- [x] **Stage opened** — entry conditions verified for this run
+
+##### Executor
+
+###### abd-interface-design
+- *UI impl · ux-designer*
+- [x] slot queued / claimed (`slot-NN-claim.md`)
+- [x] draft artifacts produced
+- [x] self-review against `abd-interface-design` rules complete
+- [x] **EXECUTOR CHECKPOINT** — operator confirms drafts
+- [x] story-graph updated via story-graph-ops (when stage produces graph content)
+- [x] scanners green (`execute-skill-using-skills-rules`)
+- [x] slot finished (`slot-NN-finished.md` on disk)
+
+###### abd-object-model
+- *Object model · engineer*
+- [x] slot queued / claimed (`slot-NN-claim.md`)
+- [x] draft artifacts produced
+- [x] self-review against `abd-object-model` rules complete
+- [x] **EXECUTOR CHECKPOINT** — operator confirms drafts
+- [x] story-graph updated via story-graph-ops (when stage produces graph content)
+- [x] scanners green (`execute-skill-using-skills-rules`)
+- [x] slot finished (`slot-NN-finished.md` on disk)
+
+###### abd-acceptance-test-driven-development
+- *ATDD · engineer*
+- [x] slot queued / claimed (`slot-NN-claim.md`)
+- [x] draft artifacts produced
+- [x] self-review against `abd-acceptance-test-driven-development` rules complete
+- [x] **EXECUTOR CHECKPOINT** — operator confirms drafts
+- [x] story-graph updated via story-graph-ops (when stage produces graph content)
+- [x] scanners green (`execute-skill-using-skills-rules`)
+- [x] slot finished (`slot-NN-finished.md` on disk)
+
+###### abd-clean-code
+- *Clean code · engineer*
+- [x] slot queued / claimed (`slot-NN-claim.md`)
+- [x] draft artifacts produced
+- [x] self-review against `abd-clean-code` rules complete
+- [x] **EXECUTOR CHECKPOINT** — operator confirms drafts
+- [x] story-graph updated via story-graph-ops (when stage produces graph content)
+- [x] scanners green (`execute-skill-using-skills-rules`)
+- [x] slot finished (`slot-NN-finished.md` on disk)
+
+##### Reviewer
+
+###### abd-interface-design
+- *UI impl*
+- [x] reviewer claimed slot (`slot_type: reviewer`; same `team-role` as executor)
+- [x] read executor `slot-NN-finished.md` + artifact paths
+- [x] scanners run; pass/fail recorded in reviewer finished file
+- [x] exit-gate review complete; findings in reviewer `slot-MM-finished.md`
+- [x] **REVIEWER CHECKPOINT** — delivery lead reads findings
+
+###### abd-object-model
+- *Object model*
+- [x] reviewer claimed slot (`slot_type: reviewer`; same `team-role` as executor)
+- [x] read executor `slot-NN-finished.md` + artifact paths
+- [x] scanners run; pass/fail recorded in reviewer finished file
+- [x] exit-gate review complete; findings in reviewer `slot-MM-finished.md`
+- [x] **REVIEWER CHECKPOINT** — delivery lead reads findings
+
+###### abd-acceptance-test-driven-development
+- *ATDD*
+- [x] reviewer claimed slot (`slot_type: reviewer`; same `team-role` as executor)
+- [x] read executor `slot-NN-finished.md` + artifact paths
+- [x] scanners run; pass/fail recorded in reviewer finished file
+- [x] exit-gate review complete; findings in reviewer `slot-MM-finished.md`
+- [x] **REVIEWER CHECKPOINT** — delivery lead reads findings
+
+###### abd-clean-code
+- *Clean code*
+- [x] reviewer claimed slot (`slot_type: reviewer`; same `team-role` as executor)
+- [x] read executor `slot-NN-finished.md` + artifact paths
+- [x] scanners run; pass/fail recorded in reviewer finished file
+- [x] exit-gate review complete; findings in reviewer `slot-MM-finished.md`
+- [x] **REVIEWER CHECKPOINT** — delivery lead reads findings
+
+##### Rework
+
+- [x] corrections logged for reviewer findings (or N/A if clean pass)
+- [x] executor incorporated suggested fixes (rework slot complete)
+- [x] scanners green after fix incorporation
+
+##### Delivery lead
+
+- [x] exit gate verified against `stages/engineering.md`
+- [x] **STAGE CHECKPOINT** — user confirms `engineering` complete for this run
+
+- [x] **Run 2 CHECKPOINT** — run summary + plan revision presented
+
+### Run 3 — Increment 2: Click-and-collect
 - **Scope:** Increment 2 — click-and-collect
-- **Checkpoint policy:** **After full run**
 
-- [ ] **exploration** — entry verified
-  - [ ] **Executor** — slot authored and `abd-team-member` bootstrapped (role + workspace + scope + corrections)
-  - [ ] **Executor** — draft stage artifacts produced
-  - [ ] **Executor** — self-review against skill rules complete
-  - [ ] **Executor CHECKPOINT** — operator confirms drafts
-  - [ ] **Executor** — story-graph updated via story-graph-ops (if stage produces graph content)
-  - [ ] **Executor** — scanners green (all practice skills)
-  - [ ] **Executor** — slot finished (`slot-NN-finished.md` on disk)
-  - [ ] **Reviewer** — slot authored (`team-role: reviewer`; scope = executor artifacts only)
-  - [ ] **Reviewer** — bootstrapped; read executor `slot-NN-finished.md` + artifact paths
-  - [ ] **Reviewer** — scanners run (`execute-skill-using-skills-rules`); pass/fail in reviewer finished file
-  - [ ] **Reviewer** — exit-gate review complete; findings in reviewer `slot-MM-finished.md`
-  - [ ] **Reviewer CHECKPOINT** — delivery lead reads findings
-  - [ ] **Rework** — corrections logged for reviewer findings (or N/A if clean pass)
-  - [ ] **Rework** — team member incorporated suggested fixes (rework slot complete)
-  - [ ] **Rework** — scanners green after fix incorporation
-  - [ ] **Delivery lead** — exit gate verified against `stages/exploration.md`
-  - [ ] **CHECKPOINT** — user confirms stage complete
-- [ ] **specification** — entry verified
-  - [ ] **Executor** — slot authored and `abd-team-member` bootstrapped (role + workspace + scope + corrections)
-  - [ ] **Executor** — draft stage artifacts produced
-  - [ ] **Executor** — self-review against skill rules complete
-  - [ ] **Executor CHECKPOINT** — operator confirms drafts
-  - [ ] **Executor** — story-graph updated via story-graph-ops (if stage produces graph content)
-  - [ ] **Executor** — scanners green (all practice skills)
-  - [ ] **Executor** — slot finished (`slot-NN-finished.md` on disk)
-  - [ ] **Reviewer** — slot authored (`team-role: reviewer`; scope = executor artifacts only)
-  - [ ] **Reviewer** — bootstrapped; read executor `slot-NN-finished.md` + artifact paths
-  - [ ] **Reviewer** — scanners run (`execute-skill-using-skills-rules`); pass/fail in reviewer finished file
-  - [ ] **Reviewer** — exit-gate review complete; findings in reviewer `slot-MM-finished.md`
-  - [ ] **Reviewer CHECKPOINT** — delivery lead reads findings
-  - [ ] **Rework** — corrections logged for reviewer findings (or N/A if clean pass)
-  - [ ] **Rework** — team member incorporated suggested fixes (rework slot complete)
-  - [ ] **Rework** — scanners green after fix incorporation
-  - [ ] **Delivery lead** — exit gate verified against `stages/specification.md`
-  - [ ] **CHECKPOINT** — user confirms stage complete
-- [ ] **engineering** — entry verified
-  - [ ] **Executor** — slot authored and `abd-team-member` bootstrapped (role + workspace + scope + corrections)
-  - [ ] **Executor** — draft stage artifacts produced
-  - [ ] **Executor** — self-review against skill rules complete
-  - [ ] **Executor CHECKPOINT** — operator confirms drafts
-  - [ ] **Executor** — story-graph updated via story-graph-ops (if stage produces graph content)
-  - [ ] **Executor** — scanners green (all practice skills)
-  - [ ] **Executor** — slot finished (`slot-NN-finished.md` on disk)
-  - [ ] **Reviewer** — slot authored (`team-role: reviewer`; scope = executor artifacts only)
-  - [ ] **Reviewer** — bootstrapped; read executor `slot-NN-finished.md` + artifact paths
-  - [ ] **Reviewer** — scanners run (`execute-skill-using-skills-rules`); pass/fail in reviewer finished file
-  - [ ] **Reviewer** — exit-gate review complete; findings in reviewer `slot-MM-finished.md`
-  - [ ] **Reviewer CHECKPOINT** — delivery lead reads findings
-  - [ ] **Rework** — corrections logged for reviewer findings (or N/A if clean pass)
-  - [ ] **Rework** — team member incorporated suggested fixes (rework slot complete)
-  - [ ] **Rework** — scanners green after fix incorporation
-  - [ ] **Delivery lead** — exit gate verified against `stages/engineering.md`
-  - [ ] **CHECKPOINT** — user confirms stage complete
-- [ ] **Run 3 CHECKPOINT** — run summary + plan revision presented
+#### exploration
 
-### Run 4 — Shipping + order lifecycle
+- [x] **Stage opened** — entry conditions verified for this run
+
+##### Executor
+
+###### abd-ubiquitous-language
+- *UL · business-expert*
+- [x] slot queued / claimed (`slot-NN-claim.md`)
+- [x] draft artifacts produced
+- [x] self-review against `abd-ubiquitous-language` rules complete
+- [x] **EXECUTOR CHECKPOINT** — operator confirms drafts
+- [x] story-graph updated via story-graph-ops (when stage produces graph content)
+- [x] scanners green (`execute-skill-using-skills-rules`)
+- [x] slot finished (`slot-NN-finished.md` on disk)
+
+###### abd-acceptance-criteria
+- *AC · product-owner*
+- [x] slot queued / claimed (`slot-NN-claim.md`)
+- [x] draft artifacts produced
+- [x] self-review against `abd-acceptance-criteria` rules complete
+- [x] **EXECUTOR CHECKPOINT** — operator confirms drafts
+- [x] story-graph updated via story-graph-ops (when stage produces graph content)
+- [x] scanners green (`execute-skill-using-skills-rules`)
+- [x] slot finished (`slot-NN-finished.md` on disk)
+
+###### abd-ux-mockup
+- *UX mockup · ux-designer*
+- [x] slot queued / claimed (`slot-NN-claim.md`)
+- [x] draft artifacts produced
+- [x] self-review against `abd-ux-mockup` rules complete
+- [x] **EXECUTOR CHECKPOINT** — operator confirms drafts
+- [x] story-graph updated via story-graph-ops (when stage produces graph content)
+- [x] scanners green (`execute-skill-using-skills-rules`)
+- [x] slot finished (`slot-NN-finished.md` on disk)
+
+###### abd-architecture-template
+- *Arch template · engineer*
+- [x] slot queued / claimed (`slot-NN-claim.md`)
+- [x] draft artifacts produced
+- [x] self-review against `abd-architecture-template` rules complete
+- [x] **EXECUTOR CHECKPOINT** — operator confirms drafts
+- [x] story-graph updated via story-graph-ops (when stage produces graph content)
+- [x] scanners green (`execute-skill-using-skills-rules`)
+- [x] slot finished (`slot-NN-finished.md` on disk)
+
+##### Reviewer
+
+###### abd-ubiquitous-language
+- *UL*
+- [x] reviewer claimed slot (`slot_type: reviewer`; same `team-role` as executor)
+- [x] read executor `slot-NN-finished.md` + artifact paths
+- [x] scanners run; pass/fail recorded in reviewer finished file
+- [x] exit-gate review complete; findings in reviewer `slot-MM-finished.md`
+- [x] **REVIEWER CHECKPOINT** — delivery lead reads findings
+
+###### abd-acceptance-criteria
+- *AC*
+- [x] reviewer claimed slot (`slot_type: reviewer`; same `team-role` as executor)
+- [x] read executor `slot-NN-finished.md` + artifact paths
+- [x] scanners run; pass/fail recorded in reviewer finished file
+- [x] exit-gate review complete; findings in reviewer `slot-MM-finished.md`
+- [x] **REVIEWER CHECKPOINT** — delivery lead reads findings
+
+###### abd-ux-mockup
+- *UX mockup*
+- [x] reviewer claimed slot (`slot_type: reviewer`; same `team-role` as executor)
+- [x] read executor `slot-NN-finished.md` + artifact paths
+- [x] scanners run; pass/fail recorded in reviewer finished file
+- [x] exit-gate review complete; findings in reviewer `slot-MM-finished.md`
+- [x] **REVIEWER CHECKPOINT** — delivery lead reads findings
+
+###### abd-architecture-template
+- *Arch template*
+- [x] reviewer claimed slot (`slot_type: reviewer`; same `team-role` as executor)
+- [x] read executor `slot-NN-finished.md` + artifact paths
+- [x] scanners run; pass/fail recorded in reviewer finished file
+- [x] exit-gate review complete; findings in reviewer `slot-MM-finished.md`
+- [x] **REVIEWER CHECKPOINT** — delivery lead reads findings
+
+##### Rework
+
+- [x] corrections logged for reviewer findings (or N/A if clean pass)
+- [x] executor incorporated suggested fixes (rework slot complete)
+- [x] scanners green after fix incorporation
+
+##### Delivery lead
+
+- [x] exit gate verified against `stages/exploration.md`
+- [x] **STAGE CHECKPOINT** — user confirms `exploration` complete for this run
+
+#### specification
+
+- [x] **Stage opened** — entry conditions verified for this run
+
+##### Executor
+
+###### abd-class-responsibility-collaborator
+- *CRC · business-expert*
+- [x] slot queued / claimed (`slot-NN-claim.md`)
+- [x] draft artifacts produced
+- [x] self-review against `abd-class-responsibility-collaborator` rules complete
+- [x] **EXECUTOR CHECKPOINT** — operator confirms drafts
+- [x] story-graph updated via story-graph-ops (when stage produces graph content)
+- [x] scanners green (`execute-skill-using-skills-rules`)
+- [x] slot finished (`slot-NN-finished.md` on disk)
+
+###### abd-specification-by-example
+- *SBE · product-owner*
+- [x] slot queued / claimed (`slot-NN-claim.md`)
+- [x] draft artifacts produced
+- [x] self-review against `abd-specification-by-example` rules complete
+- [x] **EXECUTOR CHECKPOINT** — operator confirms drafts
+- [x] story-graph updated via story-graph-ops (when stage produces graph content)
+- [x] scanners green (`execute-skill-using-skills-rules`)
+- [x] slot finished (`slot-NN-finished.md` on disk)
+
+###### abd-scenario-walkthrough
+- *Walkthrough · business-expert*
+- [x] slot queued / claimed (`slot-NN-claim.md`)
+- [x] draft artifacts produced
+- [x] self-review against `abd-scenario-walkthrough` rules complete
+- [x] **EXECUTOR CHECKPOINT** — operator confirms drafts
+- [x] story-graph updated via story-graph-ops (when stage produces graph content)
+- [x] scanners green (`execute-skill-using-skills-rules`)
+- [x] slot finished (`slot-NN-finished.md` on disk)
+
+###### abd-interface-design
+- *Interface design · ux-designer*
+- [x] slot queued / claimed (`slot-NN-claim.md`)
+- [x] draft artifacts produced
+- [x] self-review against `abd-interface-design` rules complete
+- [x] **EXECUTOR CHECKPOINT** — operator confirms drafts
+- [x] story-graph updated via story-graph-ops (when stage produces graph content)
+- [x] scanners green (`execute-skill-using-skills-rules`)
+- [x] slot finished (`slot-NN-finished.md` on disk)
+
+###### abd-architecture-reference
+- *Arch reference · engineer*
+- [x] slot queued / claimed (`slot-NN-claim.md`)
+- [x] draft artifacts produced
+- [x] self-review against `abd-architecture-reference` rules complete
+- [x] **EXECUTOR CHECKPOINT** — operator confirms drafts
+- [x] story-graph updated via story-graph-ops (when stage produces graph content)
+- [x] scanners green (`execute-skill-using-skills-rules`)
+- [x] slot finished (`slot-NN-finished.md` on disk)
+
+##### Reviewer
+
+###### abd-class-responsibility-collaborator
+- *CRC*
+- [x] reviewer claimed slot (`slot_type: reviewer`; same `team-role` as executor)
+- [x] read executor `slot-NN-finished.md` + artifact paths
+- [x] scanners run; pass/fail recorded in reviewer finished file
+- [x] exit-gate review complete; findings in reviewer `slot-MM-finished.md`
+- [x] **REVIEWER CHECKPOINT** — delivery lead reads findings
+
+###### abd-specification-by-example
+- *SBE*
+- [x] reviewer claimed slot (`slot_type: reviewer`; same `team-role` as executor)
+- [x] read executor `slot-NN-finished.md` + artifact paths
+- [x] scanners run; pass/fail recorded in reviewer finished file
+- [x] exit-gate review complete; findings in reviewer `slot-MM-finished.md`
+- [x] **REVIEWER CHECKPOINT** — delivery lead reads findings
+
+###### abd-scenario-walkthrough
+- *Walkthrough*
+- [x] reviewer claimed slot (`slot_type: reviewer`; same `team-role` as executor)
+- [x] read executor `slot-NN-finished.md` + artifact paths
+- [x] scanners run; pass/fail recorded in reviewer finished file
+- [x] exit-gate review complete; findings in reviewer `slot-MM-finished.md`
+- [x] **REVIEWER CHECKPOINT** — delivery lead reads findings
+
+###### abd-interface-design
+- *Interface design*
+- [x] reviewer claimed slot (`slot_type: reviewer`; same `team-role` as executor)
+- [x] read executor `slot-NN-finished.md` + artifact paths
+- [x] scanners run; pass/fail recorded in reviewer finished file
+- [x] exit-gate review complete; findings in reviewer `slot-MM-finished.md`
+- [x] **REVIEWER CHECKPOINT** — delivery lead reads findings
+
+###### abd-architecture-reference
+- *Arch reference*
+- [x] reviewer claimed slot (`slot_type: reviewer`; same `team-role` as executor)
+- [x] read executor `slot-NN-finished.md` + artifact paths
+- [x] scanners run; pass/fail recorded in reviewer finished file
+- [x] exit-gate review complete; findings in reviewer `slot-MM-finished.md`
+- [x] **REVIEWER CHECKPOINT** — delivery lead reads findings
+
+##### Rework
+
+- [x] corrections logged for reviewer findings (or N/A if clean pass)
+- [x] executor incorporated suggested fixes (rework slot complete)
+- [x] scanners green after fix incorporation
+
+##### Delivery lead
+
+- [x] exit gate verified against `stages/specification.md`
+- [x] **STAGE CHECKPOINT** — user confirms `specification` complete for this run
+
+#### engineering
+
+- [x] **Stage opened** — entry conditions verified for this run
+
+##### Executor
+
+###### abd-interface-design
+- *UI impl · ux-designer*
+- [x] slot queued / claimed (`slot-NN-claim.md`)
+- [x] draft artifacts produced
+- [x] self-review against `abd-interface-design` rules complete
+- [x] **EXECUTOR CHECKPOINT** — operator confirms drafts
+- [x] story-graph updated via story-graph-ops (when stage produces graph content)
+- [x] scanners green (`execute-skill-using-skills-rules`)
+- [x] slot finished (`slot-NN-finished.md` on disk)
+
+###### abd-object-model
+- *Object model · engineer*
+- [x] slot queued / claimed (`slot-NN-claim.md`)
+- [x] draft artifacts produced
+- [x] self-review against `abd-object-model` rules complete
+- [x] **EXECUTOR CHECKPOINT** — operator confirms drafts
+- [x] story-graph updated via story-graph-ops (when stage produces graph content)
+- [x] scanners green (`execute-skill-using-skills-rules`)
+- [x] slot finished (`slot-NN-finished.md` on disk)
+
+###### abd-acceptance-test-driven-development
+- *ATDD · engineer*
+- [x] slot queued / claimed (`slot-NN-claim.md`)
+- [x] draft artifacts produced
+- [x] self-review against `abd-acceptance-test-driven-development` rules complete
+- [x] **EXECUTOR CHECKPOINT** — operator confirms drafts
+- [x] story-graph updated via story-graph-ops (when stage produces graph content)
+- [x] scanners green (`execute-skill-using-skills-rules`)
+- [x] slot finished (`slot-NN-finished.md` on disk)
+
+###### abd-clean-code
+- *Clean code · engineer*
+- [x] slot queued / claimed (`slot-NN-claim.md`)
+- [x] draft artifacts produced
+- [x] self-review against `abd-clean-code` rules complete
+- [x] **EXECUTOR CHECKPOINT** — operator confirms drafts
+- [x] story-graph updated via story-graph-ops (when stage produces graph content)
+- [x] scanners green (`execute-skill-using-skills-rules`)
+- [x] slot finished (`slot-NN-finished.md` on disk)
+
+##### Reviewer
+
+###### abd-interface-design
+- *UI impl*
+- [x] reviewer claimed slot (`slot_type: reviewer`; same `team-role` as executor)
+- [x] read executor `slot-NN-finished.md` + artifact paths
+- [x] scanners run; pass/fail recorded in reviewer finished file
+- [x] exit-gate review complete; findings in reviewer `slot-MM-finished.md`
+- [x] **REVIEWER CHECKPOINT** — delivery lead reads findings
+
+###### abd-object-model
+- *Object model*
+- [x] reviewer claimed slot (`slot_type: reviewer`; same `team-role` as executor)
+- [x] read executor `slot-NN-finished.md` + artifact paths
+- [x] scanners run; pass/fail recorded in reviewer finished file
+- [x] exit-gate review complete; findings in reviewer `slot-MM-finished.md`
+- [x] **REVIEWER CHECKPOINT** — delivery lead reads findings
+
+###### abd-acceptance-test-driven-development
+- *ATDD*
+- [x] reviewer claimed slot (`slot_type: reviewer`; same `team-role` as executor)
+- [x] read executor `slot-NN-finished.md` + artifact paths
+- [x] scanners run; pass/fail recorded in reviewer finished file
+- [x] exit-gate review complete; findings in reviewer `slot-MM-finished.md`
+- [x] **REVIEWER CHECKPOINT** — delivery lead reads findings
+
+###### abd-clean-code
+- *Clean code*
+- [x] reviewer claimed slot (`slot_type: reviewer`; same `team-role` as executor)
+- [x] read executor `slot-NN-finished.md` + artifact paths
+- [x] scanners run; pass/fail recorded in reviewer finished file
+- [x] exit-gate review complete; findings in reviewer `slot-MM-finished.md`
+- [x] **REVIEWER CHECKPOINT** — delivery lead reads findings
+
+##### Rework
+
+- [x] corrections logged for reviewer findings (or N/A if clean pass)
+- [x] executor incorporated suggested fixes (rework slot complete)
+- [x] scanners green after fix incorporation
+
+##### Delivery lead
+
+- [x] exit gate verified against `stages/engineering.md`
+- [x] **STAGE CHECKPOINT** — user confirms `engineering` complete for this run
+
+- [x] **Run 3 CHECKPOINT** — run summary + plan revision presented
+
+### Run 4 — Increment 3: Ship to home
 - **Scope:** Increment 3 — ship to home
-- **Checkpoint policy:** **After full run**
 
-- [ ] **exploration** — entry verified
-  - [ ] **Executor** — slot authored and `abd-team-member` bootstrapped (role + workspace + scope + corrections)
-  - [ ] **Executor** — draft stage artifacts produced
-  - [ ] **Executor** — self-review against skill rules complete
-  - [ ] **Executor CHECKPOINT** — operator confirms drafts
-  - [ ] **Executor** — story-graph updated via story-graph-ops (if stage produces graph content)
-  - [ ] **Executor** — scanners green (all practice skills)
-  - [ ] **Executor** — slot finished (`slot-NN-finished.md` on disk)
-  - [ ] **Reviewer** — slot authored (`team-role: reviewer`; scope = executor artifacts only)
-  - [ ] **Reviewer** — bootstrapped; read executor `slot-NN-finished.md` + artifact paths
-  - [ ] **Reviewer** — scanners run (`execute-skill-using-skills-rules`); pass/fail in reviewer finished file
-  - [ ] **Reviewer** — exit-gate review complete; findings in reviewer `slot-MM-finished.md`
-  - [ ] **Reviewer CHECKPOINT** — delivery lead reads findings
-  - [ ] **Rework** — corrections logged for reviewer findings (or N/A if clean pass)
-  - [ ] **Rework** — team member incorporated suggested fixes (rework slot complete)
-  - [ ] **Rework** — scanners green after fix incorporation
-  - [ ] **Delivery lead** — exit gate verified against `stages/exploration.md`
-  - [ ] **CHECKPOINT** — user confirms stage complete
-- [ ] **specification** — entry verified
-  - [ ] **Executor** — slot authored and `abd-team-member` bootstrapped (role + workspace + scope + corrections)
-  - [ ] **Executor** — draft stage artifacts produced
-  - [ ] **Executor** — self-review against skill rules complete
-  - [ ] **Executor CHECKPOINT** — operator confirms drafts
-  - [ ] **Executor** — story-graph updated via story-graph-ops (if stage produces graph content)
-  - [ ] **Executor** — scanners green (all practice skills)
-  - [ ] **Executor** — slot finished (`slot-NN-finished.md` on disk)
-  - [ ] **Reviewer** — slot authored (`team-role: reviewer`; scope = executor artifacts only)
-  - [ ] **Reviewer** — bootstrapped; read executor `slot-NN-finished.md` + artifact paths
-  - [ ] **Reviewer** — scanners run (`execute-skill-using-skills-rules`); pass/fail in reviewer finished file
-  - [ ] **Reviewer** — exit-gate review complete; findings in reviewer `slot-MM-finished.md`
-  - [ ] **Reviewer CHECKPOINT** — delivery lead reads findings
-  - [ ] **Rework** — corrections logged for reviewer findings (or N/A if clean pass)
-  - [ ] **Rework** — team member incorporated suggested fixes (rework slot complete)
-  - [ ] **Rework** — scanners green after fix incorporation
-  - [ ] **Delivery lead** — exit gate verified against `stages/specification.md`
-  - [ ] **CHECKPOINT** — user confirms stage complete
-- [ ] **engineering** — entry verified
-  - [ ] **Executor** — slot authored and `abd-team-member` bootstrapped (role + workspace + scope + corrections)
-  - [ ] **Executor** — draft stage artifacts produced
-  - [ ] **Executor** — self-review against skill rules complete
-  - [ ] **Executor CHECKPOINT** — operator confirms drafts
-  - [ ] **Executor** — story-graph updated via story-graph-ops (if stage produces graph content)
-  - [ ] **Executor** — scanners green (all practice skills)
-  - [ ] **Executor** — slot finished (`slot-NN-finished.md` on disk)
-  - [ ] **Reviewer** — slot authored (`team-role: reviewer`; scope = executor artifacts only)
-  - [ ] **Reviewer** — bootstrapped; read executor `slot-NN-finished.md` + artifact paths
-  - [ ] **Reviewer** — scanners run (`execute-skill-using-skills-rules`); pass/fail in reviewer finished file
-  - [ ] **Reviewer** — exit-gate review complete; findings in reviewer `slot-MM-finished.md`
-  - [ ] **Reviewer CHECKPOINT** — delivery lead reads findings
-  - [ ] **Rework** — corrections logged for reviewer findings (or N/A if clean pass)
-  - [ ] **Rework** — team member incorporated suggested fixes (rework slot complete)
-  - [ ] **Rework** — scanners green after fix incorporation
-  - [ ] **Delivery lead** — exit gate verified against `stages/engineering.md`
-  - [ ] **CHECKPOINT** — user confirms stage complete
-- [ ] **Run 4 CHECKPOINT** — run summary + plan revision presented
+#### exploration
 
-### Run 5 — Accounts, saved entities, wishlist
+- [x] **Stage opened** — entry conditions verified for this run
+
+##### Executor
+
+###### abd-ubiquitous-language
+- *UL · business-expert*
+- [x] slot queued / claimed (`slot-NN-claim.md`)
+- [x] draft artifacts produced
+- [x] self-review against `abd-ubiquitous-language` rules complete
+- [x] **EXECUTOR CHECKPOINT** — operator confirms drafts
+- [x] story-graph updated via story-graph-ops (when stage produces graph content)
+- [x] scanners green (`execute-skill-using-skills-rules`)
+- [x] slot finished (`slot-NN-finished.md` on disk)
+
+###### abd-acceptance-criteria
+- *AC · product-owner*
+- [x] slot queued / claimed (`slot-NN-claim.md`)
+- [x] draft artifacts produced
+- [x] self-review against `abd-acceptance-criteria` rules complete
+- [x] **EXECUTOR CHECKPOINT** — operator confirms drafts
+- [x] story-graph updated via story-graph-ops (when stage produces graph content)
+- [x] scanners green (`execute-skill-using-skills-rules`)
+- [x] slot finished (`slot-NN-finished.md` on disk)
+
+###### abd-architecture-template
+- *Arch template · engineer*
+- [x] slot queued / claimed (`slot-NN-claim.md`)
+- [x] draft artifacts produced
+- [x] self-review against `abd-architecture-template` rules complete
+- [x] **EXECUTOR CHECKPOINT** — operator confirms drafts
+- [x] story-graph updated via story-graph-ops (when stage produces graph content)
+- [x] scanners green (`execute-skill-using-skills-rules`)
+- [x] slot finished (`slot-NN-finished.md` on disk)
+
+##### Reviewer
+
+###### abd-ubiquitous-language
+- *UL*
+- [x] reviewer claimed slot (`slot_type: reviewer`; same `team-role` as executor)
+- [x] read executor `slot-NN-finished.md` + artifact paths
+- [x] scanners run; pass/fail recorded in reviewer finished file
+- [x] exit-gate review complete; findings in reviewer `slot-MM-finished.md`
+- [x] **REVIEWER CHECKPOINT** — delivery lead reads findings
+
+###### abd-acceptance-criteria
+- *AC*
+- [x] reviewer claimed slot (`slot_type: reviewer`; same `team-role` as executor)
+- [x] read executor `slot-NN-finished.md` + artifact paths
+- [x] scanners run; pass/fail recorded in reviewer finished file
+- [x] exit-gate review complete; findings in reviewer `slot-MM-finished.md`
+- [x] **REVIEWER CHECKPOINT** — delivery lead reads findings
+
+###### abd-architecture-template
+- *Arch template*
+- [x] reviewer claimed slot (`slot_type: reviewer`; same `team-role` as executor)
+- [x] read executor `slot-NN-finished.md` + artifact paths
+- [x] scanners run; pass/fail recorded in reviewer finished file
+- [x] exit-gate review complete; findings in reviewer `slot-MM-finished.md`
+- [x] **REVIEWER CHECKPOINT** — delivery lead reads findings
+
+##### Rework
+
+- [x] corrections logged for reviewer findings (or N/A if clean pass)
+- [x] executor incorporated suggested fixes (rework slot complete)
+- [x] scanners green after fix incorporation
+
+##### Delivery lead
+
+- [x] exit gate verified against `stages/exploration.md`
+- [x] **STAGE CHECKPOINT** — user confirms `exploration` complete for this run
+
+#### specification
+
+- [x] **Stage opened** — entry conditions verified for this run
+
+##### Executor
+
+###### abd-class-responsibility-collaborator
+- *CRC · business-expert*
+- [x] slot queued / claimed (`slot-NN-claim.md`)
+- [x] draft artifacts produced
+- [x] self-review against `abd-class-responsibility-collaborator` rules complete
+- [x] **EXECUTOR CHECKPOINT** — operator confirms drafts
+- [x] story-graph updated via story-graph-ops (when stage produces graph content)
+- [x] scanners green (`execute-skill-using-skills-rules`)
+- [x] slot finished (`slot-NN-finished.md` on disk)
+
+###### abd-specification-by-example
+- *SBE · product-owner*
+- [x] slot queued / claimed (`slot-NN-claim.md`)
+- [x] draft artifacts produced
+- [x] self-review against `abd-specification-by-example` rules complete
+- [x] **EXECUTOR CHECKPOINT** — operator confirms drafts
+- [x] story-graph updated via story-graph-ops (when stage produces graph content)
+- [x] scanners green (`execute-skill-using-skills-rules`)
+- [x] slot finished (`slot-NN-finished.md` on disk)
+
+###### abd-scenario-walkthrough
+- *Walkthrough · business-expert*
+- [x] slot queued / claimed (`slot-NN-claim.md`)
+- [x] draft artifacts produced
+- [x] self-review against `abd-scenario-walkthrough` rules complete
+- [x] **EXECUTOR CHECKPOINT** — operator confirms drafts
+- [x] story-graph updated via story-graph-ops (when stage produces graph content)
+- [x] scanners green (`execute-skill-using-skills-rules`)
+- [x] slot finished (`slot-NN-finished.md` on disk)
+
+###### abd-interface-design
+- *Interface design · ux-designer*
+- [x] slot queued / claimed (`slot-NN-claim.md`)
+- [x] draft artifacts produced
+- [x] self-review against `abd-interface-design` rules complete
+- [x] **EXECUTOR CHECKPOINT** — operator confirms drafts
+- [x] story-graph updated via story-graph-ops (when stage produces graph content)
+- [x] scanners green (`execute-skill-using-skills-rules`)
+- [x] slot finished (`slot-NN-finished.md` on disk)
+
+###### abd-architecture-reference
+- *Arch reference · engineer*
+- [x] slot queued / claimed (`slot-NN-claim.md`)
+- [x] draft artifacts produced
+- [x] self-review against `abd-architecture-reference` rules complete
+- [x] **EXECUTOR CHECKPOINT** — operator confirms drafts
+- [x] story-graph updated via story-graph-ops (when stage produces graph content)
+- [x] scanners green (`execute-skill-using-skills-rules`)
+- [x] slot finished (`slot-NN-finished.md` on disk)
+
+##### Reviewer
+
+###### abd-class-responsibility-collaborator
+- *CRC*
+- [x] reviewer claimed slot (`slot_type: reviewer`; same `team-role` as executor)
+- [x] read executor `slot-NN-finished.md` + artifact paths
+- [x] scanners run; pass/fail recorded in reviewer finished file
+- [x] exit-gate review complete; findings in reviewer `slot-MM-finished.md`
+- [x] **REVIEWER CHECKPOINT** — delivery lead reads findings
+
+###### abd-specification-by-example
+- *SBE*
+- [x] reviewer claimed slot (`slot_type: reviewer`; same `team-role` as executor)
+- [x] read executor `slot-NN-finished.md` + artifact paths
+- [x] scanners run; pass/fail recorded in reviewer finished file
+- [x] exit-gate review complete; findings in reviewer `slot-MM-finished.md`
+- [x] **REVIEWER CHECKPOINT** — delivery lead reads findings
+
+###### abd-scenario-walkthrough
+- *Walkthrough*
+- [x] reviewer claimed slot (`slot_type: reviewer`; same `team-role` as executor)
+- [x] read executor `slot-NN-finished.md` + artifact paths
+- [x] scanners run; pass/fail recorded in reviewer finished file
+- [x] exit-gate review complete; findings in reviewer `slot-MM-finished.md`
+- [x] **REVIEWER CHECKPOINT** — delivery lead reads findings
+
+###### abd-interface-design
+- *Interface design*
+- [x] reviewer claimed slot (`slot_type: reviewer`; same `team-role` as executor)
+- [x] read executor `slot-NN-finished.md` + artifact paths
+- [x] scanners run; pass/fail recorded in reviewer finished file
+- [x] exit-gate review complete; findings in reviewer `slot-MM-finished.md`
+- [x] **REVIEWER CHECKPOINT** — delivery lead reads findings
+
+###### abd-architecture-reference
+- *Arch reference*
+- [x] reviewer claimed slot (`slot_type: reviewer`; same `team-role` as executor)
+- [x] read executor `slot-NN-finished.md` + artifact paths
+- [x] scanners run; pass/fail recorded in reviewer finished file
+- [x] exit-gate review complete; findings in reviewer `slot-MM-finished.md`
+- [x] **REVIEWER CHECKPOINT** — delivery lead reads findings
+
+##### Rework
+
+- [x] corrections logged for reviewer findings (or N/A if clean pass)
+- [x] executor incorporated suggested fixes (rework slot complete)
+- [x] scanners green after fix incorporation
+
+##### Delivery lead
+
+- [x] exit gate verified against `stages/specification.md`
+- [x] **STAGE CHECKPOINT** — user confirms `specification` complete for this run
+
+#### engineering
+
+- [x] **Stage opened** — entry conditions verified for this run
+
+##### Executor
+
+###### abd-interface-design
+- *UI impl · ux-designer*
+- [x] slot queued / claimed (`slot-NN-claim.md`)
+- [x] draft artifacts produced
+- [x] self-review against `abd-interface-design` rules complete
+- [x] **EXECUTOR CHECKPOINT** — operator confirms drafts
+- [x] story-graph updated via story-graph-ops (when stage produces graph content)
+- [x] scanners green (`execute-skill-using-skills-rules`)
+- [x] slot finished (`slot-NN-finished.md` on disk)
+
+###### abd-object-model
+- *Object model · engineer*
+- [x] slot queued / claimed (`slot-NN-claim.md`)
+- [x] draft artifacts produced
+- [x] self-review against `abd-object-model` rules complete
+- [x] **EXECUTOR CHECKPOINT** — operator confirms drafts
+- [x] story-graph updated via story-graph-ops (when stage produces graph content)
+- [x] scanners green (`execute-skill-using-skills-rules`)
+- [x] slot finished (`slot-NN-finished.md` on disk)
+
+###### abd-acceptance-test-driven-development
+- *ATDD · engineer*
+- [x] slot queued / claimed (`slot-NN-claim.md`)
+- [x] draft artifacts produced
+- [x] self-review against `abd-acceptance-test-driven-development` rules complete
+- [x] **EXECUTOR CHECKPOINT** — operator confirms drafts
+- [x] story-graph updated via story-graph-ops (when stage produces graph content)
+- [x] scanners green (`execute-skill-using-skills-rules`)
+- [x] slot finished (`slot-NN-finished.md` on disk)
+
+###### abd-clean-code
+- *Clean code · engineer*
+- [x] slot queued / claimed (`slot-NN-claim.md`)
+- [x] draft artifacts produced
+- [x] self-review against `abd-clean-code` rules complete
+- [x] **EXECUTOR CHECKPOINT** — operator confirms drafts
+- [x] story-graph updated via story-graph-ops (when stage produces graph content)
+- [x] scanners green (`execute-skill-using-skills-rules`)
+- [x] slot finished (`slot-NN-finished.md` on disk)
+
+##### Reviewer
+
+###### abd-interface-design
+- *UI impl*
+- [x] reviewer claimed slot (`slot_type: reviewer`; same `team-role` as executor)
+- [x] read executor `slot-NN-finished.md` + artifact paths
+- [x] scanners run; pass/fail recorded in reviewer finished file
+- [x] exit-gate review complete; findings in reviewer `slot-MM-finished.md`
+- [x] **REVIEWER CHECKPOINT** — delivery lead reads findings
+
+###### abd-object-model
+- *Object model*
+- [x] reviewer claimed slot (`slot_type: reviewer`; same `team-role` as executor)
+- [x] read executor `slot-NN-finished.md` + artifact paths
+- [x] scanners run; pass/fail recorded in reviewer finished file
+- [x] exit-gate review complete; findings in reviewer `slot-MM-finished.md`
+- [x] **REVIEWER CHECKPOINT** — delivery lead reads findings
+
+###### abd-acceptance-test-driven-development
+- *ATDD*
+- [x] reviewer claimed slot (`slot_type: reviewer`; same `team-role` as executor)
+- [x] read executor `slot-NN-finished.md` + artifact paths
+- [x] scanners run; pass/fail recorded in reviewer finished file
+- [x] exit-gate review complete; findings in reviewer `slot-MM-finished.md`
+- [x] **REVIEWER CHECKPOINT** — delivery lead reads findings
+
+###### abd-clean-code
+- *Clean code*
+- [x] reviewer claimed slot (`slot_type: reviewer`; same `team-role` as executor)
+- [x] read executor `slot-NN-finished.md` + artifact paths
+- [x] scanners run; pass/fail recorded in reviewer finished file
+- [x] exit-gate review complete; findings in reviewer `slot-MM-finished.md`
+- [x] **REVIEWER CHECKPOINT** — delivery lead reads findings
+
+##### Rework
+
+- [x] corrections logged for reviewer findings (or N/A if clean pass)
+- [x] executor incorporated suggested fixes (rework slot complete)
+- [x] scanners green after fix incorporation
+
+##### Delivery lead
+
+- [x] exit gate verified against `stages/engineering.md`
+- [x] **STAGE CHECKPOINT** — user confirms `engineering` complete for this run
+
+- [x] **Run 4 CHECKPOINT** — run summary + plan revision presented
+
+### Run 5 — Increment 4: Returning customers
 - **Scope:** Increment 4 — returning customers
-- **Checkpoint policy:** **After full run**
 
-- [ ] **exploration** — entry verified
-  - [ ] **Executor** — slot authored and `abd-team-member` bootstrapped (role + workspace + scope + corrections)
-  - [ ] **Executor** — draft stage artifacts produced
-  - [ ] **Executor** — self-review against skill rules complete
-  - [ ] **Executor CHECKPOINT** — operator confirms drafts
-  - [ ] **Executor** — story-graph updated via story-graph-ops (if stage produces graph content)
-  - [ ] **Executor** — scanners green (all practice skills)
-  - [ ] **Executor** — slot finished (`slot-NN-finished.md` on disk)
-  - [ ] **Reviewer** — slot authored (`team-role: reviewer`; scope = executor artifacts only)
-  - [ ] **Reviewer** — bootstrapped; read executor `slot-NN-finished.md` + artifact paths
-  - [ ] **Reviewer** — scanners run (`execute-skill-using-skills-rules`); pass/fail in reviewer finished file
-  - [ ] **Reviewer** — exit-gate review complete; findings in reviewer `slot-MM-finished.md`
-  - [ ] **Reviewer CHECKPOINT** — delivery lead reads findings
-  - [ ] **Rework** — corrections logged for reviewer findings (or N/A if clean pass)
-  - [ ] **Rework** — team member incorporated suggested fixes (rework slot complete)
-  - [ ] **Rework** — scanners green after fix incorporation
-  - [ ] **Delivery lead** — exit gate verified against `stages/exploration.md`
-  - [ ] **CHECKPOINT** — user confirms stage complete
-- [ ] **specification** — entry verified
-  - [ ] **Executor** — slot authored and `abd-team-member` bootstrapped (role + workspace + scope + corrections)
-  - [ ] **Executor** — draft stage artifacts produced
-  - [ ] **Executor** — self-review against skill rules complete
-  - [ ] **Executor CHECKPOINT** — operator confirms drafts
-  - [ ] **Executor** — story-graph updated via story-graph-ops (if stage produces graph content)
-  - [ ] **Executor** — scanners green (all practice skills)
-  - [ ] **Executor** — slot finished (`slot-NN-finished.md` on disk)
-  - [ ] **Reviewer** — slot authored (`team-role: reviewer`; scope = executor artifacts only)
-  - [ ] **Reviewer** — bootstrapped; read executor `slot-NN-finished.md` + artifact paths
-  - [ ] **Reviewer** — scanners run (`execute-skill-using-skills-rules`); pass/fail in reviewer finished file
-  - [ ] **Reviewer** — exit-gate review complete; findings in reviewer `slot-MM-finished.md`
-  - [ ] **Reviewer CHECKPOINT** — delivery lead reads findings
-  - [ ] **Rework** — corrections logged for reviewer findings (or N/A if clean pass)
-  - [ ] **Rework** — team member incorporated suggested fixes (rework slot complete)
-  - [ ] **Rework** — scanners green after fix incorporation
-  - [ ] **Delivery lead** — exit gate verified against `stages/specification.md`
-  - [ ] **CHECKPOINT** — user confirms stage complete
-- [ ] **engineering** — entry verified
-  - [ ] **Executor** — slot authored and `abd-team-member` bootstrapped (role + workspace + scope + corrections)
-  - [ ] **Executor** — draft stage artifacts produced
-  - [ ] **Executor** — self-review against skill rules complete
-  - [ ] **Executor CHECKPOINT** — operator confirms drafts
-  - [ ] **Executor** — story-graph updated via story-graph-ops (if stage produces graph content)
-  - [ ] **Executor** — scanners green (all practice skills)
-  - [ ] **Executor** — slot finished (`slot-NN-finished.md` on disk)
-  - [ ] **Reviewer** — slot authored (`team-role: reviewer`; scope = executor artifacts only)
-  - [ ] **Reviewer** — bootstrapped; read executor `slot-NN-finished.md` + artifact paths
-  - [ ] **Reviewer** — scanners run (`execute-skill-using-skills-rules`); pass/fail in reviewer finished file
-  - [ ] **Reviewer** — exit-gate review complete; findings in reviewer `slot-MM-finished.md`
-  - [ ] **Reviewer CHECKPOINT** — delivery lead reads findings
-  - [ ] **Rework** — corrections logged for reviewer findings (or N/A if clean pass)
-  - [ ] **Rework** — team member incorporated suggested fixes (rework slot complete)
-  - [ ] **Rework** — scanners green after fix incorporation
-  - [ ] **Delivery lead** — exit gate verified against `stages/engineering.md`
-  - [ ] **CHECKPOINT** — user confirms stage complete
-- [ ] **Run 5 CHECKPOINT** — run summary + plan revision presented
+#### exploration
 
-### Run 6 — Multi-vendor payments
+- [x] **Stage opened** — entry conditions verified for this run
+
+##### Executor
+
+###### abd-ubiquitous-language
+- *UL · business-expert*
+- [x] slot queued / claimed (`slot-NN-claim.md`)
+- [x] draft artifacts produced
+- [x] self-review against `abd-ubiquitous-language` rules complete
+- [x] **EXECUTOR CHECKPOINT** — operator confirms drafts
+- [x] story-graph updated via story-graph-ops (when stage produces graph content)
+- [x] scanners green (`execute-skill-using-skills-rules`)
+- [x] slot finished (`slot-NN-finished.md` on disk)
+
+###### abd-acceptance-criteria
+- *AC · product-owner*
+- [x] slot queued / claimed (`slot-NN-claim.md`)
+- [x] draft artifacts produced
+- [x] self-review against `abd-acceptance-criteria` rules complete
+- [x] **EXECUTOR CHECKPOINT** — operator confirms drafts
+- [x] story-graph updated via story-graph-ops (when stage produces graph content)
+- [x] scanners green (`execute-skill-using-skills-rules`)
+- [x] slot finished (`slot-NN-finished.md` on disk)
+
+###### abd-ux-mockup
+- *UX mockup · ux-designer*
+- [x] slot queued / claimed (`slot-NN-claim.md`)
+- [x] draft artifacts produced
+- [x] self-review against `abd-ux-mockup` rules complete
+- [x] **EXECUTOR CHECKPOINT** — operator confirms drafts
+- [x] story-graph updated via story-graph-ops (when stage produces graph content)
+- [x] scanners green (`execute-skill-using-skills-rules`)
+- [x] slot finished (`slot-NN-finished.md` on disk)
+
+###### abd-architecture-template
+- *Arch template · engineer*
+- [x] slot queued / claimed (`slot-NN-claim.md`)
+- [x] draft artifacts produced
+- [x] self-review against `abd-architecture-template` rules complete
+- [x] **EXECUTOR CHECKPOINT** — operator confirms drafts
+- [x] story-graph updated via story-graph-ops (when stage produces graph content)
+- [x] scanners green (`execute-skill-using-skills-rules`)
+- [x] slot finished (`slot-NN-finished.md` on disk)
+
+##### Reviewer
+
+###### abd-ubiquitous-language
+- *UL*
+- [x] reviewer claimed slot (`slot_type: reviewer`; same `team-role` as executor)
+- [x] read executor `slot-NN-finished.md` + artifact paths
+- [x] scanners run; pass/fail recorded in reviewer finished file
+- [x] exit-gate review complete; findings in reviewer `slot-MM-finished.md`
+- [x] **REVIEWER CHECKPOINT** — delivery lead reads findings
+
+###### abd-acceptance-criteria
+- *AC*
+- [x] reviewer claimed slot (`slot_type: reviewer`; same `team-role` as executor)
+- [x] read executor `slot-NN-finished.md` + artifact paths
+- [x] scanners run; pass/fail recorded in reviewer finished file
+- [x] exit-gate review complete; findings in reviewer `slot-MM-finished.md`
+- [x] **REVIEWER CHECKPOINT** — delivery lead reads findings
+
+###### abd-ux-mockup
+- *UX mockup*
+- [x] reviewer claimed slot (`slot_type: reviewer`; same `team-role` as executor)
+- [x] read executor `slot-NN-finished.md` + artifact paths
+- [x] scanners run; pass/fail recorded in reviewer finished file
+- [x] exit-gate review complete; findings in reviewer `slot-MM-finished.md`
+- [x] **REVIEWER CHECKPOINT** — delivery lead reads findings
+
+###### abd-architecture-template
+- *Arch template*
+- [x] reviewer claimed slot (`slot_type: reviewer`; same `team-role` as executor)
+- [x] read executor `slot-NN-finished.md` + artifact paths
+- [x] scanners run; pass/fail recorded in reviewer finished file
+- [x] exit-gate review complete; findings in reviewer `slot-MM-finished.md`
+- [x] **REVIEWER CHECKPOINT** — delivery lead reads findings
+
+##### Rework
+
+- [x] corrections logged for reviewer findings (or N/A if clean pass)
+- [x] executor incorporated suggested fixes (rework slot complete)
+- [x] scanners green after fix incorporation
+
+##### Delivery lead
+
+- [x] exit gate verified against `stages/exploration.md`
+- [x] **STAGE CHECKPOINT** — user confirms `exploration` complete for this run
+
+#### specification
+
+- [x] **Stage opened** — entry conditions verified for this run
+
+##### Executor
+
+###### abd-class-responsibility-collaborator
+- *CRC · business-expert*
+- [x] slot queued / claimed (`slot-NN-claim.md`)
+- [x] draft artifacts produced
+- [x] self-review against `abd-class-responsibility-collaborator` rules complete
+- [x] **EXECUTOR CHECKPOINT** — operator confirms drafts
+- [x] story-graph updated via story-graph-ops (when stage produces graph content)
+- [x] scanners green (`execute-skill-using-skills-rules`)
+- [x] slot finished (`slot-NN-finished.md` on disk)
+
+###### abd-specification-by-example
+- *SBE · product-owner*
+- [x] slot queued / claimed (`slot-NN-claim.md`)
+- [x] draft artifacts produced
+- [x] self-review against `abd-specification-by-example` rules complete
+- [x] **EXECUTOR CHECKPOINT** — operator confirms drafts
+- [x] story-graph updated via story-graph-ops (when stage produces graph content)
+- [x] scanners green (`execute-skill-using-skills-rules`)
+- [x] slot finished (`slot-NN-finished.md` on disk)
+
+###### abd-scenario-walkthrough
+- *Walkthrough · business-expert*
+- [x] slot queued / claimed (`slot-NN-claim.md`)
+- [x] draft artifacts produced
+- [x] self-review against `abd-scenario-walkthrough` rules complete
+- [x] **EXECUTOR CHECKPOINT** — operator confirms drafts
+- [x] story-graph updated via story-graph-ops (when stage produces graph content)
+- [x] scanners green (`execute-skill-using-skills-rules`)
+- [x] slot finished (`slot-NN-finished.md` on disk)
+
+###### abd-interface-design
+- *Interface design · ux-designer*
+- [x] slot queued / claimed (`slot-NN-claim.md`)
+- [x] draft artifacts produced
+- [x] self-review against `abd-interface-design` rules complete
+- [x] **EXECUTOR CHECKPOINT** — operator confirms drafts
+- [x] story-graph updated via story-graph-ops (when stage produces graph content)
+- [x] scanners green (`execute-skill-using-skills-rules`)
+- [x] slot finished (`slot-NN-finished.md` on disk)
+
+###### abd-architecture-reference
+- *Arch reference · engineer*
+- [x] slot queued / claimed (`slot-NN-claim.md`)
+- [x] draft artifacts produced
+- [x] self-review against `abd-architecture-reference` rules complete
+- [x] **EXECUTOR CHECKPOINT** — operator confirms drafts
+- [x] story-graph updated via story-graph-ops (when stage produces graph content)
+- [x] scanners green (`execute-skill-using-skills-rules`)
+- [x] slot finished (`slot-NN-finished.md` on disk)
+
+##### Reviewer
+
+###### abd-class-responsibility-collaborator
+- *CRC*
+- [x] reviewer claimed slot (`slot_type: reviewer`; same `team-role` as executor)
+- [x] read executor `slot-NN-finished.md` + artifact paths
+- [x] scanners run; pass/fail recorded in reviewer finished file
+- [x] exit-gate review complete; findings in reviewer `slot-MM-finished.md`
+- [x] **REVIEWER CHECKPOINT** — delivery lead reads findings
+
+###### abd-specification-by-example
+- *SBE*
+- [x] reviewer claimed slot (`slot_type: reviewer`; same `team-role` as executor)
+- [x] read executor `slot-NN-finished.md` + artifact paths
+- [x] scanners run; pass/fail recorded in reviewer finished file
+- [x] exit-gate review complete; findings in reviewer `slot-MM-finished.md`
+- [x] **REVIEWER CHECKPOINT** — delivery lead reads findings
+
+###### abd-scenario-walkthrough
+- *Walkthrough*
+- [x] reviewer claimed slot (`slot_type: reviewer`; same `team-role` as executor)
+- [x] read executor `slot-NN-finished.md` + artifact paths
+- [x] scanners run; pass/fail recorded in reviewer finished file
+- [x] exit-gate review complete; findings in reviewer `slot-MM-finished.md`
+- [x] **REVIEWER CHECKPOINT** — delivery lead reads findings
+
+###### abd-interface-design
+- *Interface design*
+- [x] reviewer claimed slot (`slot_type: reviewer`; same `team-role` as executor)
+- [x] read executor `slot-NN-finished.md` + artifact paths
+- [x] scanners run; pass/fail recorded in reviewer finished file
+- [x] exit-gate review complete; findings in reviewer `slot-MM-finished.md`
+- [x] **REVIEWER CHECKPOINT** — delivery lead reads findings
+
+###### abd-architecture-reference
+- *Arch reference*
+- [x] reviewer claimed slot (`slot_type: reviewer`; same `team-role` as executor)
+- [x] read executor `slot-NN-finished.md` + artifact paths
+- [x] scanners run; pass/fail recorded in reviewer finished file
+- [x] exit-gate review complete; findings in reviewer `slot-MM-finished.md`
+- [x] **REVIEWER CHECKPOINT** — delivery lead reads findings
+
+##### Rework
+
+- [x] corrections logged for reviewer findings (or N/A if clean pass)
+- [x] executor incorporated suggested fixes (rework slot complete)
+- [x] scanners green after fix incorporation
+
+##### Delivery lead
+
+- [x] exit gate verified against `stages/specification.md`
+- [x] **STAGE CHECKPOINT** — user confirms `specification` complete for this run
+
+#### engineering
+
+- [x] **Stage opened** — entry conditions verified for this run
+
+##### Executor
+
+###### abd-interface-design
+- *UI impl · ux-designer*
+- [x] slot queued / claimed (`slot-NN-claim.md`)
+- [x] draft artifacts produced
+- [x] self-review against `abd-interface-design` rules complete
+- [x] **EXECUTOR CHECKPOINT** — operator confirms drafts
+- [x] story-graph updated via story-graph-ops (when stage produces graph content)
+- [x] scanners green (`execute-skill-using-skills-rules`)
+- [x] slot finished (`slot-NN-finished.md` on disk)
+
+###### abd-object-model
+- *Object model · engineer*
+- [x] slot queued / claimed (`slot-NN-claim.md`)
+- [x] draft artifacts produced
+- [x] self-review against `abd-object-model` rules complete
+- [x] **EXECUTOR CHECKPOINT** — operator confirms drafts
+- [x] story-graph updated via story-graph-ops (when stage produces graph content)
+- [x] scanners green (`execute-skill-using-skills-rules`)
+- [x] slot finished (`slot-NN-finished.md` on disk)
+
+###### abd-acceptance-test-driven-development
+- *ATDD · engineer*
+- [x] slot queued / claimed (`slot-NN-claim.md`)
+- [x] draft artifacts produced
+- [x] self-review against `abd-acceptance-test-driven-development` rules complete
+- [x] **EXECUTOR CHECKPOINT** — operator confirms drafts
+- [x] story-graph updated via story-graph-ops (when stage produces graph content)
+- [x] scanners green (`execute-skill-using-skills-rules`)
+- [x] slot finished (`slot-NN-finished.md` on disk)
+
+###### abd-clean-code
+- *Clean code · engineer*
+- [x] slot queued / claimed (`slot-NN-claim.md`)
+- [x] draft artifacts produced
+- [x] self-review against `abd-clean-code` rules complete
+- [x] **EXECUTOR CHECKPOINT** — operator confirms drafts
+- [x] story-graph updated via story-graph-ops (when stage produces graph content)
+- [x] scanners green (`execute-skill-using-skills-rules`)
+- [x] slot finished (`slot-NN-finished.md` on disk)
+
+##### Reviewer
+
+###### abd-interface-design
+- *UI impl*
+- [x] reviewer claimed slot (`slot_type: reviewer`; same `team-role` as executor)
+- [x] read executor `slot-NN-finished.md` + artifact paths
+- [x] scanners run; pass/fail recorded in reviewer finished file
+- [x] exit-gate review complete; findings in reviewer `slot-MM-finished.md`
+- [x] **REVIEWER CHECKPOINT** — delivery lead reads findings
+
+###### abd-object-model
+- *Object model*
+- [x] reviewer claimed slot (`slot_type: reviewer`; same `team-role` as executor)
+- [x] read executor `slot-NN-finished.md` + artifact paths
+- [x] scanners run; pass/fail recorded in reviewer finished file
+- [x] exit-gate review complete; findings in reviewer `slot-MM-finished.md`
+- [x] **REVIEWER CHECKPOINT** — delivery lead reads findings
+
+###### abd-acceptance-test-driven-development
+- *ATDD*
+- [x] reviewer claimed slot (`slot_type: reviewer`; same `team-role` as executor)
+- [x] read executor `slot-NN-finished.md` + artifact paths
+- [x] scanners run; pass/fail recorded in reviewer finished file
+- [x] exit-gate review complete; findings in reviewer `slot-MM-finished.md`
+- [x] **REVIEWER CHECKPOINT** — delivery lead reads findings
+
+###### abd-clean-code
+- *Clean code*
+- [x] reviewer claimed slot (`slot_type: reviewer`; same `team-role` as executor)
+- [x] read executor `slot-NN-finished.md` + artifact paths
+- [x] scanners run; pass/fail recorded in reviewer finished file
+- [x] exit-gate review complete; findings in reviewer `slot-MM-finished.md`
+- [x] **REVIEWER CHECKPOINT** — delivery lead reads findings
+
+##### Rework
+
+- [x] corrections logged for reviewer findings (or N/A if clean pass)
+- [x] executor incorporated suggested fixes (rework slot complete)
+- [x] scanners green after fix incorporation
+
+##### Delivery lead
+
+- [x] exit gate verified against `stages/engineering.md`
+- [x] **STAGE CHECKPOINT** — user confirms `engineering` complete for this run
+
+- [x] **Run 5 CHECKPOINT** — run summary + plan revision presented
+
+### Run 6 — Increment 5: Pay your way
 - **Scope:** Increment 5 — pay your way
-- **Checkpoint policy:** **After full run**
 
-- [ ] **exploration** — entry verified
-  - [ ] **Executor** — slot authored and `abd-team-member` bootstrapped (role + workspace + scope + corrections)
-  - [ ] **Executor** — draft stage artifacts produced
-  - [ ] **Executor** — self-review against skill rules complete
-  - [ ] **Executor CHECKPOINT** — operator confirms drafts
-  - [ ] **Executor** — story-graph updated via story-graph-ops (if stage produces graph content)
-  - [ ] **Executor** — scanners green (all practice skills)
-  - [ ] **Executor** — slot finished (`slot-NN-finished.md` on disk)
-  - [ ] **Reviewer** — slot authored (`team-role: reviewer`; scope = executor artifacts only)
-  - [ ] **Reviewer** — bootstrapped; read executor `slot-NN-finished.md` + artifact paths
-  - [ ] **Reviewer** — scanners run (`execute-skill-using-skills-rules`); pass/fail in reviewer finished file
-  - [ ] **Reviewer** — exit-gate review complete; findings in reviewer `slot-MM-finished.md`
-  - [ ] **Reviewer CHECKPOINT** — delivery lead reads findings
-  - [ ] **Rework** — corrections logged for reviewer findings (or N/A if clean pass)
-  - [ ] **Rework** — team member incorporated suggested fixes (rework slot complete)
-  - [ ] **Rework** — scanners green after fix incorporation
-  - [ ] **Delivery lead** — exit gate verified against `stages/exploration.md`
-  - [ ] **CHECKPOINT** — user confirms stage complete
-- [ ] **specification** — entry verified
-  - [ ] **Executor** — slot authored and `abd-team-member` bootstrapped (role + workspace + scope + corrections)
-  - [ ] **Executor** — draft stage artifacts produced
-  - [ ] **Executor** — self-review against skill rules complete
-  - [ ] **Executor CHECKPOINT** — operator confirms drafts
-  - [ ] **Executor** — story-graph updated via story-graph-ops (if stage produces graph content)
-  - [ ] **Executor** — scanners green (all practice skills)
-  - [ ] **Executor** — slot finished (`slot-NN-finished.md` on disk)
-  - [ ] **Reviewer** — slot authored (`team-role: reviewer`; scope = executor artifacts only)
-  - [ ] **Reviewer** — bootstrapped; read executor `slot-NN-finished.md` + artifact paths
-  - [ ] **Reviewer** — scanners run (`execute-skill-using-skills-rules`); pass/fail in reviewer finished file
-  - [ ] **Reviewer** — exit-gate review complete; findings in reviewer `slot-MM-finished.md`
-  - [ ] **Reviewer CHECKPOINT** — delivery lead reads findings
-  - [ ] **Rework** — corrections logged for reviewer findings (or N/A if clean pass)
-  - [ ] **Rework** — team member incorporated suggested fixes (rework slot complete)
-  - [ ] **Rework** — scanners green after fix incorporation
-  - [ ] **Delivery lead** — exit gate verified against `stages/specification.md`
-  - [ ] **CHECKPOINT** — user confirms stage complete
-- [ ] **engineering** — entry verified
-  - [ ] **Executor** — slot authored and `abd-team-member` bootstrapped (role + workspace + scope + corrections)
-  - [ ] **Executor** — draft stage artifacts produced
-  - [ ] **Executor** — self-review against skill rules complete
-  - [ ] **Executor CHECKPOINT** — operator confirms drafts
-  - [ ] **Executor** — story-graph updated via story-graph-ops (if stage produces graph content)
-  - [ ] **Executor** — scanners green (all practice skills)
-  - [ ] **Executor** — slot finished (`slot-NN-finished.md` on disk)
-  - [ ] **Reviewer** — slot authored (`team-role: reviewer`; scope = executor artifacts only)
-  - [ ] **Reviewer** — bootstrapped; read executor `slot-NN-finished.md` + artifact paths
-  - [ ] **Reviewer** — scanners run (`execute-skill-using-skills-rules`); pass/fail in reviewer finished file
-  - [ ] **Reviewer** — exit-gate review complete; findings in reviewer `slot-MM-finished.md`
-  - [ ] **Reviewer CHECKPOINT** — delivery lead reads findings
-  - [ ] **Rework** — corrections logged for reviewer findings (or N/A if clean pass)
-  - [ ] **Rework** — team member incorporated suggested fixes (rework slot complete)
-  - [ ] **Rework** — scanners green after fix incorporation
-  - [ ] **Delivery lead** — exit gate verified against `stages/engineering.md`
-  - [ ] **CHECKPOINT** — user confirms stage complete
-- [ ] **Run 6 CHECKPOINT** — run summary + plan revision presented
+#### exploration
 
-### Run 7 — New customer surface + staff workflow
-- **Scope:** Increment 6 — pet visits
-- **Checkpoint policy:** **After full run**
+- [x] **Stage opened** — entry conditions verified for this run
 
-- [ ] **exploration** — entry verified
-  - [ ] **Executor** — slot authored and `abd-team-member` bootstrapped (role + workspace + scope + corrections)
-  - [ ] **Executor** — draft stage artifacts produced
-  - [ ] **Executor** — self-review against skill rules complete
-  - [ ] **Executor CHECKPOINT** — operator confirms drafts
-  - [ ] **Executor** — story-graph updated via story-graph-ops (if stage produces graph content)
-  - [ ] **Executor** — scanners green (all practice skills)
-  - [ ] **Executor** — slot finished (`slot-NN-finished.md` on disk)
-  - [ ] **Reviewer** — slot authored (`team-role: reviewer`; scope = executor artifacts only)
-  - [ ] **Reviewer** — bootstrapped; read executor `slot-NN-finished.md` + artifact paths
-  - [ ] **Reviewer** — scanners run (`execute-skill-using-skills-rules`); pass/fail in reviewer finished file
-  - [ ] **Reviewer** — exit-gate review complete; findings in reviewer `slot-MM-finished.md`
-  - [ ] **Reviewer CHECKPOINT** — delivery lead reads findings
-  - [ ] **Rework** — corrections logged for reviewer findings (or N/A if clean pass)
-  - [ ] **Rework** — team member incorporated suggested fixes (rework slot complete)
-  - [ ] **Rework** — scanners green after fix incorporation
-  - [ ] **Delivery lead** — exit gate verified against `stages/exploration.md`
-  - [ ] **CHECKPOINT** — user confirms stage complete
-- [ ] **specification** — entry verified
-  - [ ] **Executor** — slot authored and `abd-team-member` bootstrapped (role + workspace + scope + corrections)
-  - [ ] **Executor** — draft stage artifacts produced
-  - [ ] **Executor** — self-review against skill rules complete
-  - [ ] **Executor CHECKPOINT** — operator confirms drafts
-  - [ ] **Executor** — story-graph updated via story-graph-ops (if stage produces graph content)
-  - [ ] **Executor** — scanners green (all practice skills)
-  - [ ] **Executor** — slot finished (`slot-NN-finished.md` on disk)
-  - [ ] **Reviewer** — slot authored (`team-role: reviewer`; scope = executor artifacts only)
-  - [ ] **Reviewer** — bootstrapped; read executor `slot-NN-finished.md` + artifact paths
-  - [ ] **Reviewer** — scanners run (`execute-skill-using-skills-rules`); pass/fail in reviewer finished file
-  - [ ] **Reviewer** — exit-gate review complete; findings in reviewer `slot-MM-finished.md`
-  - [ ] **Reviewer CHECKPOINT** — delivery lead reads findings
-  - [ ] **Rework** — corrections logged for reviewer findings (or N/A if clean pass)
-  - [ ] **Rework** — team member incorporated suggested fixes (rework slot complete)
-  - [ ] **Rework** — scanners green after fix incorporation
-  - [ ] **Delivery lead** — exit gate verified against `stages/specification.md`
-  - [ ] **CHECKPOINT** — user confirms stage complete
-- [ ] **engineering** — entry verified
-  - [ ] **Executor** — slot authored and `abd-team-member` bootstrapped (role + workspace + scope + corrections)
-  - [ ] **Executor** — draft stage artifacts produced
-  - [ ] **Executor** — self-review against skill rules complete
-  - [ ] **Executor CHECKPOINT** — operator confirms drafts
-  - [ ] **Executor** — story-graph updated via story-graph-ops (if stage produces graph content)
-  - [ ] **Executor** — scanners green (all practice skills)
-  - [ ] **Executor** — slot finished (`slot-NN-finished.md` on disk)
-  - [ ] **Reviewer** — slot authored (`team-role: reviewer`; scope = executor artifacts only)
-  - [ ] **Reviewer** — bootstrapped; read executor `slot-NN-finished.md` + artifact paths
-  - [ ] **Reviewer** — scanners run (`execute-skill-using-skills-rules`); pass/fail in reviewer finished file
-  - [ ] **Reviewer** — exit-gate review complete; findings in reviewer `slot-MM-finished.md`
-  - [ ] **Reviewer CHECKPOINT** — delivery lead reads findings
-  - [ ] **Rework** — corrections logged for reviewer findings (or N/A if clean pass)
-  - [ ] **Rework** — team member incorporated suggested fixes (rework slot complete)
-  - [ ] **Rework** — scanners green after fix incorporation
-  - [ ] **Delivery lead** — exit gate verified against `stages/engineering.md`
-  - [ ] **CHECKPOINT** — user confirms stage complete
+##### Executor
+
+###### abd-ubiquitous-language
+- *UL · business-expert*
+- [x] slot queued / claimed (`slot-NN-claim.md`)
+- [x] draft artifacts produced
+- [x] self-review against `abd-ubiquitous-language` rules complete
+- [x] **EXECUTOR CHECKPOINT** — operator confirms drafts
+- [x] story-graph updated via story-graph-ops (when stage produces graph content)
+- [x] scanners green (`execute-skill-using-skills-rules`)
+- [x] slot finished (`slot-NN-finished.md` on disk)
+
+###### abd-acceptance-criteria
+- *AC · product-owner*
+- [x] slot queued / claimed (`slot-NN-claim.md`)
+- [x] draft artifacts produced
+- [x] self-review against `abd-acceptance-criteria` rules complete
+- [x] **EXECUTOR CHECKPOINT** — operator confirms drafts
+- [x] story-graph updated via story-graph-ops (when stage produces graph content)
+- [x] scanners green (`execute-skill-using-skills-rules`)
+- [x] slot finished (`slot-NN-finished.md` on disk)
+
+###### abd-ux-mockup
+- *UX mockup · ux-designer*
+- [x] slot queued / claimed (`slot-NN-claim.md`)
+- [x] draft artifacts produced
+- [x] self-review against `abd-ux-mockup` rules complete
+- [x] **EXECUTOR CHECKPOINT** — operator confirms drafts
+- [x] story-graph updated via story-graph-ops (when stage produces graph content)
+- [x] scanners green (`execute-skill-using-skills-rules`)
+- [x] slot finished (`slot-NN-finished.md` on disk)
+
+###### abd-architecture-template
+- *Arch template · engineer*
+- [x] slot queued / claimed (`slot-NN-claim.md`)
+- [x] draft artifacts produced
+- [x] self-review against `abd-architecture-template` rules complete
+- [x] **EXECUTOR CHECKPOINT** — operator confirms drafts
+- [x] story-graph updated via story-graph-ops (when stage produces graph content)
+- [x] scanners green (`execute-skill-using-skills-rules`)
+- [x] slot finished (`slot-NN-finished.md` on disk)
+
+##### Reviewer
+
+###### abd-ubiquitous-language
+- *UL*
+- [x] reviewer claimed slot (`slot_type: reviewer`; same `team-role` as executor)
+- [x] read executor `slot-NN-finished.md` + artifact paths
+- [x] scanners run; pass/fail recorded in reviewer finished file
+- [x] exit-gate review complete; findings in reviewer `slot-MM-finished.md`
+- [x] **REVIEWER CHECKPOINT** — delivery lead reads findings
+
+###### abd-acceptance-criteria
+- *AC*
+- [x] reviewer claimed slot (`slot_type: reviewer`; same `team-role` as executor)
+- [x] read executor `slot-NN-finished.md` + artifact paths
+- [x] scanners run; pass/fail recorded in reviewer finished file
+- [x] exit-gate review complete; findings in reviewer `slot-MM-finished.md`
+- [x] **REVIEWER CHECKPOINT** — delivery lead reads findings
+
+###### abd-ux-mockup
+- *UX mockup*
+- [x] reviewer claimed slot (`slot_type: reviewer`; same `team-role` as executor)
+- [x] read executor `slot-NN-finished.md` + artifact paths
+- [x] scanners run; pass/fail recorded in reviewer finished file
+- [x] exit-gate review complete; findings in reviewer `slot-MM-finished.md`
+- [x] **REVIEWER CHECKPOINT** — delivery lead reads findings
+
+###### abd-architecture-template
+- *Arch template*
+- [x] reviewer claimed slot (`slot_type: reviewer`; same `team-role` as executor)
+- [x] read executor `slot-NN-finished.md` + artifact paths
+- [x] scanners run; pass/fail recorded in reviewer finished file
+- [x] exit-gate review complete; findings in reviewer `slot-MM-finished.md`
+- [x] **REVIEWER CHECKPOINT** — delivery lead reads findings
+
+##### Rework
+
+- [x] corrections logged for reviewer findings (or N/A if clean pass)
+- [x] executor incorporated suggested fixes (rework slot complete)
+- [x] scanners green after fix incorporation
+
+##### Delivery lead
+
+- [x] exit gate verified against `stages/exploration.md`
+- [x] **STAGE CHECKPOINT** — user confirms `exploration` complete for this run
+
+#### specification
+
+- [x] **Stage opened** — entry conditions verified for this run
+
+##### Executor
+
+###### abd-class-responsibility-collaborator
+- *CRC · business-expert*
+- [x] slot queued / claimed (`slot-NN-claim.md`)
+- [x] draft artifacts produced
+- [x] self-review against `abd-class-responsibility-collaborator` rules complete
+- [x] **EXECUTOR CHECKPOINT** — operator confirms drafts
+- [x] story-graph updated via story-graph-ops (when stage produces graph content)
+- [x] scanners green (`execute-skill-using-skills-rules`)
+- [x] slot finished (`slot-NN-finished.md` on disk)
+
+###### abd-specification-by-example
+- *SBE · product-owner*
+- [x] slot queued / claimed (`slot-NN-claim.md`)
+- [x] draft artifacts produced
+- [x] self-review against `abd-specification-by-example` rules complete
+- [x] **EXECUTOR CHECKPOINT** — operator confirms drafts
+- [x] story-graph updated via story-graph-ops (when stage produces graph content)
+- [x] scanners green (`execute-skill-using-skills-rules`)
+- [x] slot finished (`slot-NN-finished.md` on disk)
+
+###### abd-scenario-walkthrough
+- *Walkthrough · business-expert*
+- [x] slot queued / claimed (`slot-NN-claim.md`)
+- [x] draft artifacts produced
+- [x] self-review against `abd-scenario-walkthrough` rules complete
+- [x] **EXECUTOR CHECKPOINT** — operator confirms drafts
+- [x] story-graph updated via story-graph-ops (when stage produces graph content)
+- [x] scanners green (`execute-skill-using-skills-rules`)
+- [x] slot finished (`slot-NN-finished.md` on disk)
+
+###### abd-interface-design
+- *Interface design · ux-designer*
+- [x] slot queued / claimed (`slot-NN-claim.md`)
+- [x] draft artifacts produced
+- [x] self-review against `abd-interface-design` rules complete
+- [x] **EXECUTOR CHECKPOINT** — operator confirms drafts
+- [x] story-graph updated via story-graph-ops (when stage produces graph content)
+- [x] scanners green (`execute-skill-using-skills-rules`)
+- [x] slot finished (`slot-NN-finished.md` on disk)
+
+###### abd-architecture-reference
+- *Arch reference · engineer*
+- [x] slot queued / claimed (`slot-NN-claim.md`)
+- [x] draft artifacts produced
+- [x] self-review against `abd-architecture-reference` rules complete
+- [x] **EXECUTOR CHECKPOINT** — operator confirms drafts
+- [x] story-graph updated via story-graph-ops (when stage produces graph content)
+- [x] scanners green (`execute-skill-using-skills-rules`)
+- [x] slot finished (`slot-NN-finished.md` on disk)
+
+##### Reviewer
+
+###### abd-class-responsibility-collaborator
+- *CRC*
+- [x] reviewer claimed slot (`slot_type: reviewer`; same `team-role` as executor)
+- [x] read executor `slot-NN-finished.md` + artifact paths
+- [x] scanners run; pass/fail recorded in reviewer finished file
+- [x] exit-gate review complete; findings in reviewer `slot-MM-finished.md`
+- [x] **REVIEWER CHECKPOINT** — delivery lead reads findings
+
+###### abd-specification-by-example
+- *SBE*
+- [x] reviewer claimed slot (`slot_type: reviewer`; same `team-role` as executor)
+- [x] read executor `slot-NN-finished.md` + artifact paths
+- [x] scanners run; pass/fail recorded in reviewer finished file
+- [x] exit-gate review complete; findings in reviewer `slot-MM-finished.md`
+- [x] **REVIEWER CHECKPOINT** — delivery lead reads findings
+
+###### abd-scenario-walkthrough
+- *Walkthrough*
+- [x] reviewer claimed slot (`slot_type: reviewer`; same `team-role` as executor)
+- [x] read executor `slot-NN-finished.md` + artifact paths
+- [x] scanners run; pass/fail recorded in reviewer finished file
+- [x] exit-gate review complete; findings in reviewer `slot-MM-finished.md`
+- [x] **REVIEWER CHECKPOINT** — delivery lead reads findings
+
+###### abd-interface-design
+- *Interface design*
+- [x] reviewer claimed slot (`slot_type: reviewer`; same `team-role` as executor)
+- [x] read executor `slot-NN-finished.md` + artifact paths
+- [x] scanners run; pass/fail recorded in reviewer finished file
+- [x] exit-gate review complete; findings in reviewer `slot-MM-finished.md`
+- [x] **REVIEWER CHECKPOINT** — delivery lead reads findings
+
+###### abd-architecture-reference
+- *Arch reference*
+- [x] reviewer claimed slot (`slot_type: reviewer`; same `team-role` as executor)
+- [x] read executor `slot-NN-finished.md` + artifact paths
+- [x] scanners run; pass/fail recorded in reviewer finished file
+- [x] exit-gate review complete; findings in reviewer `slot-MM-finished.md`
+- [x] **REVIEWER CHECKPOINT** — delivery lead reads findings
+
+##### Rework
+
+- [x] corrections logged for reviewer findings (or N/A if clean pass)
+- [x] executor incorporated suggested fixes (rework slot complete)
+- [x] scanners green after fix incorporation
+
+##### Delivery lead
+
+- [x] exit gate verified against `stages/specification.md`
+- [x] **STAGE CHECKPOINT** — user confirms `specification` complete for this run
+
+#### engineering
+
+- [x] **Stage opened** — entry conditions verified for this run
+
+##### Executor
+
+###### abd-interface-design
+- *UI impl · ux-designer*
+- [x] slot queued / claimed (`slot-NN-claim.md`)
+- [x] draft artifacts produced
+- [x] self-review against `abd-interface-design` rules complete
+- [x] **EXECUTOR CHECKPOINT** — operator confirms drafts
+- [x] story-graph updated via story-graph-ops (when stage produces graph content)
+- [x] scanners green (`execute-skill-using-skills-rules`)
+- [x] slot finished (`slot-NN-finished.md` on disk)
+
+###### abd-object-model
+- *Object model · engineer*
+- [x] slot queued / claimed (`slot-NN-claim.md`)
+- [x] draft artifacts produced
+- [x] self-review against `abd-object-model` rules complete
+- [x] **EXECUTOR CHECKPOINT** — operator confirms drafts
+- [x] story-graph updated via story-graph-ops (when stage produces graph content)
+- [x] scanners green (`execute-skill-using-skills-rules`)
+- [x] slot finished (`slot-NN-finished.md` on disk)
+
+###### abd-acceptance-test-driven-development
+- *ATDD · engineer*
+- [x] slot queued / claimed (`slot-NN-claim.md`)
+- [x] draft artifacts produced
+- [x] self-review against `abd-acceptance-test-driven-development` rules complete
+- [x] **EXECUTOR CHECKPOINT** — operator confirms drafts
+- [x] story-graph updated via story-graph-ops (when stage produces graph content)
+- [x] scanners green (`execute-skill-using-skills-rules`)
+- [x] slot finished (`slot-NN-finished.md` on disk)
+
+###### abd-clean-code
+- *Clean code · engineer*
+- [x] slot queued / claimed (`slot-NN-claim.md`)
+- [x] draft artifacts produced
+- [x] self-review against `abd-clean-code` rules complete
+- [x] **EXECUTOR CHECKPOINT** — operator confirms drafts
+- [x] story-graph updated via story-graph-ops (when stage produces graph content)
+- [x] scanners green (`execute-skill-using-skills-rules`)
+- [x] slot finished (`slot-NN-finished.md` on disk)
+
+##### Reviewer
+
+###### abd-interface-design
+- *UI impl*
+- [x] reviewer claimed slot (`slot_type: reviewer`; same `team-role` as executor)
+- [x] read executor `slot-NN-finished.md` + artifact paths
+- [x] scanners run; pass/fail recorded in reviewer finished file
+- [x] exit-gate review complete; findings in reviewer `slot-MM-finished.md`
+- [x] **REVIEWER CHECKPOINT** — delivery lead reads findings
+
+###### abd-object-model
+- *Object model*
+- [x] reviewer claimed slot (`slot_type: reviewer`; same `team-role` as executor)
+- [x] read executor `slot-NN-finished.md` + artifact paths
+- [x] scanners run; pass/fail recorded in reviewer finished file
+- [x] exit-gate review complete; findings in reviewer `slot-MM-finished.md`
+- [x] **REVIEWER CHECKPOINT** — delivery lead reads findings
+
+###### abd-acceptance-test-driven-development
+- *ATDD*
+- [x] reviewer claimed slot (`slot_type: reviewer`; same `team-role` as executor)
+- [x] read executor `slot-NN-finished.md` + artifact paths
+- [x] scanners run; pass/fail recorded in reviewer finished file
+- [x] exit-gate review complete; findings in reviewer `slot-MM-finished.md`
+- [x] **REVIEWER CHECKPOINT** — delivery lead reads findings
+
+###### abd-clean-code
+- *Clean code*
+- [x] reviewer claimed slot (`slot_type: reviewer`; same `team-role` as executor)
+- [x] read executor `slot-NN-finished.md` + artifact paths
+- [x] scanners run; pass/fail recorded in reviewer finished file
+- [x] exit-gate review complete; findings in reviewer `slot-MM-finished.md`
+- [x] **REVIEWER CHECKPOINT** — delivery lead reads findings
+
+##### Rework
+
+- [x] corrections logged for reviewer findings (or N/A if clean pass)
+- [x] executor incorporated suggested fixes (rework slot complete)
+- [x] scanners green after fix incorporation
+
+##### Delivery lead
+
+- [x] exit gate verified against `stages/engineering.md`
+- [x] **STAGE CHECKPOINT** — user confirms `engineering` complete for this run
+
+- [x] **Run 6 CHECKPOINT** — run summary + plan revision presented
+
+### Run 7 — Increment 6: Pet visits
+- **Scope:** Increment 6 — Pet visits
+
+#### exploration
+
+- [x] **Stage opened** — entry conditions verified for this run
+
+##### Executor
+
+###### abd-ubiquitous-language
+- *UL · business-expert*
+- [x] slot queued / claimed (`slot-NN-claim.md`)
+- [x] draft artifacts produced
+- [x] self-review against `abd-ubiquitous-language` rules complete
+- [x] **EXECUTOR CHECKPOINT** — operator confirms drafts
+- [x] story-graph updated via story-graph-ops (when stage produces graph content)
+- [x] scanners green (`execute-skill-using-skills-rules`)
+- [x] slot finished (`slot-NN-finished.md` on disk)
+
+###### abd-acceptance-criteria
+- *AC · product-owner*
+- [x] slot queued / claimed (`slot-NN-claim.md`)
+- [x] draft artifacts produced
+- [x] self-review against `abd-acceptance-criteria` rules complete
+- [x] **EXECUTOR CHECKPOINT** — operator confirms drafts
+- [x] story-graph updated via story-graph-ops (when stage produces graph content)
+- [x] scanners green (`execute-skill-using-skills-rules`)
+- [x] slot finished (`slot-NN-finished.md` on disk)
+
+###### abd-ux-mockup
+- *UX mockup · ux-designer*
+- [x] slot queued / claimed (`slot-NN-claim.md`)
+- [x] draft artifacts produced
+- [x] self-review against `abd-ux-mockup` rules complete
+- [x] **EXECUTOR CHECKPOINT** — operator confirms drafts
+- [x] story-graph updated via story-graph-ops (when stage produces graph content)
+- [x] scanners green (`execute-skill-using-skills-rules`)
+- [x] slot finished (`slot-NN-finished.md` on disk)
+
+###### abd-architecture-template
+- *Arch template · engineer*
+- [x] slot queued / claimed (`slot-NN-claim.md`)
+- [x] draft artifacts produced
+- [x] self-review against `abd-architecture-template` rules complete
+- [x] **EXECUTOR CHECKPOINT** — operator confirms drafts
+- [x] story-graph updated via story-graph-ops (when stage produces graph content)
+- [x] scanners green (`execute-skill-using-skills-rules`)
+- [x] slot finished (`slot-NN-finished.md` on disk)
+
+##### Reviewer
+
+###### abd-ubiquitous-language
+- *UL*
+- [x] reviewer claimed slot (`slot_type: reviewer`; same `team-role` as executor)
+- [x] read executor `slot-NN-finished.md` + artifact paths
+- [x] scanners run; pass/fail recorded in reviewer finished file
+- [x] exit-gate review complete; findings in reviewer `slot-MM-finished.md`
+- [x] **REVIEWER CHECKPOINT** — delivery lead reads findings
+
+###### abd-acceptance-criteria
+- *AC*
+- [x] reviewer claimed slot (`slot_type: reviewer`; same `team-role` as executor)
+- [x] read executor `slot-NN-finished.md` + artifact paths
+- [x] scanners run; pass/fail recorded in reviewer finished file
+- [x] exit-gate review complete; findings in reviewer `slot-MM-finished.md`
+- [x] **REVIEWER CHECKPOINT** — delivery lead reads findings
+
+###### abd-ux-mockup
+- *UX mockup*
+- [x] reviewer claimed slot (`slot_type: reviewer`; same `team-role` as executor)
+- [x] read executor `slot-NN-finished.md` + artifact paths
+- [x] scanners run; pass/fail recorded in reviewer finished file
+- [x] exit-gate review complete; findings in reviewer `slot-MM-finished.md`
+- [x] **REVIEWER CHECKPOINT** — delivery lead reads findings
+
+###### abd-architecture-template
+- *Arch template*
+- [x] reviewer claimed slot (`slot_type: reviewer`; same `team-role` as executor)
+- [x] read executor `slot-NN-finished.md` + artifact paths
+- [x] scanners run; pass/fail recorded in reviewer finished file
+- [x] exit-gate review complete; findings in reviewer `slot-MM-finished.md`
+- [x] **REVIEWER CHECKPOINT** — delivery lead reads findings
+
+##### Rework
+
+- [x] corrections logged for reviewer findings (or N/A if clean pass)
+- [x] executor incorporated suggested fixes (rework slot complete)
+- [x] scanners green after fix incorporation
+
+##### Delivery lead
+
+- [x] exit gate verified against `stages/exploration.md`
+- [x] **STAGE CHECKPOINT** — user confirms `exploration` complete for this run
+
+#### specification
+
+- [ ] **Stage opened** — entry conditions verified for this run
+
+##### Executor
+
+###### abd-class-responsibility-collaborator
+- *CRC · business-expert*
+- [ ] slot queued / claimed (`slot-NN-claim.md`)
+- [ ] draft artifacts produced
+- [ ] self-review against `abd-class-responsibility-collaborator` rules complete
+- [ ] **EXECUTOR CHECKPOINT** — operator confirms drafts
+- [ ] story-graph updated via story-graph-ops (when stage produces graph content)
+- [ ] scanners green (`execute-skill-using-skills-rules`)
+- [ ] slot finished (`slot-NN-finished.md` on disk)
+
+###### abd-specification-by-example
+- *SBE · product-owner*
+- [ ] slot queued / claimed (`slot-NN-claim.md`)
+- [ ] draft artifacts produced
+- [ ] self-review against `abd-specification-by-example` rules complete
+- [ ] **EXECUTOR CHECKPOINT** — operator confirms drafts
+- [ ] story-graph updated via story-graph-ops (when stage produces graph content)
+- [ ] scanners green (`execute-skill-using-skills-rules`)
+- [ ] slot finished (`slot-NN-finished.md` on disk)
+
+###### abd-scenario-walkthrough
+- *Walkthrough · business-expert*
+- [ ] slot queued / claimed (`slot-NN-claim.md`)
+- [ ] draft artifacts produced
+- [ ] self-review against `abd-scenario-walkthrough` rules complete
+- [ ] **EXECUTOR CHECKPOINT** — operator confirms drafts
+- [ ] story-graph updated via story-graph-ops (when stage produces graph content)
+- [ ] scanners green (`execute-skill-using-skills-rules`)
+- [ ] slot finished (`slot-NN-finished.md` on disk)
+
+###### abd-interface-design
+- *Interface design · ux-designer*
+- [ ] slot queued / claimed (`slot-NN-claim.md`)
+- [ ] draft artifacts produced
+- [ ] self-review against `abd-interface-design` rules complete
+- [ ] **EXECUTOR CHECKPOINT** — operator confirms drafts
+- [ ] story-graph updated via story-graph-ops (when stage produces graph content)
+- [ ] scanners green (`execute-skill-using-skills-rules`)
+- [ ] slot finished (`slot-NN-finished.md` on disk)
+
+###### abd-architecture-reference
+- *Arch reference · engineer*
+- [ ] slot queued / claimed (`slot-NN-claim.md`)
+- [ ] draft artifacts produced
+- [ ] self-review against `abd-architecture-reference` rules complete
+- [ ] **EXECUTOR CHECKPOINT** — operator confirms drafts
+- [ ] story-graph updated via story-graph-ops (when stage produces graph content)
+- [ ] scanners green (`execute-skill-using-skills-rules`)
+- [ ] slot finished (`slot-NN-finished.md` on disk)
+
+##### Reviewer
+
+###### abd-class-responsibility-collaborator
+- *CRC*
+- [ ] reviewer claimed slot (`slot_type: reviewer`; same `team-role` as executor)
+- [ ] read executor `slot-NN-finished.md` + artifact paths
+- [ ] scanners run; pass/fail recorded in reviewer finished file
+- [ ] exit-gate review complete; findings in reviewer `slot-MM-finished.md`
+- [ ] **REVIEWER CHECKPOINT** — delivery lead reads findings
+
+###### abd-specification-by-example
+- *SBE*
+- [ ] reviewer claimed slot (`slot_type: reviewer`; same `team-role` as executor)
+- [ ] read executor `slot-NN-finished.md` + artifact paths
+- [ ] scanners run; pass/fail recorded in reviewer finished file
+- [ ] exit-gate review complete; findings in reviewer `slot-MM-finished.md`
+- [ ] **REVIEWER CHECKPOINT** — delivery lead reads findings
+
+###### abd-scenario-walkthrough
+- *Walkthrough*
+- [ ] reviewer claimed slot (`slot_type: reviewer`; same `team-role` as executor)
+- [ ] read executor `slot-NN-finished.md` + artifact paths
+- [ ] scanners run; pass/fail recorded in reviewer finished file
+- [ ] exit-gate review complete; findings in reviewer `slot-MM-finished.md`
+- [ ] **REVIEWER CHECKPOINT** — delivery lead reads findings
+
+###### abd-interface-design
+- *Interface design*
+- [ ] reviewer claimed slot (`slot_type: reviewer`; same `team-role` as executor)
+- [ ] read executor `slot-NN-finished.md` + artifact paths
+- [ ] scanners run; pass/fail recorded in reviewer finished file
+- [ ] exit-gate review complete; findings in reviewer `slot-MM-finished.md`
+- [ ] **REVIEWER CHECKPOINT** — delivery lead reads findings
+
+###### abd-architecture-reference
+- *Arch reference*
+- [ ] reviewer claimed slot (`slot_type: reviewer`; same `team-role` as executor)
+- [ ] read executor `slot-NN-finished.md` + artifact paths
+- [ ] scanners run; pass/fail recorded in reviewer finished file
+- [ ] exit-gate review complete; findings in reviewer `slot-MM-finished.md`
+- [ ] **REVIEWER CHECKPOINT** — delivery lead reads findings
+
+##### Rework
+
+- [ ] corrections logged for reviewer findings (or N/A if clean pass)
+- [ ] executor incorporated suggested fixes (rework slot complete)
+- [ ] scanners green after fix incorporation
+
+##### Delivery lead
+
+- [ ] exit gate verified against `stages/specification.md`
+- [ ] **STAGE CHECKPOINT** — user confirms `specification` complete for this run
+
+#### engineering
+
+- [ ] **Stage opened** — entry conditions verified for this run
+
+##### Executor
+
+###### abd-interface-design
+- *UI impl · ux-designer*
+- [ ] slot queued / claimed (`slot-NN-claim.md`)
+- [ ] draft artifacts produced
+- [ ] self-review against `abd-interface-design` rules complete
+- [ ] **EXECUTOR CHECKPOINT** — operator confirms drafts
+- [ ] story-graph updated via story-graph-ops (when stage produces graph content)
+- [ ] scanners green (`execute-skill-using-skills-rules`)
+- [ ] slot finished (`slot-NN-finished.md` on disk)
+
+###### abd-object-model
+- *Object model · engineer*
+- [ ] slot queued / claimed (`slot-NN-claim.md`)
+- [ ] draft artifacts produced
+- [ ] self-review against `abd-object-model` rules complete
+- [ ] **EXECUTOR CHECKPOINT** — operator confirms drafts
+- [ ] story-graph updated via story-graph-ops (when stage produces graph content)
+- [ ] scanners green (`execute-skill-using-skills-rules`)
+- [ ] slot finished (`slot-NN-finished.md` on disk)
+
+###### abd-acceptance-test-driven-development
+- *ATDD · engineer*
+- [ ] slot queued / claimed (`slot-NN-claim.md`)
+- [ ] draft artifacts produced
+- [ ] self-review against `abd-acceptance-test-driven-development` rules complete
+- [ ] **EXECUTOR CHECKPOINT** — operator confirms drafts
+- [ ] story-graph updated via story-graph-ops (when stage produces graph content)
+- [ ] scanners green (`execute-skill-using-skills-rules`)
+- [ ] slot finished (`slot-NN-finished.md` on disk)
+
+###### abd-clean-code
+- *Clean code · engineer*
+- [ ] slot queued / claimed (`slot-NN-claim.md`)
+- [ ] draft artifacts produced
+- [ ] self-review against `abd-clean-code` rules complete
+- [ ] **EXECUTOR CHECKPOINT** — operator confirms drafts
+- [ ] story-graph updated via story-graph-ops (when stage produces graph content)
+- [ ] scanners green (`execute-skill-using-skills-rules`)
+- [ ] slot finished (`slot-NN-finished.md` on disk)
+
+##### Reviewer
+
+###### abd-interface-design
+- *UI impl*
+- [ ] reviewer claimed slot (`slot_type: reviewer`; same `team-role` as executor)
+- [ ] read executor `slot-NN-finished.md` + artifact paths
+- [ ] scanners run; pass/fail recorded in reviewer finished file
+- [ ] exit-gate review complete; findings in reviewer `slot-MM-finished.md`
+- [ ] **REVIEWER CHECKPOINT** — delivery lead reads findings
+
+###### abd-object-model
+- *Object model*
+- [ ] reviewer claimed slot (`slot_type: reviewer`; same `team-role` as executor)
+- [ ] read executor `slot-NN-finished.md` + artifact paths
+- [ ] scanners run; pass/fail recorded in reviewer finished file
+- [ ] exit-gate review complete; findings in reviewer `slot-MM-finished.md`
+- [ ] **REVIEWER CHECKPOINT** — delivery lead reads findings
+
+###### abd-acceptance-test-driven-development
+- *ATDD*
+- [ ] reviewer claimed slot (`slot_type: reviewer`; same `team-role` as executor)
+- [ ] read executor `slot-NN-finished.md` + artifact paths
+- [ ] scanners run; pass/fail recorded in reviewer finished file
+- [ ] exit-gate review complete; findings in reviewer `slot-MM-finished.md`
+- [ ] **REVIEWER CHECKPOINT** — delivery lead reads findings
+
+###### abd-clean-code
+- *Clean code*
+- [ ] reviewer claimed slot (`slot_type: reviewer`; same `team-role` as executor)
+- [ ] read executor `slot-NN-finished.md` + artifact paths
+- [ ] scanners run; pass/fail recorded in reviewer finished file
+- [ ] exit-gate review complete; findings in reviewer `slot-MM-finished.md`
+- [ ] **REVIEWER CHECKPOINT** — delivery lead reads findings
+
+##### Rework
+
+- [ ] corrections logged for reviewer findings (or N/A if clean pass)
+- [ ] executor incorporated suggested fixes (rework slot complete)
+- [ ] scanners green after fix incorporation
+
+##### Delivery lead
+
+- [ ] exit gate verified against `stages/engineering.md`
+- [ ] **STAGE CHECKPOINT** — user confirms `engineering` complete for this run
+
 - [ ] **Run 7 CHECKPOINT** — run summary + plan revision presented
 
-### Run 8 — Return lifecycle + vendor routing
+### Run 8 — Increment 7: Returns and refunds
 - **Scope:** Increment 7 — returns and refunds
-- **Checkpoint policy:** **After full run**
 
-- [ ] **exploration** — entry verified
-  - [ ] **Executor** — slot authored and `abd-team-member` bootstrapped (role + workspace + scope + corrections)
-  - [ ] **Executor** — draft stage artifacts produced
-  - [ ] **Executor** — self-review against skill rules complete
-  - [ ] **Executor CHECKPOINT** — operator confirms drafts
-  - [ ] **Executor** — story-graph updated via story-graph-ops (if stage produces graph content)
-  - [ ] **Executor** — scanners green (all practice skills)
-  - [ ] **Executor** — slot finished (`slot-NN-finished.md` on disk)
-  - [ ] **Reviewer** — slot authored (`team-role: reviewer`; scope = executor artifacts only)
-  - [ ] **Reviewer** — bootstrapped; read executor `slot-NN-finished.md` + artifact paths
-  - [ ] **Reviewer** — scanners run (`execute-skill-using-skills-rules`); pass/fail in reviewer finished file
-  - [ ] **Reviewer** — exit-gate review complete; findings in reviewer `slot-MM-finished.md`
-  - [ ] **Reviewer CHECKPOINT** — delivery lead reads findings
-  - [ ] **Rework** — corrections logged for reviewer findings (or N/A if clean pass)
-  - [ ] **Rework** — team member incorporated suggested fixes (rework slot complete)
-  - [ ] **Rework** — scanners green after fix incorporation
-  - [ ] **Delivery lead** — exit gate verified against `stages/exploration.md`
-  - [ ] **CHECKPOINT** — user confirms stage complete
-- [ ] **specification** — entry verified
-  - [ ] **Executor** — slot authored and `abd-team-member` bootstrapped (role + workspace + scope + corrections)
-  - [ ] **Executor** — draft stage artifacts produced
-  - [ ] **Executor** — self-review against skill rules complete
-  - [ ] **Executor CHECKPOINT** — operator confirms drafts
-  - [ ] **Executor** — story-graph updated via story-graph-ops (if stage produces graph content)
-  - [ ] **Executor** — scanners green (all practice skills)
-  - [ ] **Executor** — slot finished (`slot-NN-finished.md` on disk)
-  - [ ] **Reviewer** — slot authored (`team-role: reviewer`; scope = executor artifacts only)
-  - [ ] **Reviewer** — bootstrapped; read executor `slot-NN-finished.md` + artifact paths
-  - [ ] **Reviewer** — scanners run (`execute-skill-using-skills-rules`); pass/fail in reviewer finished file
-  - [ ] **Reviewer** — exit-gate review complete; findings in reviewer `slot-MM-finished.md`
-  - [ ] **Reviewer CHECKPOINT** — delivery lead reads findings
-  - [ ] **Rework** — corrections logged for reviewer findings (or N/A if clean pass)
-  - [ ] **Rework** — team member incorporated suggested fixes (rework slot complete)
-  - [ ] **Rework** — scanners green after fix incorporation
-  - [ ] **Delivery lead** — exit gate verified against `stages/specification.md`
-  - [ ] **CHECKPOINT** — user confirms stage complete
-- [ ] **engineering** — entry verified
-  - [ ] **Executor** — slot authored and `abd-team-member` bootstrapped (role + workspace + scope + corrections)
-  - [ ] **Executor** — draft stage artifacts produced
-  - [ ] **Executor** — self-review against skill rules complete
-  - [ ] **Executor CHECKPOINT** — operator confirms drafts
-  - [ ] **Executor** — story-graph updated via story-graph-ops (if stage produces graph content)
-  - [ ] **Executor** — scanners green (all practice skills)
-  - [ ] **Executor** — slot finished (`slot-NN-finished.md` on disk)
-  - [ ] **Reviewer** — slot authored (`team-role: reviewer`; scope = executor artifacts only)
-  - [ ] **Reviewer** — bootstrapped; read executor `slot-NN-finished.md` + artifact paths
-  - [ ] **Reviewer** — scanners run (`execute-skill-using-skills-rules`); pass/fail in reviewer finished file
-  - [ ] **Reviewer** — exit-gate review complete; findings in reviewer `slot-MM-finished.md`
-  - [ ] **Reviewer CHECKPOINT** — delivery lead reads findings
-  - [ ] **Rework** — corrections logged for reviewer findings (or N/A if clean pass)
-  - [ ] **Rework** — team member incorporated suggested fixes (rework slot complete)
-  - [ ] **Rework** — scanners green after fix incorporation
-  - [ ] **Delivery lead** — exit gate verified against `stages/engineering.md`
-  - [ ] **CHECKPOINT** — user confirms stage complete
+#### exploration
+
+- [ ] **Stage opened** — entry conditions verified for this run
+
+##### Executor
+
+###### abd-ubiquitous-language
+- *UL · business-expert*
+- [ ] slot queued / claimed (`slot-NN-claim.md`)
+- [ ] draft artifacts produced
+- [ ] self-review against `abd-ubiquitous-language` rules complete
+- [ ] **EXECUTOR CHECKPOINT** — operator confirms drafts
+- [ ] story-graph updated via story-graph-ops (when stage produces graph content)
+- [ ] scanners green (`execute-skill-using-skills-rules`)
+- [ ] slot finished (`slot-NN-finished.md` on disk)
+
+###### abd-acceptance-criteria
+- *AC · product-owner*
+- [ ] slot queued / claimed (`slot-NN-claim.md`)
+- [ ] draft artifacts produced
+- [ ] self-review against `abd-acceptance-criteria` rules complete
+- [ ] **EXECUTOR CHECKPOINT** — operator confirms drafts
+- [ ] story-graph updated via story-graph-ops (when stage produces graph content)
+- [ ] scanners green (`execute-skill-using-skills-rules`)
+- [ ] slot finished (`slot-NN-finished.md` on disk)
+
+###### abd-ux-mockup
+- *UX mockup · ux-designer*
+- [ ] slot queued / claimed (`slot-NN-claim.md`)
+- [ ] draft artifacts produced
+- [ ] self-review against `abd-ux-mockup` rules complete
+- [ ] **EXECUTOR CHECKPOINT** — operator confirms drafts
+- [ ] story-graph updated via story-graph-ops (when stage produces graph content)
+- [ ] scanners green (`execute-skill-using-skills-rules`)
+- [ ] slot finished (`slot-NN-finished.md` on disk)
+
+###### abd-architecture-template
+- *Arch template · engineer*
+- [ ] slot queued / claimed (`slot-NN-claim.md`)
+- [ ] draft artifacts produced
+- [ ] self-review against `abd-architecture-template` rules complete
+- [ ] **EXECUTOR CHECKPOINT** — operator confirms drafts
+- [ ] story-graph updated via story-graph-ops (when stage produces graph content)
+- [ ] scanners green (`execute-skill-using-skills-rules`)
+- [ ] slot finished (`slot-NN-finished.md` on disk)
+
+##### Reviewer
+
+###### abd-ubiquitous-language
+- *UL*
+- [ ] reviewer claimed slot (`slot_type: reviewer`; same `team-role` as executor)
+- [ ] read executor `slot-NN-finished.md` + artifact paths
+- [ ] scanners run; pass/fail recorded in reviewer finished file
+- [ ] exit-gate review complete; findings in reviewer `slot-MM-finished.md`
+- [ ] **REVIEWER CHECKPOINT** — delivery lead reads findings
+
+###### abd-acceptance-criteria
+- *AC*
+- [ ] reviewer claimed slot (`slot_type: reviewer`; same `team-role` as executor)
+- [ ] read executor `slot-NN-finished.md` + artifact paths
+- [ ] scanners run; pass/fail recorded in reviewer finished file
+- [ ] exit-gate review complete; findings in reviewer `slot-MM-finished.md`
+- [ ] **REVIEWER CHECKPOINT** — delivery lead reads findings
+
+###### abd-ux-mockup
+- *UX mockup*
+- [ ] reviewer claimed slot (`slot_type: reviewer`; same `team-role` as executor)
+- [ ] read executor `slot-NN-finished.md` + artifact paths
+- [ ] scanners run; pass/fail recorded in reviewer finished file
+- [ ] exit-gate review complete; findings in reviewer `slot-MM-finished.md`
+- [ ] **REVIEWER CHECKPOINT** — delivery lead reads findings
+
+###### abd-architecture-template
+- *Arch template*
+- [ ] reviewer claimed slot (`slot_type: reviewer`; same `team-role` as executor)
+- [ ] read executor `slot-NN-finished.md` + artifact paths
+- [ ] scanners run; pass/fail recorded in reviewer finished file
+- [ ] exit-gate review complete; findings in reviewer `slot-MM-finished.md`
+- [ ] **REVIEWER CHECKPOINT** — delivery lead reads findings
+
+##### Rework
+
+- [ ] corrections logged for reviewer findings (or N/A if clean pass)
+- [ ] executor incorporated suggested fixes (rework slot complete)
+- [ ] scanners green after fix incorporation
+
+##### Delivery lead
+
+- [ ] exit gate verified against `stages/exploration.md`
+- [ ] **STAGE CHECKPOINT** — user confirms `exploration` complete for this run
+
+#### specification
+
+- [ ] **Stage opened** — entry conditions verified for this run
+
+##### Executor
+
+###### abd-class-responsibility-collaborator
+- *CRC · business-expert*
+- [ ] slot queued / claimed (`slot-NN-claim.md`)
+- [ ] draft artifacts produced
+- [ ] self-review against `abd-class-responsibility-collaborator` rules complete
+- [ ] **EXECUTOR CHECKPOINT** — operator confirms drafts
+- [ ] story-graph updated via story-graph-ops (when stage produces graph content)
+- [ ] scanners green (`execute-skill-using-skills-rules`)
+- [ ] slot finished (`slot-NN-finished.md` on disk)
+
+###### abd-specification-by-example
+- *SBE · product-owner*
+- [ ] slot queued / claimed (`slot-NN-claim.md`)
+- [ ] draft artifacts produced
+- [ ] self-review against `abd-specification-by-example` rules complete
+- [ ] **EXECUTOR CHECKPOINT** — operator confirms drafts
+- [ ] story-graph updated via story-graph-ops (when stage produces graph content)
+- [ ] scanners green (`execute-skill-using-skills-rules`)
+- [ ] slot finished (`slot-NN-finished.md` on disk)
+
+###### abd-scenario-walkthrough
+- *Walkthrough · business-expert*
+- [ ] slot queued / claimed (`slot-NN-claim.md`)
+- [ ] draft artifacts produced
+- [ ] self-review against `abd-scenario-walkthrough` rules complete
+- [ ] **EXECUTOR CHECKPOINT** — operator confirms drafts
+- [ ] story-graph updated via story-graph-ops (when stage produces graph content)
+- [ ] scanners green (`execute-skill-using-skills-rules`)
+- [ ] slot finished (`slot-NN-finished.md` on disk)
+
+###### abd-interface-design
+- *Interface design · ux-designer*
+- [ ] slot queued / claimed (`slot-NN-claim.md`)
+- [ ] draft artifacts produced
+- [ ] self-review against `abd-interface-design` rules complete
+- [ ] **EXECUTOR CHECKPOINT** — operator confirms drafts
+- [ ] story-graph updated via story-graph-ops (when stage produces graph content)
+- [ ] scanners green (`execute-skill-using-skills-rules`)
+- [ ] slot finished (`slot-NN-finished.md` on disk)
+
+###### abd-architecture-reference
+- *Arch reference · engineer*
+- [ ] slot queued / claimed (`slot-NN-claim.md`)
+- [ ] draft artifacts produced
+- [ ] self-review against `abd-architecture-reference` rules complete
+- [ ] **EXECUTOR CHECKPOINT** — operator confirms drafts
+- [ ] story-graph updated via story-graph-ops (when stage produces graph content)
+- [ ] scanners green (`execute-skill-using-skills-rules`)
+- [ ] slot finished (`slot-NN-finished.md` on disk)
+
+##### Reviewer
+
+###### abd-class-responsibility-collaborator
+- *CRC*
+- [ ] reviewer claimed slot (`slot_type: reviewer`; same `team-role` as executor)
+- [ ] read executor `slot-NN-finished.md` + artifact paths
+- [ ] scanners run; pass/fail recorded in reviewer finished file
+- [ ] exit-gate review complete; findings in reviewer `slot-MM-finished.md`
+- [ ] **REVIEWER CHECKPOINT** — delivery lead reads findings
+
+###### abd-specification-by-example
+- *SBE*
+- [ ] reviewer claimed slot (`slot_type: reviewer`; same `team-role` as executor)
+- [ ] read executor `slot-NN-finished.md` + artifact paths
+- [ ] scanners run; pass/fail recorded in reviewer finished file
+- [ ] exit-gate review complete; findings in reviewer `slot-MM-finished.md`
+- [ ] **REVIEWER CHECKPOINT** — delivery lead reads findings
+
+###### abd-scenario-walkthrough
+- *Walkthrough*
+- [ ] reviewer claimed slot (`slot_type: reviewer`; same `team-role` as executor)
+- [ ] read executor `slot-NN-finished.md` + artifact paths
+- [ ] scanners run; pass/fail recorded in reviewer finished file
+- [ ] exit-gate review complete; findings in reviewer `slot-MM-finished.md`
+- [ ] **REVIEWER CHECKPOINT** — delivery lead reads findings
+
+###### abd-interface-design
+- *Interface design*
+- [ ] reviewer claimed slot (`slot_type: reviewer`; same `team-role` as executor)
+- [ ] read executor `slot-NN-finished.md` + artifact paths
+- [ ] scanners run; pass/fail recorded in reviewer finished file
+- [ ] exit-gate review complete; findings in reviewer `slot-MM-finished.md`
+- [ ] **REVIEWER CHECKPOINT** — delivery lead reads findings
+
+###### abd-architecture-reference
+- *Arch reference*
+- [ ] reviewer claimed slot (`slot_type: reviewer`; same `team-role` as executor)
+- [ ] read executor `slot-NN-finished.md` + artifact paths
+- [ ] scanners run; pass/fail recorded in reviewer finished file
+- [ ] exit-gate review complete; findings in reviewer `slot-MM-finished.md`
+- [ ] **REVIEWER CHECKPOINT** — delivery lead reads findings
+
+##### Rework
+
+- [ ] corrections logged for reviewer findings (or N/A if clean pass)
+- [ ] executor incorporated suggested fixes (rework slot complete)
+- [ ] scanners green after fix incorporation
+
+##### Delivery lead
+
+- [ ] exit gate verified against `stages/specification.md`
+- [ ] **STAGE CHECKPOINT** — user confirms `specification` complete for this run
+
+#### engineering
+
+- [ ] **Stage opened** — entry conditions verified for this run
+
+##### Executor
+
+###### abd-interface-design
+- *UI impl · ux-designer*
+- [ ] slot queued / claimed (`slot-NN-claim.md`)
+- [ ] draft artifacts produced
+- [ ] self-review against `abd-interface-design` rules complete
+- [ ] **EXECUTOR CHECKPOINT** — operator confirms drafts
+- [ ] story-graph updated via story-graph-ops (when stage produces graph content)
+- [ ] scanners green (`execute-skill-using-skills-rules`)
+- [ ] slot finished (`slot-NN-finished.md` on disk)
+
+###### abd-object-model
+- *Object model · engineer*
+- [ ] slot queued / claimed (`slot-NN-claim.md`)
+- [ ] draft artifacts produced
+- [ ] self-review against `abd-object-model` rules complete
+- [ ] **EXECUTOR CHECKPOINT** — operator confirms drafts
+- [ ] story-graph updated via story-graph-ops (when stage produces graph content)
+- [ ] scanners green (`execute-skill-using-skills-rules`)
+- [ ] slot finished (`slot-NN-finished.md` on disk)
+
+###### abd-acceptance-test-driven-development
+- *ATDD · engineer*
+- [ ] slot queued / claimed (`slot-NN-claim.md`)
+- [ ] draft artifacts produced
+- [ ] self-review against `abd-acceptance-test-driven-development` rules complete
+- [ ] **EXECUTOR CHECKPOINT** — operator confirms drafts
+- [ ] story-graph updated via story-graph-ops (when stage produces graph content)
+- [ ] scanners green (`execute-skill-using-skills-rules`)
+- [ ] slot finished (`slot-NN-finished.md` on disk)
+
+###### abd-clean-code
+- *Clean code · engineer*
+- [ ] slot queued / claimed (`slot-NN-claim.md`)
+- [ ] draft artifacts produced
+- [ ] self-review against `abd-clean-code` rules complete
+- [ ] **EXECUTOR CHECKPOINT** — operator confirms drafts
+- [ ] story-graph updated via story-graph-ops (when stage produces graph content)
+- [ ] scanners green (`execute-skill-using-skills-rules`)
+- [ ] slot finished (`slot-NN-finished.md` on disk)
+
+##### Reviewer
+
+###### abd-interface-design
+- *UI impl*
+- [ ] reviewer claimed slot (`slot_type: reviewer`; same `team-role` as executor)
+- [ ] read executor `slot-NN-finished.md` + artifact paths
+- [ ] scanners run; pass/fail recorded in reviewer finished file
+- [ ] exit-gate review complete; findings in reviewer `slot-MM-finished.md`
+- [ ] **REVIEWER CHECKPOINT** — delivery lead reads findings
+
+###### abd-object-model
+- *Object model*
+- [ ] reviewer claimed slot (`slot_type: reviewer`; same `team-role` as executor)
+- [ ] read executor `slot-NN-finished.md` + artifact paths
+- [ ] scanners run; pass/fail recorded in reviewer finished file
+- [ ] exit-gate review complete; findings in reviewer `slot-MM-finished.md`
+- [ ] **REVIEWER CHECKPOINT** — delivery lead reads findings
+
+###### abd-acceptance-test-driven-development
+- *ATDD*
+- [ ] reviewer claimed slot (`slot_type: reviewer`; same `team-role` as executor)
+- [ ] read executor `slot-NN-finished.md` + artifact paths
+- [ ] scanners run; pass/fail recorded in reviewer finished file
+- [ ] exit-gate review complete; findings in reviewer `slot-MM-finished.md`
+- [ ] **REVIEWER CHECKPOINT** — delivery lead reads findings
+
+###### abd-clean-code
+- *Clean code*
+- [ ] reviewer claimed slot (`slot_type: reviewer`; same `team-role` as executor)
+- [ ] read executor `slot-NN-finished.md` + artifact paths
+- [ ] scanners run; pass/fail recorded in reviewer finished file
+- [ ] exit-gate review complete; findings in reviewer `slot-MM-finished.md`
+- [ ] **REVIEWER CHECKPOINT** — delivery lead reads findings
+
+##### Rework
+
+- [ ] corrections logged for reviewer findings (or N/A if clean pass)
+- [ ] executor incorporated suggested fixes (rework slot complete)
+- [ ] scanners green after fix incorporation
+
+##### Delivery lead
+
+- [ ] exit gate verified against `stages/engineering.md`
+- [ ] **STAGE CHECKPOINT** — user confirms `engineering` complete for this run
+
 - [ ] **Run 8 CHECKPOINT** — run summary + plan revision presented
 
-### Run 9 — Reviews, alerts, recommendations
+### Run 9 — Increment 8: Marketing engine
 - **Scope:** Increment 8 — marketing engine
-- **Checkpoint policy:** **After full run**
 
-- [ ] **exploration** — entry verified
-  - [ ] **Executor** — slot authored and `abd-team-member` bootstrapped (role + workspace + scope + corrections)
-  - [ ] **Executor** — draft stage artifacts produced
-  - [ ] **Executor** — self-review against skill rules complete
-  - [ ] **Executor CHECKPOINT** — operator confirms drafts
-  - [ ] **Executor** — story-graph updated via story-graph-ops (if stage produces graph content)
-  - [ ] **Executor** — scanners green (all practice skills)
-  - [ ] **Executor** — slot finished (`slot-NN-finished.md` on disk)
-  - [ ] **Reviewer** — slot authored (`team-role: reviewer`; scope = executor artifacts only)
-  - [ ] **Reviewer** — bootstrapped; read executor `slot-NN-finished.md` + artifact paths
-  - [ ] **Reviewer** — scanners run (`execute-skill-using-skills-rules`); pass/fail in reviewer finished file
-  - [ ] **Reviewer** — exit-gate review complete; findings in reviewer `slot-MM-finished.md`
-  - [ ] **Reviewer CHECKPOINT** — delivery lead reads findings
-  - [ ] **Rework** — corrections logged for reviewer findings (or N/A if clean pass)
-  - [ ] **Rework** — team member incorporated suggested fixes (rework slot complete)
-  - [ ] **Rework** — scanners green after fix incorporation
-  - [ ] **Delivery lead** — exit gate verified against `stages/exploration.md`
-  - [ ] **CHECKPOINT** — user confirms stage complete
-- [ ] **specification** — entry verified
-  - [ ] **Executor** — slot authored and `abd-team-member` bootstrapped (role + workspace + scope + corrections)
-  - [ ] **Executor** — draft stage artifacts produced
-  - [ ] **Executor** — self-review against skill rules complete
-  - [ ] **Executor CHECKPOINT** — operator confirms drafts
-  - [ ] **Executor** — story-graph updated via story-graph-ops (if stage produces graph content)
-  - [ ] **Executor** — scanners green (all practice skills)
-  - [ ] **Executor** — slot finished (`slot-NN-finished.md` on disk)
-  - [ ] **Reviewer** — slot authored (`team-role: reviewer`; scope = executor artifacts only)
-  - [ ] **Reviewer** — bootstrapped; read executor `slot-NN-finished.md` + artifact paths
-  - [ ] **Reviewer** — scanners run (`execute-skill-using-skills-rules`); pass/fail in reviewer finished file
-  - [ ] **Reviewer** — exit-gate review complete; findings in reviewer `slot-MM-finished.md`
-  - [ ] **Reviewer CHECKPOINT** — delivery lead reads findings
-  - [ ] **Rework** — corrections logged for reviewer findings (or N/A if clean pass)
-  - [ ] **Rework** — team member incorporated suggested fixes (rework slot complete)
-  - [ ] **Rework** — scanners green after fix incorporation
-  - [ ] **Delivery lead** — exit gate verified against `stages/specification.md`
-  - [ ] **CHECKPOINT** — user confirms stage complete
-- [ ] **engineering** — entry verified
-  - [ ] **Executor** — slot authored and `abd-team-member` bootstrapped (role + workspace + scope + corrections)
-  - [ ] **Executor** — draft stage artifacts produced
-  - [ ] **Executor** — self-review against skill rules complete
-  - [ ] **Executor CHECKPOINT** — operator confirms drafts
-  - [ ] **Executor** — story-graph updated via story-graph-ops (if stage produces graph content)
-  - [ ] **Executor** — scanners green (all practice skills)
-  - [ ] **Executor** — slot finished (`slot-NN-finished.md` on disk)
-  - [ ] **Reviewer** — slot authored (`team-role: reviewer`; scope = executor artifacts only)
-  - [ ] **Reviewer** — bootstrapped; read executor `slot-NN-finished.md` + artifact paths
-  - [ ] **Reviewer** — scanners run (`execute-skill-using-skills-rules`); pass/fail in reviewer finished file
-  - [ ] **Reviewer** — exit-gate review complete; findings in reviewer `slot-MM-finished.md`
-  - [ ] **Reviewer CHECKPOINT** — delivery lead reads findings
-  - [ ] **Rework** — corrections logged for reviewer findings (or N/A if clean pass)
-  - [ ] **Rework** — team member incorporated suggested fixes (rework slot complete)
-  - [ ] **Rework** — scanners green after fix incorporation
-  - [ ] **Delivery lead** — exit gate verified against `stages/engineering.md`
-  - [ ] **CHECKPOINT** — user confirms stage complete
+#### exploration
+
+- [ ] **Stage opened** — entry conditions verified for this run
+
+##### Executor
+
+###### abd-ubiquitous-language
+- *UL · business-expert*
+- [ ] slot queued / claimed (`slot-NN-claim.md`)
+- [ ] draft artifacts produced
+- [ ] self-review against `abd-ubiquitous-language` rules complete
+- [ ] **EXECUTOR CHECKPOINT** — operator confirms drafts
+- [ ] story-graph updated via story-graph-ops (when stage produces graph content)
+- [ ] scanners green (`execute-skill-using-skills-rules`)
+- [ ] slot finished (`slot-NN-finished.md` on disk)
+
+###### abd-acceptance-criteria
+- *AC · product-owner*
+- [ ] slot queued / claimed (`slot-NN-claim.md`)
+- [ ] draft artifacts produced
+- [ ] self-review against `abd-acceptance-criteria` rules complete
+- [ ] **EXECUTOR CHECKPOINT** — operator confirms drafts
+- [ ] story-graph updated via story-graph-ops (when stage produces graph content)
+- [ ] scanners green (`execute-skill-using-skills-rules`)
+- [ ] slot finished (`slot-NN-finished.md` on disk)
+
+###### abd-ux-mockup
+- *UX mockup · ux-designer*
+- [ ] slot queued / claimed (`slot-NN-claim.md`)
+- [ ] draft artifacts produced
+- [ ] self-review against `abd-ux-mockup` rules complete
+- [ ] **EXECUTOR CHECKPOINT** — operator confirms drafts
+- [ ] story-graph updated via story-graph-ops (when stage produces graph content)
+- [ ] scanners green (`execute-skill-using-skills-rules`)
+- [ ] slot finished (`slot-NN-finished.md` on disk)
+
+###### abd-architecture-template
+- *Arch template · engineer*
+- [ ] slot queued / claimed (`slot-NN-claim.md`)
+- [ ] draft artifacts produced
+- [ ] self-review against `abd-architecture-template` rules complete
+- [ ] **EXECUTOR CHECKPOINT** — operator confirms drafts
+- [ ] story-graph updated via story-graph-ops (when stage produces graph content)
+- [ ] scanners green (`execute-skill-using-skills-rules`)
+- [ ] slot finished (`slot-NN-finished.md` on disk)
+
+##### Reviewer
+
+###### abd-ubiquitous-language
+- *UL*
+- [ ] reviewer claimed slot (`slot_type: reviewer`; same `team-role` as executor)
+- [ ] read executor `slot-NN-finished.md` + artifact paths
+- [ ] scanners run; pass/fail recorded in reviewer finished file
+- [ ] exit-gate review complete; findings in reviewer `slot-MM-finished.md`
+- [ ] **REVIEWER CHECKPOINT** — delivery lead reads findings
+
+###### abd-acceptance-criteria
+- *AC*
+- [ ] reviewer claimed slot (`slot_type: reviewer`; same `team-role` as executor)
+- [ ] read executor `slot-NN-finished.md` + artifact paths
+- [ ] scanners run; pass/fail recorded in reviewer finished file
+- [ ] exit-gate review complete; findings in reviewer `slot-MM-finished.md`
+- [ ] **REVIEWER CHECKPOINT** — delivery lead reads findings
+
+###### abd-ux-mockup
+- *UX mockup*
+- [ ] reviewer claimed slot (`slot_type: reviewer`; same `team-role` as executor)
+- [ ] read executor `slot-NN-finished.md` + artifact paths
+- [ ] scanners run; pass/fail recorded in reviewer finished file
+- [ ] exit-gate review complete; findings in reviewer `slot-MM-finished.md`
+- [ ] **REVIEWER CHECKPOINT** — delivery lead reads findings
+
+###### abd-architecture-template
+- *Arch template*
+- [ ] reviewer claimed slot (`slot_type: reviewer`; same `team-role` as executor)
+- [ ] read executor `slot-NN-finished.md` + artifact paths
+- [ ] scanners run; pass/fail recorded in reviewer finished file
+- [ ] exit-gate review complete; findings in reviewer `slot-MM-finished.md`
+- [ ] **REVIEWER CHECKPOINT** — delivery lead reads findings
+
+##### Rework
+
+- [ ] corrections logged for reviewer findings (or N/A if clean pass)
+- [ ] executor incorporated suggested fixes (rework slot complete)
+- [ ] scanners green after fix incorporation
+
+##### Delivery lead
+
+- [ ] exit gate verified against `stages/exploration.md`
+- [ ] **STAGE CHECKPOINT** — user confirms `exploration` complete for this run
+
+#### specification
+
+- [ ] **Stage opened** — entry conditions verified for this run
+
+##### Executor
+
+###### abd-class-responsibility-collaborator
+- *CRC · business-expert*
+- [ ] slot queued / claimed (`slot-NN-claim.md`)
+- [ ] draft artifacts produced
+- [ ] self-review against `abd-class-responsibility-collaborator` rules complete
+- [ ] **EXECUTOR CHECKPOINT** — operator confirms drafts
+- [ ] story-graph updated via story-graph-ops (when stage produces graph content)
+- [ ] scanners green (`execute-skill-using-skills-rules`)
+- [ ] slot finished (`slot-NN-finished.md` on disk)
+
+###### abd-specification-by-example
+- *SBE · product-owner*
+- [ ] slot queued / claimed (`slot-NN-claim.md`)
+- [ ] draft artifacts produced
+- [ ] self-review against `abd-specification-by-example` rules complete
+- [ ] **EXECUTOR CHECKPOINT** — operator confirms drafts
+- [ ] story-graph updated via story-graph-ops (when stage produces graph content)
+- [ ] scanners green (`execute-skill-using-skills-rules`)
+- [ ] slot finished (`slot-NN-finished.md` on disk)
+
+###### abd-scenario-walkthrough
+- *Walkthrough · business-expert*
+- [ ] slot queued / claimed (`slot-NN-claim.md`)
+- [ ] draft artifacts produced
+- [ ] self-review against `abd-scenario-walkthrough` rules complete
+- [ ] **EXECUTOR CHECKPOINT** — operator confirms drafts
+- [ ] story-graph updated via story-graph-ops (when stage produces graph content)
+- [ ] scanners green (`execute-skill-using-skills-rules`)
+- [ ] slot finished (`slot-NN-finished.md` on disk)
+
+###### abd-interface-design
+- *Interface design · ux-designer*
+- [ ] slot queued / claimed (`slot-NN-claim.md`)
+- [ ] draft artifacts produced
+- [ ] self-review against `abd-interface-design` rules complete
+- [ ] **EXECUTOR CHECKPOINT** — operator confirms drafts
+- [ ] story-graph updated via story-graph-ops (when stage produces graph content)
+- [ ] scanners green (`execute-skill-using-skills-rules`)
+- [ ] slot finished (`slot-NN-finished.md` on disk)
+
+###### abd-architecture-reference
+- *Arch reference · engineer*
+- [ ] slot queued / claimed (`slot-NN-claim.md`)
+- [ ] draft artifacts produced
+- [ ] self-review against `abd-architecture-reference` rules complete
+- [ ] **EXECUTOR CHECKPOINT** — operator confirms drafts
+- [ ] story-graph updated via story-graph-ops (when stage produces graph content)
+- [ ] scanners green (`execute-skill-using-skills-rules`)
+- [ ] slot finished (`slot-NN-finished.md` on disk)
+
+##### Reviewer
+
+###### abd-class-responsibility-collaborator
+- *CRC*
+- [ ] reviewer claimed slot (`slot_type: reviewer`; same `team-role` as executor)
+- [ ] read executor `slot-NN-finished.md` + artifact paths
+- [ ] scanners run; pass/fail recorded in reviewer finished file
+- [ ] exit-gate review complete; findings in reviewer `slot-MM-finished.md`
+- [ ] **REVIEWER CHECKPOINT** — delivery lead reads findings
+
+###### abd-specification-by-example
+- *SBE*
+- [ ] reviewer claimed slot (`slot_type: reviewer`; same `team-role` as executor)
+- [ ] read executor `slot-NN-finished.md` + artifact paths
+- [ ] scanners run; pass/fail recorded in reviewer finished file
+- [ ] exit-gate review complete; findings in reviewer `slot-MM-finished.md`
+- [ ] **REVIEWER CHECKPOINT** — delivery lead reads findings
+
+###### abd-scenario-walkthrough
+- *Walkthrough*
+- [ ] reviewer claimed slot (`slot_type: reviewer`; same `team-role` as executor)
+- [ ] read executor `slot-NN-finished.md` + artifact paths
+- [ ] scanners run; pass/fail recorded in reviewer finished file
+- [ ] exit-gate review complete; findings in reviewer `slot-MM-finished.md`
+- [ ] **REVIEWER CHECKPOINT** — delivery lead reads findings
+
+###### abd-interface-design
+- *Interface design*
+- [ ] reviewer claimed slot (`slot_type: reviewer`; same `team-role` as executor)
+- [ ] read executor `slot-NN-finished.md` + artifact paths
+- [ ] scanners run; pass/fail recorded in reviewer finished file
+- [ ] exit-gate review complete; findings in reviewer `slot-MM-finished.md`
+- [ ] **REVIEWER CHECKPOINT** — delivery lead reads findings
+
+###### abd-architecture-reference
+- *Arch reference*
+- [ ] reviewer claimed slot (`slot_type: reviewer`; same `team-role` as executor)
+- [ ] read executor `slot-NN-finished.md` + artifact paths
+- [ ] scanners run; pass/fail recorded in reviewer finished file
+- [ ] exit-gate review complete; findings in reviewer `slot-MM-finished.md`
+- [ ] **REVIEWER CHECKPOINT** — delivery lead reads findings
+
+##### Rework
+
+- [ ] corrections logged for reviewer findings (or N/A if clean pass)
+- [ ] executor incorporated suggested fixes (rework slot complete)
+- [ ] scanners green after fix incorporation
+
+##### Delivery lead
+
+- [ ] exit gate verified against `stages/specification.md`
+- [ ] **STAGE CHECKPOINT** — user confirms `specification` complete for this run
+
+#### engineering
+
+- [ ] **Stage opened** — entry conditions verified for this run
+
+##### Executor
+
+###### abd-interface-design
+- *UI impl · ux-designer*
+- [ ] slot queued / claimed (`slot-NN-claim.md`)
+- [ ] draft artifacts produced
+- [ ] self-review against `abd-interface-design` rules complete
+- [ ] **EXECUTOR CHECKPOINT** — operator confirms drafts
+- [ ] story-graph updated via story-graph-ops (when stage produces graph content)
+- [ ] scanners green (`execute-skill-using-skills-rules`)
+- [ ] slot finished (`slot-NN-finished.md` on disk)
+
+###### abd-object-model
+- *Object model · engineer*
+- [ ] slot queued / claimed (`slot-NN-claim.md`)
+- [ ] draft artifacts produced
+- [ ] self-review against `abd-object-model` rules complete
+- [ ] **EXECUTOR CHECKPOINT** — operator confirms drafts
+- [ ] story-graph updated via story-graph-ops (when stage produces graph content)
+- [ ] scanners green (`execute-skill-using-skills-rules`)
+- [ ] slot finished (`slot-NN-finished.md` on disk)
+
+###### abd-acceptance-test-driven-development
+- *ATDD · engineer*
+- [ ] slot queued / claimed (`slot-NN-claim.md`)
+- [ ] draft artifacts produced
+- [ ] self-review against `abd-acceptance-test-driven-development` rules complete
+- [ ] **EXECUTOR CHECKPOINT** — operator confirms drafts
+- [ ] story-graph updated via story-graph-ops (when stage produces graph content)
+- [ ] scanners green (`execute-skill-using-skills-rules`)
+- [ ] slot finished (`slot-NN-finished.md` on disk)
+
+###### abd-clean-code
+- *Clean code · engineer*
+- [ ] slot queued / claimed (`slot-NN-claim.md`)
+- [ ] draft artifacts produced
+- [ ] self-review against `abd-clean-code` rules complete
+- [ ] **EXECUTOR CHECKPOINT** — operator confirms drafts
+- [ ] story-graph updated via story-graph-ops (when stage produces graph content)
+- [ ] scanners green (`execute-skill-using-skills-rules`)
+- [ ] slot finished (`slot-NN-finished.md` on disk)
+
+##### Reviewer
+
+###### abd-interface-design
+- *UI impl*
+- [ ] reviewer claimed slot (`slot_type: reviewer`; same `team-role` as executor)
+- [ ] read executor `slot-NN-finished.md` + artifact paths
+- [ ] scanners run; pass/fail recorded in reviewer finished file
+- [ ] exit-gate review complete; findings in reviewer `slot-MM-finished.md`
+- [ ] **REVIEWER CHECKPOINT** — delivery lead reads findings
+
+###### abd-object-model
+- *Object model*
+- [ ] reviewer claimed slot (`slot_type: reviewer`; same `team-role` as executor)
+- [ ] read executor `slot-NN-finished.md` + artifact paths
+- [ ] scanners run; pass/fail recorded in reviewer finished file
+- [ ] exit-gate review complete; findings in reviewer `slot-MM-finished.md`
+- [ ] **REVIEWER CHECKPOINT** — delivery lead reads findings
+
+###### abd-acceptance-test-driven-development
+- *ATDD*
+- [ ] reviewer claimed slot (`slot_type: reviewer`; same `team-role` as executor)
+- [ ] read executor `slot-NN-finished.md` + artifact paths
+- [ ] scanners run; pass/fail recorded in reviewer finished file
+- [ ] exit-gate review complete; findings in reviewer `slot-MM-finished.md`
+- [ ] **REVIEWER CHECKPOINT** — delivery lead reads findings
+
+###### abd-clean-code
+- *Clean code*
+- [ ] reviewer claimed slot (`slot_type: reviewer`; same `team-role` as executor)
+- [ ] read executor `slot-NN-finished.md` + artifact paths
+- [ ] scanners run; pass/fail recorded in reviewer finished file
+- [ ] exit-gate review complete; findings in reviewer `slot-MM-finished.md`
+- [ ] **REVIEWER CHECKPOINT** — delivery lead reads findings
+
+##### Rework
+
+- [ ] corrections logged for reviewer findings (or N/A if clean pass)
+- [ ] executor incorporated suggested fixes (rework slot complete)
+- [ ] scanners green after fix incorporation
+
+##### Delivery lead
+
+- [ ] exit gate verified against `stages/engineering.md`
+- [ ] **STAGE CHECKPOINT** — user confirms `engineering` complete for this run
+
 - [ ] **Run 9 CHECKPOINT** — run summary + plan revision presented
 
-### Run 10 — Search, personalization, admin polish
+### Run 10 — Increment 9: Power-ups
 - **Scope:** Increment 9 — power-ups
-- **Checkpoint policy:** **After full run**
 
-- [ ] **exploration** — entry verified
-  - [ ] **Executor** — slot authored and `abd-team-member` bootstrapped (role + workspace + scope + corrections)
-  - [ ] **Executor** — draft stage artifacts produced
-  - [ ] **Executor** — self-review against skill rules complete
-  - [ ] **Executor CHECKPOINT** — operator confirms drafts
-  - [ ] **Executor** — story-graph updated via story-graph-ops (if stage produces graph content)
-  - [ ] **Executor** — scanners green (all practice skills)
-  - [ ] **Executor** — slot finished (`slot-NN-finished.md` on disk)
-  - [ ] **Reviewer** — slot authored (`team-role: reviewer`; scope = executor artifacts only)
-  - [ ] **Reviewer** — bootstrapped; read executor `slot-NN-finished.md` + artifact paths
-  - [ ] **Reviewer** — scanners run (`execute-skill-using-skills-rules`); pass/fail in reviewer finished file
-  - [ ] **Reviewer** — exit-gate review complete; findings in reviewer `slot-MM-finished.md`
-  - [ ] **Reviewer CHECKPOINT** — delivery lead reads findings
-  - [ ] **Rework** — corrections logged for reviewer findings (or N/A if clean pass)
-  - [ ] **Rework** — team member incorporated suggested fixes (rework slot complete)
-  - [ ] **Rework** — scanners green after fix incorporation
-  - [ ] **Delivery lead** — exit gate verified against `stages/exploration.md`
-  - [ ] **CHECKPOINT** — user confirms stage complete
-- [ ] **specification** — entry verified
-  - [ ] **Executor** — slot authored and `abd-team-member` bootstrapped (role + workspace + scope + corrections)
-  - [ ] **Executor** — draft stage artifacts produced
-  - [ ] **Executor** — self-review against skill rules complete
-  - [ ] **Executor CHECKPOINT** — operator confirms drafts
-  - [ ] **Executor** — story-graph updated via story-graph-ops (if stage produces graph content)
-  - [ ] **Executor** — scanners green (all practice skills)
-  - [ ] **Executor** — slot finished (`slot-NN-finished.md` on disk)
-  - [ ] **Reviewer** — slot authored (`team-role: reviewer`; scope = executor artifacts only)
-  - [ ] **Reviewer** — bootstrapped; read executor `slot-NN-finished.md` + artifact paths
-  - [ ] **Reviewer** — scanners run (`execute-skill-using-skills-rules`); pass/fail in reviewer finished file
-  - [ ] **Reviewer** — exit-gate review complete; findings in reviewer `slot-MM-finished.md`
-  - [ ] **Reviewer CHECKPOINT** — delivery lead reads findings
-  - [ ] **Rework** — corrections logged for reviewer findings (or N/A if clean pass)
-  - [ ] **Rework** — team member incorporated suggested fixes (rework slot complete)
-  - [ ] **Rework** — scanners green after fix incorporation
-  - [ ] **Delivery lead** — exit gate verified against `stages/specification.md`
-  - [ ] **CHECKPOINT** — user confirms stage complete
-- [ ] **engineering** — entry verified
-  - [ ] **Executor** — slot authored and `abd-team-member` bootstrapped (role + workspace + scope + corrections)
-  - [ ] **Executor** — draft stage artifacts produced
-  - [ ] **Executor** — self-review against skill rules complete
-  - [ ] **Executor CHECKPOINT** — operator confirms drafts
-  - [ ] **Executor** — story-graph updated via story-graph-ops (if stage produces graph content)
-  - [ ] **Executor** — scanners green (all practice skills)
-  - [ ] **Executor** — slot finished (`slot-NN-finished.md` on disk)
-  - [ ] **Reviewer** — slot authored (`team-role: reviewer`; scope = executor artifacts only)
-  - [ ] **Reviewer** — bootstrapped; read executor `slot-NN-finished.md` + artifact paths
-  - [ ] **Reviewer** — scanners run (`execute-skill-using-skills-rules`); pass/fail in reviewer finished file
-  - [ ] **Reviewer** — exit-gate review complete; findings in reviewer `slot-MM-finished.md`
-  - [ ] **Reviewer CHECKPOINT** — delivery lead reads findings
-  - [ ] **Rework** — corrections logged for reviewer findings (or N/A if clean pass)
-  - [ ] **Rework** — team member incorporated suggested fixes (rework slot complete)
-  - [ ] **Rework** — scanners green after fix incorporation
-  - [ ] **Delivery lead** — exit gate verified against `stages/engineering.md`
-  - [ ] **CHECKPOINT** — user confirms stage complete
+#### exploration
+
+- [ ] **Stage opened** — entry conditions verified for this run
+
+##### Executor
+
+###### abd-ubiquitous-language
+- *UL · business-expert*
+- [ ] slot queued / claimed (`slot-NN-claim.md`)
+- [ ] draft artifacts produced
+- [ ] self-review against `abd-ubiquitous-language` rules complete
+- [ ] **EXECUTOR CHECKPOINT** — operator confirms drafts
+- [ ] story-graph updated via story-graph-ops (when stage produces graph content)
+- [ ] scanners green (`execute-skill-using-skills-rules`)
+- [ ] slot finished (`slot-NN-finished.md` on disk)
+
+###### abd-acceptance-criteria
+- *AC · product-owner*
+- [ ] slot queued / claimed (`slot-NN-claim.md`)
+- [ ] draft artifacts produced
+- [ ] self-review against `abd-acceptance-criteria` rules complete
+- [ ] **EXECUTOR CHECKPOINT** — operator confirms drafts
+- [ ] story-graph updated via story-graph-ops (when stage produces graph content)
+- [ ] scanners green (`execute-skill-using-skills-rules`)
+- [ ] slot finished (`slot-NN-finished.md` on disk)
+
+###### abd-ux-mockup
+- *UX mockup · ux-designer*
+- [ ] slot queued / claimed (`slot-NN-claim.md`)
+- [ ] draft artifacts produced
+- [ ] self-review against `abd-ux-mockup` rules complete
+- [ ] **EXECUTOR CHECKPOINT** — operator confirms drafts
+- [ ] story-graph updated via story-graph-ops (when stage produces graph content)
+- [ ] scanners green (`execute-skill-using-skills-rules`)
+- [ ] slot finished (`slot-NN-finished.md` on disk)
+
+###### abd-architecture-template
+- *Arch template · engineer*
+- [ ] slot queued / claimed (`slot-NN-claim.md`)
+- [ ] draft artifacts produced
+- [ ] self-review against `abd-architecture-template` rules complete
+- [ ] **EXECUTOR CHECKPOINT** — operator confirms drafts
+- [ ] story-graph updated via story-graph-ops (when stage produces graph content)
+- [ ] scanners green (`execute-skill-using-skills-rules`)
+- [ ] slot finished (`slot-NN-finished.md` on disk)
+
+##### Reviewer
+
+###### abd-ubiquitous-language
+- *UL*
+- [ ] reviewer claimed slot (`slot_type: reviewer`; same `team-role` as executor)
+- [ ] read executor `slot-NN-finished.md` + artifact paths
+- [ ] scanners run; pass/fail recorded in reviewer finished file
+- [ ] exit-gate review complete; findings in reviewer `slot-MM-finished.md`
+- [ ] **REVIEWER CHECKPOINT** — delivery lead reads findings
+
+###### abd-acceptance-criteria
+- *AC*
+- [ ] reviewer claimed slot (`slot_type: reviewer`; same `team-role` as executor)
+- [ ] read executor `slot-NN-finished.md` + artifact paths
+- [ ] scanners run; pass/fail recorded in reviewer finished file
+- [ ] exit-gate review complete; findings in reviewer `slot-MM-finished.md`
+- [ ] **REVIEWER CHECKPOINT** — delivery lead reads findings
+
+###### abd-ux-mockup
+- *UX mockup*
+- [ ] reviewer claimed slot (`slot_type: reviewer`; same `team-role` as executor)
+- [ ] read executor `slot-NN-finished.md` + artifact paths
+- [ ] scanners run; pass/fail recorded in reviewer finished file
+- [ ] exit-gate review complete; findings in reviewer `slot-MM-finished.md`
+- [ ] **REVIEWER CHECKPOINT** — delivery lead reads findings
+
+###### abd-architecture-template
+- *Arch template*
+- [ ] reviewer claimed slot (`slot_type: reviewer`; same `team-role` as executor)
+- [ ] read executor `slot-NN-finished.md` + artifact paths
+- [ ] scanners run; pass/fail recorded in reviewer finished file
+- [ ] exit-gate review complete; findings in reviewer `slot-MM-finished.md`
+- [ ] **REVIEWER CHECKPOINT** — delivery lead reads findings
+
+##### Rework
+
+- [ ] corrections logged for reviewer findings (or N/A if clean pass)
+- [ ] executor incorporated suggested fixes (rework slot complete)
+- [ ] scanners green after fix incorporation
+
+##### Delivery lead
+
+- [ ] exit gate verified against `stages/exploration.md`
+- [ ] **STAGE CHECKPOINT** — user confirms `exploration` complete for this run
+
+#### specification
+
+- [ ] **Stage opened** — entry conditions verified for this run
+
+##### Executor
+
+###### abd-class-responsibility-collaborator
+- *CRC · business-expert*
+- [ ] slot queued / claimed (`slot-NN-claim.md`)
+- [ ] draft artifacts produced
+- [ ] self-review against `abd-class-responsibility-collaborator` rules complete
+- [ ] **EXECUTOR CHECKPOINT** — operator confirms drafts
+- [ ] story-graph updated via story-graph-ops (when stage produces graph content)
+- [ ] scanners green (`execute-skill-using-skills-rules`)
+- [ ] slot finished (`slot-NN-finished.md` on disk)
+
+###### abd-specification-by-example
+- *SBE · product-owner*
+- [ ] slot queued / claimed (`slot-NN-claim.md`)
+- [ ] draft artifacts produced
+- [ ] self-review against `abd-specification-by-example` rules complete
+- [ ] **EXECUTOR CHECKPOINT** — operator confirms drafts
+- [ ] story-graph updated via story-graph-ops (when stage produces graph content)
+- [ ] scanners green (`execute-skill-using-skills-rules`)
+- [ ] slot finished (`slot-NN-finished.md` on disk)
+
+###### abd-scenario-walkthrough
+- *Walkthrough · business-expert*
+- [ ] slot queued / claimed (`slot-NN-claim.md`)
+- [ ] draft artifacts produced
+- [ ] self-review against `abd-scenario-walkthrough` rules complete
+- [ ] **EXECUTOR CHECKPOINT** — operator confirms drafts
+- [ ] story-graph updated via story-graph-ops (when stage produces graph content)
+- [ ] scanners green (`execute-skill-using-skills-rules`)
+- [ ] slot finished (`slot-NN-finished.md` on disk)
+
+###### abd-interface-design
+- *Interface design · ux-designer*
+- [ ] slot queued / claimed (`slot-NN-claim.md`)
+- [ ] draft artifacts produced
+- [ ] self-review against `abd-interface-design` rules complete
+- [ ] **EXECUTOR CHECKPOINT** — operator confirms drafts
+- [ ] story-graph updated via story-graph-ops (when stage produces graph content)
+- [ ] scanners green (`execute-skill-using-skills-rules`)
+- [ ] slot finished (`slot-NN-finished.md` on disk)
+
+###### abd-architecture-reference
+- *Arch reference · engineer*
+- [ ] slot queued / claimed (`slot-NN-claim.md`)
+- [ ] draft artifacts produced
+- [ ] self-review against `abd-architecture-reference` rules complete
+- [ ] **EXECUTOR CHECKPOINT** — operator confirms drafts
+- [ ] story-graph updated via story-graph-ops (when stage produces graph content)
+- [ ] scanners green (`execute-skill-using-skills-rules`)
+- [ ] slot finished (`slot-NN-finished.md` on disk)
+
+##### Reviewer
+
+###### abd-class-responsibility-collaborator
+- *CRC*
+- [ ] reviewer claimed slot (`slot_type: reviewer`; same `team-role` as executor)
+- [ ] read executor `slot-NN-finished.md` + artifact paths
+- [ ] scanners run; pass/fail recorded in reviewer finished file
+- [ ] exit-gate review complete; findings in reviewer `slot-MM-finished.md`
+- [ ] **REVIEWER CHECKPOINT** — delivery lead reads findings
+
+###### abd-specification-by-example
+- *SBE*
+- [ ] reviewer claimed slot (`slot_type: reviewer`; same `team-role` as executor)
+- [ ] read executor `slot-NN-finished.md` + artifact paths
+- [ ] scanners run; pass/fail recorded in reviewer finished file
+- [ ] exit-gate review complete; findings in reviewer `slot-MM-finished.md`
+- [ ] **REVIEWER CHECKPOINT** — delivery lead reads findings
+
+###### abd-scenario-walkthrough
+- *Walkthrough*
+- [ ] reviewer claimed slot (`slot_type: reviewer`; same `team-role` as executor)
+- [ ] read executor `slot-NN-finished.md` + artifact paths
+- [ ] scanners run; pass/fail recorded in reviewer finished file
+- [ ] exit-gate review complete; findings in reviewer `slot-MM-finished.md`
+- [ ] **REVIEWER CHECKPOINT** — delivery lead reads findings
+
+###### abd-interface-design
+- *Interface design*
+- [ ] reviewer claimed slot (`slot_type: reviewer`; same `team-role` as executor)
+- [ ] read executor `slot-NN-finished.md` + artifact paths
+- [ ] scanners run; pass/fail recorded in reviewer finished file
+- [ ] exit-gate review complete; findings in reviewer `slot-MM-finished.md`
+- [ ] **REVIEWER CHECKPOINT** — delivery lead reads findings
+
+###### abd-architecture-reference
+- *Arch reference*
+- [ ] reviewer claimed slot (`slot_type: reviewer`; same `team-role` as executor)
+- [ ] read executor `slot-NN-finished.md` + artifact paths
+- [ ] scanners run; pass/fail recorded in reviewer finished file
+- [ ] exit-gate review complete; findings in reviewer `slot-MM-finished.md`
+- [ ] **REVIEWER CHECKPOINT** — delivery lead reads findings
+
+##### Rework
+
+- [ ] corrections logged for reviewer findings (or N/A if clean pass)
+- [ ] executor incorporated suggested fixes (rework slot complete)
+- [ ] scanners green after fix incorporation
+
+##### Delivery lead
+
+- [ ] exit gate verified against `stages/specification.md`
+- [ ] **STAGE CHECKPOINT** — user confirms `specification` complete for this run
+
+#### engineering
+
+- [ ] **Stage opened** — entry conditions verified for this run
+
+##### Executor
+
+###### abd-interface-design
+- *UI impl · ux-designer*
+- [ ] slot queued / claimed (`slot-NN-claim.md`)
+- [ ] draft artifacts produced
+- [ ] self-review against `abd-interface-design` rules complete
+- [ ] **EXECUTOR CHECKPOINT** — operator confirms drafts
+- [ ] story-graph updated via story-graph-ops (when stage produces graph content)
+- [ ] scanners green (`execute-skill-using-skills-rules`)
+- [ ] slot finished (`slot-NN-finished.md` on disk)
+
+###### abd-object-model
+- *Object model · engineer*
+- [ ] slot queued / claimed (`slot-NN-claim.md`)
+- [ ] draft artifacts produced
+- [ ] self-review against `abd-object-model` rules complete
+- [ ] **EXECUTOR CHECKPOINT** — operator confirms drafts
+- [ ] story-graph updated via story-graph-ops (when stage produces graph content)
+- [ ] scanners green (`execute-skill-using-skills-rules`)
+- [ ] slot finished (`slot-NN-finished.md` on disk)
+
+###### abd-acceptance-test-driven-development
+- *ATDD · engineer*
+- [ ] slot queued / claimed (`slot-NN-claim.md`)
+- [ ] draft artifacts produced
+- [ ] self-review against `abd-acceptance-test-driven-development` rules complete
+- [ ] **EXECUTOR CHECKPOINT** — operator confirms drafts
+- [ ] story-graph updated via story-graph-ops (when stage produces graph content)
+- [ ] scanners green (`execute-skill-using-skills-rules`)
+- [ ] slot finished (`slot-NN-finished.md` on disk)
+
+###### abd-clean-code
+- *Clean code · engineer*
+- [ ] slot queued / claimed (`slot-NN-claim.md`)
+- [ ] draft artifacts produced
+- [ ] self-review against `abd-clean-code` rules complete
+- [ ] **EXECUTOR CHECKPOINT** — operator confirms drafts
+- [ ] story-graph updated via story-graph-ops (when stage produces graph content)
+- [ ] scanners green (`execute-skill-using-skills-rules`)
+- [ ] slot finished (`slot-NN-finished.md` on disk)
+
+##### Reviewer
+
+###### abd-interface-design
+- *UI impl*
+- [ ] reviewer claimed slot (`slot_type: reviewer`; same `team-role` as executor)
+- [ ] read executor `slot-NN-finished.md` + artifact paths
+- [ ] scanners run; pass/fail recorded in reviewer finished file
+- [ ] exit-gate review complete; findings in reviewer `slot-MM-finished.md`
+- [ ] **REVIEWER CHECKPOINT** — delivery lead reads findings
+
+###### abd-object-model
+- *Object model*
+- [ ] reviewer claimed slot (`slot_type: reviewer`; same `team-role` as executor)
+- [ ] read executor `slot-NN-finished.md` + artifact paths
+- [ ] scanners run; pass/fail recorded in reviewer finished file
+- [ ] exit-gate review complete; findings in reviewer `slot-MM-finished.md`
+- [ ] **REVIEWER CHECKPOINT** — delivery lead reads findings
+
+###### abd-acceptance-test-driven-development
+- *ATDD*
+- [ ] reviewer claimed slot (`slot_type: reviewer`; same `team-role` as executor)
+- [ ] read executor `slot-NN-finished.md` + artifact paths
+- [ ] scanners run; pass/fail recorded in reviewer finished file
+- [ ] exit-gate review complete; findings in reviewer `slot-MM-finished.md`
+- [ ] **REVIEWER CHECKPOINT** — delivery lead reads findings
+
+###### abd-clean-code
+- *Clean code*
+- [ ] reviewer claimed slot (`slot_type: reviewer`; same `team-role` as executor)
+- [ ] read executor `slot-NN-finished.md` + artifact paths
+- [ ] scanners run; pass/fail recorded in reviewer finished file
+- [ ] exit-gate review complete; findings in reviewer `slot-MM-finished.md`
+- [ ] **REVIEWER CHECKPOINT** — delivery lead reads findings
+
+##### Rework
+
+- [ ] corrections logged for reviewer findings (or N/A if clean pass)
+- [ ] executor incorporated suggested fixes (rework slot complete)
+- [ ] scanners green after fix incorporation
+
+##### Delivery lead
+
+- [ ] exit gate verified against `stages/engineering.md`
+- [ ] **STAGE CHECKPOINT** — user confirms `engineering` complete for this run
+
 - [ ] **Run 10 CHECKPOINT** — run summary + plan revision presented
 

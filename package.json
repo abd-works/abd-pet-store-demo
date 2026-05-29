@@ -1,6 +1,13 @@
 {
   "name": "@pawplace/root",
   "private": true,
+  "devDependencies": {
+    "@playwright/test": "^1.45.0",
+    "@testing-library/jest-dom": "^6.0.0",
+    "@testing-library/react": "^16.0.0",
+    "typescript": "^5.4.0",
+    "vitest": "^2.0.0"
+  },
   "scripts": {
     "dev:api": "npm run dev:api --prefix conf",
     "dev:client": "npm run dev:client --prefix conf",

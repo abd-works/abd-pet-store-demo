@@ -1,0 +1,113 @@
+{
+  "schema": "abd-delivery-run-catalog/v1",
+  "default_system_of_work": "pawplace-increment-vertical",
+  "strategy": ["new-initiative-no-documented-architecture", "new-thin-slice"],
+  "runs": [
+    {
+      "run": 1,
+      "title": "Run 1 — Discovery foundation",
+      "scope": "Foundation backfill — domain, story, UX IA, architecture blueprint, SLOs",
+      "stages": ["discovery"],
+      "system_of_work": "pawplace-discovery",
+      "status": "complete"
+    },
+    {
+      "run": 2,
+      "title": "Run 2 — Increment 1: Walk-in driver",
+      "scope": "Increment 1 — walk-in driver (thin-slicing.md)",
+      "stages": ["exploration", "specification", "engineering"],
+      "system_of_work": "pawplace-increment-vertical",
+      "parallel_profile": "increment-vertical",
+      "status": "complete"
+    },
+    {
+      "run": 3,
+      "title": "Run 3 — Increment 2: Click-and-collect",
+      "scope": "Increment 2 — click-and-collect",
+      "stages": ["exploration", "specification", "engineering"],
+      "system_of_work": "pawplace-increment-vertical",
+      "parallel_profile": "increment-vertical",
+      "discovery_precompleted": true,
+      "opens_after": { "run": 2, "gate": "specification" },
+      "status": "complete"
+    },
+    {
+      "run": 4,
+      "title": "Run 4 — Increment 3: Ship to home",
+      "scope": "Increment 3 — ship to home",
+      "stages": ["exploration", "specification", "engineering"],
+      "system_of_work": "pawplace-increment-vertical",
+      "parallel_profile": "increment-vertical",
+      "discovery_precompleted": true,
+      "waived_skills": { "exploration": ["abd-ux-mockup"] },
+      "opens_after": { "run": 3, "gate": "specification" },
+      "status": "complete"
+    },
+    {
+      "run": 5,
+      "title": "Run 5 — Increment 4: Returning customers",
+      "scope": "Increment 4 — returning customers",
+      "stages": ["exploration", "specification", "engineering"],
+      "system_of_work": "pawplace-increment-vertical",
+      "parallel_profile": "increment-vertical",
+      "discovery_precompleted": true,
+      "opens_after": { "run": 4, "gate": "specification" },
+      "status": "complete"
+    },
+    {
+      "run": 6,
+      "title": "Run 6 — Increment 5: Pay your way",
+      "scope": "Increment 5 — pay your way",
+      "stages": ["exploration", "specification", "engineering"],
+      "system_of_work": "pawplace-increment-vertical",
+      "parallel_profile": "increment-vertical",
+      "discovery_precompleted": true,
+      "opens_after": { "run": 5, "gate": "specification" },
+      "status": "complete"
+    },
+    {
+      "run": 7,
+      "title": "Run 7 — Increment 6: Pet visits",
+      "scope": "Increment 6 — Pet visits",
+      "stages": ["exploration", "specification", "engineering"],
+      "system_of_work": "pawplace-increment-vertical",
+      "parallel_profile": "increment-vertical",
+      "discovery_precompleted": true,
+      "opens_after": { "run": 6, "gate": "specification" },
+      "status": "active"
+    },
+    {
+      "run": 8,
+      "title": "Run 8 — Increment 7: Returns and refunds",
+      "scope": "Increment 7 — returns and refunds",
+      "stages": ["exploration", "specification", "engineering"],
+      "system_of_work": "pawplace-increment-vertical",
+      "parallel_profile": "increment-vertical",
+      "discovery_precompleted": true,
+      "opens_after": { "run": 7, "gate": "specification" },
+      "status": "planned"
+    },
+    {
+      "run": 9,
+      "title": "Run 9 — Increment 8: Marketing engine",
+      "scope": "Increment 8 — marketing engine",
+      "stages": ["exploration", "specification", "engineering"],
+      "system_of_work": "pawplace-increment-vertical",
+      "parallel_profile": "increment-vertical",
+      "discovery_precompleted": true,
+      "opens_after": { "run": 8, "gate": "specification" },
+      "status": "planned"
+    },
+    {
+      "run": 10,
+      "title": "Run 10 — Increment 9: Power-ups",
+      "scope": "Increment 9 — power-ups",
+      "stages": ["exploration", "specification", "engineering"],
+      "system_of_work": "pawplace-increment-vertical",
+      "parallel_profile": "increment-vertical",
+      "discovery_precompleted": true,
+      "opens_after": { "run": 9, "gate": "specification" },
+      "status": "planned"
+    }
+  ]
+}

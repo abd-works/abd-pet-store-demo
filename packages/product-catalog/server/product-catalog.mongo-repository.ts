@@ -1,24 +1,30 @@
 import type { Db } from 'mongodb';
-import { stockAvailabilitySchema } from '@pawplace/product-catalog-shared';
-import { InMemoryProductCatalogRepository, type StoredProduct, type StoredStockAvailability } from './product-catalog.repository';
+import { stockAvailabilitySchema } from '../shared/product.schema';
+import {
+  InMemoryProductCatalogRepository,
+  InMemoryProductStorage,
+  InMemoryStockStorage,
+  type StoredProduct,
+  type StoredStockAvailability,
+} from './product-catalog.repository';
 
 export class MongoProductCatalogRepository extends InMemoryProductCatalogRepository {
-  constructor(private readonly db: Db) {
-    super();
+  constructor(
+    private readonly db: Db,
+    products: InMemoryProductStorage,
+    stock: InMemoryStockStorage,
+  ) {
+    super(products, stock);
   }
 
   async loadFromMongo(): Promise<void> {
     const products = await this.db.collection<StoredProduct>('products').find().toArray();
-    for (const p of products) super.saveProduct(p);
+    for (const product of products) super.saveProduct(product);
 
-    const stock = await this.db.collection('stock').find().toArray();
-    for (const s of stock) {
-      const result = stockAvailabilitySchema.safeParse(s);
-      if (!result.success) {
-        console.warn('[mongo] Invalid stock doc, skipping:', result.error.flatten());
-        continue;
-      }
-      super.saveStockAvailability(s as StoredStockAvailability);
+    const stockRows = await this.db.collection('stock').find().toArray();
+    for (const stockRow of stockRows) {
+      const validated = stockAvailabilitySchema.parse(stockRow);
+      super.saveStockAvailability(validated as StoredStockAvailability);
     }
   }
 
@@ -26,21 +32,21 @@ export class MongoProductCatalogRepository extends InMemoryProductCatalogReposit
     super.saveProduct(product);
     this.db.collection('products')
       .replaceOne({ sku: product.sku }, product, { upsert: true })
-      .catch(err => console.error('[mongo] saveProduct error:', err));
+      .catch((error) => console.error('[mongo] saveProduct error:', error));
   }
 
   override deleteProducts(skus: string[]): void {
     super.deleteProducts(skus);
     this.db.collection('products')
       .deleteMany({ sku: { $in: skus } })
-      .catch(err => console.error('[mongo] deleteProducts error:', err));
+      .catch((error) => console.error('[mongo] deleteProducts error:', error));
   }
 
   override saveStockAvailability(stock: StoredStockAvailability): void {
     super.saveStockAvailability(stock);
     this.db.collection('stock')
       .replaceOne({ productSku: stock.productSku, storeCode: stock.storeCode }, stock, { upsert: true })
-      .catch(err => console.error('[mongo] saveStock error:', err));
+      .catch((error) => console.error('[mongo] saveStock error:', error));
   }
 
   override deleteStockByIds(ids: string[]): void {
@@ -49,7 +55,7 @@ export class MongoProductCatalogRepository extends InMemoryProductCatalogReposit
       const [productSku, storeCode] = id.split(':');
       this.db.collection('stock')
         .deleteOne({ productSku, storeCode })
-        .catch(err => console.error('[mongo] deleteStockById error:', err));
+        .catch((error) => console.error('[mongo] deleteStockById error:', error));
     }
   }
 
@@ -59,7 +65,7 @@ export class MongoProductCatalogRepository extends InMemoryProductCatalogReposit
       const [productSku, storeCode] = key.split(':');
       this.db.collection('stock')
         .deleteOne({ productSku, storeCode })
-        .catch(err => console.error('[mongo] deleteStockByKey error:', err));
+        .catch((error) => console.error('[mongo] deleteStockByKey error:', error));
     }
   }
 }

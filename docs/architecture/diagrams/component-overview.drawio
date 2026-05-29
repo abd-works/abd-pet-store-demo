@@ -1,0 +1,123 @@
+<mxfile host="app.diagrams.net" type="device">
+  <diagram id="component-overview" name="Component Overview">
+    <mxGraphModel dx="1422" dy="757" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1400" pageHeight="900" math="0" shadow="0">
+      <root>
+        <mxCell id="0"/>
+        <mxCell id="1" parent="0"/>
+
+        <mxCell id="title" value="PawPlace — Component Overview" style="text;html=1;align=center;verticalAlign=middle;fontSize=18;fontStyle=1;" vertex="1" parent="1">
+          <mxGeometry x="40" y="20" width="1320" height="32" as="geometry"/>
+        </mxCell>
+        <mxCell id="subtitle" value="Increment 1 implemented (solid); later increments shown as planned. Mechanisms span all components — see architecture-blueprint.md §3." style="text;html=1;align=center;verticalAlign=middle;fontSize=11;fontStyle=2;" vertex="1" parent="1">
+          <mxGeometry x="40" y="55" width="1320" height="20" as="geometry"/>
+        </mxCell>
+
+        <!-- APP SHELL -->
+        <mxCell id="shellSystem" value="App Shell" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#e1d5e7;strokeColor=#9673a6;fontSize=14;fontStyle=1;verticalAlign=top;" vertex="1" parent="1">
+          <mxGeometry x="40" y="100" width="240" height="200" as="geometry"/>
+        </mxCell>
+        <mxCell id="shellHost" value="«component»&#10;AppServerHost" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#9673a6;fontSize=10;" vertex="1" parent="1">
+          <mxGeometry x="60" y="140" width="200" height="50" as="geometry"/>
+        </mxCell>
+        <mxCell id="shellClient" value="«component»&#10;AppClientShell" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#9673a6;fontSize=10;" vertex="1" parent="1">
+          <mxGeometry x="60" y="210" width="200" height="50" as="geometry"/>
+        </mxCell>
+
+        <!-- PRODUCT CATALOG -->
+        <mxCell id="catSystem" value="Product Catalog" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#d6b656;fontSize=14;fontStyle=1;verticalAlign=top;" vertex="1" parent="1">
+          <mxGeometry x="320" y="100" width="280" height="200" as="geometry"/>
+        </mxCell>
+        <mxCell id="catSvc" value="«component»&#10;ProductCatalogService" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#d6b656;fontSize=10;" vertex="1" parent="1">
+          <mxGeometry x="340" y="140" width="240" height="45" as="geometry"/>
+        </mxCell>
+        <mxCell id="catRepo" value="«component»&#10;ProductCatalogRepository" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#d6b656;fontSize=10;" vertex="1" parent="1">
+          <mxGeometry x="340" y="195" width="240" height="45" as="geometry"/>
+        </mxCell>
+        <mxCell id="catApi" value="«component»&#10;ProductCatalogApi" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#d6b656;fontSize=10;" vertex="1" parent="1">
+          <mxGeometry x="340" y="250" width="240" height="40" as="geometry"/>
+        </mxCell>
+
+        <!-- STORE LOCATOR -->
+        <mxCell id="storeSystem" value="Store Locator" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;fontSize=14;fontStyle=1;verticalAlign=top;" vertex="1" parent="1">
+          <mxGeometry x="640" y="100" width="280" height="200" as="geometry"/>
+        </mxCell>
+        <mxCell id="storeSvc" value="«component»&#10;StoreLocatorService" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#6c8ebf;fontSize=10;" vertex="1" parent="1">
+          <mxGeometry x="660" y="140" width="240" height="45" as="geometry"/>
+        </mxCell>
+        <mxCell id="storeRepo" value="«component»&#10;StoreRepository" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#6c8ebf;fontSize=10;" vertex="1" parent="1">
+          <mxGeometry x="660" y="195" width="240" height="45" as="geometry"/>
+        </mxCell>
+        <mxCell id="storeApi" value="«component»&#10;StoreApi" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#6c8ebf;fontSize=10;" vertex="1" parent="1">
+          <mxGeometry x="660" y="250" width="240" height="40" as="geometry"/>
+        </mxCell>
+
+        <!-- ORDER PLANNED -->
+        <mxCell id="orderSystem" value="Order (planned)" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;fontSize=14;fontStyle=1;verticalAlign=top;dashed=1;" vertex="1" parent="1">
+          <mxGeometry x="960" y="100" width="200" height="200" as="geometry"/>
+        </mxCell>
+        <mxCell id="orderSvc" value="«component»&#10;OrderService" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#82b366;fontSize=10;dashed=1;" vertex="1" parent="1">
+          <mxGeometry x="980" y="150" width="160" height="50" as="geometry"/>
+        </mxCell>
+        <mxCell id="orderRepo" value="«component»&#10;OrderRepository" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#82b366;fontSize=10;dashed=1;" vertex="1" parent="1">
+          <mxGeometry x="980" y="220" width="160" height="50" as="geometry"/>
+        </mxCell>
+
+        <!-- PAYMENT PLANNED -->
+        <mxCell id="paySystem" value="Payment (planned)" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#f8cecc;strokeColor=#b85450;fontSize=14;fontStyle=1;verticalAlign=top;dashed=1;" vertex="1" parent="1">
+          <mxGeometry x="1180" y="100" width="180" height="200" as="geometry"/>
+        </mxCell>
+        <mxCell id="payGw" value="«component»&#10;PaymentGatewayAdapter" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#b85450;fontSize=10;dashed=1;" vertex="1" parent="1">
+          <mxGeometry x="1200" y="160" width="140" height="80" as="geometry"/>
+        </mxCell>
+
+        <!-- INTERACTIONS -->
+        <mxCell id="intRest" value="REST /api" style="endArrow=classic;html=1;strokeWidth=2;fontSize=10;" edge="1" parent="1" source="shellClient" target="shellHost">
+          <mxGeometry relative="1" as="geometry"/>
+        </mxCell>
+        <mxCell id="intMount1" value="mounts" style="endArrow=classic;html=1;strokeWidth=1;fontSize=10;dashed=1;" edge="1" parent="1" source="shellHost" target="catApi">
+          <mxGeometry relative="1" as="geometry"/>
+        </mxCell>
+        <mxCell id="intMount2" value="mounts" style="endArrow=classic;html=1;strokeWidth=1;fontSize=10;dashed=1;" edge="1" parent="1" source="shellHost" target="storeApi">
+          <mxGeometry relative="1" as="geometry"/>
+        </mxCell>
+        <mxCell id="intStock" value="store code ref" style="endArrow=classic;html=1;strokeWidth=1;fontSize=10;dashed=1;" edge="1" parent="1" source="catRepo" target="storeRepo">
+          <mxGeometry relative="1" as="geometry"/>
+        </mxCell>
+        <mxCell id="intFuture" value="IProductCatalogClient (future)" style="endArrow=classic;html=1;strokeWidth=1;fontSize=9;dashed=1;" edge="1" parent="1" source="orderSvc" target="catSvc">
+          <mxGeometry relative="1" as="geometry"/>
+        </mxCell>
+
+        <!-- MECHANISMS BAND -->
+        <mxCell id="mechBand" value="Architecture Mechanisms (see architecture-blueprint.md §3)" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#1a3a6e;strokeColor=#0e2547;fontColor=#ffffff;fontSize=12;fontStyle=1;verticalAlign=top;" vertex="1" parent="1">
+          <mxGeometry x="40" y="340" width="1320" height="300" as="geometry"/>
+        </mxCell>
+
+        <mxCell id="mech1" value="Security&#10;&#10;Unauthenticated in Inc 1;&#10;session/token planned Inc 4" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;fontSize=10;align=left;verticalAlign=top;spacingLeft=8;spacingTop=8;" vertex="1" parent="1">
+          <mxGeometry x="60" y="380" width="180" height="100" as="geometry"/>
+        </mxCell>
+        <mxCell id="mech2" value="Error Handling&#10;&#10;Domain errors → HTTP;&#10;retry deferred to Payment" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;fontSize=10;align=left;verticalAlign=top;spacingLeft=8;spacingTop=8;" vertex="1" parent="1">
+          <mxGeometry x="260" y="380" width="180" height="100" as="geometry"/>
+        </mxCell>
+        <mxCell id="mech3" value="Logging&#10;&#10;Console structured;&#10;OTel planned pre-Inc 2" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;fontSize=10;align=left;verticalAlign=top;spacingLeft=8;spacingTop=8;" vertex="1" parent="1">
+          <mxGeometry x="460" y="380" width="180" height="100" as="geometry"/>
+        </mxCell>
+        <mxCell id="mech4" value="Validation&#10;&#10;Zod at API edge;&#10;domain rules in services" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;fontSize=10;align=left;verticalAlign=top;spacingLeft=8;spacingTop=8;" vertex="1" parent="1">
+          <mxGeometry x="660" y="380" width="180" height="100" as="geometry"/>
+        </mxCell>
+        <mxCell id="mech5" value="Configuration&#10;&#10;Env at bootstrap;&#10;MONGODB_URI, port" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;fontSize=10;align=left;verticalAlign=top;spacingLeft=8;spacingTop=8;" vertex="1" parent="1">
+          <mxGeometry x="860" y="380" width="180" height="100" as="geometry"/>
+        </mxCell>
+        <mxCell id="mech6" value="Persistence&#10;&#10;MongoDB repos;&#10;one collection set per context" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;fontSize=10;align=left;verticalAlign=top;spacingLeft=8;spacingTop=8;" vertex="1" parent="1">
+          <mxGeometry x="1060" y="380" width="180" height="100" as="geometry"/>
+        </mxCell>
+        <mxCell id="mech7" value="Communication&#10;&#10;Sync REST/JSON;&#10;/api module routers" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;fontSize=10;align=left;verticalAlign=top;spacingLeft=8;spacingTop=8;" vertex="1" parent="1">
+          <mxGeometry x="60" y="500" width="300" height="100" as="geometry"/>
+        </mxCell>
+        <mxCell id="mech8" value="Testing&#10;&#10;Vitest: domain / app / integration;&#10;Playwright: E2E (conf/)" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;fontSize=10;align=left;verticalAlign=top;spacingLeft=8;spacingTop=8;" vertex="1" parent="1">
+          <mxGeometry x="380" y="500" width="320" height="100" as="geometry"/>
+        </mxCell>
+
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>

@@ -1,23 +1,30 @@
 import { Router } from 'express';
-import type { ProductCatalogController } from './product-catalog.controller';
+import type { CatalogProductApi } from './catalog-product-api';
+import type { CatalogFixtureApi } from './catalog-fixture-api';
 
-export function createProductCatalogRouter(controller: ProductCatalogController): Router {
+function registerProductRoutes(router: Router, api: CatalogProductApi): void {
+  router.get('/api/products', api.listProducts);
+  router.get('/api/products/:sku', api.getProductBySku);
+  router.get('/api/products/:sku/stock', api.getStockByProduct);
+  router.get('/api/stock/:productSku/:storeCode', api.getStockDetail);
+  router.put('/api/stock/:productSku/:storeCode', api.updateStock);
+}
+
+function registerFixtureRoutes(router: Router, api: CatalogFixtureApi): void {
+  router.post('/api/test/products', api.seedProducts);
+  router.delete('/api/test/products', api.deleteProducts);
+  router.post('/api/test/stock-availability', api.seedStockAvailability);
+  router.delete('/api/test/stock-availability', api.deleteStockAvailability);
+  router.post('/api/test/stock', api.seedStock);
+  router.delete('/api/test/stock', api.deleteStock);
+}
+
+export function createProductCatalogRouter(
+  productApi: CatalogProductApi,
+  fixtureApi: CatalogFixtureApi,
+): Router {
   const router = Router();
-
-  router.get('/api/products/:sku', (req, res) => controller.getProductBySku(req, res));
-  router.get('/api/products/:sku/stock', (req, res) => controller.getStockByProduct(req, res));
-
-  router.get('/api/stock/:productSku/:storeCode', (req, res) => controller.getStockDetail(req, res));
-  router.put('/api/stock/:productSku/:storeCode', (req, res) => controller.updateStock(req, res));
-
-  router.post('/api/test/products', (req, res) => controller.seedProducts(req, res));
-  router.delete('/api/test/products', (req, res) => controller.deleteProducts(req, res));
-
-  router.post('/api/test/stock-availability', (req, res) => controller.seedStockAvailability(req, res));
-  router.delete('/api/test/stock-availability', (req, res) => controller.deleteStockAvailability(req, res));
-
-  router.post('/api/test/stock', (req, res) => controller.seedStock(req, res));
-  router.delete('/api/test/stock', (req, res) => controller.deleteStock(req, res));
-
+  registerProductRoutes(router, productApi);
+  registerFixtureRoutes(router, fixtureApi);
   return router;
 }

@@ -14,7 +14,7 @@ export class Product {
   height: number | null;
   images: ProductImage[];
   categories: Category[];
-  stockAvailability: StockAvailability | null;
+  stockAvailability: StockAvailability[];
   customerReviews: { rating: number; comment: string }[];
   aggregateStarRating: number;
   reviewCount: number;
@@ -36,7 +36,7 @@ export class Product {
     this.height = null;
     this.images = [];
     this.categories = [];
-    this.stockAvailability = null;
+    this.stockAvailability = [];
     this.customerReviews = [];
     this.aggregateStarRating = 0;
     this.reviewCount = 0;

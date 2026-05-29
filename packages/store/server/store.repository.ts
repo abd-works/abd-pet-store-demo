@@ -1,4 +1,5 @@
-import { Store, type StoreData } from '@pawplace/store-shared';
+import { Store } from '../shared/Store';
+import { storeSchema } from '../shared/store.schema';
 
 export interface StoreRepository {
   findAll(): Store[];
@@ -20,6 +21,7 @@ export class InMemoryStoreRepository implements StoreRepository {
   }
 
   save(store: Store): void {
+    storeSchema.parse(store.toData());
     this.stores.set(store.storeCode, store);
   }
 

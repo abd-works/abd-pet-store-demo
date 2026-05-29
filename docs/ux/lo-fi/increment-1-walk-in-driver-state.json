@@ -1,0 +1,261 @@
+{
+  "target": "docs/ux/lo-fi/increment-1-walk-in-driver.drawio",
+  "screens": [
+    {
+      "name": "store locator — map view",
+      "layout": "split-screen",
+      "col": 0,
+      "row": 0,
+      "regions": [
+        {
+          "name": "primary navigation",
+          "slot": "header",
+          "type": "toolbar",
+          "buttons": [
+            { "label": "find stores", "primary": true },
+            { "label": "shop supplies" }
+          ]
+        },
+        {
+          "name": "store locator tab bar",
+          "slot": "header",
+          "type": "nav-tabs",
+          "tabs": [
+            { "label": "map view", "active": true },
+            { "label": "list view" }
+          ]
+        },
+        {
+          "name": "location entry",
+          "slot": "left",
+          "type": "form",
+          "fields": [
+            { "label": "postcode", "input": "text" },
+            { "label": "distance (km)", "input": "text" }
+          ],
+          "buttons": [
+            { "label": "share location" },
+            { "label": "clear location" }
+          ]
+        },
+        {
+          "name": "map view",
+          "slot": "left",
+          "type": "list",
+          "columns": ["store name", "distance"],
+          "rows": 4,
+          "actions": [{ "label": "select store point" }]
+        },
+        {
+          "name": "store detail panel",
+          "slot": "right",
+          "type": "form",
+          "fields": [
+            { "label": "address", "input": "textarea" },
+            { "label": "operating hours", "input": "textarea" },
+            { "label": "contact details", "input": "text" },
+            { "label": "distance", "input": "text" }
+          ],
+          "buttons": [{ "label": "close panel" }]
+        }
+      ]
+    },
+    {
+      "name": "store locator — list view",
+      "layout": "split-screen",
+      "col": 1,
+      "row": 0,
+      "regions": [
+        {
+          "name": "primary navigation",
+          "slot": "header",
+          "type": "toolbar",
+          "buttons": [
+            { "label": "find stores", "primary": true },
+            { "label": "shop supplies" }
+          ]
+        },
+        {
+          "name": "store locator tab bar",
+          "slot": "header",
+          "type": "nav-tabs",
+          "tabs": [
+            { "label": "map view" },
+            { "label": "list view", "active": true }
+          ]
+        },
+        {
+          "name": "location entry",
+          "slot": "left",
+          "type": "form",
+          "fields": [
+            { "label": "postcode", "input": "text" },
+            { "label": "distance (km)", "input": "text" }
+          ],
+          "buttons": [
+            { "label": "share location" },
+            { "label": "clear location" }
+          ]
+        },
+        {
+          "name": "list view",
+          "slot": "left",
+          "type": "list",
+          "columns": ["store name", "address", "distance"],
+          "rows": 4,
+          "actions": [{ "label": "select store row" }]
+        },
+        {
+          "name": "store detail panel",
+          "slot": "right",
+          "type": "form",
+          "fields": [
+            { "label": "address", "input": "textarea" },
+            { "label": "operating hours", "input": "textarea" },
+            { "label": "contact details", "input": "text" },
+            { "label": "distance", "input": "text" }
+          ],
+          "buttons": [{ "label": "close panel" }]
+        }
+      ]
+    },
+    {
+      "name": "product catalog",
+      "layout": "sidebar",
+      "col": 0,
+      "row": 1,
+      "regions": [
+        {
+          "name": "primary navigation",
+          "slot": "header",
+          "type": "toolbar",
+          "buttons": [
+            { "label": "find stores" },
+            { "label": "shop supplies", "primary": true }
+          ]
+        },
+        {
+          "name": "category filter",
+          "slot": "panel",
+          "type": "listbox",
+          "items": [
+            { "label": "All categories", "selected": true },
+            { "label": "Dog supplies" },
+            { "label": "Cat supplies" },
+            { "label": "Small pets" }
+          ]
+        },
+        {
+          "name": "product grid",
+          "slot": "body",
+          "type": "list",
+          "columns": ["product name", "category", "thumbnail"],
+          "rows": 5,
+          "actions": [{ "label": "select product", "primary": true }]
+        }
+      ]
+    },
+    {
+      "name": "product detail page",
+      "layout": "stack",
+      "col": 1,
+      "row": 1,
+      "regions": [
+        {
+          "name": "primary navigation",
+          "slot": "header",
+          "type": "toolbar",
+          "buttons": [
+            { "label": "find stores" },
+            { "label": "shop supplies" }
+          ]
+        },
+        {
+          "name": "breadcrumb",
+          "slot": "header",
+          "type": "toolbar",
+          "buttons": [
+            { "label": "product catalog" },
+            { "label": "product name (current)" }
+          ]
+        },
+        {
+          "name": "product header",
+          "slot": "body",
+          "type": "form",
+          "fields": [
+            { "label": "product name", "input": "text" },
+            { "label": "category", "input": "text" }
+          ],
+          "buttons": []
+        },
+        {
+          "name": "image gallery",
+          "slot": "body",
+          "type": "listbox",
+          "items": [
+            { "label": "product image 1", "selected": true },
+            { "label": "product image 2" },
+            { "label": "product image 3" }
+          ]
+        },
+        {
+          "name": "description",
+          "slot": "body",
+          "type": "form",
+          "fields": [
+            { "label": "description", "input": "textarea" },
+            { "label": "weight", "input": "text" },
+            { "label": "dimensions", "input": "text" }
+          ],
+          "buttons": [
+            { "label": "previous image" },
+            { "label": "next image" }
+          ]
+        },
+        {
+          "name": "stock availability by store",
+          "slot": "body",
+          "type": "list",
+          "columns": ["store name", "stock availability", "distance"],
+          "rows": 3,
+          "actions": [{ "label": "select store link" }]
+        }
+      ]
+    },
+    {
+      "name": "admin dashboard — stock levels",
+      "layout": "form",
+      "col": 2,
+      "row": 0,
+      "regions": [
+        {
+          "name": "staff header",
+          "slot": "header",
+          "type": "chrome"
+        },
+        {
+          "name": "stock levels form",
+          "slot": "body",
+          "type": "form",
+          "fields": [
+            { "label": "store", "input": "dropdown", "options": ["PawPlace North", "PawPlace South"] },
+            { "label": "product", "input": "dropdown", "options": ["Premium Dog Food 5kg"] },
+            { "label": "stock level", "input": "text" },
+            { "label": "validation feedback", "input": "text" }
+          ],
+          "buttons": [
+            { "label": "save", "primary": true },
+            { "label": "cancel" }
+          ]
+        }
+      ]
+    }
+  ],
+  "connections": [
+    { "from": "store locator — map view", "to": "store locator — list view", "label": "selects list view tab" },
+    { "from": "store locator — map view", "to": "product catalog", "label": "selects shop supplies" },
+    { "from": "product catalog", "to": "product detail page", "label": "selects product" },
+    { "from": "product detail page", "to": "store locator — map view", "label": "selects store link from stock row" }
+  ]
+}

@@ -1,4 +1,5 @@
-import { storeSchema, type StoreData } from './store.schema';
+import type { StoreData } from './store.schema';
+import { storeFromValidatedData } from './storeFactory';
 
 export class Store {
   readonly storeName: string;
@@ -35,8 +36,7 @@ export class Store {
   }
 
   static fromData(data: StoreData): Store {
-    const parsed = storeSchema.parse(data);
-    return new Store(parsed.storeName, parsed.storeCode, parsed);
+    return storeFromValidatedData(data);
   }
 
   toData(): StoreData {

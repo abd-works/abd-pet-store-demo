@@ -1,5 +1,6 @@
 import type { Db } from 'mongodb';
-import { Store, storeSchema } from '@pawplace/store-shared';
+import { Store } from '../shared/Store';
+import { storeSchema } from '../shared/store.schema';
 import { InMemoryStoreRepository } from './store.repository';
 
 export class MongoStoreRepository extends InMemoryStoreRepository {
@@ -10,12 +11,8 @@ export class MongoStoreRepository extends InMemoryStoreRepository {
   async loadFromMongo(): Promise<void> {
     const docs = await this.db.collection('stores').find().toArray();
     for (const doc of docs) {
-      const result = storeSchema.safeParse(doc);
-      if (!result.success) {
-        console.warn('[mongo] Invalid store doc, skipping:', result.error.flatten());
-        continue;
-      }
-      const store = Store.fromData(result.data);
+      const validated = storeSchema.parse(doc);
+      const store = Store.fromData(validated);
       super.save(store);
     }
   }

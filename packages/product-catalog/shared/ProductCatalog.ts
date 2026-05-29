@@ -7,6 +7,10 @@ export class ProductCatalog {
     this.products = [];
   }
 
+  findProduct(sku: string): Product | undefined {
+    return this.products.find(p => p.sku === sku);
+  }
+
   browseProducts(): Product[] {
     return [...this.products];
   }

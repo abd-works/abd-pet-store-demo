@@ -1,410 +1,303 @@
-# Specification by Example (Scenario Outline) — Increment 7: Returns and refunds — close the loop  
-
----  
+---
+state: specification-by-example
+increment_scope: Increment 7 — Returns and refunds
+specification_refresh: Run 8 slot 181
+---
 
-## Story: `Initiate Return from Order History`  
+# Specification by Example — Increment 7: Returns and refunds — close the loop
 
-### CustomerAccount (Given — above scenarios):  
-| customer_email                 | first_name | last_name |  
-|--------------------------------|------------|-----------|  
-| sarah.mitchell@pawplace.example | Sarah      | Mitchell  |  
+**Refresh:** Run 8 slot 181 — aligned to `docs/domain/ubiquitous-language.md` (slot 171), `docs/domain/crc.md` (slot 179), `docs/domain/domain.json`, and `docs/story/acceptance-criteria.md` (slot 173). Full *return* lifecycle active: *return request*, *return eligibility*, *return window*, *return label*, *return QR code*, *return status*, *in-store return* with *manager override*. *Refund* lifecycle active: *refund status* (processing → completed or requires review), *refund retry*, vendor-specific routing through *StripeWave*, *PayNova*, and *VaultPay*. Three *return*/*refund* *notification* types introduced: *return received notification*, *refund completed notification*, *refund under review notification*.
 
-### Order (Given — above scenarios):  
-| order_number | customer_email                 | order_date | order_status |  
-|--------------|--------------------------------|------------|--------------|  
-| ORD-4401     | sarah.mitchell@pawplace.example | 2026-04-10 | delivered    |  
-| ORD-4402     | sarah.mitchell@pawplace.example | 2026-02-01 | delivered    |  
-| ORD-4403     | sarah.mitchell@pawplace.example | 2026-04-25 | delivered    |  
+---
 
-### OrderLineItem (Given — above scenarios):  
-| order_number | sku_snapshot | product_name_snapshot     | unit_price_snapshot | quantity |  
-|--------------|--------------|---------------------------|---------------------|----------|  
-| ORD-4401     | SKU-FOOD-501 | Premium Dog Kibble 10kg   | 54.99               | 1        |  
-| ORD-4401     | SKU-TOY-220  | Squeaky Bone Chew         | 12.99               | 2        |  
-| ORD-4402     | SKU-BED-100  | Orthopaedic Dog Bed Large | 89.99               | 1        |  
-| ORD-4403     | SKU-LEAD-050 | Reflective Harness Medium | 34.99               | 1        |  
+## Story: Initiate Return from Order History
 
-Background:  
-  Given a **CustomerAccount** *{customer_email}* *{first_name}* *{last_name}*  
-  And that **CustomerAccount** has **Order** *{order_number}* placed on *{order_date}* with *{order_status}*  
-  And **Order** *{order_number}* contains **OrderLineItem** *{sku_snapshot}* *{product_name_snapshot}* at *{unit_price_snapshot}* × *{quantity}*  
+**Story type:** customer
 
----  
+**Sources / context:** ubiquitous-language.md (Order KA — *return*, *return request*, *return eligibility*, *return window*, *return reason*, *returned items*, *return status*), crc.md (Return, Return Request, Return Eligibility, Return Window, Return Reason, Returned Items, Return Status), acceptance-criteria.md (Initiate Return from Order History AC 1–4)
 
-### Scenario Outline: Eligible items displayed for return selection  
+---
 
-Given the current date is *{current_date}*  
-When **CustomerAccount** *{customer_email}* selects "Return" on **Order** *{order_number}*  
-Then the system shows **OrderLineItem** entries with *Return Eligible* status *{return_eligibility}*  
-  And the status label reads *{expected_status_label}*  
-  And the available action reads *{expected_action_description}*  
+### Scenario 1: Eligible items displayed when customer selects return on a delivered order
 
-### Return eligibility (Then — below scenario):  
-| scenario | order_number | customer_email                 | current_date | return_eligibility     | expected_status_label      | expected_action_description                                  |  
-|----------|--------------|--------------------------------|--------------|------------------------|----------------------------|--------------------------------------------------------------|  
-| 1        | ORD-4401     | sarah.mitchell@pawplace.example | 2026-05-07   | eligible               | Eligible for return        | Select items, quantities, reason, and item condition         |  
-| 2        | ORD-4402     | sarah.mitchell@pawplace.example | 2026-05-07   | return window expired  | Return window expired      | Return action disabled — 30-day window closed on 2026-03-03 |  
-| 3        | ORD-4403     | sarah.mitchell@pawplace.example | 2026-05-07   | eligible               | Eligible for return        | Select items, quantities, reason, and item condition         |  
+Given a **Customer Account** *sarah.mitchell@pawplace.example* with **Order** *ORD-4401* in **Order History**
+  And **Order** *ORD-4401* was delivered on *2026-04-14* with **Order Status** *delivered*
+  And **Order** *ORD-4401* contains **Order Line Item** *Premium Dog Kibble 10kg* at *£54.99* × *1*
+  And **Order** *ORD-4401* contains **Order Line Item** *Squeaky Bone Chew* at *£12.99* × *2*
+  And the current date is *2026-05-07* which is within the **Return Window**
+When the **Customer** selects "Return" on **Order** *ORD-4401* in **Order History**
+Then the system shows which **Order Line Items** are *Return Eligible*
+  And the **Customer** can select items and quantities to return
+  And a **Return Reason** picker is displayed
 
----  
+### Scenario 2: Return request submitted and return record created
 
-### Scenario Outline: Return request created and linked to order  
+Given a **Customer Account** *sarah.mitchell@pawplace.example* viewing *Return Eligible* items for **Order** *ORD-4401*
+  And **Order Line Item** *Premium Dog Kibble 10kg* is *Return Eligible*
+When the **Customer** submits a **Return Request** selecting **Order Line Item** *Premium Dog Kibble 10kg* × *1* with **Return Reason** *changed mind*
+Then a **Return** *RTN-7001* is created and linked to **Order** *ORD-4401*
+  And the **Return Status** is *initiated*
+  And the **Return** confirmation page shows next steps for *Return Label* generation
+  And the **Return Status** appears in the **Customer Account** under the **Order** detail
 
-Given **CustomerAccount** *{customer_email}* has **Order** *{order_number}* within the return window  
-  And **Order** *{order_number}* contains **OrderLineItem** *{sku_snapshot}* *{product_name_snapshot}*  
-When **CustomerAccount** *{customer_email}* submits a **Return** selecting **OrderLineItem** *{sku_snapshot}* with *returnReason* *{returnReason}* and *itemCondition* *{itemCondition}*  
-Then a **Return** is created with *returnStatus* *{expected_return_status}* linked to **Order** *{order_number}*  
-  And the **Return** *returnLabelOrQrCode* generation is triggered  
-  And the return confirmation reads *{expected_confirmation_message}*  
+### Scenario 3: Return action hidden when order is outside the return window
 
-### Return creation (Then — below scenario):  
-| scenario | customer_email                 | order_number | sku_snapshot | product_name_snapshot   | returnReason  | itemCondition | expected_return_status | expected_confirmation_message                                              |  
-|----------|--------------------------------|--------------|--------------|-------------------------|---------------|---------------|------------------------|----------------------------------------------------------------------------|  
-| 1        | sarah.mitchell@pawplace.example | ORD-4401     | SKU-FOOD-501 | Premium Dog Kibble 10kg | Changed mind  | unopened      | initiated              | Return initiated for Premium Dog Kibble 10kg — label being generated       |  
+Given a **Customer Account** *sarah.mitchell@pawplace.example* with **Order** *ORD-4402* in **Order History**
+  And **Order** *ORD-4402* was delivered on *2026-02-05*
+  And the current date is *2026-05-07* which is outside the **Return Window**
+When the **Customer** views **Order** *ORD-4402* in **Order History**
+Then the "Return" action is hidden on **Order** *ORD-4402*
+  And a reason is displayed: *"return window expired"*
+  And the **Order** detail is still viewable
 
----  
+### Scenario 4: Previously returned items shown as in-progress with remaining items still returnable
 
-### Scenario Outline: Damage description captured for damaged item condition  
+Given a **Customer Account** *sarah.mitchell@pawplace.example* with **Order** *ORD-4401* in **Order History**
+  And a **Return** already exists for **Order Line Item** *Premium Dog Kibble 10kg* on **Order** *ORD-4401* with **Return Status** *initiated*
+  And **Order** *ORD-4401* also contains **Order Line Item** *Squeaky Bone Chew* × *2* with no prior **Return**
+  And the current date is *2026-05-07* which is within the **Return Window**
+When the **Customer** selects "Return" on **Order** *ORD-4401*
+Then **Order Line Item** *Premium Dog Kibble 10kg* shows *"return in progress"* and cannot be selected
+  And **Order Line Item** *Squeaky Bone Chew* shows *Return Eligible* and can be selected for a separate **Return**
 
-Given **CustomerAccount** *{customer_email}* has **Order** *{order_number}* within the return window  
-When **CustomerAccount** *{customer_email}* selects *itemCondition* *{itemCondition}* for **OrderLineItem** *{sku_snapshot}* *{product_name_snapshot}*  
-Then the form shows *{expected_additional_field}*  
-  And the form offers *{expected_optional_upload}*  
+---
 
-### Damage capture (Then — below scenario):  
-| scenario | customer_email                 | order_number | sku_snapshot | product_name_snapshot | itemCondition | expected_additional_field              | expected_optional_upload                    |  
-|----------|--------------------------------|--------------|--------------|----------------------|---------------|---------------------------------------|---------------------------------------------|  
-| 1        | sarah.mitchell@pawplace.example | ORD-4401     | SKU-TOY-220  | Squeaky Bone Chew    | damaged       | Describe the damage (free-text field) | Upload photos of the damage (optional)      |  
+## Story: Generate Return Label or QR Code
 
----  
+**Story type:** system
 
-### Scenario Outline: Previously returned items shown as in-progress — remaining items selectable  
-
-Given **CustomerAccount** *{customer_email}* has **Order** *{order_number}* within the return window  
-  And a **Return** already exists for **OrderLineItem** *{returned_sku}* *{returned_product}* on **Order** *{order_number}* with *returnStatus* *{existing_return_status}*  
-When **CustomerAccount** *{customer_email}* selects "Return" on **Order** *{order_number}*  
-Then **OrderLineItem** *{returned_sku}* shows status *{expected_returned_item_label}*  
-  And **OrderLineItem** *{selectable_sku}* *{selectable_product}* shows status *{expected_selectable_label}*  
-
-### Previously returned items (Then — below scenario):  
-| scenario | customer_email                 | order_number | returned_sku | returned_product          | existing_return_status | selectable_sku | selectable_product | expected_returned_item_label | expected_selectable_label |  
-|----------|--------------------------------|--------------|--------------|---------------------------|------------------------|----------------|--------------------|------------------------------|---------------------------|  
-| 1        | sarah.mitchell@pawplace.example | ORD-4403     | SKU-LEAD-050 | Reflective Harness Medium | initiated              | SKU-TOY-220    | Squeaky Bone Chew  | Return in progress           | Available for return      |  
+**Sources / context:** ubiquitous-language.md (Order KA — *return label*, *return QR code*, *return request*), crc.md (Return Label, Return QR Code, Return), acceptance-criteria.md (Generate Return Label or QR Code AC 1–4)
 
----  
+---
 
-## Story: `Generate Return Label or QR Code`  
+### Scenario 1: Return label and QR code generated on return request submission
 
-### Return (Given — above scenarios):  
-| return_id | order_number | return_reason | item_condition | return_status |  
-|-----------|--------------|---------------|----------------|---------------|  
-| RTN-7001  | ORD-4401     | Changed mind  | unopened       | initiated     |  
-
----  
-
-### Scenario Outline: Return label and QR code generated on submission  
-
-Given a **Return** *{return_id}* for **Order** *{order_number}* with *returnStatus* *{return_status}*  
-When the **Return** *{return_id}* submission is processed  
-Then the system generates a *{expected_label_format}* and a *{expected_code_format}*  
-  And the return confirmation page shows *{expected_page_content}*  
-  And an email is sent to **CustomerAccount** *{customer_email}* with *{expected_email_attachments}*  
-
-### Label generation (Then — below scenario):  
-| scenario | return_id | order_number | return_status | customer_email                 | expected_label_format | expected_code_format | expected_page_content                    | expected_email_attachments          |  
-|----------|-----------|--------------|---------------|--------------------------------|-----------------------|----------------------|------------------------------------------|-------------------------------------|  
-| 1        | RTN-7001  | ORD-4401     | initiated     | sarah.mitchell@pawplace.example | PDF return label      | QR code              | Download label or show QR at drop-off    | PDF label attachment, QR code image |  
-
----  
-
-### Scenario Outline: Return label includes required return information  
-
-Given a **Return** *{return_id}* for **Order** *{order_number}* has been submitted  
-When **CustomerAccount** *{customer_email}* downloads the *Return Label*  
-Then the label includes return address *{expected_return_address_present}*  
-  And the label includes **Order** *orderNumber* *{order_number}*  
-  And the label includes **Return** *return_id* *{return_id}*  
-  And the label includes *{expected_barcode_type}*  
+Given a **Return Request** for **Return** *RTN-7001* has been submitted for **Order** *ORD-4401*
+When the system processes the **Return Request**
+Then the system generates a **Return Label** as a printable PDF
+  And the system generates a **Return QR Code**
+  And both are shown on the **Return** confirmation page
+  And both are emailed to **Customer Account** *sarah.mitchell@pawplace.example*
 
-### Label content (Then — below scenario):  
-| scenario | return_id | order_number | customer_email                 | expected_return_address_present | expected_barcode_type |  
-|----------|-----------|--------------|--------------------------------|---------------------------------|-----------------------|  
-| 1        | RTN-7001  | ORD-4401     | sarah.mitchell@pawplace.example | PawPlace Returns Centre         | carrier barcode       |  
-
----  
-
-### Scenario Outline: QR code displayable on mobile at carrier drop-off  
-
-Given a **Return** *{return_id}* for **Order** *{order_number}* has been submitted  
-When **CustomerAccount** *{customer_email}* selects the *Return QR Code* option  
-Then the *QR code* is displayable on *{expected_device}* at a carrier drop-off point  
-  And the *QR code* encodes **Return** *return_id* *{return_id}*  
-  And the display mode is *{expected_display_mode}*  
-
-### QR code display (Then — below scenario):  
-| scenario | return_id | order_number | customer_email                 | expected_device | expected_display_mode         |  
-|----------|-----------|--------------|--------------------------------|-----------------|-------------------------------|  
-| 1        | RTN-7001  | ORD-4401     | sarah.mitchell@pawplace.example | mobile device   | full-screen scannable barcode |  
-
----  
-
-### Scenario Outline: Return recorded despite label generation failure  
-
-Given a **Return** *{return_id}* for **Order** *{order_number}* has been submitted  
-  And the label generation service is *{service_status}*  
-When the system attempts to generate the *returnLabelOrQrCode*  
-Then the **Return** *{return_id}* status is *{expected_return_status}*  
-  And the customer sees *{expected_customer_message}*  
-  And the return is *{expected_return_disposition}*  
-
-### Label failure (Then — below scenario):  
-| scenario | return_id | order_number | service_status          | expected_return_status | expected_customer_message                                  | expected_return_disposition |  
-|----------|-----------|--------------|-------------------------|------------------------|------------------------------------------------------------|-----------------------------|  
-| 1        | RTN-7001  | ORD-4401     | temporarily unavailable | initiated              | Label unavailable — check back shortly or contact support  | preserved, not cancelled    |  
-
----  
-
-## Story: `Route Refund through Original Payment Vendor`  
-
-### Order with Payment and PaymentVendor (Given — above scenarios):  
-| order_number | payment_reference | vendor_name | vendor_code |  
-|--------------|-------------------|-------------|-------------|  
-| ORD-4401     | PAY-9901          | StripeWave  | STRIPEWAVE  |  
-| ORD-5502     | PAY-9902          | PayNova     | PAYNOVA     |  
-| ORD-6603     | PAY-9903          | VaultPay    | VAULTPAY    |  
-
-### Return (Given — above scenarios):  
-| return_id | order_number | return_status |  
-|-----------|--------------|---------------|  
-| RTN-7001  | ORD-4401     | processing    |  
-| RTN-7002  | ORD-5502     | processing    |  
-| RTN-7003  | ORD-6603     | processing    |  
-
-### OrderLineItem with Return (Given — above scenarios):  
-| return_id | sku_snapshot | product_name_snapshot   | unit_price_snapshot | quantity |  
-|-----------|--------------|-------------------------|---------------------|----------|  
-| RTN-7001  | SKU-FOOD-501 | Premium Dog Kibble 10kg | 54.99               | 1        |  
-| RTN-7002  | SKU-BOWL-310 | Ceramic Feeding Bowl    | 24.99               | 1        |  
-| RTN-7003  | SKU-TREE-800 | Premium Cat Tree Deluxe | 199.99              | 1        |  
+### Scenario 2: Return label includes all required return information
 
----  
-
-### Scenario Outline: Refund routed through original payment vendor  
+Given a **Return** *RTN-7001* for **Order** *ORD-4401* with a **Return Label** generated
+When the **Customer** downloads the **Return Label**
+Then the **Return Label** includes the return address *PawPlace Returns Centre*
+  And the **Return Label** includes the **Order** number *ORD-4401*
+  And the **Return Label** includes the return reference *RTN-7001*
+  And the **Return Label** includes a carrier barcode
 
-Given a **Return** *{return_id}* for **Order** *{order_number}* with *returnStatus* *{return_status}*  
-  And **Order** *{order_number}* was paid via **Payment** *{payment_reference}* processed by **PaymentVendor** *{vendor_name}* *{vendor_code}*  
-  And the returned **OrderLineItem** *{sku_snapshot}* has *unitPriceSnapshot* *{unit_price_snapshot}*  
-When the **Return** *{return_id}* is received and inspected  
-Then a **Refund** *{expected_refund_reference}* is created with *refundAmount* *{expected_refund_amount}*  
-  And the **Refund** is routed through **PaymentVendor** *{vendor_code}*  
-  And the customer outcome is *{expected_customer_outcome}*  
-
-### Refund routing (Then — below scenario):  
-| scenario | return_id | order_number | return_status | payment_reference | vendor_name | vendor_code | sku_snapshot | unit_price_snapshot | expected_refund_reference | expected_refund_amount | expected_customer_outcome                                     |  
-|----------|-----------|--------------|---------------|-------------------|-------------|-------------|--------------|---------------------|---------------------------|------------------------|---------------------------------------------------------------|  
-| 1        | RTN-7001  | ORD-4401     | processing    | PAY-9901          | StripeWave  | STRIPEWAVE  | SKU-FOOD-501 | 54.99               | REF-3001                  | 54.99                  | £54.99 credit on card statement via StripeWave                |  
-| 2        | RTN-7002  | ORD-5502     | processing    | PAY-9902          | PayNova     | PAYNOVA     | SKU-BOWL-310 | 24.99               | REF-3002                  | 24.99                  | £24.99 credit in digital wallet via PayNova                   |  
-| 3        | RTN-7003  | ORD-6603     | processing    | PAY-9903          | VaultPay    | VAULTPAY    | SKU-TREE-800 | 199.99              | REF-3003                  | 199.99                 | VaultPay adjusts the instalment plan, reducing by £199.99     |  
-
----  
-
-### Scenario Outline: Refund queued for retry on vendor failure  
-
-Given a **Return** *{return_id}* for **Order** *{order_number}* with *returnStatus* *{return_status}*  
-  And **Order** *{order_number}* was paid via **Payment** *{payment_reference}* processed by **PaymentVendor** *{vendor_name}*  
-When the **Refund** request to **PaymentVendor** *{vendor_name}* fails due to *{failure_reason}*  
-Then the **Refund** is *{expected_refund_disposition}*  
-  And the customer sees **Refund** *refundStatus* *{expected_customer_refund_status}*  
-
-### Vendor failure retry (Then — below scenario):  
-| scenario | return_id | order_number | return_status | payment_reference | vendor_name | failure_reason   | expected_refund_disposition | expected_customer_refund_status |  
-|----------|-----------|--------------|---------------|-------------------|-------------|------------------|-----------------------------|-------------------------------|  
-| 1        | RTN-7001  | ORD-4401     | processing    | PAY-9901          | StripeWave  | vendor downtime  | queued for retry            | processing                    |  
-
----  
-
-### Scenario Outline: Refund escalated after retry exhaustion  
-
-Given a **Refund** *{refund_reference}* for **Return** *{return_id}* routed through **PaymentVendor** *{vendor_name}*  
-  And *{retry_status}*  
-When the final retry fails  
-Then the **Return** *returnStatus* transitions to *{expected_return_status}*  
-  And the **Refund** *refundStatus* transitions to *{expected_refund_status}*  
-  And the operations dashboard shows *{expected_dashboard_entry}*  
-
-### Retry exhaustion (Then — below scenario):  
-| scenario | refund_reference | return_id | vendor_name | retry_status                     | expected_return_status            | expected_refund_status | expected_dashboard_entry                               |  
-|----------|------------------|-----------|-------------|----------------------------------|-----------------------------------|------------------------|--------------------------------------------------------|  
-| 1        | REF-3001         | RTN-7001  | StripeWave  | all retry attempts exhausted     | refund requires manual review     | requires review        | REF-3001 via StripeWave — manual review required       |  
-
----  
-
-## Story: `Track Refund Status`  
-
-### Order with Return and Refund (Given — above scenarios):  
-| order_number | return_id | refund_reference | refund_status   |  
-|--------------|-----------|------------------|-----------------|  
-| ORD-4401     | RTN-7001  | REF-3001         | processing      |  
-| ORD-5502     | RTN-7002  | REF-3002         | completed       |  
-| ORD-6603     | RTN-7003  | REF-3003         | requires review |  
-
----  
-
-### Scenario Outline: Refund status visible on order detail  
-
-Given **CustomerAccount** *{customer_email}* has **Order** *{order_number}* with **Return** *{return_id}*  
-  And **Refund** *{refund_reference}* has *refundStatus* *{refund_status}*  
-When **CustomerAccount** *{customer_email}* views the **Order** detail for *{order_number}*  
-Then the refund status badge reads *{expected_status_badge}*  
-  And the guidance message reads *{expected_guidance_message}*  
-
-### Refund status guidance (Then — below scenario):  
-| scenario | order_number | return_id | refund_reference | refund_status   | customer_email                 | expected_status_badge | expected_guidance_message                                                          |  
-|----------|--------------|-----------|------------------|-----------------|--------------------------------|-----------------------|------------------------------------------------------------------------------------|  
-| 1        | ORD-4401     | RTN-7001  | REF-3001         | processing      | sarah.mitchell@pawplace.example | Processing            | Refunds typically take 5–10 business days depending on your payment provider       |  
-| 2        | ORD-5502     | RTN-7002  | REF-3002         | completed       | sarah.mitchell@pawplace.example | Completed             | £24.99 refunded to PayNova digital wallet                                          |  
-| 3        | ORD-6603     | RTN-7003  | REF-3003         | requires review | sarah.mitchell@pawplace.example | Under review          | Please contact support — your return and refund details are ready for the team     |  
-
----  
-
-### Scenario Outline: Refund completion notification sent  
-
-Given **Refund** *{refund_reference}* for **Return** *{return_id}* on **Order** *{order_number}* with *refundStatus* *{refund_status_before}*  
-  And **Refund** *{refund_reference}* is routed through **PaymentVendor** *{vendor_name}*  
-When **PaymentVendor** *{vendor_name}* confirms the **Refund** is complete  
-Then the **Refund** *refundStatus* transitions to *{expected_refund_status}*  
-  And a **Notification** is sent to **CustomerAccount** *{customer_email}* with *type* *{expected_notification_type}*  
-  And the notification body reads *{expected_notification_body}*  
-
-### Refund completion notification (Then — below scenario):  
-| scenario | refund_reference | return_id | order_number | refund_status_before | vendor_name | customer_email                 | expected_refund_status | expected_notification_type | expected_notification_body                           |  
-|----------|------------------|-----------|--------------|----------------------|-------------|--------------------------------|------------------------|----------------------------|------------------------------------------------------|  
-| 1        | REF-3002         | RTN-7002  | ORD-5502     | processing           | PayNova     | sarah.mitchell@pawplace.example | completed              | refund-completed           | Your £24.99 refund has been completed via PayNova    |  
-
----  
-
-## Story: `Process In-Store Return`  
-
-### Store (Given — above scenarios):  
-| store_name      | store_code |  
-|-----------------|------------|  
-| PawPlace Camden | STORE-CAM  |  
-
-### CustomerAccount (Given — above scenarios):  
-| customer_email                 | first_name | last_name |  
-|--------------------------------|------------|-----------|  
-| sarah.mitchell@pawplace.example | Sarah      | Mitchell  |  
-
-### GuestCheckout (Given — above scenarios):  
-| guest_email             | guest_first_name | guest_last_name |  
-|-------------------------|------------------|-----------------|  
-| guest.buyer@example.com | Alex             | Rivera          |  
-
-### Order (Given — above scenarios):  
-| order_number | placing_party                  | order_date | payment_reference | vendor_code |  
-|--------------|--------------------------------|------------|-------------------|-------------|  
-| ORD-4401     | sarah.mitchell@pawplace.example | 2026-04-10 | PAY-9901          | STRIPEWAVE  |  
-| ORD-7704     | guest.buyer@example.com        | 2026-04-20 | PAY-9904          | PAYNOVA     |  
-| ORD-4402     | sarah.mitchell@pawplace.example | 2026-02-01 | PAY-9905          | STRIPEWAVE  |  
-
----  
-
-### Scenario Outline: In-store return created via order lookup  
-
-Given a **Store** *{store_name}* *{store_code}* staff dashboard  
-  And **CustomerAccount** *{customer_email}* brings **OrderLineItem** *{sku_snapshot}* *{product_name_snapshot}* to the store  
-When the store employee looks up **Order** *{order_number}* by *{lookup_method}*  
-  And submits the in-store **Return** against **Order** *{order_number}*  
-Then a **Return** is created linked to **Order** *{order_number}* via *processInStoreReturn* at **Store** *{store_code}*  
-  And a **Refund** is routed through **PaymentVendor** *{vendor_code}*  
-  And the return appears in **CustomerAccount** *{customer_email}* order history with status *{expected_return_status}*  
-  And the staff dashboard confirmation reads *{expected_staff_confirmation}*  
-
-### In-store return (Then — below scenario):  
-| scenario | store_name      | store_code | customer_email                 | sku_snapshot | product_name_snapshot   | order_number | lookup_method                | vendor_code | expected_return_status | expected_staff_confirmation                                  |  
-|----------|-----------------|------------|--------------------------------|--------------|-------------------------|--------------|------------------------------|-------------|------------------------|--------------------------------------------------------------|  
-| 1        | PawPlace Camden | STORE-CAM  | sarah.mitchell@pawplace.example | SKU-FOOD-501 | Premium Dog Kibble 10kg | ORD-4401     | order number or customer email | STRIPEWAVE  | initiated              | Return created for ORD-4401 — refund via StripeWave          |  
-
----  
-
-### Scenario Outline: Guest order return processed — return visible on receipt only  
-
-Given a **Store** *{store_name}* *{store_code}* staff dashboard  
-  And a **GuestCheckout** *{guest_email}* *{guest_first_name}* *{guest_last_name}* has **Order** *{order_number}*  
-When the store employee looks up **Order** *{order_number}* by *{lookup_method}*  
-  And submits the in-store **Return** against **Order** *{order_number}*  
-Then a **Return** is created linked to **Order** *{order_number}*  
-  And the **Refund** routes through **PaymentVendor** *{vendor_code}*  
-  And the guest receives *{expected_guest_receipt}*  
-  And the return visibility is *{expected_visibility}*  
-
-### Guest return (Then — below scenario):  
-| scenario | store_name      | store_code | guest_email             | guest_first_name | guest_last_name | order_number | lookup_method              | vendor_code | expected_guest_receipt                          | expected_visibility                              |  
-|----------|-----------------|------------|-------------------------|------------------|-----------------|--------------|----------------------------|-------------|-------------------------------------------------|--------------------------------------------------|  
-| 1        | PawPlace Camden | STORE-CAM  | guest.buyer@example.com | Alex             | Rivera          | ORD-7704     | order number and guest email | PAYNOVA     | Printed return receipt with refund confirmation | Receipt only — no account to display return in   |  
-
----  
-
-### Scenario Outline: Ineligible item flagged with manager override option  
-
-Given a **Store** *{store_name}* *{store_code}* staff dashboard  
-  And **Order** *{order_number}* placed on *{order_date}* is outside the return window  
-When the store employee looks up **Order** *{order_number}*  
-Then **OrderLineItem** *{sku_snapshot}* *{product_name_snapshot}* shows status *{expected_eligibility_label}*  
-  And the reason reads *{expected_reason}*  
-  And the available override action reads *{expected_override_action}*  
-
-### Ineligible item (Then — below scenario):  
-| scenario | store_name      | store_code | order_number | order_date | sku_snapshot | product_name_snapshot     | expected_eligibility_label | expected_reason                           | expected_override_action                              |  
-|----------|-----------------|------------|--------------|------------|--------------|---------------------------|----------------------------|-------------------------------------------|-------------------------------------------------------|  
-| 1        | PawPlace Camden | STORE-CAM  | ORD-4402     | 2026-02-01 | SKU-BED-100  | Orthopaedic Dog Bed Large | Ineligible                 | Return window expired on 2026-03-03      | Manager Override — requires manager approval to proceed |  
-
----  
-
-## Story: `Send Return and Refund Status Update`  
-
-### Return (Given — above scenarios):  
-| return_id | order_number | customer_email                 | return_status   |  
-|-----------|--------------|--------------------------------|-----------------|  
-| RTN-7001  | ORD-4401     | sarah.mitchell@pawplace.example | received        |  
-| RTN-7002  | ORD-5502     | sarah.mitchell@pawplace.example | completed       |  
-| RTN-7003  | ORD-6603     | sarah.mitchell@pawplace.example | requires review |  
-
-### Refund (Given — above scenarios):  
-| refund_reference | return_id | refund_amount | refund_status   |  
-|------------------|-----------|---------------|-----------------|  
-| REF-3001         | RTN-7001  | 54.99         | processing      |  
-| REF-3002         | RTN-7002  | 24.99         | completed       |  
-| REF-3003         | RTN-7003  | 199.99        | requires review |  
-
----  
-
-### Scenario Outline: Lifecycle notification sent at return and refund transitions  
-
-Given a **Return** *{return_id}* for **Order** *{order_number}* with *returnStatus* *{return_status}*  
-  And **Refund** *{refund_reference}* with *refundStatus* *{refund_status}* and *refundAmount* *{refund_amount}*  
-When the **Return** or **Refund** status changes to *{trigger_status}*  
-Then a **Notification** is sent to **CustomerAccount** *{customer_email}* with *type* *{expected_notification_type}*  
-  And the notification body reads *{expected_notification_body}*  
-
-### Lifecycle notifications (Then — below scenario):  
-| scenario | return_id | order_number | refund_reference | refund_amount | customer_email                 | trigger_status         | expected_notification_type | expected_notification_body                                                 |  
-|----------|-----------|--------------|------------------|---------------|--------------------------------|------------------------|----------------------------|----------------------------------------------------------------------------|  
-| 1        | RTN-7001  | ORD-4401     | REF-3001         | 54.99         | sarah.mitchell@pawplace.example | return received        | return-received            | We've received your return for ORD-4401 — refund processing will begin shortly |  
-| 2        | RTN-7002  | ORD-5502     | REF-3002         | 24.99         | sarah.mitchell@pawplace.example | refund completed       | refund-completed           | Your £24.99 refund for ORD-5502 has been completed via your original payment method |  
-| 3        | RTN-7003  | ORD-6603     | REF-3003         | 199.99        | sarah.mitchell@pawplace.example | refund requires review | refund-under-review        | Your refund of £199.99 for ORD-6603 is under review — contact support if you need an update |  
-
----  
-
-### Scenario Outline: Notification queued on email delivery failure  
-
-Given a **Return** *{return_id}* for **Order** *{order_number}* transitions to *returnStatus* *{return_status}*  
-  And the email delivery system is *{email_system_status}*  
-When the system attempts to send the *{notification_type}* **Notification**  
-Then the **Notification** delivery status is *{expected_delivery_status}*  
-  And the **Return** *returnStatus* update is *{expected_return_processing}*  
-
-### Email delivery failure (Then — below scenario):  
-| scenario | return_id | order_number | return_status | email_system_status     | notification_type | expected_delivery_status | expected_return_processing                               |  
-|----------|-----------|--------------|---------------|-------------------------|-------------------|--------------------------|----------------------------------------------------------|  
-| 1        | RTN-7001  | ORD-4401     | received      | temporarily unavailable | return-received   | queued for retry         | persisted — notification failure does not block processing |  
+### Scenario 3: QR code displayable on mobile with same return reference as label
+
+Given a **Return** *RTN-7001* for **Order** *ORD-4401* with a **Return QR Code** generated
+When the **Customer** selects the **Return QR Code** option
+Then the **Return QR Code** is displayable on a mobile device at a carrier drop-off point
+  And the **Return QR Code** encodes the same return reference *RTN-7001* as the **Return Label**
+
+### Scenario 4: Return preserved when label generation service is unavailable
+
+Given a **Return Request** for **Return** *RTN-7002* has been submitted for **Order** *ORD-5502*
+  And the *Return Label* generation service is temporarily unavailable
+When the system attempts to generate the **Return Label** and **Return QR Code**
+Then the **Return** *RTN-7002* is still recorded with **Return Status** *initiated*
+  And the **Customer** is told to check back or contact support for the label
+  And the **Return** is not cancelled due to label generation failure
+
+---
+
+## Story: Route Refund through Original Payment Vendor
+
+**Story type:** system
+
+**Sources / context:** ubiquitous-language.md (Payment KA — *refund*, *refund status*, *refund retry*, *payment vendor*, *StripeWave*, *PayNova*, *VaultPay*, *instalment plan*), crc.md (Refund, Refund Status, Refund Retry, Payment Vendor, StripeWave, PayNova, VaultPay), acceptance-criteria.md (Route Refund through Original Payment Vendor AC 1–5)
+
+---
+
+### Scenario 1: Refund routed through StripeWave for card payment
+
+Given a **Return** *RTN-7001* for **Order** *ORD-4401* with **Returned Items** *Premium Dog Kibble 10kg* valued at *£54.99*
+  And **Order** *ORD-4401* was paid via **Payment Vendor** *StripeWave* with **Vendor Transaction Reference** *sw_txn_4401*
+  And the **Returned Items** are received and inspection passes
+When the system initiates the **Refund**
+Then a **Refund** *REF-3001* is created with a **Refund** amount of *£54.99*
+  And the **Refund** routes through **StripeWave**'s refund API
+  And the **Customer** sees the credit on their card statement
+
+### Scenario 2: Refund routed through PayNova for digital wallet payment
+
+Given a **Return** *RTN-7002* for **Order** *ORD-5502* with **Returned Items** *Ceramic Feeding Bowl* valued at *£24.99*
+  And **Order** *ORD-5502* was paid via **Payment Vendor** *PayNova* with **Vendor Transaction Reference** *pn_txn_5502*
+  And the **Returned Items** are received and inspection passes
+When the system initiates the **Refund**
+Then a **Refund** *REF-3002* is created with a **Refund** amount of *£24.99*
+  And the **Refund** routes through **PayNova**'s refund API
+
+### Scenario 3: Refund routed through VaultPay with instalment plan adjustment
+
+Given a **Return** *RTN-7003* for **Order** *ORD-6603* with **Returned Items** *Premium Cat Tree Deluxe* valued at *£199.99*
+  And **Order** *ORD-6603* was paid via **Payment Vendor** *VaultPay* with **Vendor Transaction Reference** *vp_txn_6603*
+  And the **Returned Items** are received and inspection passes
+When the system initiates the **Refund**
+Then a **Refund** *REF-3003* is created with a **Refund** amount of *£199.99*
+  And the **Refund** routes through **VaultPay**'s refund API
+  And the **Instalment Plan** is adjusted accordingly by **VaultPay**
+
+### Scenario 4: Refund queued for retry on vendor failure
+
+Given a **Refund** *REF-3001* for **Return** *RTN-7001* routed through **Payment Vendor** *StripeWave*
+When the **Refund** request to **StripeWave** fails due to *vendor downtime*
+Then the **Refund** is queued for **Refund Retry**
+  And the **Customer** sees **Refund Status** *processing* — not *"refund failed"*
+
+### Scenario 5: Refund escalated to requires review after retry exhaustion
+
+Given a **Refund** *REF-3001* for **Return** *RTN-7001* routed through **Payment Vendor** *StripeWave*
+  And all **Refund Retry** attempts are exhausted
+When the final **Refund Retry** fails
+Then the **Refund Status** transitions to *requires review*
+  And the **Customer** sees a message to contact support
+  And the support team has access to the **Return** and **Refund** details
+
+---
+
+## Story: Track Refund Status
+
+**Story type:** customer
+
+**Sources / context:** ubiquitous-language.md (Payment KA — *refund status*, *refund*; Order KA — *order detail*, *order history*; Notification KA — *refund completed notification*), crc.md (Refund Status, Refund, Refund Completed Notification), acceptance-criteria.md (Track Refund Status AC 1–4)
+
+---
+
+### Scenario 1: Refund status visible as processing on order detail
+
+Given a **Customer Account** *sarah.mitchell@pawplace.example* with **Order** *ORD-4401* in **Order History**
+  And **Order** *ORD-4401* has a **Return** *RTN-7001* with **Refund** *REF-3001*
+  And the **Refund Status** is *processing*
+When the **Customer** views the **Order Detail** for **Order** *ORD-4401*
+Then the **Refund Status** is visible as *processing*
+
+### Scenario 2: Refund completed with notification sent to customer
+
+Given a **Refund** *REF-3002* for **Return** *RTN-7002* on **Order** *ORD-5502* with **Refund Status** *processing*
+  And **Refund** *REF-3002* was routed through **Payment Vendor** *PayNova*
+When **PayNova** confirms the **Refund** is complete
+Then the **Refund Status** transitions to *completed*
+  And the **Customer** receives a **Refund Completed Notification** with the refunded amount *£24.99* and the **Payment** method *PayNova digital wallet*
+
+### Scenario 3: Extended processing shows timing expectation note
+
+Given a **Customer Account** *sarah.mitchell@pawplace.example* with **Order** *ORD-4401* in **Order History**
+  And **Order** *ORD-4401* has **Refund** *REF-3001* with **Refund Status** *processing*
+When the **Customer** views the **Order Detail** for **Order** *ORD-4401*
+Then the **Order Detail** shows a note: *"refunds typically take 5–10 business days depending on your payment provider"*
+
+### Scenario 4: Requires review status shows support guidance
+
+Given a **Customer Account** *sarah.mitchell@pawplace.example* with **Order** *ORD-6603* in **Order History**
+  And **Order** *ORD-6603* has **Refund** *REF-3003* with **Refund Status** *requires review*
+When the **Customer** views the **Order Detail** for **Order** *ORD-6603*
+Then the **Customer** sees a message to contact support
+  And the support team has access to the **Return** and **Refund** details
+
+---
+
+## Story: Process In-Store Return
+
+**Story type:** store employee
+
+**Sources / context:** ubiquitous-language.md (Order KA — *in-store return*, *manager override*, *return eligibility*; boundary *admin dashboard*), crc.md (In-Store Return, Manager Override, Return Eligibility), acceptance-criteria.md (Process In-Store Return AC 1–4)
+
+---
+
+### Scenario 1: In-store return submitted via order lookup on admin dashboard
+
+Given a **Store Employee** at **Store** *PawPlace Camden*
+  And a **Customer Account** *sarah.mitchell@pawplace.example* brings **Order Line Item** *Premium Dog Kibble 10kg* to the **Store** for **Return**
+  And **Order** *ORD-4401* is within the **Return Window**
+  And **Order** *ORD-4401* was paid via **Payment Vendor** *StripeWave*
+When the **Store Employee** looks up **Order** *ORD-4401* by order number on the **Admin Dashboard**
+  And the **Store Employee** selects "Start Return" and submits the **In-Store Return**
+Then a **Return** is created and linked to **Order** *ORD-4401*
+  And a **Refund** is triggered through the original **Payment Vendor** *StripeWave*
+  And the **Return** appears in the **Customer Account** *sarah.mitchell@pawplace.example* **Order History** under the **Order** detail
+
+### Scenario 2: Guest order return processed using order number and guest email
+
+Given a **Store Employee** at **Store** *PawPlace Camden*
+  And a guest **Customer** brings items from **Order** *ORD-7704* to the **Store** for **Return**
+  And **Order** *ORD-7704* was placed as a guest order with **Guest Email** *alex.rivera@example.com*
+  And **Order** *ORD-7704* was paid via **Payment Vendor** *PayNova*
+  And **Order** *ORD-7704* is within the **Return Window**
+When the **Store Employee** looks up **Order** *ORD-7704* by order number and **Guest Email** *alex.rivera@example.com* on the **Admin Dashboard**
+  And the **Store Employee** submits the **In-Store Return**
+Then a **Return** is created and linked to **Order** *ORD-7704*
+  And the **Refund** routes through the original **Payment Vendor** *PayNova*
+  And the **Return** is not visible in an "account" because the **Customer** has no **Customer Account**
+
+### Scenario 3: Ineligible item flagged with manager override option
+
+Given a **Store Employee** at **Store** *PawPlace Camden*
+  And a **Customer** brings **Order Line Item** *Orthopaedic Dog Bed Large* from **Order** *ORD-4402* to the **Store**
+  And **Order** *ORD-4402* was delivered on *2026-02-05* and the **Return Window** has expired
+When the **Store Employee** looks up **Order** *ORD-4402* on the **Admin Dashboard**
+Then the **Admin Dashboard** shows the ineligibility reason: *"return window expired"*
+  And a **Manager Override** action is displayed, requiring manager approval before the **Return** proceeds
+
+### Scenario 4: Manager override approves return for ineligible item
+
+Given a **Store Employee** at **Store** *PawPlace Camden*
+  And **Order** *ORD-4402* with **Order Line Item** *Orthopaedic Dog Bed Large* has failed **Return Eligibility**
+  And the **Admin Dashboard** is showing the **Manager Override** action
+  And **Order** *ORD-4402* was paid via **Payment Vendor** *StripeWave*
+When a manager approves the **Manager Override** with override reason *"customer goodwill — long-standing customer"*
+Then the **In-Store Return** proceeds for **Order** *ORD-4402*
+  And a **Return** is created and linked to **Order** *ORD-4402*
+  And a **Refund** is triggered through the original **Payment Vendor** *StripeWave*
+  And the approving manager and override reason are recorded for audit
+
+---
+
+## Story: Send Return and Refund Status Update
+
+**Story type:** system
+
+**Sources / context:** ubiquitous-language.md (Notification KA — *return received notification*, *refund completed notification*, *refund under review notification*, *notification*), crc.md (Return Received Notification, Refund Completed Notification, Refund Under Review Notification, Notification), acceptance-criteria.md (Send Return and Refund Status Update AC 1–4)
+
+---
+
+### Scenario 1: Return received notification sent when returned items arrive at warehouse
+
+Given a **Return** *RTN-7001* for **Order** *ORD-4401* with **Returned Items** *Premium Dog Kibble 10kg*
+  And the **Customer Account** email is *sarah.mitchell@pawplace.example*
+When the **Return Status** transitions to *received*
+Then the system sends a **Return Received Notification** to the **Customer**
+  And the **Return Received Notification** includes the **Order** number *ORD-4401*, the **Returned Items** summary, and a note that inspection and **Refund** processing are underway
+
+### Scenario 2: Refund completed notification sent with amount and payment method
+
+Given a **Refund** *REF-3002* for **Return** *RTN-7002* on **Order** *ORD-5502*
+  And the **Refund** was routed through **Payment Vendor** *PayNova*
+  And the **Customer Account** email is *sarah.mitchell@pawplace.example*
+When the **Refund Status** transitions to *completed*
+Then the system sends a **Refund Completed Notification** to the **Customer**
+  And the **Refund Completed Notification** includes the refunded amount *£24.99* and the **Payment** method *PayNova digital wallet*
+
+### Scenario 3: Refund under review notification sent with support guidance
+
+Given a **Refund** *REF-3003* for **Return** *RTN-7003* on **Order** *ORD-6603*
+  And the **Customer Account** email is *sarah.mitchell@pawplace.example*
+  And **Refund Retry** has exhausted all attempts
+When the **Refund Status** transitions to *requires review*
+Then the system sends a **Refund Under Review Notification** to the **Customer**
+  And the **Refund Under Review Notification** includes guidance to contact support and a reference to the **Return** and **Order** details
+
+### Scenario 4: Notification queued when email delivery system is unavailable
+
+Given a **Return** *RTN-7001* for **Order** *ORD-4401* with **Return Status** *received*
+  And the email delivery system is temporarily unavailable
+When the system attempts to send the **Return Received Notification**
+Then the **Notification** is queued for retry
+  And the **Return Status** is still updated in the system
+  And the **Refund Status** is still updated in the system
+  And **Notification** failure does not block *return* or *refund* processing

@@ -1,256 +1,295 @@
-# Specification by Example — Increment 5: Pay your way — multi-vendor payment with retries  
+---
+state: specification-by-example
+increment_scope: Increment 5 — Pay your way
+specification_refresh: Run 6 slot 129
+---
 
-**Template:** Scenario Outline (parameterized with Examples tables)  
+# Specification by Example — Increment 5: Pay your way — multi-vendor payment with retries
 
----  
+**Refresh:** Run 6 slot 129 — aligned to `docs/domain/ubiquitous-language.md` (slot 119), `docs/domain/crc.md` (slot 127), `docs/domain/domain.json`, and `docs/story/acceptance-criteria/increment-5-acceptance-criteria.md`. *StripeWave*, *PayNova*, and *VaultPay* are all active at the *payment method selector*; *payment retry* applies to *transient error* across all three vendors; *hard decline* never auto-retries. *Guest checkout* and Increments 1–4 paths remain valid. Full *return* customer flow deferred to Increment 7.
 
-## Story: `Process Digital Wallet Payment via PayNova`  
+---
 
-### PaymentVendor (Given — above scenarios):  
-| vendorCode | vendorName | supportedPaymentTypes   |  
-|------------|------------|-------------------------|  
-| VNDR-PN    | PayNova    | digital_wallet          |  
-| VNDR-SW    | StripeWave | credit_card, debit_card |  
-| VNDR-VP    | VaultPay   | buy_now_pay_later       |  
+## Story: `Process Digital Wallet Payment via PayNova`
 
-### Order (Given — above scenarios):  
-| orderNumber | customer_account_id | orderTotal | orderStatus |  
-|-------------|---------------------|------------|-------------|  
-| ORD-2001    | CUST-001            | £85.00     | pending     |  
+**Story type:** system
 
-### CustomerAccount (Given — above scenarios):  
-| customer_account_id | emailAddress     |  
-|---------------------|------------------|  
-| CUST-001            | jane@example.com |  
+**Sources / context:** ubiquitous-language.md, crc.md, increment-5-acceptance-criteria.md
 
----  
+---
 
-### Scenario Outline: PayNova payment confirmed and order transitions  
+### Order:
 
-Given an **Order** *{orderNumber}* with **orderTotal** *{orderTotal}* and **orderStatus** *{initial_status}*  
-  And **PaymentVendor** *{vendorCode}* (*{vendorName}*) is available  
-When the customer selects *{vendorName}* at the payment step  
-  And *{vendorName}* returns a successful payment confirmation with reference *{paymentReference}*  
-Then a **Payment** is created with **paymentReference** *{paymentReference}*, **processingVendor** *{vendorCode}*, **paymentAmount** *{orderTotal}*, **paymentStatus** *{expected_paymentStatus}*  
-  And the **Order** *{orderNumber}* transitions to **orderStatus** *{expected_orderStatus}*  
-  And the system sends an order confirmation **Notification** to **CustomerAccount** *{customer_account_id}* (*{notification_sent}*)  
+| scenario | order_number | order_total | order_status | currency |
+|---|---|---|---|---|
+| 1 | ORD-2001 | 85.00 | pending | GBP |
+| 2 | ORD-2002 | 45.00 | pending | GBP |
 
-### Payment (Then — below scenario):  
-| scenario | orderNumber | paymentReference | vendorCode | vendorName | orderTotal | initial_status | expected_paymentStatus | expected_orderStatus | customer_account_id | notification_sent |  
-|----------|-------------|------------------|------------|------------|------------|----------------|------------------------|----------------------|---------------------|-------------------|  
-| 1        | ORD-2001    | pn_txn_7890      | VNDR-PN    | PayNova    | £85.00     | pending        | captured               | Confirmed            | CUST-001            | true              |  
+### Customer Account:
 
----  
+| scenario | email_address | account_verification_status |
+|---|---|---|
+| 1 | jane.doe@example.com | verified |
 
-### Scenario Outline: PayNova declines payment — customer sees alternatives  
+---
 
-Given an **Order** *{orderNumber}* with **orderTotal** *{orderTotal}* and **orderStatus** *{initial_status}*  
-When the customer selects *{vendorName}* at the payment step  
-  And *{vendorName}* declines the payment with reason *{decline_reason}*  
-Then the customer sees a clear error message: *{decline_reason}*  
-  And the payment step displays alternative vendor options (*{expected_alternatives}*)  
-  And the **Order** *{orderNumber}* retains **orderStatus** *{expected_orderStatus}*  
+### Scenario 1: `PayNova selection launches digital wallet authentication`
 
-### PayNova decline (When — below / Then — below):  
-| scenario | orderNumber | orderTotal | vendorName | initial_status | decline_reason       | expected_alternatives                 | expected_orderStatus |  
-|----------|-------------|------------|------------|----------------|----------------------|---------------------------------------|----------------------|  
-| 1        | ORD-2001    | £85.00     | PayNova    | pending        | insufficient balance | retry PayNova, StripeWave, VaultPay   | pending              |  
-| 2        | ORD-2001    | £85.00     | PayNova    | pending        | wallet locked        | retry PayNova, StripeWave, VaultPay   | pending              |  
+Given an **Order** with **order number** *ORD-2001* and **order status** *pending*
+And the customer reaches the **Payment Method Selector**
+When the customer selects **PayNova** at the **Payment Method Selector**
+Then checkout redirects to or embeds the **PayNova** **digital wallet** authentication flow
+And the customer authorises **Payment** using **mobile wallet credentials**
 
----  
+### Scenario 2: `Customer cancels PayNova wallet and other vendors remain selectable`
 
-### Scenario Outline: PayNova webhook reconciled after timeout  
+Given an **Order** with **order number** *ORD-2001* and **order status** *pending*
+And the customer selected **PayNova** at the **Payment Method Selector**
+When the customer cancels the **PayNova** wallet authentication flow
+Then **StripeWave** and **VaultPay** remain selectable at the **Payment Method Selector**
+And the **Order** **order status** remains *pending*
 
-Given an **Order** *{orderNumber}* with a pending **Payment** through **PaymentVendor** *{vendorCode}*  
-  And the initial *{vendorName}* response timed out  
-When a **Payment** webhook callback arrives with reference *{paymentReference}* and status *{webhook_status}*  
-Then the system reconciles **Payment** *{paymentReference}* against **Order** *{orderNumber}*  
-  And **Payment** **paymentStatus** transitions to *{final_payment_status}*  
-  And **Order** **orderStatus** transitions to *{final_order_status}*  
+### Scenario 3: `PayNova payment confirmation confirms order and sends confirmation email`
 
-### Webhook reconciliation (When — below / Then — below):  
-| scenario | orderNumber | vendorCode | vendorName | paymentReference | webhook_status | final_payment_status | final_order_status |  
-|----------|-------------|------------|------------|------------------|----------------|----------------------|--------------------|  
-| 1        | ORD-2001    | VNDR-PN    | PayNova    | pn_txn_7890      | captured       | captured             | Confirmed          |  
-| 2        | ORD-2001    | VNDR-PN    | PayNova    | pn_txn_7891      | failed         | failed               | pending            |  
+Given an **Order** with **order number** *ORD-2001*, **order total** *£85.00*, and **order status** *pending*
+When **PayNova** returns **Payment Confirmation** with **vendor confirmation reference** *pn_txn_7890*
+Then a **Payment** is recorded with **processing vendor** *PayNova*, **vendor transaction reference** *pn_txn_7890*, **payment amount** *£85.00*, and **payment status** *captured*
+And the **Order** **order status** transitions to *confirmed*
+And the system sends a **Confirmation Email** to the customer
+And the **Order Confirmation Page** is displayed
 
----  
+### Scenario Outline 1: `PayNova hard decline surfaces reason and alternative vendors`
 
-### Scenario Outline: PayNova payment method offered for saving  
+Given an **Order** with **order number** {order_number} and **order status** *pending*
+When **PayNova** returns a **Hard Decline** with **decline reason** {decline_reason}
+Then the customer sees a clear error message: {decline_reason}
+And the **Payment Method Selector** displays alternatives: *retry PayNova*, *StripeWave*, and *VaultPay*
+And the **Order** **order status** remains *pending*
+And no **Confirmation Email** is sent
 
-Given a **CustomerAccount** *{customer_account_id}* is logged in  
-  And a **Payment** with **processingVendor** *{vendorName}* and **paymentReference** *{paymentReference}* is completed  
-When the payment succeeds  
-Then the system offers to save *{vendorName}* as a **SavedPaymentMethod** under **CustomerAccount** *{customer_account_id}* (*{save_offered}*)  
-  And if accepted, a **SavedPaymentMethod** is created with **vendorTokenReference** *{vendorTokenReference}* and **walletProvider** *{walletProvider}*  
+#### Examples:
 
-### SavedPaymentMethod (Then — below scenario):  
-| scenario | customer_account_id | vendorName | paymentReference | vendorTokenReference | walletProvider | save_offered |  
-|----------|---------------------|------------|------------------|----------------------|----------------|--------------|  
-| 1        | CUST-001            | PayNova    | pn_txn_7890      | tok_pn_wallet_001    | PayNova Wallet | true         |  
+| scenario | order_number | decline_reason |
+|---|---|---|
+| 1 | ORD-2001 | insufficient wallet balance |
+| 2 | ORD-2001 | wallet locked |
 
----  
+---
 
-## Story: `Process Buy-Now-Pay-Later via VaultPay`  
+### Payment:
 
-### Scenario Outline: VaultPay BNPL approved and order confirmed  
+| scenario | payment_reference | order_number | processing_vendor | payment_status |
+|---|---|---|---|---|
+| 1 | pay_pn_pending_001 | ORD-2001 | PayNova | pending |
 
-Given an **Order** *{orderNumber}* with **orderTotal** *{orderTotal}* and **orderStatus** *{initial_status}*  
-  And **PaymentVendor** *{vendorCode}* (*{vendorName}*) is available  
-When the customer selects *{vendorName}* at the payment step  
-  And *{vendorName}* performs the *Eligibility Check* and the customer accepts the **Instalment Plan** of *{installmentCount}* payments of *{installmentAmount}*  
-  And *{vendorName}* approves with reference *{paymentReference}*  
-Then a **Payment** is created with **paymentReference** *{paymentReference}*, **processingVendor** *{vendorCode}*, **paymentAmount** *{orderTotal}*, **paymentStatus** *{expected_paymentStatus}*  
-  And the **Order** *{orderNumber}* transitions to **orderStatus** *{expected_orderStatus}*  
-  And the system sends an order confirmation **Notification** (*{notification_sent}*)  
+---
 
-### VaultPay (Given — above / Then — below):  
-| scenario | orderNumber | vendorCode | vendorName | orderTotal | initial_status | paymentReference | installmentCount | installmentAmount | expected_paymentStatus | expected_orderStatus | notification_sent |  
-|----------|-------------|------------|------------|------------|----------------|------------------|------------------|-------------------|------------------------|----------------------|-------------------|  
-| 1        | ORD-2001    | VNDR-VP    | VaultPay   | £200.00    | pending        | vp_ref_5001      | 4                | £50.00            | captured               | Confirmed            | true              |  
-| 2        | ORD-2002    | VNDR-VP    | VaultPay   | £120.00    | pending        | vp_ref_5002      | 3                | £40.00            | captured               | Confirmed            | true              |  
+### Scenario 4: `PayNova webhook reconciles successful payment after timeout`
 
----  
+Given a **Payment** with **payment reference** *pay_pn_pending_001* for **Order** *ORD-2001* through **PayNova**
+And the initial **PayNova** response timed out before **Payment Confirmation**
+When a **Webhook Callback** from **PayNova** arrives with **vendor transaction reference** *pn_txn_7890* and reconciliation status *captured*
+Then the system reconciles the **Webhook Callback** against the pending **Payment**
+And **Payment** **payment status** transitions to *captured*
+And the **Order** **order status** transitions to *confirmed*
+And the **Confirmation Email** fires
 
-### Scenario Outline: VaultPay eligibility declined — customer sees alternatives  
+### Scenario 5: `PayNova webhook failure leaves order unpaid`
 
-Given an **Order** *{orderNumber}* with **orderTotal** *{orderTotal}* and **orderStatus** *{initial_status}*  
-When the customer selects *{vendorName}* at the payment step  
-  And *{vendorName}* declines the BNPL application with reason *{decline_reason}*  
-Then the customer sees a clear message that BNPL is not available for this transaction: *{decline_reason}*  
-  And the payment step displays alternative vendor options (*{expected_alternatives}*)  
-  And the **Order** *{orderNumber}* retains **orderStatus** *{expected_orderStatus}*  
+Given a **Payment** with **payment reference** *pay_pn_pending_001* for **Order** *ORD-2001* through **PayNova**
+And the initial **PayNova** response timed out
+When a **Webhook Callback** from **PayNova** arrives with reconciliation status *failed*
+Then **Payment** **payment status** transitions to *failed*
+And the **Order** **order status** remains *pending*
+And the customer is notified to retry at the **Payment Method Selector**
 
-### VaultPay decline (When — below / Then — below):  
-| scenario | orderNumber | orderTotal | vendorName | initial_status | decline_reason      | expected_alternatives | expected_orderStatus |  
-|----------|-------------|------------|------------|----------------|---------------------|-----------------------|----------------------|  
-| 1        | ORD-2001    | £200.00    | VaultPay   | pending        | eligibility failed  | StripeWave, PayNova   | pending              |  
-| 2        | ORD-2001    | £200.00    | VaultPay   | pending        | credit check failed | StripeWave, PayNova   | pending              |  
+---
 
----  
+### Scenario 6: `Logged-in customer offered PayNova wallet save after successful payment`
 
-### Scenario Outline: VaultPay webhook reconciled after timeout  
+Given a logged-in **Customer Account** with **email address** *jane.doe@example.com*
+And **Payment** through **PayNova** with **vendor transaction reference** *pn_txn_7890* completed successfully
+When checkout completes
+Then the system offers to save **PayNova** as a **Saved Payment Method** on the **Customer Account**
+And if accepted, a **Saved Payment Method** is created with **vendor-token reference** *tok_pn_wallet_001* and **wallet provider** *PayNova Wallet*
+And wallet secrets are not stored on the **Customer Account**
 
-Given an **Order** *{orderNumber}* with a pending **Payment** through **PaymentVendor** *{vendorCode}*  
-  And the initial *{vendorName}* response timed out  
-When a **Payment** webhook callback arrives with reference *{paymentReference}* and status *{webhook_status}*  
-Then the system reconciles **Payment** *{paymentReference}* against **Order** *{orderNumber}*  
-  And **Payment** **paymentStatus** transitions to *{final_payment_status}*  
-  And **Order** **orderStatus** transitions to *{final_order_status}*  
+---
 
-### Webhook reconciliation (When — below / Then — below):  
-| scenario | orderNumber | vendorCode | vendorName | paymentReference | webhook_status | final_payment_status | final_order_status |  
-|----------|-------------|------------|------------|------------------|----------------|----------------------|--------------------|  
-| 1        | ORD-2001    | VNDR-VP    | VaultPay   | vp_ref_5001      | captured       | captured             | Confirmed          |  
-| 2        | ORD-2001    | VNDR-VP    | VaultPay   | vp_ref_5002      | failed         | failed               | pending            |  
+## Story: `Process Buy-Now-Pay-Later via VaultPay`
 
----  
+**Story type:** system
 
-### Scenario Outline: VaultPay saved but eligibility check still per-transaction  
+**Sources / context:** ubiquitous-language.md, crc.md, increment-5-acceptance-criteria.md
 
-Given a **CustomerAccount** *{customer_account_id}* with a completed **Payment** via *{vendorName}*  
-When the system offers to save *{vendorName}* as a **SavedPaymentMethod**  
-  And the customer accepts  
-Then a **SavedPaymentMethod** is created with **vendorTokenReference** *{vendorTokenReference}*  
-  And future *{vendorName}* usage pre-fills the customer's identity (*{identity_prefilled}*)  
-  And the *Eligibility Check* is still performed per transaction (*{eligibility_per_transaction}*)  
+---
 
-### SavedPaymentMethod (Then — below scenario):  
-| scenario | customer_account_id | vendorName | vendorTokenReference | identity_prefilled | eligibility_per_transaction |  
-|----------|---------------------|------------|----------------------|--------------------|-----------------------------|  
-| 1        | CUST-001            | VaultPay   | tok_vp_identity_001  | true               | true                        |  
+### Scenario 1: `VaultPay selection performs eligibility check and presents instalment plan`
 
----  
+Given an **Order** with **order number** *ORD-2003*, **order total** *£200.00*, and **order status** *pending*
+When the customer selects **VaultPay** at the **Payment Method Selector**
+Then checkout redirects to or embeds the **VaultPay** **buy-now-pay-later** flow
+And **VaultPay** performs the **Eligibility Check**
+And **VaultPay** presents an **Instalment Plan** of *4* payments of *£50.00*
 
-## Story: `Retry Failed Payment`  
+### Scenario 2: `VaultPay instalment acceptance confirms order`
 
-### Payment (Given — above scenarios):  
-| paymentReference | orderNumber | paymentAmount | processingVendor | paymentStatus |  
-|------------------|-------------|---------------|------------------|---------------|  
-| pay_ref_3001     | ORD-2001    | £85.00        | VNDR-PN          | failed        |  
-| pay_ref_3002     | ORD-2002    | £200.00       | VNDR-VP          | failed        |  
-| pay_ref_3003     | ORD-2003    | £45.00        | VNDR-SW          | failed        |  
+Given an **Order** with **order number** *ORD-2003*, **order total** *£200.00*, and **order status** *pending*
+And **VaultPay** presented an **Instalment Plan** of *4* payments of *£50.00*
+When the customer accepts the **Instalment Plan**
+And **VaultPay** returns **Payment Confirmation** with **vendor confirmation reference** *vp_ref_5001*
+Then a **Payment** is recorded with **processing vendor** *VaultPay*, **vendor transaction reference** *vp_ref_5001*, **payment amount** *£200.00*, and **payment status** *captured*
+And the **Instalment Plan** reference is stored on the **Payment**
+And the **Order** **order status** transitions to *confirmed*
+And the system sends a **Confirmation Email**
+And the **Order Confirmation Page** is displayed
 
----  
+### Scenario Outline 1: `VaultPay hard decline offers StripeWave and PayNova alternatives`
 
-### Scenario Outline: Transient error triggers automatic retry — retry succeeds  
+Given an **Order** with **order number** *ORD-2003* and **order status** *pending*
+When **VaultPay** returns a **Hard Decline** with **decline reason** {decline_reason}
+Then the customer sees a clear message that **buy-now-pay-later** is not available: {decline_reason}
+And the **Payment Method Selector** displays **StripeWave** and **PayNova** as alternatives
+And the **Order** **order status** remains *pending*
 
-Given a **Payment** *{paymentReference}* for **Order** *{orderNumber}* with **paymentStatus** *{initial_paymentStatus}*  
-  And the failure reason is a *Transient Error*: *{error_type}*  
-  And **processingVendor** is *{processingVendor}*  
-When the system automatically retries the payment through *{processingVendor}*  
-  And the retry succeeds  
-Then **Payment** *{paymentReference}* transitions to **paymentStatus** *{final_paymentStatus}*  
-  And **Order** *{orderNumber}* transitions to **orderStatus** *{final_orderStatus}*  
-  And the customer sees the *Order Confirmation Page* and receives the confirmation email (*{confirmation_sent}*)  
+#### Examples:
 
-### Retry success (Given — above / Then — below):  
-| scenario | paymentReference | orderNumber | processingVendor | initial_paymentStatus | error_type      | final_paymentStatus | final_orderStatus | confirmation_sent |  
-|----------|------------------|-------------|------------------|-----------------------|-----------------|---------------------|-------------------|-------------------|  
-| 1        | pay_ref_3001     | ORD-2001    | VNDR-PN          | failed                | network timeout | captured            | Confirmed         | true              |  
-| 2        | pay_ref_3003     | ORD-2003    | VNDR-SW          | failed                | vendor 5xx      | captured            | Confirmed         | true              |  
+| scenario | decline_reason |
+|---|---|
+| 1 | eligibility failed |
+| 2 | credit check failed |
 
----  
+---
 
-### Scenario Outline: All retries exhausted — customer notified with alternatives  
+### Payment:
 
-Given a **Payment** *{paymentReference}* for **Order** *{orderNumber}* with **paymentStatus** *{initial_paymentStatus}*  
-  And the failure reason is a *Transient Error*: *{error_type}*  
-  And *{retry_attempts}* retries have been attempted within the *Retry Window*  
-When the final retry also fails  
-Then the customer is notified that payment could not be processed (*{customer_notified}*)  
-  And the payment step displays alternative options (*{expected_alternatives}*)  
-  And the system ensures only one charge attempt per retry (*{duplicate_prevented}*)  
+| scenario | payment_reference | order_number | processing_vendor | payment_status |
+|---|---|---|---|---|
+| 1 | pay_vp_pending_001 | ORD-2003 | VaultPay | pending |
 
-### Retry exhaustion (Given — above / Then — below):  
-| scenario | paymentReference | orderNumber | initial_paymentStatus | error_type      | retry_attempts | max_retries | customer_notified | expected_alternatives               | duplicate_prevented |  
-|----------|------------------|-------------|-----------------------|-----------------|----------------|-------------|-------------------|------------------------------------|---------------------|  
-| 1        | pay_ref_3001     | ORD-2001    | failed                | network timeout | 3              | 3           | true              | other vendors and manual card entry | true                |  
-| 2        | pay_ref_3002     | ORD-2002    | failed                | vendor 5xx      | 3              | 3           | true              | other vendors and manual card entry | true                |  
+---
 
----  
+### Scenario 3: `VaultPay webhook reconciles successful BNPL payment after timeout`
 
-### Scenario Outline: Hard decline — customer sees decline reason immediately  
+Given a **Payment** with **payment reference** *pay_vp_pending_001* for **Order** *ORD-2003* through **VaultPay**
+And the initial **VaultPay** response timed out
+When a **Webhook Callback** from **VaultPay** arrives with **vendor transaction reference** *vp_ref_5001* and reconciliation status *captured*
+Then the system reconciles the **Webhook Callback** against the pending **Payment**
+And **Payment** **payment status** transitions to *captured*
+And the **Order** **order status** transitions to *confirmed*
+And the **Confirmation Email** fires
 
-Given a **Payment** *{paymentReference}* for **Order** *{orderNumber}* with **paymentStatus** *{initial_paymentStatus}*  
-  And the failure reason is a *Hard Decline*: *{decline_reason}*  
-When the system evaluates whether to retry  
-Then the customer is immediately shown the decline reason: *{decline_reason}* (*{immediate_display}*)  
-  And alternatives are offered: *{expected_alternatives}* (*{alternatives_shown}*)  
+### Scenario 4: `VaultPay webhook failure leaves order unpaid`
 
-### Hard decline (Given — above / Then — below):  
-| scenario | paymentReference | orderNumber | initial_paymentStatus | decline_reason     | immediate_display | expected_alternatives          | alternatives_shown |  
-|----------|------------------|-------------|-----------------------|--------------------|-------------------|--------------------------------|--------------------|  
-| 1        | pay_ref_3001     | ORD-2001    | failed                | insufficient funds | true              | different card or other vendor  | true               |  
-| 2        | pay_ref_3003     | ORD-2003    | failed                | card blocked       | true              | different card or other vendor  | true               |  
-| 3        | pay_ref_3003     | ORD-2003    | failed                | fraud flag         | true              | different card or other vendor  | true               |  
+Given a **Payment** with **payment reference** *pay_vp_pending_001* for **Order** *ORD-2003* through **VaultPay**
+And the initial **VaultPay** response timed out
+When a **Webhook Callback** from **VaultPay** arrives with reconciliation status *failed*
+Then **Payment** **payment status** transitions to *failed*
+And the **Order** **order status** remains *pending*
+And the customer is notified to retry
 
----  
+---
 
-### Scenario Outline: Retry continues in background after customer navigates away  
+### Scenario 5: `VaultPay saved identity pre-fills but eligibility check runs each transaction`
 
-Given a **Payment** *{paymentReference}* for **Order** *{orderNumber}* is in retry due to *Transient Error*  
-  And the customer navigates away from the checkout page  
-When the retry completes with outcome *{retry_outcome}*  
-Then **Order** *{orderNumber}* transitions to **orderStatus** *{expected_orderStatus}*  
-  And the customer is notified via *{notification_channel}*: *{expected_notification}*  
+Given a logged-in **Customer Account** with **email address** *jane.doe@example.com*
+And **Payment** through **VaultPay** with **vendor transaction reference** *vp_ref_5001* completed successfully
+When the customer accepts saving **VaultPay** as a **Saved Payment Method**
+Then a **Saved Payment Method** is created with **vendor-token reference** *tok_vp_identity_001* and **processing vendor** *VaultPay*
+And future **VaultPay** checkout pre-fills the customer's **VaultPay** identity
+And the **Eligibility Check** is still performed on the next **VaultPay** transaction
 
-### Background retry (Given — above / Then — below):  
-| scenario | paymentReference | orderNumber | retry_outcome | expected_orderStatus | notification_channel | expected_notification           |  
-|----------|------------------|-------------|---------------|----------------------|----------------------|---------------------------------|  
-| 1        | pay_ref_3001     | ORD-2001    | success       | Confirmed            | email                | order confirmed                 |  
-| 2        | pay_ref_3002     | ORD-2002    | exhausted     | pending              | email                | payment could not be processed  |  
+---
 
----  
+## Story: `Retry Failed Payment`
 
-### Scenario Outline: Retrying payment indicator shown to customer  
+**Story type:** system
 
-Given a **Payment** *{paymentReference}* for **Order** *{orderNumber}* has failed due to *Transient Error*  
-When the system initiates automatic retry  
-Then the customer sees a *{expected_indicator}* indicator (*{indicator_shown}*)  
-  And the customer can continue browsing during retry (*{browsing_uninterrupted}*)  
+**Sources / context:** ubiquitous-language.md, crc.md, increment-5-acceptance-criteria.md
 
-### Retry indicator (Then — below scenario):  
-| scenario | paymentReference | orderNumber | expected_indicator | indicator_shown | browsing_uninterrupted |  
-|----------|------------------|-------------|--------------------|-----------------|------------------------|  
-| 1        | pay_ref_3001     | ORD-2001    | retrying payment   | true            | true                   |  
+---
+
+### Retry Window:
+
+| scenario | maximum_attempt_count | time_limit |
+|---|---|---|
+| 1 | 3 | 5 minutes |
+
+---
+
+### Scenario 1: `Transient error triggers automatic payment retry with indicator`
+
+Given a **Payment** with **payment reference** *pay_pn_retry_001* for **Order** *ORD-2001* through **PayNova**
+And **Payment** **payment status** is *failed* due to a **Transient Error** with **failure type** *network timeout*
+When the system evaluates the failure
+Then the system automatically initiates **Payment Retry** through the same **PayNova** **processing vendor**
+And the customer sees a *retrying payment* indicator at the **Payment Method Selector**
+And no manual action is required during automatic retries
+
+### Scenario 2: `Successful payment retry confirms order`
+
+Given a **Payment** with **payment reference** *pay_pn_retry_001* for **Order** *ORD-2001* through **PayNova*
+And **Payment Retry** was initiated due to **Transient Error** *vendor 5xx*
+When the **Payment Retry** succeeds
+Then **Payment** **payment status** transitions to *captured*
+And the **Order** **order status** transitions to *confirmed*
+And the customer sees the **Order Confirmation Page**
+And the **Confirmation Email** fires
+
+### Scenario Outline 1: `Retry exhaustion returns customer to payment method selector`
+
+Given a **Payment** with **payment reference** {payment_reference} for **Order** {order_number} through {processing_vendor}
+And **Payment** **payment status** is *failed* due to **Transient Error** {failure_type}
+And **Payment Retry** **attempt count** has reached **Retry Window** **maximum attempt count** *3*
+When the final **Payment Retry** also fails
+Then the customer is notified that **Payment** could not be processed
+And the **Payment Method Selector** displays **StripeWave**, **PayNova**, **VaultPay**, and manual card entry
+And only one charge attempt occurs per **Payment Retry** cycle
+
+#### Examples:
+
+| scenario | payment_reference | order_number | processing_vendor | failure_type |
+|---|---|---|---|---|
+| 1 | pay_pn_retry_002 | ORD-2001 | PayNova | network timeout |
+| 2 | pay_vp_retry_001 | ORD-2003 | VaultPay | vendor 5xx |
+| 3 | pay_sw_retry_001 | ORD-2004 | StripeWave | network timeout |
+
+---
+
+### Scenario Outline 2: `Hard decline never triggers automatic payment retry`
+
+Given a **Payment** with **payment reference** {payment_reference} for **Order** {order_number} through {processing_vendor}
+And **Payment** **payment status** is *failed* due to **Hard Decline** with **decline reason** {decline_reason}
+When the system evaluates whether to retry
+Then the system does not initiate **Payment Retry**
+And the customer is immediately shown **Hard Decline** **decline reason** {decline_reason}
+And the **Payment Method Selector** displays alternative **Payment Vendor** options
+
+#### Examples:
+
+| scenario | payment_reference | order_number | processing_vendor | decline_reason |
+|---|---|---|---|---|
+| 1 | pay_sw_decline_001 | ORD-2004 | StripeWave | insufficient funds |
+| 2 | pay_sw_decline_002 | ORD-2004 | StripeWave | card blocked |
+| 3 | pay_sw_decline_003 | ORD-2004 | StripeWave | fraud flag |
+| 4 | pay_vp_decline_001 | ORD-2003 | VaultPay | BNPL eligibility failure |
+
+---
+
+### Scenario 3: `Background payment retry confirms order after customer navigates away`
+
+Given a **Payment** with **payment reference** *pay_pn_retry_003* for **Order** *ORD-2001* is in **Payment Retry** due to **Transient Error**
+And the customer navigates away from checkout
+When the **Payment Retry** completes successfully
+Then **Payment Retry** **background continuation flag** is *true*
+And the **Order** **order status** transitions to *confirmed*
+And the **Confirmation Email** fires
+And the customer is notified via **Notification** with **notification channel** *email*
+
+### Scenario 4: `Background payment retry exhaustion leaves order unpaid`
+
+Given a **Payment** with **payment reference** *pay_vp_retry_002* for **Order** *ORD-2003* is in **Payment Retry** due to **Transient Error**
+And the customer navigates away from checkout
+When all **Payment Retry** attempts exhaust within the **Retry Window**
+Then the **Order** **order status** remains *pending*
+And the customer is notified via **Notification** that **Payment** could not be processed

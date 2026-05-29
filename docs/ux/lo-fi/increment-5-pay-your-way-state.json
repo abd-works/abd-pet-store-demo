@@ -1,0 +1,711 @@
+{
+  "target": "docs/ux/lo-fi/increment-5-pay-your-way.drawio",
+  "screens": [
+    {
+      "name": "guest checkout — payment method selector",
+      "layout": "split-screen",
+      "col": 0,
+      "row": 0,
+      "regions": [
+        {
+          "name": "primary navigation — guest",
+          "slot": "header",
+          "type": "toolbar",
+          "buttons": [
+            { "label": "find stores" },
+            { "label": "shop supplies" },
+            { "label": "shopping cart" },
+            { "label": "log in" },
+            { "label": "register" }
+          ]
+        },
+        {
+          "name": "checkout progress",
+          "slot": "header",
+          "type": "nav-tabs",
+          "tabs": [
+            { "label": "shopping cart" },
+            { "label": "billing address" },
+            { "label": "shipping address" },
+            { "label": "delivery option" },
+            { "label": "payment", "active": true }
+          ]
+        },
+        {
+          "name": "payment method selector",
+          "slot": "left",
+          "type": "listbox",
+          "items": [
+            { "label": "StripeWave — card", "icon": "file", "selected": true },
+            { "label": "PayNova — digital wallet", "icon": "ability" },
+            { "label": "VaultPay — buy-now-pay-later", "icon": "movement" }
+          ]
+        },
+        {
+          "name": "payment method hint",
+          "slot": "left",
+          "type": "form",
+          "fields": [
+            {
+              "label": "StripeWave and PayNova and VaultPay remain selectable after cancel",
+              "input": "text"
+            }
+          ],
+          "buttons": []
+        },
+        {
+          "name": "order review summary",
+          "slot": "right",
+          "type": "form",
+          "fields": [
+            { "label": "order line item list", "input": "textarea" },
+            { "label": "shipping address", "input": "textarea" },
+            { "label": "delivery option", "input": "text" },
+            { "label": "order total", "input": "text" }
+          ],
+          "buttons": [
+            { "label": "back" },
+            { "label": "continue with selected payment method", "primary": true }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "guest checkout — StripeWave card entry",
+      "layout": "split-screen",
+      "col": 1,
+      "row": 0,
+      "regions": [
+        {
+          "name": "checkout progress",
+          "slot": "header",
+          "type": "nav-tabs",
+          "tabs": [
+            { "label": "shopping cart" },
+            { "label": "billing address" },
+            { "label": "shipping address" },
+            { "label": "delivery option" },
+            { "label": "payment", "active": true }
+          ]
+        },
+        {
+          "name": "payment method selector summary",
+          "slot": "left",
+          "type": "form",
+          "fields": [
+            { "label": "StripeWave — card (selected)", "input": "radio" },
+            { "label": "change payment method", "input": "text" }
+          ],
+          "buttons": []
+        },
+        {
+          "name": "StripeWave card details",
+          "slot": "left",
+          "type": "form",
+          "fields": [
+            { "label": "card number", "input": "text" },
+            { "label": "expiry", "input": "text" },
+            { "label": "CVV", "input": "text" }
+          ],
+          "buttons": []
+        },
+        {
+          "name": "payment validation feedback",
+          "slot": "left",
+          "type": "form",
+          "fields": [
+            { "label": "validation error on card details", "input": "text" },
+            { "label": "payment decline message", "input": "text" },
+            { "label": "processing indicator", "input": "text" }
+          ],
+          "buttons": []
+        },
+        {
+          "name": "order review summary",
+          "slot": "right",
+          "type": "form",
+          "fields": [
+            { "label": "order line item list", "input": "textarea" },
+            { "label": "order total", "input": "text" }
+          ],
+          "buttons": [{ "label": "confirm order", "primary": true }]
+        }
+      ]
+    },
+    {
+      "name": "guest checkout — PayNova wallet flow",
+      "layout": "split-screen",
+      "col": 2,
+      "row": 0,
+      "regions": [
+        {
+          "name": "checkout progress",
+          "slot": "header",
+          "type": "nav-tabs",
+          "tabs": [
+            { "label": "shopping cart" },
+            { "label": "billing address" },
+            { "label": "payment", "active": true }
+          ]
+        },
+        {
+          "name": "PayNova wallet authentication",
+          "slot": "left",
+          "type": "form",
+          "fields": [
+            { "label": "PayNova — digital wallet", "input": "text" },
+            {
+              "label": "redirecting to PayNova wallet authentication",
+              "input": "text"
+            },
+            {
+              "label": "authorise payment with mobile wallet credentials",
+              "input": "text"
+            }
+          ],
+          "buttons": []
+        },
+        {
+          "name": "PayNova cancel affordance",
+          "slot": "left",
+          "type": "form",
+          "fields": [],
+          "buttons": [
+            { "label": "cancel PayNova wallet flow" },
+            { "label": "return to payment method selector", "primary": true }
+          ]
+        },
+        {
+          "name": "order review summary",
+          "slot": "right",
+          "type": "form",
+          "fields": [
+            { "label": "order line item list", "input": "textarea" },
+            { "label": "order total", "input": "text" },
+            { "label": "awaiting PayNova authorisation", "input": "text" }
+          ],
+          "buttons": []
+        }
+      ]
+    },
+    {
+      "name": "guest checkout — PayNova hard decline",
+      "layout": "split-screen",
+      "col": 3,
+      "row": 0,
+      "regions": [
+        {
+          "name": "PayNova decline feedback",
+          "slot": "left",
+          "type": "form",
+          "fields": [
+            { "label": "hard decline reason from PayNova", "input": "text" },
+            { "label": "insufficient wallet balance example", "input": "text" },
+            { "label": "wallet locked example", "input": "text" }
+          ],
+          "buttons": []
+        },
+        {
+          "name": "alternative payment vendors",
+          "slot": "left",
+          "type": "button-bar",
+          "buttons": [
+            { "label": "retry with PayNova" },
+            { "label": "switch to StripeWave", "primary": true },
+            { "label": "switch to VaultPay" }
+          ]
+        },
+        {
+          "name": "order review summary",
+          "slot": "right",
+          "type": "form",
+          "fields": [
+            { "label": "order total", "input": "text" },
+            { "label": "order remains unpaid", "input": "text" }
+          ],
+          "buttons": []
+        }
+      ]
+    },
+    {
+      "name": "guest checkout — VaultPay BNPL flow",
+      "layout": "split-screen",
+      "col": 4,
+      "row": 0,
+      "regions": [
+        {
+          "name": "checkout progress",
+          "slot": "header",
+          "type": "nav-tabs",
+          "tabs": [
+            { "label": "shopping cart" },
+            { "label": "billing address" },
+            { "label": "payment", "active": true }
+          ]
+        },
+        {
+          "name": "VaultPay BNPL redirect",
+          "slot": "left",
+          "type": "form",
+          "fields": [
+            { "label": "VaultPay — buy-now-pay-later", "input": "text" },
+            { "label": "redirecting to VaultPay BNPL flow", "input": "text" }
+          ],
+          "buttons": []
+        },
+        {
+          "name": "eligibility check status",
+          "slot": "left",
+          "type": "form",
+          "fields": [
+            { "label": "VaultPay eligibility check in progress", "input": "text" }
+          ],
+          "buttons": []
+        },
+        {
+          "name": "instalment plan summary",
+          "slot": "left",
+          "type": "form",
+          "fields": [
+            { "label": "instalment plan schedule", "input": "textarea" }
+          ],
+          "buttons": [
+            { "label": "decline instalment plan" },
+            { "label": "accept instalment plan", "primary": true }
+          ]
+        },
+        {
+          "name": "order review summary",
+          "slot": "right",
+          "type": "form",
+          "fields": [
+            { "label": "order line item list", "input": "textarea" },
+            { "label": "order total", "input": "text" },
+            { "label": "awaiting VaultPay approval", "input": "text" }
+          ],
+          "buttons": []
+        }
+      ]
+    },
+    {
+      "name": "guest checkout — VaultPay hard decline",
+      "layout": "split-screen",
+      "col": 5,
+      "row": 0,
+      "regions": [
+        {
+          "name": "VaultPay decline feedback",
+          "slot": "left",
+          "type": "form",
+          "fields": [
+            {
+              "label": "buy-now-pay-later not available for this transaction",
+              "input": "text"
+            },
+            { "label": "eligibility failed", "input": "text" },
+            { "label": "credit check failed", "input": "text" }
+          ],
+          "buttons": []
+        },
+        {
+          "name": "alternative payment vendors",
+          "slot": "left",
+          "type": "button-bar",
+          "buttons": [
+            { "label": "switch to StripeWave", "primary": true },
+            { "label": "switch to PayNova" }
+          ]
+        },
+        {
+          "name": "order review summary",
+          "slot": "right",
+          "type": "form",
+          "fields": [
+            { "label": "order total", "input": "text" },
+            { "label": "order remains unpaid", "input": "text" }
+          ],
+          "buttons": []
+        }
+      ]
+    },
+    {
+      "name": "guest checkout — payment retry in progress",
+      "layout": "split-screen",
+      "col": 0,
+      "row": 1,
+      "regions": [
+        {
+          "name": "payment retry indicator",
+          "slot": "left",
+          "type": "form",
+          "fields": [
+            { "label": "retrying payment", "input": "text" },
+            {
+              "label": "automatic payment retry in progress",
+              "input": "text"
+            },
+            { "label": "attempt count within retry window", "input": "text" }
+          ],
+          "buttons": []
+        },
+        {
+          "name": "same vendor note",
+          "slot": "left",
+          "type": "form",
+          "fields": [
+            { "label": "retrying through same payment vendor", "input": "text" }
+          ],
+          "buttons": []
+        },
+        {
+          "name": "order review summary",
+          "slot": "right",
+          "type": "form",
+          "fields": [
+            { "label": "order total", "input": "text" },
+            { "label": "payment not yet confirmed", "input": "text" }
+          ],
+          "buttons": []
+        }
+      ]
+    },
+    {
+      "name": "guest checkout — payment retry exhausted",
+      "layout": "split-screen",
+      "col": 1,
+      "row": 1,
+      "regions": [
+        {
+          "name": "retry exhaustion feedback",
+          "slot": "left",
+          "type": "form",
+          "fields": [
+            { "label": "payment could not be processed", "input": "text" },
+            { "label": "retry window exhausted", "input": "text" }
+          ],
+          "buttons": []
+        },
+        {
+          "name": "payment method selector",
+          "slot": "left",
+          "type": "listbox",
+          "items": [
+            { "label": "StripeWave — card", "icon": "file" },
+            { "label": "PayNova — digital wallet", "icon": "ability" },
+            { "label": "VaultPay — buy-now-pay-later", "icon": "movement" },
+            { "label": "manual card entry", "icon": "file", "selected": true }
+          ]
+        },
+        {
+          "name": "order review summary",
+          "slot": "right",
+          "type": "form",
+          "fields": [
+            { "label": "order total", "input": "text" },
+            { "label": "order remains unpaid", "input": "text" }
+          ],
+          "buttons": []
+        }
+      ]
+    },
+    {
+      "name": "order confirmation — multi-vendor payment",
+      "layout": "stack",
+      "col": 2,
+      "row": 1,
+      "regions": [
+        {
+          "name": "order confirmation",
+          "slot": "body",
+          "type": "form",
+          "fields": [
+            { "label": "order number", "input": "text" },
+            { "label": "order line item list", "input": "textarea" },
+            { "label": "total paid", "input": "text" },
+            { "label": "masked payment method", "input": "text" },
+            { "label": "payment vendor label", "input": "text" },
+            { "label": "confirmation email sent", "input": "text" }
+          ],
+          "buttons": [{ "label": "continue shopping", "primary": true }]
+        },
+        {
+          "name": "vendor-specific payment detail",
+          "slot": "body",
+          "type": "form",
+          "fields": [
+            { "label": "PayNova vendor transaction reference", "input": "text" },
+            { "label": "VaultPay instalment reference", "input": "text" },
+            { "label": "StripeWave last four digits", "input": "text" }
+          ],
+          "buttons": []
+        }
+      ]
+    },
+    {
+      "name": "logged-in checkout — payment method selector",
+      "layout": "split-screen",
+      "col": 0,
+      "row": 2,
+      "regions": [
+        {
+          "name": "primary navigation — logged in",
+          "slot": "header",
+          "type": "toolbar",
+          "buttons": [
+            { "label": "find stores" },
+            { "label": "shop supplies" },
+            { "label": "shopping cart" },
+            { "label": "wishlist" },
+            { "label": "account", "primary": true }
+          ]
+        },
+        {
+          "name": "checkout progress",
+          "slot": "header",
+          "type": "nav-tabs",
+          "tabs": [
+            { "label": "shopping cart" },
+            { "label": "saved address" },
+            { "label": "payment", "active": true }
+          ]
+        },
+        {
+          "name": "saved payment method selection",
+          "slot": "left",
+          "type": "listbox",
+          "items": [
+            {
+              "label": "Visa •••• 4242 — StripeWave default",
+              "icon": "file",
+              "selected": true
+            },
+            {
+              "label": "PayNova wallet — saved payment method",
+              "icon": "ability"
+            },
+            {
+              "label": "VaultPay — saved payment method",
+              "icon": "movement"
+            },
+            { "label": "use a different payment method", "icon": "file" }
+          ]
+        },
+        {
+          "name": "payment method selector",
+          "slot": "left",
+          "type": "listbox",
+          "items": [
+            { "label": "StripeWave — card", "icon": "file" },
+            { "label": "PayNova — digital wallet", "icon": "ability" },
+            { "label": "VaultPay — buy-now-pay-later", "icon": "movement" }
+          ]
+        },
+        {
+          "name": "expired saved payment method",
+          "slot": "left",
+          "type": "form",
+          "fields": [
+            { "label": "expired saved payment method (dimmed)", "input": "text" }
+          ],
+          "buttons": []
+        },
+        {
+          "name": "order review summary",
+          "slot": "right",
+          "type": "form",
+          "fields": [{ "label": "order total", "input": "text" }],
+          "buttons": [{ "label": "confirm order", "primary": true }]
+        }
+      ]
+    },
+    {
+      "name": "logged-in checkout — save PayNova saved payment method",
+      "layout": "modal",
+      "col": 1,
+      "row": 2,
+      "regions": [
+        {
+          "name": "save PayNova prompt",
+          "slot": "body",
+          "type": "form",
+          "fields": [
+            {
+              "label": "save PayNova as saved payment method for future orders",
+              "input": "text"
+            }
+          ],
+          "buttons": [
+            { "label": "not now" },
+            { "label": "save PayNova wallet", "primary": true }
+          ]
+        },
+        {
+          "name": "token storage note",
+          "slot": "body",
+          "type": "form",
+          "fields": [
+            {
+              "label": "only PayNova vendor token stored — not wallet secrets",
+              "input": "text"
+            }
+          ],
+          "buttons": []
+        }
+      ]
+    },
+    {
+      "name": "logged-in checkout — save VaultPay saved payment method",
+      "layout": "modal",
+      "col": 2,
+      "row": 2,
+      "regions": [
+        {
+          "name": "save VaultPay prompt",
+          "slot": "body",
+          "type": "form",
+          "fields": [
+            {
+              "label": "save VaultPay as saved payment method for future orders",
+              "input": "text"
+            }
+          ],
+          "buttons": [
+            { "label": "not now" },
+            { "label": "save VaultPay identity", "primary": true }
+          ]
+        },
+        {
+          "name": "eligibility reminder",
+          "slot": "body",
+          "type": "form",
+          "fields": [
+            {
+              "label": "future VaultPay checkout pre-fills identity but requires eligibility check per transaction",
+              "input": "textarea"
+            }
+          ],
+          "buttons": []
+        }
+      ]
+    },
+    {
+      "name": "account notification — background payment retry outcome",
+      "layout": "stack",
+      "col": 3,
+      "row": 2,
+      "regions": [
+        {
+          "name": "background retry success",
+          "slot": "body",
+          "type": "form",
+          "fields": [
+            {
+              "label": "payment retry succeeded — order confirmed",
+              "input": "text"
+            }
+          ],
+          "buttons": [{ "label": "view order confirmation", "primary": true }]
+        },
+        {
+          "name": "background retry failure",
+          "slot": "body",
+          "type": "form",
+          "fields": [
+            {
+              "label": "payment could not be processed — retry window exhausted",
+              "input": "text"
+            }
+          ],
+          "buttons": [
+            {
+              "label": "return to payment method selector",
+              "primary": true
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "connections": [
+    {
+      "from": "guest checkout — payment method selector",
+      "to": "guest checkout — StripeWave card entry",
+      "label": "StripeWave selected"
+    },
+    {
+      "from": "guest checkout — payment method selector",
+      "to": "guest checkout — PayNova wallet flow",
+      "label": "PayNova selected"
+    },
+    {
+      "from": "guest checkout — payment method selector",
+      "to": "guest checkout — VaultPay BNPL flow",
+      "label": "VaultPay selected"
+    },
+    {
+      "from": "guest checkout — StripeWave card entry",
+      "to": "guest checkout — payment retry in progress",
+      "label": "transient error"
+    },
+    {
+      "from": "guest checkout — payment retry in progress",
+      "to": "order confirmation — multi-vendor payment",
+      "label": "retry success"
+    },
+    {
+      "from": "guest checkout — payment retry in progress",
+      "to": "guest checkout — payment retry exhausted",
+      "label": "retry window exhausted"
+    },
+    {
+      "from": "guest checkout — PayNova wallet flow",
+      "to": "order confirmation — multi-vendor payment",
+      "label": "payment confirmation"
+    },
+    {
+      "from": "guest checkout — PayNova wallet flow",
+      "to": "guest checkout — PayNova hard decline",
+      "label": "hard decline"
+    },
+    {
+      "from": "guest checkout — PayNova hard decline",
+      "to": "guest checkout — payment method selector",
+      "label": "switch vendor"
+    },
+    {
+      "from": "guest checkout — VaultPay BNPL flow",
+      "to": "order confirmation — multi-vendor payment",
+      "label": "instalment plan accepted"
+    },
+    {
+      "from": "guest checkout — VaultPay BNPL flow",
+      "to": "guest checkout — VaultPay hard decline",
+      "label": "hard decline"
+    },
+    {
+      "from": "guest checkout — VaultPay hard decline",
+      "to": "guest checkout — payment method selector",
+      "label": "switch vendor"
+    },
+    {
+      "from": "guest checkout — payment retry exhausted",
+      "to": "guest checkout — payment method selector",
+      "label": "choose alternative"
+    },
+    {
+      "from": "logged-in checkout — payment method selector",
+      "to": "logged-in checkout — save PayNova saved payment method",
+      "label": "PayNova success"
+    },
+    {
+      "from": "logged-in checkout — payment method selector",
+      "to": "logged-in checkout — save VaultPay saved payment method",
+      "label": "VaultPay success"
+    },
+    {
+      "from": "guest checkout — payment retry in progress",
+      "to": "account notification — background payment retry outcome",
+      "label": "navigate away"
+    }
+  ]
+}

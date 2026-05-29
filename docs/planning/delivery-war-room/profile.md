@@ -24,9 +24,9 @@ PawPlace has upstream story, domain, CRC, object model, and increment 1 AC/specs
 - War room: `docs/planning/delivery-war-room/`
 - **Agent mode:** local Runs 1–2; cloud from Run 3 (after Run 2 complete)
 - **Checkpoint:** stage boundary Runs 1–2; full run from Run 3 onward
-- **Notifications:** `cursor-teams` in manifest + `harness-config.json` — set `teams_webhook_url` in `~/.cursor/cli-config.json` or `agilebydesign-skills/cli_harness/cli-config.json`
-- **Progress:** `delivery-war-room/delivery-plan-checklist.md` + slot finished files
-- Lead adds manifest slots and `slot-NN-start.md` one ahead of active work
+- **Notifications:** `cursor-teams` in manifest — set `teams_webhook_url` in `~/.cursor/cli-config.json` or `agilebydesign-skills/cli_harness/cli-config.json`
+- **Progress:** `delivery-war-room/board.json` (Kanban) + `delivery-plan-checklist.md` + slot finished files
+- **Open runs:** `generate_run_slots.py --run N` materializes `slot-NN-start.md` from `system-of-work.json` + `run-catalog.json`
 
 ## Start Run 1 (CLI harness)
 

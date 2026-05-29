@@ -1,22 +1,22 @@
 import { Router } from 'express';
-import type { StoreController } from './store.controller';
+import type { RetailStoreApi } from './retail-store-api';
 
-export function createStoreRoutes(controller: StoreController): Router {
+export function createStoreRoutes(api: RetailStoreApi): Router {
   const router = Router();
 
-  router.get('/stores', controller.getStores);
-  router.get('/stores/list', controller.getStoreList);
-  router.get('/stores/:storeCode', controller.getStoreByCode);
-  router.get('/stores/:storeCode/distance', controller.getDistance);
+  router.get('/stores', api.getStores);
+  router.get('/stores/list', api.getStoreList);
+  router.get('/stores/:storeCode', api.getStoreByCode);
+  router.get('/stores/:storeCode/distance', api.getDistance);
 
   return router;
 }
 
-export function createTestRoutes(controller: StoreController): Router {
+export function createTestRoutes(api: RetailStoreApi): Router {
   const router = Router();
 
-  router.post('/test/stores', controller.seedStore);
-  router.delete('/test/stores', controller.deleteStores);
+  router.post('/test/stores', api.seedStore);
+  router.delete('/test/stores', api.deleteStores);
 
   return router;
 }

@@ -1,510 +1,523 @@
-# Acceptance criteria — Increment 4: Returning customers — accounts, history, reorder  
+---
+state: acceptance-criteria
+increment_scope: Increment 4 — Returning customers
+exploration_refresh: Run 5 slot 95
+ul_source: docs/domain/ubiquitous-language.md (slot 93)
+---
 
-**Increment outcome:** Customers can register, log in, save addresses and payment methods, see their *Order History*, manage a *Wishlist*, and one-click reorder. Account creation is prompted during guest checkout. Lifts repeat-purchase rate without changing the buy flow.  
+# Acceptance criteria — Increment 4: Returning customers — accounts, history, reorder
 
-**Builds on:** Increments 1-3 (Store, Catalog, Cart, Guest Checkout, StripeWave, Click-and-Collect, Shipping, Order Lifecycle).  
+**Increment outcome:** Customers can register, log in, save addresses and payment methods, see their *order history*, manage a *wishlist*, and one-click *reorder*. Account creation is prompted during *guest checkout*. Lifts repeat-purchase rate without changing the buy flow.
 
----  
+**Builds on:** Increments 1–3 (*store*, *product catalog*, *shopping cart*, *guest checkout*, *StripeWave*, *click-and-collect*, *standard delivery*, *order* lifecycle, *confirmation email*, *shipping notification*).
 
-## Story: `Register Account`  
+**UL alignment:** Domain terms and AC prose follow Increment 4 refresh in `docs/domain/ubiquitous-language.md` (slot 93): *customer account*, *customer session*, *email verification*, *verification link*, *account verification status*, *guest checkout*, *address book*, *saved address*, *default address*, *saved payment method*, *default payment method*, *order history*, *reorder*, *wishlist*, *wishlist item*, *shopping cart*, *stock availability*.
 
-**Story type:** user  
+**Scope guard:** *Guest checkout* and Increment 1–3 paths remain valid. Account features are additive — registration, login, and saved entities coexist with guest purchase. Email + password only (no social login). *StripeWave* sole active *payment vendor*. *Customer pet* CRUD, *communication preferences* UI, PayNova/VaultPay, express/same-day delivery, and *return* deferred.
 
-### Domain terms  
+---
 
-- *Customer Account* — a persistent identity with email, verified status, and session  
-- *Registration Form* — the UI collecting email and password for account creation  
-- *Email Verification* — the step that activates the account (see *Send Email Verification*)  
+## Story: Register Account
 
-### Acceptance criteria  
+**Story type:** user
 
-1. **WHEN** the customer opens the *Registration Form*  
-   **THEN** the form collects: email address and password (with confirmation)  
-   **AND** the form shows password requirements clearly before submission  
-   **Evidence:** requirements-chat-with-product-owner.md — line 13, "Account creation — email verification, password reset, the basics done really well"  
+### Domain terms
 
-2. **WHEN** the customer submits a valid *Registration Form*  
-   **THEN** a *Customer Account* is created with status *Unverified*  
-   **AND** the system triggers *Send Email Verification*  
-   **AND** the customer sees a "check your email to verify" confirmation screen  
-   **Evidence:** domain-sketch.md — Customer Account KA, `customer account` concept: "is created by the customer via registration"  
+- *customer account* — persistent identity created via email and password registration
+- *account verification status* — unverified until *email verification* completes
+- *email verification* — mandatory confirmation process triggered after registration
 
-3. **WHEN** the customer submits an email that is already registered  
-   **THEN** the form shows an error stating the email is already in use  
-   **AND** offers a "Log In instead" link  
-   **BUT** does not reveal whether the existing account is verified or not (information leakage prevention)  
-   **Evidence:** domain-sketch.md — Customer Account KA, `customer account` invariant: "must have a unique, verified email address"  
+### Acceptance criteria
 
-4. **WHEN** the customer submits a password that does not meet requirements  
-   **THEN** the form shows which requirements are unmet  
-   **BUT** the account is not created until all requirements pass  
-   **Evidence:** inferred — standard registration security; requirements-chat-with-product-owner.md — line 13, "the basics done really well"  
+1. **WHEN** the customer opens the registration screen
+   **THEN** the form collects email address and password (with confirmation)
+   **AND** password requirements are shown clearly before submission
+   **Evidence:** requirements-chat-with-product-owner.md — line 15, "registration, login, logout, password reset, email verification"; ubiquitous-language.md — *customer account* registers via email and password
 
----  
+2. **WHEN** the customer submits valid registration details
+   **THEN** a *customer account* is created with *account verification status* unverified
+   **AND** the system triggers *Send Email Verification*
+   **AND** the customer sees a "check your email to verify" confirmation screen
+   **Evidence:** ubiquitous-language.md — *customer account* creates unverified status until *email verification* completes; thin-slicing.md — Increment 4, *email verification* mandatory
 
-## Story: `Send Email Verification`  
+3. **WHEN** the customer submits an email already registered to another *customer account*
+   **THEN** the form shows an error stating the email is already in use
+   **AND** a "Log In instead" link is displayed
+   **BUT** the error does not reveal whether the existing *account verification status* is verified or unverified
+   **Evidence:** ubiquitous-language.md — *customer account* invariant: unique verified email before account-only features unlock
 
-**Story type:** system  
+4. **WHEN** the customer submits a password that does not meet requirements
+   **THEN** the form shows which requirements are unmet
+   **BUT** no *customer account* is created until all requirements pass
+   **Evidence:** requirements-chat-with-product-owner.md — line 15, "Nothing exotic, just solid and reliable"
 
-### Domain terms  
+---
 
-- *Email Verification* — a one-time-use link sent to confirm the customer owns the email address  
-- *Verification Link* — the URL the customer clicks to verify  
-- *Customer Account* — the account awaiting verification  
+## Story: Send Email Verification
 
-### Acceptance criteria  
+**Story type:** system
 
-1. **WHEN** a *Customer Account* is created (registration or guest-to-account conversion)  
-   **THEN** the system sends an *Email Verification* to the registered email address  
-   **AND** the email contains a *Verification Link* that is unique and time-limited  
-   **Evidence:** requirements-chat-with-product-owner.md — line 13, "email verification"  
+### Domain terms
 
-2. **WHEN** the *Verification Link* expires (e.g. after 24 hours)  
-   **THEN** clicking the link shows a clear "link expired" message  
-   **AND** offers a "resend verification" action  
-   **Evidence:** domain-sketch.md — Customer Account KA, `email verification` concept: "grants access to account features only after the customer confirms"  
+- *email verification* — confirmation process that sends a *verification link* to the registered email
+- *verification link* — unique, time-limited, one-time-use link in the verification email
+- *customer account* — the account awaiting verification
 
-3. **WHEN** the email delivery system is temporarily unavailable  
-   **THEN** the verification email is queued for retry  
-   **AND** the registration confirmation screen tells the customer to expect the email shortly  
-   **Evidence:** inferred — email resilience pattern from Increments 2-3  
+### Acceptance criteria
 
----  
+1. **WHEN** a *customer account* is created (registration or guest-to-account conversion)
+   **THEN** the system sends *email verification* to the registered email address
+   **AND** the email contains a *verification link* that is unique and time-limited
+   **Evidence:** ubiquitous-language.md — *email verification* sends *verification link* when account is created or resend is requested
 
-## Story: `Verify Email Address`  
+2. **WHEN** the *verification link* expires (for example after 24 hours)
+   **THEN** clicking the link shows a clear "link expired" message
+   **AND** a "resend verification" action is offered
+   **Evidence:** ubiquitous-language.md — *verification link* expires after configured window and offers resend when expired
 
-**Story type:** user  
+3. **WHEN** email delivery is temporarily unavailable
+   **THEN** the verification email is queued for retry
+   **AND** the registration confirmation screen tells the customer to expect the email shortly
+   **Evidence:** ubiquitous-language.md — *email verification* queues for retry when delivery unavailable
 
-### Domain terms  
+---
 
-- *Verification Link* — the unique link from the verification email  
-- *Verified Status* — the account state after successful verification  
-- *Customer Account* — the account being verified  
+## Story: Verify Email Address
 
-### Acceptance criteria  
+**Story type:** user
 
-1. **WHEN** the customer clicks a valid, non-expired *Verification Link*  
-   **THEN** the *Customer Account* transitions to *Verified Status*  
-   **AND** the customer is redirected to a "you're verified" confirmation page with a prompt to log in  
-   **Evidence:** requirements-chat-with-product-owner.md — line 13, "email verification"  
+### Domain terms
 
-2. **WHEN** the customer clicks a *Verification Link* that has already been used  
-   **THEN** the system shows a "already verified" message with a login link  
-   **BUT** the account is not re-verified or modified  
-   **Evidence:** inferred — idempotent verification; link is one-time-use  
+- *verification link* — link from the verification email
+- *account verification status* — transitions to verified after successful confirmation
+- *customer account* — the account being verified
 
-3. **WHEN** the customer clicks an expired *Verification Link*  
-   **THEN** the system shows a "link expired" message with a "resend verification" action  
-   **Evidence:** domain-sketch.md — Customer Account KA, `email verification` concept  
+### Acceptance criteria
 
----  
+1. **WHEN** the customer clicks a valid, non-expired *verification link*
+   **THEN** the *customer account* *account verification status* becomes verified
+   **AND** the customer is redirected to a "you're verified" confirmation page with a prompt to log in
+   **Evidence:** ubiquitous-language.md — *email verification* transitions *account verification status* to verified
 
-## Story: `Log In`  
+2. **WHEN** the customer clicks a *verification link* that has already been used
+   **THEN** the system shows an "already verified" message with a login link
+   **BUT** the *account verification status* is not modified again
+   **Evidence:** ubiquitous-language.md — *verification link* is one-time-use
 
-**Story type:** user  
+3. **WHEN** the customer clicks an expired *verification link*
+   **THEN** the system shows a "link expired" message with a "resend verification" action
+   **Evidence:** ubiquitous-language.md — *verification link* expires and offers resend
 
-### Domain terms  
+---
 
-- *Login Form* — the UI collecting email and password  
-- *Session* — the authenticated context created after successful login  
-- *Customer Account* — the identity the customer is logging into  
-- *Verified Status* — only verified accounts can log in  
+## Story: Log In
 
-### Acceptance criteria  
+**Story type:** user
 
-1. **WHEN** the customer submits valid credentials on the *Login Form*  
-   **THEN** a *Session* is created  
-   **AND** the customer is redirected to their previous page or account dashboard  
-   **Evidence:** requirements-chat-with-product-owner.md — line 13, "the basics done really well"  
+### Domain terms
 
-2. **WHEN** the customer submits incorrect credentials  
-   **THEN** the *Login Form* shows a generic "invalid email or password" error  
-   **BUT** does not specify which field is wrong (credential enumeration prevention)  
-   **Evidence:** inferred — standard authentication security  
+- *customer session* — authenticated context created after successful login
+- *customer account* — the identity the customer authenticates into
+- *account verification status* — must be verified before *customer session* with account-only access
+- *shopping cart* — guest cart merges into account cart on login
 
-3. **WHEN** the customer attempts to log in to an *Unverified* account  
-   **THEN** the system shows a "please verify your email first" message with a "resend verification" option  
-   **BUT** no *Session* is created  
-   **Evidence:** domain-sketch.md — Customer Account KA, `email verification` concept: "grants access to account features only after the customer confirms"  
+### Acceptance criteria
 
-4. **WHEN** the customer has an active *Shopping Cart* from guest browsing and then logs in  
-   **THEN** the guest cart is merged into the logged-in customer's cart  
-   **AND** if both carts contain the same product, quantities are summed  
-   **Evidence:** requirements-chat-with-product-owner.md — line 13, "A shopping cart that persists"  
+1. **WHEN** the customer submits valid credentials on the login screen
+   **THEN** a *customer session* is created
+   **AND** the customer is redirected to their previous page or account dashboard
+   **Evidence:** ubiquitous-language.md — *customer session* is authenticated context created on successful login
 
----  
+2. **WHEN** the customer submits incorrect credentials
+   **THEN** the login screen shows a generic "invalid email or password" error
+   **BUT** the error does not specify which field is wrong
+   **Evidence:** inferred — credential enumeration prevention; ubiquitous-language.md — authentication on *customer account*
 
-## Story: `Log Out`  
+3. **WHEN** the customer attempts to log in with *account verification status* unverified
+   **THEN** the system shows a "please verify your email first" message with a "resend verification" option
+   **BUT** no *customer session* with account-only feature access is created
+   **Evidence:** ubiquitous-language.md — *customer session* invariant: unverified accounts must not receive account-only feature access
 
-**Story type:** user  
+4. **WHEN** the customer has an active guest *shopping cart* and then logs in
+   **THEN** the guest cart merges into the logged-in *customer account* cart
+   **AND** if both carts contain the same *product*, quantities are summed
+   **Evidence:** ubiquitous-language.md — *customer session* merges guest *shopping cart* into account cart on login; requirements-chat-with-product-owner.md — line 13, "A shopping cart that persists"
 
-### Domain terms  
+---
 
-- *Session* — the authenticated context to be terminated  
-- *Customer Account* — the logged-in identity  
+## Story: Log Out
 
-### Acceptance criteria  
+**Story type:** user
 
-1. **WHEN** the customer selects "Log Out"  
-   **THEN** the *Session* is invalidated  
-   **AND** the customer is redirected to the home page in a guest state  
-   **Evidence:** inferred — standard logout behavior  
+### Domain terms
 
-2. **WHEN** the customer logs out on one device  
-   **THEN** only the *Session* on that device is invalidated (other device sessions remain active)  
-   **AND** a "Log out everywhere" option is shown that invalidates all sessions across devices when selected  
-   **Evidence:** domain-sketch.md — Customer Account KA, `session` invariant: "must be reliably maintained across devices"  
+- *customer session* — authenticated context terminated on logout
+- *customer account* — the logged-in identity
 
----  
+### Acceptance criteria
 
-## Story: `Reset Password`  
+1. **WHEN** the customer selects "Log Out"
+   **THEN** the current *customer session* is invalidated
+   **AND** the customer is redirected to the home page in a guest state
+   **Evidence:** ubiquitous-language.md — *customer account* authenticates via login and logout
 
-**Story type:** user  
+2. **WHEN** the customer logs out on one device
+   **THEN** only the *customer session* on that device is invalidated
+   **AND** *customer session* on other devices remain active
+   **AND** a "Log out everywhere" option invalidates all sessions across devices when selected
+   **Evidence:** ubiquitous-language.md — *customer session* allows multiple concurrent sessions; invalidates on logout for current device; supports "log out everywhere"
 
-### Domain terms  
+---
 
-- *Password Reset* — the flow for recovering access when the customer has forgotten their password  
-- *Reset Link* — a unique, time-limited URL sent to the customer's verified email  
-- *Customer Account* — the account whose password is being reset  
+## Story: Reset Password
 
-### Acceptance criteria  
+**Story type:** user
 
-1. **WHEN** the customer requests a password reset by entering their email  
-   **THEN** the system sends a *Reset Link* to that email (if the account exists)  
-   **AND** the same "check your email" message is shown regardless of whether the account exists (information leakage prevention)  
-   **Evidence:** requirements-chat-with-product-owner.md — line 13, "password reset, the basics done really well"  
+### Domain terms
 
-2. **WHEN** the customer clicks a valid, non-expired *Reset Link*  
-   **THEN** they are taken to a "set new password" form  
-   **AND** the new password must meet the same requirements as registration  
-   **Evidence:** inferred — standard password reset flow  
+- *customer account* — the account whose password is being reset
+- *customer session* — all sessions invalidated after password change
+- password reset — recovery flow when the customer has forgotten their password
 
-3. **WHEN** the customer submits a new password  
-   **THEN** the password is updated and all existing *Sessions* are invalidated (the customer must re-login)  
-   **Evidence:** inferred — password change invalidates sessions for security  
+### Acceptance criteria
 
-4. **WHEN** the *Reset Link* has expired or been used  
-   **THEN** the customer sees a clear "link expired" message with a "Request new reset" action  
-   **Evidence:** inferred — time-limited, one-time-use link  
+1. **WHEN** the customer requests password reset by entering their email
+   **THEN** the system sends a reset link to that email if the *customer account* exists
+   **AND** the same "check your email" message is shown regardless of whether the account exists
+   **Evidence:** requirements-chat-with-product-owner.md — line 15, "password reset"; ubiquitous-language.md — *customer account* supports password reset
 
----  
+2. **WHEN** the customer clicks a valid, non-expired reset link
+   **THEN** they are taken to a "set new password" form
+   **AND** the new password must meet the same requirements as registration
+   **Evidence:** inferred — standard password reset flow aligned to registration requirements
 
-## Story: `Maintain Session Across Devices`  
+3. **WHEN** the customer submits a new password
+   **THEN** the password is updated and all *customer session* on all devices are invalidated
+   **AND** the customer must log in again on each device
+   **Evidence:** ubiquitous-language.md — *customer account* supports password reset with session invalidation on password change
 
-**Story type:** system  
+4. **WHEN** the reset link has expired or been used
+   **THEN** the customer sees a clear "link expired" message with a "Request new reset" action
+   **Evidence:** inferred — time-limited, one-time-use reset link
 
-### Domain terms  
+---
 
-- *Session* — the authenticated context associating a browser or device with a *Customer Account*  
-- *Cross-Device Persistence* — the ability to stay logged in across multiple devices simultaneously  
-- *Session Token* — the secure credential that identifies an active session  
+## Story: Maintain Session Across Devices
 
-### Acceptance criteria  
+**Story type:** system
 
-1. **WHEN** the customer logs in on a new device  
-   **THEN** a new *Session* is created for that device  
-   **AND** existing sessions on other devices remain active  
-   **Evidence:** domain-sketch.md — Customer Account KA, `session` concept: "authenticated context that keeps the customer logged in across visits"  
+### Domain terms
 
-2. **WHEN** the customer's *Session Token* expires (inactivity timeout or max duration)  
-   **THEN** the customer is redirected to the *Login Form*  
-   **AND** any unsaved cart changes are preserved (the cart is tied to the account, not the session)  
-   **Evidence:** domain-sketch.md — Customer Account KA, `session` invariant: "must be reliably maintained across devices"  
+- *customer session* — authenticated context associating a browser or device with a *customer account*
+- *shopping cart* — tied to the *customer account*, not the session, when logged in
 
-3. **WHEN** the customer changes their password (via *Reset Password*)  
-   **THEN** all *Sessions* on all devices are invalidated  
-   **AND** the customer must re-authenticate on each device  
-   **Evidence:** inferred — standard security practice  
+### Acceptance criteria
 
----  
+1. **WHEN** the customer logs in on a new device
+   **THEN** a new *customer session* is created for that device
+   **AND** existing *customer session* on other devices remain active
+   **Evidence:** ubiquitous-language.md — *customer session* allows multiple concurrent sessions per *customer account*
 
-## Story: `Save Delivery Address`  
+2. **WHEN** the *customer session* expires from inactivity timeout or max duration
+   **THEN** the customer is redirected to the login screen
+   **AND** *shopping cart* changes are preserved because the cart is tied to the *customer account*, not the session
+   **Evidence:** ubiquitous-language.md — *customer session* persists until logout, inactivity timeout, or password reset; *shopping cart* persists across devices for logged-in customers
 
-**Story type:** user  
+3. **WHEN** the customer changes their password via *Reset Password*
+   **THEN** all *customer session* on all devices are invalidated
+   **AND** the customer must re-authenticate on each device
+   **Evidence:** ubiquitous-language.md — *customer session* invalidates on password reset
 
-### Domain terms  
+---
 
-- *Saved Address* — a delivery address persisted to the *Customer Account* for reuse across orders  
-- *Address Book* — the collection of all saved addresses for a customer  
-- *Checkout Flow* — during checkout, a logged-in customer can save the address they just entered  
+## Story: Save Delivery Address
 
-### Acceptance criteria  
+**Story type:** user
 
-1. **WHEN** a logged-in customer completes checkout with a new shipping address  
-   **THEN** the system offers a "save this address for future orders" option  
-   **AND** if accepted, the address is stored in the customer's *Address Book*  
-   **Evidence:** requirements-chat-with-product-owner.md — line 13, "saved addresses"; domain-sketch.md — Customer Account KA, `saved address` concept  
+### Domain terms
 
-2. **WHEN** the customer saves the first address  
-   **THEN** that address is automatically marked as the default delivery address  
-   **Evidence:** inferred — first saved address becomes the default  
+- *saved address* — shipping or billing address stored in the *address book* for reuse
+- *address book* — collection of *saved address* on a *customer account*
+- *default address* — first saved address becomes default automatically
 
-3. **WHEN** the customer already has addresses in their *Address Book*  
-   **THEN** the new address is added without replacing existing ones  
-   **AND** the account settings *Address Book* shows the new entry with a "set as default" option (see *Manage Saved Addresses*)  
-   **Evidence:** domain-sketch.md — Customer Account KA, `saved address` concept: "aggregated by the customer account's address book"  
+### Acceptance criteria
 
----  
+1. **WHEN** a logged-in customer completes checkout with a new shipping address
+   **THEN** the system offers a "save this address for future orders" option
+   **AND** if accepted, the address is stored in the *address book*
+   **Evidence:** requirements-chat-with-product-owner.md — line 13, "saved addresses"; ubiquitous-language.md — *address book* accepts new entries from checkout
 
-## Story: `Manage Saved Addresses`  
+2. **WHEN** the customer saves the first *saved address*
+   **THEN** that address is automatically assigned as the *default address*
+   **Evidence:** ubiquitous-language.md — *default address* is assigned automatically to the first *saved address*
 
-**Story type:** user  
+3. **WHEN** the customer already has entries in the *address book*
+   **THEN** the new *saved address* is added without replacing existing ones
+   **AND** account settings *address book* shows the new entry with a "set as default" option (see *Manage Saved Addresses*)
+   **Evidence:** ubiquitous-language.md — *saved address* allows multiple entries; *address book* aggregates all *saved address*
 
-### Domain terms  
+---
 
-- *Address Book* — the list of all saved addresses under the customer account  
-- *Saved Address* — an individual address entry  
-- *Default Address* — the address pre-selected during checkout  
+## Story: Manage Saved Addresses
 
-### Acceptance criteria  
+**Story type:** user
 
-1. **WHEN** the customer opens the *Address Book* from their account settings  
-   **THEN** all *Saved Addresses* are listed with full details  
-   **AND** the *Default Address* is visually indicated  
-   **Evidence:** domain-sketch.md — Customer Account KA, `saved address` concept  
+### Domain terms
 
-2. **WHEN** the customer edits a *Saved Address*  
-   **THEN** the changes are persisted  
-   **AND** future checkouts using that address reflect the updated details  
-   **Evidence:** inferred — address management lifecycle  
+- *address book* — list of all *saved address* under the *customer account*
+- *saved address* — individual address entry
+- *default address* — pre-selected at checkout unless overridden
 
-3. **WHEN** the customer deletes a *Saved Address*  
-   **THEN** the address is removed from the *Address Book*  
-   **BUT** if the deleted address was the *Default Address*, the customer is prompted to select a new default (or the most recently added becomes default)  
-   **Evidence:** inferred — default address must always exist if any addresses are saved  
+### Acceptance criteria
 
-4. **WHEN** the customer sets a different address as *Default Address*  
-   **THEN** the previous default is demoted  
-   **AND** the new default is pre-selected during future checkouts  
-   **Evidence:** inferred — single default address per account  
+1. **WHEN** the customer opens the *address book* from account settings
+   **THEN** all *saved address* are listed with full details
+   **AND** the *default address* is visually indicated
+   **Evidence:** ubiquitous-language.md — *address book* aggregates *saved address*; *default address* pre-selected at checkout
 
----  
+2. **WHEN** the customer edits a *saved address*
+   **THEN** the changes are persisted
+   **AND** future checkouts using that address reflect the updated details
+   **Evidence:** ubiquitous-language.md — *saved address* supports edit from account settings
 
-## Story: `Save Payment Method`  
+3. **WHEN** the customer deletes a *saved address*
+   **THEN** the address is removed from the *address book*
+   **BUT** if the deleted address was the *default address*, the customer is prompted to select a new default (or the most recently added becomes default)
+   **Evidence:** ubiquitous-language.md — *saved address* invariant: deleting *default address* requires selecting a new default when other *saved address* remain
 
-**Story type:** user  
+4. **WHEN** the customer sets a different *saved address* as *default address*
+   **THEN** the previous default is demoted
+   **AND** the new default is pre-selected during future checkouts
+   **Evidence:** ubiquitous-language.md — *default address* may be changed in account settings
 
-### Domain terms  
+---
 
-- *Saved Payment Method* — a tokenized payment reference persisted to the customer account for reuse  
-- *Payment Method* — the vendor-specific instrument (card, wallet, BNPL)  
-- *Token* — the vendor-provided reference that replaces raw card details (PCI compliance)  
+## Story: Save Payment Method
 
-### Acceptance criteria  
+**Story type:** user
 
-1. **WHEN** a logged-in customer completes a payment during checkout  
-   **THEN** the system offers a "save this payment method for future orders" option  
-   **AND** if accepted, a *Token* from the payment vendor is stored — never the raw card number  
-   **Evidence:** requirements-chat-with-product-owner.md — line 13, "saved payment methods"; domain-sketch.md — Payment KA, `saved payment method` concept  
+### Domain terms
 
-2. **WHEN** the customer saves a payment method  
-   **THEN** the account stores: last four digits, card type (or vendor label), and the expiry date for display  
-   **AND** the *Token* is what is used in future transactions — no re-entry of full card details  
-   **Evidence:** domain-sketch.md — Payment KA, `saved payment method` concept: "tokenised reference stored under the customer account"  
+- *saved payment method* — tokenized payment credential stored on the *customer account*
+- *StripeWave* — sole active *payment vendor* in Increment 4; tokenizes card credentials
+- *default payment method* — first saved method becomes default unless changed
 
-3. **WHEN** the customer saves a second payment method  
-   **THEN** both are listed in the account settings (see *Manage Saved Payment Methods*)  
-   **AND** the first saved method remains the default unless the customer changes it  
-   **Evidence:** inferred — multiple saved payment methods supported  
+### Acceptance criteria
 
----  
+1. **WHEN** a logged-in customer completes payment during checkout
+   **THEN** the system offers a "save this payment method for future orders" option
+   **AND** if accepted, a vendor token from *StripeWave* is stored — never the raw card number
+   **Evidence:** requirements-chat-with-product-owner.md — line 13, "saved payment methods"; ubiquitous-language.md — *saved payment method* stores only vendor tokens
 
-## Story: `Manage Saved Payment Methods`  
+2. **WHEN** the customer saves a payment method
+   **THEN** the *customer account* stores last four digits, card type, and expiry for display
+   **AND** the vendor token is used in future transactions — no re-entry of full card details
+   **Evidence:** ubiquitous-language.md — *StripeWave* tokenizes card credentials; *saved payment method* stores vendor tokens only
 
-**Story type:** user  
+3. **WHEN** the customer saves a second *saved payment method*
+   **THEN** both are listed in account settings (see *Manage Saved Payment Methods*)
+   **AND** the first saved method remains the *default payment method* unless the customer changes it
+   **Evidence:** ubiquitous-language.md — *default payment method* pre-selected at checkout
 
-### Domain terms  
+---
 
-- *Payment Methods List* — the collection of saved payment instruments under the account  
-- *Saved Payment Method* — a tokenized reference (see *Save Payment Method*)  
-- *Default Payment Method* — the method pre-selected during checkout  
+## Story: Manage Saved Payment Methods
 
-### Acceptance criteria  
+**Story type:** user
 
-1. **WHEN** the customer opens the *Payment Methods List* from account settings  
-   **THEN** all saved methods are shown with: last four digits, card type or vendor, and expiry  
-   **AND** the *Default Payment Method* is visually indicated  
-   **Evidence:** domain-sketch.md — Payment KA, `saved payment method` concept  
+### Domain terms
 
-2. **WHEN** the customer removes a *Saved Payment Method*  
-   **THEN** the *Token* is deleted and the method no longer appears at checkout  
-   **BUT** if the removed method was the *Default Payment Method*, the customer is prompted to select a new default  
-   **Evidence:** inferred — payment method lifecycle management  
+- *saved payment method* — tokenized payment credential under the *customer account*
+- *default payment method* — pre-selected at the payment step for logged-in customers
 
-3. **WHEN** the customer sets a different method as *Default Payment Method*  
-   **THEN** the previous default is demoted  
-   **AND** the new default is pre-selected during future checkouts  
-   **Evidence:** inferred — single default per account  
+### Acceptance criteria
 
----  
+1. **WHEN** the customer opens saved payment methods from account settings
+   **THEN** all *saved payment method* are shown with last four digits, card type, and expiry
+   **AND** the *default payment method* is visually indicated
+   **Evidence:** ubiquitous-language.md — *saved payment method* lifecycle on *customer account*
 
-## Story: `Select Saved Address at Checkout`  
+2. **WHEN** the customer removes a *saved payment method*
+   **THEN** the vendor token is deleted and the method no longer appears at checkout
+   **BUT** if the removed method was the *default payment method*, the customer is prompted to select a new default
+   **Evidence:** ubiquitous-language.md — *saved payment method* associated with *customer account*
 
-**Story type:** user  
+3. **WHEN** the customer sets a different *saved payment method* as *default payment method*
+   **THEN** the previous default is demoted
+   **AND** the new default is pre-selected during future checkouts
+   **Evidence:** ubiquitous-language.md — *default payment method* pre-selected at payment step
 
-### Domain terms  
+---
 
-- *Saved Address* — a delivery address from the customer's *Address Book* (established in Increment 4)  
-- *Address Selector* — the checkout UI that shows saved addresses for logged-in customers  
-- *Default Address* — the pre-selected address from the *Address Book*  
+## Story: Select Saved Address at Checkout
 
-### Acceptance criteria  
+**Story type:** user
 
-1. **WHEN** a logged-in customer reaches the shipping step during checkout  
-   **THEN** the *Address Selector* shows all *Saved Addresses* from the *Address Book*  
-   **AND** the *Default Address* is pre-selected  
-   **Evidence:** domain-sketch.md — Customer Account KA, `saved address` concept: "pre-fills the checkout shipping address step"  
+### Domain terms
 
-2. **WHEN** the customer selects a *Saved Address*  
-   **THEN** the shipping address fields are auto-filled with that address  
-   **AND** the checkout advances to the next step without manual entry  
-   **Evidence:** inferred — convenience of saved addresses  
+- *saved address* — entry from the *address book* selectable at checkout
+- *default address* — pre-selected on the shipping step
+- *guest checkout* — guest path shows manual address entry only, no *address book*
 
-3. **WHEN** the customer wants to use a new address not in the *Address Book*  
-   **THEN** a "use a different address" option reveals the manual *Address Form*  
-   **AND** a "save this address" checkbox is shown so the new address is added to the *Address Book* when checked (see *Save Delivery Address*)  
-   **Evidence:** inferred — saved addresses do not block manual entry  
+### Acceptance criteria
 
-4. **WHEN** a guest customer (not logged in) reaches the shipping step  
-   **THEN** no *Address Selector* is shown — only the manual *Address Form*  
-   **AND** a prompt to log in or create an account mentions the benefit of saved addresses  
-   **Evidence:** domain-sketch.md — Customer Account KA, `guest checkout` concept: "collects shipping and billing details for the single transaction only"  
+1. **WHEN** a logged-in customer reaches the shipping step during checkout
+   **THEN** all *saved address* from the *address book* are shown for selection
+   **AND** the *default address* is pre-selected
+   **Evidence:** ubiquitous-language.md — *saved address* pre-fills checkout shipping step when selected; *default address* pre-selected
 
----  
+2. **WHEN** the customer selects a *saved address*
+   **THEN** the shipping address fields are auto-filled with that address
+   **AND** checkout advances to the next step without manual entry
+   **Evidence:** ubiquitous-language.md — *saved address* pre-fills checkout shipping step
 
-## Story: `Select Saved Payment Method at Checkout`  
+3. **WHEN** the customer chooses to use a new address not in the *address book*
+   **THEN** a "use a different address" option reveals manual address entry
+   **AND** a "save this address" checkbox adds the new address to the *address book* when checked (see *Save Delivery Address*)
+   **Evidence:** ubiquitous-language.md — *address book* accepts new entries from checkout
 
-**Story type:** user  
+4. **WHEN** a guest customer (not logged in) reaches the shipping step
+   **THEN** no *address book* selection is shown — only manual address entry
+   **AND** a prompt to log in or register mentions the benefit of *saved address*
+   **BUT** *guest checkout* proceeds without requiring an account
+   **Evidence:** ubiquitous-language.md — *guest checkout* remains available alongside logged-in checkout; Increment 1–3 shipping paths preserved
 
-### Domain terms  
+---
 
-- *Saved Payment Method* — a tokenized payment reference from the customer's account  
-- *Payment Selector* — the checkout UI showing saved payment methods for logged-in customers  
-- *Default Payment Method* — the pre-selected method from account settings  
+## Story: Select Saved Payment Method at Checkout
 
-### Acceptance criteria  
+**Story type:** user
 
-1. **WHEN** a logged-in customer reaches the payment step during checkout  
-   **THEN** the *Payment Selector* shows all *Saved Payment Methods*  
-   **AND** the *Default Payment Method* is pre-selected  
-   **Evidence:** domain-sketch.md — Payment KA, `saved payment method` concept  
+### Domain terms
 
-2. **WHEN** the customer selects a *Saved Payment Method*  
-   **THEN** the payment proceeds using the stored *Token* — no card re-entry required  
-   **AND** the customer is shown the last four digits and card type for confirmation  
-   **Evidence:** inferred — tokenized payment flow  
+- *saved payment method* — tokenized credential selectable at the payment step
+- *default payment method* — pre-selected for logged-in customers
+- *StripeWave* — processes payment via stored token or new card entry
 
-3. **WHEN** the customer wants to use a new payment method not yet saved  
-   **THEN** a "use a different payment method" option reveals the manual card entry form  
-   **AND** a "save this payment method" checkbox is shown so the new method is stored when checked (see *Save Payment Method*)  
-   **Evidence:** inferred — saved methods do not block manual entry  
+### Acceptance criteria
 
-4. **WHEN** a saved payment method's token has expired or been revoked by the vendor  
-   **THEN** the *Payment Selector* marks that method as "expired" or removes it  
-   **AND** the remaining valid methods and the manual entry form are displayed as alternatives  
-   **BUT** the expired token is never silently used for a charge attempt  
-   **Evidence:** inferred — token lifecycle management  
+1. **WHEN** a logged-in customer reaches the payment step during checkout
+   **THEN** all *saved payment method* are shown for selection
+   **AND** the *default payment method* is pre-selected
+   **Evidence:** ubiquitous-language.md — *saved payment method* selection at checkout for logged-in *customer account*
 
----  
+2. **WHEN** the customer selects a *saved payment method*
+   **THEN** payment proceeds using the stored vendor token — no card re-entry required
+   **AND** last four digits and card type are shown for confirmation
+   **Evidence:** ubiquitous-language.md — *StripeWave* receives *saved payment method* token and returns *payment confirmation*
 
-## Story: `View Order History`  
+3. **WHEN** the customer chooses to use a new payment method not yet saved
+   **THEN** a "use a different payment method" option reveals manual card entry
+   **AND** a "save this payment method" checkbox stores the new method when checked (see *Save Payment Method*)
+   **Evidence:** ubiquitous-language.md — *StripeWave* tokenizes card credentials for *saved payment method* storage
 
-**Story type:** user  
+4. **WHEN** a saved vendor token has expired or been revoked
+   **THEN** that *saved payment method* is marked expired or removed from the list
+   **AND** remaining valid methods and manual entry are displayed as alternatives
+   **BUT** the expired token is never silently used for a charge attempt
+   **Evidence:** inferred — token lifecycle management; ubiquitous-language.md — *saved payment method* stores vendor tokens only
 
-### Domain terms  
+---
 
-- *Order History* — the chronological list of all orders placed by the customer  
-- *Order Summary* — the condensed view per order: order number, date, items, total, and status  
-- *Customer Account* — only logged-in customers can see order history  
+## Story: View Order History
 
-### Acceptance criteria  
+**Story type:** user
 
-1. **WHEN** a logged-in customer opens *Order History*  
-   **THEN** all orders associated with the account are listed, most recent first  
-   **AND** each row shows the *Order Summary*: order number, date, items (condensed), total, and current status  
-   **Evidence:** requirements-chat-with-product-owner.md — line 13, "order history"  
+### Domain terms
 
-2. **WHEN** the customer selects an order from the list  
-   **THEN** the full order detail opens: all items, quantities, shipping/billing address, delivery option, payment method (masked), and tracking number (if shipped)  
-   **Evidence:** inferred — drill-down from history list to order detail  
+- *order history* — chronicle of past *order* associated with a *customer account*
+- *order status* — current lifecycle state shown per *order*
+- *guest checkout* — prior guest *order* retroactively linked when email matches
 
-3. **WHEN** the customer has no orders yet  
-   **THEN** the *Order History* shows an empty state with a prompt to start shopping  
-   **Evidence:** inferred — empty state handling  
+### Acceptance criteria
 
-4. **WHEN** a guest customer's order was placed before they created an account (same email)  
-   **THEN** the guest order is retroactively associated with the new account and appears in *Order History*  
-   **Evidence:** domain-sketch.md — Customer Account KA, `customer account` concept: "aggregates authored customer reviews, order history, wishlist, pet profiles, communication preferences, and session"  
+1. **WHEN** a logged-in customer opens *order history*
+   **THEN** all *order* associated with the *customer account* are listed, most recent first
+   **AND** each row shows order number, date, items (condensed), total, and current *order status*
+   **Evidence:** requirements-chat-with-product-owner.md — line 13, "order history"; ubiquitous-language.md — *order history* lists past *order* most recent first
 
----  
+2. **WHEN** the customer selects an *order* from the list
+   **THEN** full order detail opens: all items, quantities, shipping and billing address snapshots, *delivery option*, masked payment method, and *tracking number* (if shipped)
+   **Evidence:** ubiquitous-language.md — *order history* shows *order status*, items, total, and date per *order*
 
-## Story: `Manage Wishlist`  
+3. **WHEN** the customer has no *order* yet
+   **THEN** *order history* shows an empty state with a prompt to start shopping
+   **Evidence:** inferred — empty state handling
 
-**Story type:** user  
+4. **WHEN** a *guest checkout* *order* was placed before the customer registered with the same email
+   **THEN** the guest *order* is retroactively associated with the new *customer account*
+   **AND** the *order* appears in *order history*
+   **Evidence:** ubiquitous-language.md — *customer account* retroactively associates prior *guest checkout* *order* placed with the same email
 
-### Domain terms  
+---
 
-- *Wishlist* — a collection of products the customer intends to buy later  
-- *Wishlist Item* — a single product saved to the wishlist  
-- *Product Details Page* — the page with the "add to wishlist" action  
+## Story: Manage Wishlist
 
-### Acceptance criteria  
+**Story type:** user
 
-1. **WHEN** a logged-in customer selects "Add to Wishlist" on a *Product Details Page*  
-   **THEN** the product is added to the customer's *Wishlist*  
-   **AND** the "Add to Wishlist" button changes to a "Remove from Wishlist" state  
-   **Evidence:** requirements-chat-with-product-owner.md — line 15, "Wishlists — let customers save things for later"  
+### Domain terms
 
-2. **WHEN** the customer opens their *Wishlist*  
-   **THEN** all saved *Wishlist Items* are shown with: product name, image, price, and current *Stock Availability*  
-   **Evidence:** requirements-chat-with-product-owner.md — line 15, "Wishlists — let customers save things for later"  
+- *wishlist* — customer-curated list of *product* requiring logged-in verified *customer account*
+- *wishlist item* — single *product* entry on the *wishlist*
+- *stock availability* — current availability shown per *wishlist item*
 
-3. **WHEN** the customer selects "Add to Cart" from a *Wishlist Item*  
-   **THEN** the product is added to the *Shopping Cart* (same behavior as adding from the Product Details Page)  
-   **BUT** the product remains on the *Wishlist* until explicitly removed  
-   **Evidence:** inferred — wishlist is a save-for-later list, not a one-time queue  
+### Acceptance criteria
 
-4. **WHEN** the customer removes a *Wishlist Item*  
-   **THEN** the product is removed from the *Wishlist*  
-   **AND** the "Add to Wishlist" button on that product's *Product Details Page* returns to its default state  
-   **Evidence:** inferred — wishlist item lifecycle  
+1. **WHEN** a logged-in customer selects "Add to Wishlist" on a product details page
+   **THEN** the *product* is added to the *wishlist*
+   **AND** the "Add to Wishlist" control changes to a "Remove from Wishlist" state
+   **Evidence:** requirements-chat-with-product-owner.md — line 15, "Wishlists — let customers save things for later"; ubiquitous-language.md — *wishlist* persists on *customer account*
 
-5. **WHEN** a guest customer tries to add to wishlist  
-   **THEN** a prompt to log in or register is shown, explaining that wishlists require an account  
-   **BUT** the product page is not navigated away from — the prompt is dismissible and browsing continues  
-   **Evidence:** domain-sketch.md — Customer Account KA, `wishlist` concept: "is owned exclusively by the logged-in customer account"  
+2. **WHEN** the customer opens their *wishlist*
+   **THEN** all *wishlist item* are shown with product name, image, price, and current *stock availability*
+   **Evidence:** ubiquitous-language.md — *wishlist item* shows current catalog price and *stock availability*
 
----  
+3. **WHEN** the customer selects "Add to Cart" from a *wishlist item*
+   **THEN** the *product* is added to the *shopping cart*
+   **BUT** the *product* remains on the *wishlist* until explicitly removed
+   **Evidence:** ubiquitous-language.md — *wishlist item* adds to *shopping cart* without removing itself
 
-## Story: `Reorder Previous Purchase`  
+4. **WHEN** the customer removes a *wishlist item*
+   **THEN** the *product* is removed from the *wishlist*
+   **AND** the "Add to Wishlist" control on that product's details page returns to its default state
+   **Evidence:** ubiquitous-language.md — *wishlist item* lifecycle on *wishlist*
 
-**Story type:** user  
+5. **WHEN** a guest customer tries to add to *wishlist*
+   **THEN** a prompt to log in or register is shown, explaining that *wishlist* requires a verified *customer account*
+   **BUT** the product page is not navigated away from — the prompt is dismissible and browsing continues
+   **Evidence:** ubiquitous-language.md — *wishlist* requires logged-in verified *customer account*; guest customers see login prompt
 
-### Domain terms  
+---
 
-- *Reorder* — a one-action recreation of a previous order's items in the cart  
-- *Order History* — the source of the previous order (established in Increment 4)  
-- *Shopping Cart* — the destination for reordered items  
+## Story: Reorder Previous Purchase
 
-### Acceptance criteria  
+**Story type:** user
 
-1. **WHEN** the customer selects "Reorder" on a past order in *Order History*  
-   **THEN** all products from that order are added to the *Shopping Cart* with their original quantities  
-   **AND** the customer is taken to the cart to review before checkout  
-   **Evidence:** requirements-chat-with-product-owner.md — line 13, "reorder functionality — that's really important for pet owners. They buy the same food, the same litter, the same treats"  
+### Domain terms
 
-2. **WHEN** a product from the original order is no longer available (delisted)  
-   **THEN** the available products are added to the cart  
-   **AND** a clear message lists which products could not be added and why  
-   **BUT** the reorder is not blocked — partial reorder succeeds  
-   **Evidence:** inferred — product lifecycle can outlast order history  
+- *reorder* — action adding all *order line item* from a past *order* into the *shopping cart*
+- *order history* — source list for *reorder*
+- *stock availability* — delisted or out-of-stock products handled during *reorder*
 
-3. **WHEN** a product from the original order is currently *Out of Stock*  
-   **THEN** the product is added to the cart with a stock warning  
-   **AND** a "proceed anyway" option and a "remove" option are shown on that line item  
-   **Evidence:** domain-sketch.md — Product Catalog KA, `stock availability` concept  
+### Acceptance criteria
 
-4. **WHEN** the customer already has items in their *Shopping Cart* and reorders  
-   **THEN** the reordered products are merged into the existing cart  
-   **AND** if both contain the same product, quantities are summed  
-   **Evidence:** inferred — same merge logic as login cart merge  
+1. **WHEN** the customer selects "Reorder" on a past *order* in *order history*
+   **THEN** all *product* from that *order* are added to the *shopping cart* with their original quantities
+   **AND** the customer is taken to the cart to review before checkout
+   **Evidence:** requirements-chat-with-product-owner.md — line 13, "reorder functionality"; ubiquitous-language.md — *reorder* adds all *order line item* with original quantities
+
+2. **WHEN** a *product* from the original *order* is no longer available (delisted)
+   **THEN** available *product* are added to the *shopping cart*
+   **AND** a clear message lists which *product* could not be added and why
+   **BUT** partial *reorder* succeeds — available items are not blocked
+   **Evidence:** ubiquitous-language.md — *reorder* skips delisted *product* with clear message; partial *reorder* succeeds
+
+3. **WHEN** a *product* from the original *order* is currently out of stock
+   **THEN** the *product* is added to the *shopping cart* with a *stock availability* warning
+   **AND** "proceed anyway" and "remove" options are shown on that line item
+   **Evidence:** ubiquitous-language.md — *stock availability* at display time; inferred — out-of-stock handling on *reorder*
+
+4. **WHEN** the customer already has items in the *shopping cart* and reorders
+   **THEN** reordered *product* merge into the existing cart
+   **AND** if both contain the same *product*, quantities are summed
+   **Evidence:** ubiquitous-language.md — *customer session* cart merge logic applies to *reorder* additions

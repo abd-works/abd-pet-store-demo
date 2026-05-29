@@ -1,7 +1,7 @@
 # Scanner Report — abd-ubiquitous-language
 
-**Workspace:** C:\dev\abd-pet-store-demo
-**Date:** 2026-05-23 23:40:27
+**Workspace:** c:\dev\abd-pet-store-demo
+**Date:** 2026-05-24 22:23:28
 
 ---
 

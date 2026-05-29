@@ -1,3 +1,5 @@
+import { stockAvailabilitySchema } from '../shared/product.schema';
+
 export interface StoredProduct {
   product_name: string;
   sku: string;
@@ -25,25 +27,37 @@ export interface StoredStockAvailability {
   backorderEnabled: boolean;
 }
 
+function parseStoredStock(stock: StoredStockAvailability): StoredStockAvailability {
+  stockAvailabilitySchema.parse({
+    productSku: stock.productSku,
+    storeCode: stock.storeCode,
+    quantityOnHand: stock.quantityOnHand,
+    reservedQuantity: stock.reservedQuantity,
+    availableToSellQuantity: stock.availableToSellQuantity,
+    backorderEnabled: stock.backorderEnabled,
+    stockLevel: stock.availableToSellQuantity,
+  });
+  return stock;
+}
+
 export interface ProductCatalogRepository {
   saveProduct(product: StoredProduct): void;
   findProductBySku(sku: string): StoredProduct | undefined;
+  findAllProducts(): StoredProduct[];
   deleteProducts(skus: string[]): void;
   saveStockAvailability(stock: StoredStockAvailability): void;
   findStockByProduct(productSku: string): StoredStockAvailability[];
   findStock(productSku: string, storeCode: string): StoredStockAvailability | undefined;
   deleteStockByIds(ids: string[]): void;
   deleteStockByKeys(keys: string[]): void;
-  allStockKeys(): string[];
 }
 
-export class InMemoryProductCatalogRepository implements ProductCatalogRepository {
-  private products = new Map<string, StoredProduct>();
-  private stockByKey = new Map<string, StoredStockAvailability>();
+function stockKey(productSku: string, storeCode: string): string {
+  return `${productSku}:${storeCode}`;
+}
 
-  private stockKey(productSku: string, storeCode: string): string {
-    return `${productSku}:${storeCode}`;
-  }
+export class InMemoryProductStorage {
+  private products = new Map<string, StoredProduct>();
 
   saveProduct(product: StoredProduct): void {
     this.products.set(product.sku, product);
@@ -53,13 +67,21 @@ export class InMemoryProductCatalogRepository implements ProductCatalogRepositor
     return this.products.get(sku);
   }
 
+  findAllProducts(): StoredProduct[] {
+    return [...this.products.values()];
+  }
+
   deleteProducts(skus: string[]): void {
     for (const sku of skus) this.products.delete(sku);
   }
+}
+
+export class InMemoryStockStorage {
+  private stockByKey = new Map<string, StoredStockAvailability>();
 
   saveStockAvailability(stock: StoredStockAvailability): void {
-    const key = this.stockKey(stock.productSku, stock.storeCode);
-    this.stockByKey.set(key, stock);
+    const validated = parseStoredStock(stock);
+    this.stockByKey.set(stockKey(validated.productSku, validated.storeCode), validated);
   }
 
   findStockByProduct(productSku: string): StoredStockAvailability[] {
@@ -71,7 +93,7 @@ export class InMemoryProductCatalogRepository implements ProductCatalogRepositor
   }
 
   findStock(productSku: string, storeCode: string): StoredStockAvailability | undefined {
-    return this.stockByKey.get(this.stockKey(productSku, storeCode));
+    return this.stockByKey.get(stockKey(productSku, storeCode));
   }
 
   deleteStockByIds(ids: string[]): void {
@@ -81,8 +103,23 @@ export class InMemoryProductCatalogRepository implements ProductCatalogRepositor
   deleteStockByKeys(keys: string[]): void {
     for (const key of keys) this.stockByKey.delete(key);
   }
+}
 
-  allStockKeys(): string[] {
-    return [...this.stockByKey.keys()];
+export class InMemoryProductCatalogRepository implements ProductCatalogRepository {
+  constructor(
+    private readonly products: InMemoryProductStorage,
+    private readonly stock: InMemoryStockStorage,
+  ) {}
+
+  saveProduct(product: StoredProduct): void { this.products.saveProduct(product); }
+  findProductBySku(sku: string): StoredProduct | undefined { return this.products.findProductBySku(sku); }
+  findAllProducts(): StoredProduct[] { return this.products.findAllProducts(); }
+  deleteProducts(skus: string[]): void { this.products.deleteProducts(skus); }
+  saveStockAvailability(row: StoredStockAvailability): void { this.stock.saveStockAvailability(row); }
+  findStockByProduct(productSku: string): StoredStockAvailability[] { return this.stock.findStockByProduct(productSku); }
+  findStock(productSku: string, storeCode: string): StoredStockAvailability | undefined {
+    return this.stock.findStock(productSku, storeCode);
   }
+  deleteStockByIds(ids: string[]): void { this.stock.deleteStockByIds(ids); }
+  deleteStockByKeys(keys: string[]): void { this.stock.deleteStockByKeys(keys); }
 }

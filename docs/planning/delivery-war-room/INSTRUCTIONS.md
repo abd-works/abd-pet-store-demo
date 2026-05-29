@@ -1,50 +1,69 @@
-# Delivery war room — team member autostart
+# Delivery war room — role agent autostart
+
+Eight **persistent role agents** pull work from the **Kanban board** (`board.json`). Open the agent matching your role — not one chat per slot.
+
+Kanban model: `.cursor/content/kanban.md`
+
+| You are | Agent |
+| --- | --- |
+| Product Owner executor | `.cursor/agents/product-owner/AGENT.md` |
+| Product Owner reviewer | `.cursor/agents/product-owner-reviewer/AGENT.md` |
+| Business Expert executor | `.cursor/agents/business-expert/AGENT.md` |
+| Business Expert reviewer | `.cursor/agents/business-expert-reviewer/AGENT.md` |
+| UX Designer executor | `.cursor/agents/ux-designer/AGENT.md` |
+| UX Designer reviewer | `.cursor/agents/ux-designer-reviewer/AGENT.md` |
+| Engineer executor | `.cursor/agents/engineer/AGENT.md` |
+| Engineer reviewer | `.cursor/agents/engineer-reviewer/AGENT.md` |
+
+Shared queue rules: `.cursor/agents/_shared/work-queue.md`
 
 ## 1) Workspace
 
-Read the `workspace` field from your `slot-NN-start.md`. That is the absolute path set by the operator. Use it for every `--workspace` flag, scanner path, and `story-graph-ops` call.
+Bootstrap must include **`workspace`**: `c:\dev\abd-pet-store-demo`. Use it for every `--workspace` flag, scanner path, and `story-graph-ops` call.
 
-## 2) Cycle context
+## 2) Kanban board
 
-Read `delivery-war-room/manifest.md`.
+Read `docs/planning/delivery-war-room/board.json` and `manifest.md`.
 
-## 3) Active slot (`NN`)
+Each **run** = one **ticket** in **one column**: `backlog` · `in_progress` · `review` · `done` · `blocked` · `stalled`.
 
-Find the smallest two-digit `NN` such that `slot-NN-start.md` exists and is non-empty, and `slot-NN-finished.md` does not exist. That is the active slot. If none, report no pending work.
+Stage flow on a ticket: **in_progress → review → done** (no Ready).
+
+**Resume order:** read **`board.json`** first, then checklist `<!-- resume: slot NN -->`.
+
+## 3) Claim next slot
+
+1. Read **`board.json`** — find tickets in your column (`in_progress` for executors, `review` for reviewers).
+2. Resolve `active_slot` or smallest eligible `slot-NN-start.md` for your `team-role` and `slot_type`.
+3. Verify every id in **`depends_on`** has a finished file and no conflicting `slot-*-claim.md`.
+4. Write `slot-NN-claim.md` before starting.
+
+**Cross-run:** separate tickets can be active (e.g. Run 5 engineering + Run 6 exploration). Run N+1 opens after Run N **specification exit** — not engineering exit. See `manifest.md` `cross_run_pipeline` and `_shared/work-queue.md`.
+
+If none qualify, report **no pending work for this role**.
 
 ## 4) Handoff
 
-Read `delivery-war-room/slot-NN-start.md` for `team-role` (product-owner, business-expert, ux-designer, engineer, or **reviewer**), scope, stage, skills, corrections, entry conditions, and early question triggers.
+Read `slot-NN-start.md` for scope, stage, **`skills`**, corrections, and entry conditions.
 
-**If `team-role: reviewer`** — read the prior executor `slot-NN-finished.md` and listed artifacts only. Run scanners and exit-gate review; use the reviewer finished template. Do not produce new stage artifacts.
+**If `slot_type: reviewer`** — read prior executor finished file + `artifact_paths` only. Use reviewer finished template. Do not produce new stage artifacts.
 
-**Otherwise (executor)** — run `.cursor/agents/delivery-team-member/AGENT.md` from Step 1 with the resolved `workspace` and `team-role`.
+**If `slot_type: executor`** — follow your role agent + `_shared/executor-workflow.md`.
 
 ## 5) Mid-slot checkpoint
 
-After producing draft artifacts (Step 4 of team member workflow), present at a CHECKPOINT with summary and unknowns. Wait for operator confirmation before finalizing.
+Waived when `manifest.md` `checkpoint_policy: on_block_only`.
 
 ## 6) Story graph update
 
-After confirmation, update `story/story-graph.json` via `story-graph-ops` for stages that produce graph content (discovery, exploration, specification).
+After confirmation, update `docs/story/story-graph.json` via `story-graph-ops` when the skill produces graph content.
 
 ## 7) When done
 
-Write `delivery-war-room/slot-NN-finished.md` with:
-- Timestamp
-- All artifact paths produced (executors) or findings only (reviewers)
-- Scanner results (pass/fail per skill)
-- Stage-complete / gate-review status
-- Any sync-upstream offers
+Write `slot-NN-finished.md`. Remove `slot-*-claim.md`. Claim next eligible slot in the same session. Delivery lead re-syncs **`board.json`** and checklist.
 
-Progress checkboxes for reviewer scan, reviewer review, and rework fix incorporation live in `delivery-plan-checklist.md` — the delivery lead ticks those separately.
+## 8) When blocked or stalled
 
-## 8) When blocked
+**Blocked:** write `slot-NN-blocked.md` — ticket column `blocked`. Clear via `slot-NN-answer.md`.
 
-Write `delivery-war-room/slot-NN-blocked.md` with:
-- The specific question
-- What you tried before stopping
-- Which artifact paths are relevant
-- Which early question trigger fired (if any)
-
-Do NOT guess past a block. Stop and wait.
+**Stalled:** claim open past `stall_timeout_minutes` — delivery lead nudges; ticket column `stalled` on sync.

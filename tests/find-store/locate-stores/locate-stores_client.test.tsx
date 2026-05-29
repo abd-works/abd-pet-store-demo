@@ -20,19 +20,26 @@ class TestViewStoreMap {
   /**
    * SCENARIO: Store appears on map with full contact details
    * GIVEN: StoreLocator has Store at coordinates with address and contact
-   * WHEN: visitor opens Map View, then selects store
+   * WHEN: visitor opens Map View, then selects store point
    * THEN: map point visible; detail panel shows address and contact
    */
   async store_appears_on_map(store: StoreTestData) {
-    // When
     await this.helper.when_visitor_opens_map_view();
-    // Then
     this.helper.then_map_point_visible(store);
-    // When
     await this.helper.when_visitor_selects_store(store.store_name);
-    // Then
     this.helper.then_detail_shows_address(store);
     this.helper.then_detail_shows_contact(store);
+  }
+
+  /**
+   * SCENARIO: All stores shown simultaneously without search
+   * GIVEN: StoreLocator contains 3 active Store entries
+   * WHEN: visitor opens the StoreLocator map view
+   * THEN: all 3 Store locations are visible simultaneously
+   */
+  async all_stores_visible_on_map_without_search() {
+    await this.helper.when_visitor_opens_map_view();
+    this.helper.then_all_stores_visible_on_map(3);
   }
 }
 
@@ -50,12 +57,23 @@ class TestViewStoreList {
    * THEN: Store at expected position with address and contact
    */
   async store_listed_with_details(data: StoreListTestData) {
-    // When
     await this.helper.when_visitor_opens_list_view();
-    // Then
     this.helper.then_store_at_list_position(data, data.expected_list_position);
     this.helper.then_list_entry_shows_address(data, data.expected_list_position);
-    this.helper.then_list_entry_shows_contact(data, data.expected_list_position);
+    await this.helper.when_visitor_selects_store(data.store_name);
+    this.helper.then_detail_shows_address(data);
+    this.helper.then_detail_shows_contact(data);
+  }
+
+  /**
+   * SCENARIO: All stores appear without search or filtering
+   * GIVEN: StoreLocator contains 3 active Store entries
+   * WHEN: visitor opens the StoreLocator list view
+   * THEN: all 3 Store entries are visible
+   */
+  async all_stores_appear_without_search_or_filtering() {
+    await this.helper.when_visitor_opens_list_view();
+    this.helper.then_all_stores_visible_in_list(3);
   }
 }
 
@@ -77,7 +95,7 @@ class TestCalculateDistanceToStore {
     const { latitude, longitude } = LocateStoresHelper.CUSTOMER_LOCATION;
     this.helper.given_customer_at_location(latitude, longitude);
     // When
-    await this.helper.when_visitor_opens_list_view();
+    await this.helper.when_visitor_opens_list_after_shared_location(latitude, longitude);
     // Then
     this.helper.then_distance_shown(data.store_name, data.expected_distance_km);
     this.helper.then_sort_position(data.store_name, data.expected_sort_position);
@@ -93,7 +111,7 @@ class TestCalculateDistanceToStore {
     // Given
     const { latitude, longitude } = LocateStoresHelper.CUSTOMER_LOCATION;
     this.helper.given_customer_at_location(latitude, longitude);
-    await this.helper.when_visitor_opens_list_view();
+    await this.helper.when_visitor_opens_list_after_shared_location(latitude, longitude);
     // When
     this.helper.given_customer_at_alternate_location();
     await this.helper.when_customer_enters_postcode(
@@ -138,6 +156,10 @@ describe('Locate Stores', () => {
       'store appears on map with full contact details - $store_name',
       async (store) => { await tests.store_appears_on_map(store); },
     );
+
+    it('all stores visible on map without search', async () => {
+      await tests.all_stores_visible_on_map_without_search();
+    });
   });
 
   describe('View Store List', () => {
@@ -147,6 +169,10 @@ describe('Locate Stores', () => {
       'store listed with address and contact details - $store_name',
       async (data) => { await tests.store_listed_with_details(data); },
     );
+
+    it('all stores appear without search or filtering', async () => {
+      await tests.all_stores_appear_without_search_or_filtering();
+    });
   });
 
   describe('Calculate Distance to Store', () => {

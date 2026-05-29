@@ -1,0 +1,926 @@
+{
+  "target": "docs/ux/lo-fi/increment-4-returning-customers.drawio",
+  "screens": [
+    {
+      "name": "register account",
+      "layout": "form",
+      "col": 0,
+      "row": 0,
+      "regions": [
+        {
+          "name": "primary navigation — guest",
+          "slot": "header",
+          "type": "toolbar",
+          "buttons": [
+            { "label": "find stores" },
+            { "label": "shop supplies" },
+            { "label": "shopping cart" },
+            { "label": "log in" },
+            { "label": "register", "primary": true }
+          ]
+        },
+        {
+          "name": "registration form",
+          "slot": "body",
+          "type": "form",
+          "fields": [
+            { "label": "email address", "input": "text" },
+            { "label": "password", "input": "text" },
+            { "label": "confirm password", "input": "text" },
+            { "label": "password requirements", "input": "textarea" }
+          ],
+          "buttons": [{ "label": "create account", "primary": true }]
+        },
+        {
+          "name": "registration validation feedback",
+          "slot": "body",
+          "type": "form",
+          "fields": [
+            { "label": "email already in use error", "input": "text" },
+            { "label": "password requirements unmet error", "input": "text" }
+          ],
+          "buttons": [{ "label": "log in instead" }]
+        }
+      ]
+    },
+    {
+      "name": "registration confirmation",
+      "layout": "stack",
+      "col": 1,
+      "row": 0,
+      "regions": [
+        {
+          "name": "primary navigation — guest",
+          "slot": "header",
+          "type": "toolbar",
+          "buttons": [
+            { "label": "find stores" },
+            { "label": "shop supplies" },
+            { "label": "log in" }
+          ]
+        },
+        {
+          "name": "email verification pending",
+          "slot": "body",
+          "type": "form",
+          "fields": [
+            { "label": "check your email to verify", "input": "text" },
+            { "label": "expect verification email shortly", "input": "text" }
+          ],
+          "buttons": [{ "label": "resend verification" }]
+        }
+      ]
+    },
+    {
+      "name": "log in",
+      "layout": "form",
+      "col": 2,
+      "row": 0,
+      "regions": [
+        {
+          "name": "primary navigation — guest",
+          "slot": "header",
+          "type": "toolbar",
+          "buttons": [
+            { "label": "find stores" },
+            { "label": "shop supplies" },
+            { "label": "shopping cart" },
+            { "label": "log in", "primary": true },
+            { "label": "register" }
+          ]
+        },
+        {
+          "name": "login form",
+          "slot": "body",
+          "type": "form",
+          "fields": [
+            { "label": "email address", "input": "text" },
+            { "label": "password", "input": "text" }
+          ],
+          "buttons": [
+            { "label": "log in", "primary": true },
+            { "label": "forgot password" }
+          ]
+        },
+        {
+          "name": "login validation feedback",
+          "slot": "body",
+          "type": "form",
+          "fields": [
+            { "label": "invalid email or password error", "input": "text" },
+            { "label": "please verify your email first", "input": "text" }
+          ],
+          "buttons": [{ "label": "resend verification" }]
+        }
+      ]
+    },
+    {
+      "name": "verify email — success",
+      "layout": "stack",
+      "col": 3,
+      "row": 0,
+      "regions": [
+        {
+          "name": "verification success",
+          "slot": "body",
+          "type": "form",
+          "fields": [{ "label": "you're verified — log in to continue", "input": "text" }],
+          "buttons": [{ "label": "log in", "primary": true }]
+        }
+      ]
+    },
+    {
+      "name": "verify email — link expired",
+      "layout": "stack",
+      "col": 4,
+      "row": 0,
+      "regions": [
+        {
+          "name": "verification expired",
+          "slot": "body",
+          "type": "form",
+          "fields": [
+            { "label": "link expired message", "input": "text" },
+            { "label": "already verified message", "input": "text" }
+          ],
+          "buttons": [
+            { "label": "resend verification", "primary": true },
+            { "label": "log in" }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "reset password — request",
+      "layout": "form",
+      "col": 5,
+      "row": 0,
+      "regions": [
+        {
+          "name": "reset request form",
+          "slot": "body",
+          "type": "form",
+          "fields": [{ "label": "email address", "input": "text" }],
+          "buttons": [{ "label": "send reset link", "primary": true }]
+        },
+        {
+          "name": "reset request confirmation",
+          "slot": "body",
+          "type": "form",
+          "fields": [{ "label": "check your email (same message regardless)", "input": "text" }],
+          "buttons": []
+        }
+      ]
+    },
+    {
+      "name": "reset password — set new password",
+      "layout": "form",
+      "col": 6,
+      "row": 0,
+      "regions": [
+        {
+          "name": "set new password form",
+          "slot": "body",
+          "type": "form",
+          "fields": [
+            { "label": "new password", "input": "text" },
+            { "label": "confirm password", "input": "text" },
+            { "label": "password requirements", "input": "textarea" },
+            { "label": "link expired — request new reset", "input": "text" }
+          ],
+          "buttons": [{ "label": "set new password", "primary": true }]
+        }
+      ]
+    },
+    {
+      "name": "account dashboard",
+      "layout": "sidebar",
+      "col": 0,
+      "row": 1,
+      "regions": [
+        {
+          "name": "primary navigation — logged in",
+          "slot": "header",
+          "type": "toolbar",
+          "buttons": [
+            { "label": "find stores" },
+            { "label": "shop supplies" },
+            { "label": "shopping cart" },
+            { "label": "wishlist" },
+            { "label": "account", "primary": true }
+          ]
+        },
+        {
+          "name": "account settings nav",
+          "slot": "panel",
+          "type": "nav-tabs",
+          "tabs": [
+            { "label": "overview", "active": true },
+            { "label": "address book" },
+            { "label": "saved payment methods" },
+            { "label": "order history" }
+          ]
+        },
+        {
+          "name": "account overview",
+          "slot": "body",
+          "type": "form",
+          "fields": [
+            { "label": "customer account email", "input": "text" },
+            { "label": "account verification status", "input": "text" }
+          ],
+          "buttons": [
+            { "label": "log out" },
+            { "label": "log out everywhere" }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "address book",
+      "layout": "sidebar",
+      "col": 1,
+      "row": 1,
+      "regions": [
+        {
+          "name": "primary navigation — logged in",
+          "slot": "header",
+          "type": "toolbar",
+          "buttons": [
+            { "label": "find stores" },
+            { "label": "shop supplies" },
+            { "label": "shopping cart" },
+            { "label": "wishlist" },
+            { "label": "account", "primary": true }
+          ]
+        },
+        {
+          "name": "account settings nav",
+          "slot": "panel",
+          "type": "nav-tabs",
+          "tabs": [
+            { "label": "overview" },
+            { "label": "address book", "active": true },
+            { "label": "saved payment methods" },
+            { "label": "order history" }
+          ]
+        },
+        {
+          "name": "saved address list",
+          "slot": "body",
+          "type": "list",
+          "columns": ["label", "address summary", "default address indicator"],
+          "rows": 3,
+          "actions": [
+            { "label": "edit saved address" },
+            { "label": "delete saved address" },
+            { "label": "set as default address", "primary": true }
+          ]
+        },
+        {
+          "name": "delete default address prompt",
+          "slot": "body",
+          "type": "form",
+          "fields": [{ "label": "select new default address prompt", "input": "text" }],
+          "buttons": []
+        }
+      ]
+    },
+    {
+      "name": "edit saved address",
+      "layout": "form",
+      "col": 2,
+      "row": 1,
+      "regions": [
+        {
+          "name": "saved address form",
+          "slot": "body",
+          "type": "form",
+          "fields": [
+            { "label": "recipient name", "input": "text" },
+            { "label": "address line 1", "input": "text" },
+            { "label": "address line 2 (optional)", "input": "text" },
+            { "label": "city", "input": "text" },
+            { "label": "postcode", "input": "text" },
+            { "label": "country", "input": "dropdown", "options": ["United Kingdom"] }
+          ],
+          "buttons": [
+            { "label": "cancel" },
+            { "label": "save saved address", "primary": true }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "saved payment methods",
+      "layout": "sidebar",
+      "col": 3,
+      "row": 1,
+      "regions": [
+        {
+          "name": "primary navigation — logged in",
+          "slot": "header",
+          "type": "toolbar",
+          "buttons": [
+            { "label": "find stores" },
+            { "label": "shop supplies" },
+            { "label": "shopping cart" },
+            { "label": "wishlist" },
+            { "label": "account", "primary": true }
+          ]
+        },
+        {
+          "name": "account settings nav",
+          "slot": "panel",
+          "type": "nav-tabs",
+          "tabs": [
+            { "label": "overview" },
+            { "label": "address book" },
+            { "label": "saved payment methods", "active": true },
+            { "label": "order history" }
+          ]
+        },
+        {
+          "name": "saved payment method list",
+          "slot": "body",
+          "type": "list",
+          "columns": ["last four digits", "card type", "expiry", "default payment method indicator"],
+          "rows": 2,
+          "actions": [
+            { "label": "remove saved payment method" },
+            { "label": "set as default payment method", "primary": true }
+          ]
+        },
+        {
+          "name": "expired token state",
+          "slot": "body",
+          "type": "form",
+          "fields": [{ "label": "expired saved payment method removed", "input": "text" }],
+          "buttons": []
+        }
+      ]
+    },
+    {
+      "name": "order history",
+      "layout": "sidebar",
+      "col": 4,
+      "row": 1,
+      "regions": [
+        {
+          "name": "primary navigation — logged in",
+          "slot": "header",
+          "type": "toolbar",
+          "buttons": [
+            { "label": "find stores" },
+            { "label": "shop supplies" },
+            { "label": "shopping cart" },
+            { "label": "wishlist" },
+            { "label": "account", "primary": true }
+          ]
+        },
+        {
+          "name": "account settings nav",
+          "slot": "panel",
+          "type": "nav-tabs",
+          "tabs": [
+            { "label": "overview" },
+            { "label": "address book" },
+            { "label": "saved payment methods" },
+            { "label": "order history", "active": true }
+          ]
+        },
+        {
+          "name": "order history list",
+          "slot": "body",
+          "type": "list",
+          "columns": ["order number", "date", "items condensed", "total", "order status"],
+          "rows": 4,
+          "actions": [
+            { "label": "select order" },
+            { "label": "reorder", "primary": true }
+          ]
+        },
+        {
+          "name": "order history empty state",
+          "slot": "body",
+          "type": "form",
+          "fields": [{ "label": "no orders yet — start shopping", "input": "text" }],
+          "buttons": [{ "label": "shop supplies", "primary": true }]
+        }
+      ]
+    },
+    {
+      "name": "order history detail",
+      "layout": "stack",
+      "col": 0,
+      "row": 2,
+      "regions": [
+        {
+          "name": "primary navigation — logged in",
+          "slot": "header",
+          "type": "toolbar",
+          "buttons": [
+            { "label": "find stores" },
+            { "label": "shop supplies" },
+            { "label": "shopping cart" },
+            { "label": "account" }
+          ]
+        },
+        {
+          "name": "order detail",
+          "slot": "body",
+          "type": "form",
+          "fields": [
+            { "label": "order number", "input": "text" },
+            { "label": "order status", "input": "text" },
+            { "label": "order line item list", "input": "textarea" },
+            { "label": "shipping address snapshot", "input": "textarea" },
+            { "label": "billing address snapshot", "input": "textarea" },
+            { "label": "delivery option", "input": "text" },
+            { "label": "masked payment method", "input": "text" },
+            { "label": "tracking number", "input": "text" }
+          ],
+          "buttons": [
+            { "label": "back to order history" },
+            { "label": "reorder", "primary": true }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "product page — wishlist",
+      "layout": "stack",
+      "col": 1,
+      "row": 2,
+      "regions": [
+        {
+          "name": "primary navigation — logged in",
+          "slot": "header",
+          "type": "toolbar",
+          "buttons": [
+            { "label": "find stores" },
+            { "label": "shop supplies" },
+            { "label": "shopping cart" },
+            { "label": "wishlist" },
+            { "label": "account" }
+          ]
+        },
+        {
+          "name": "product header",
+          "slot": "body",
+          "type": "form",
+          "fields": [
+            { "label": "product name", "input": "text" },
+            { "label": "price", "input": "text" },
+            { "label": "stock availability", "input": "text" }
+          ],
+          "buttons": [
+            { "label": "add to cart", "primary": true },
+            { "label": "add to wishlist" },
+            { "label": "remove from wishlist" }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "wishlist — guest prompt",
+      "layout": "modal",
+      "col": 2,
+      "row": 2,
+      "regions": [
+        {
+          "name": "guest wishlist prompt",
+          "slot": "body",
+          "type": "form",
+          "fields": [
+            { "label": "wishlist requires verified customer account", "input": "text" }
+          ],
+          "buttons": [
+            { "label": "log in" },
+            { "label": "register" },
+            { "label": "dismiss", "primary": true }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "wishlist page",
+      "layout": "sidebar",
+      "col": 3,
+      "row": 2,
+      "regions": [
+        {
+          "name": "primary navigation — logged in",
+          "slot": "header",
+          "type": "toolbar",
+          "buttons": [
+            { "label": "find stores" },
+            { "label": "shop supplies" },
+            { "label": "shopping cart" },
+            { "label": "wishlist", "primary": true },
+            { "label": "account" }
+          ]
+        },
+        {
+          "name": "wishlist item list",
+          "slot": "body",
+          "type": "list",
+          "columns": ["product name", "price", "stock availability"],
+          "rows": 4,
+          "actions": [
+            { "label": "add to cart", "primary": true },
+            { "label": "remove from wishlist" }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "guest checkout — shipping address",
+      "layout": "split-screen",
+      "col": 0,
+      "row": 3,
+      "regions": [
+        {
+          "name": "primary navigation — guest",
+          "slot": "header",
+          "type": "toolbar",
+          "buttons": [
+            { "label": "find stores" },
+            { "label": "shop supplies" },
+            { "label": "shopping cart" },
+            { "label": "log in" },
+            { "label": "register" }
+          ]
+        },
+        {
+          "name": "checkout progress",
+          "slot": "header",
+          "type": "nav-tabs",
+          "tabs": [
+            { "label": "shopping cart" },
+            { "label": "billing address" },
+            { "label": "shipping address", "active": true },
+            { "label": "delivery option" },
+            { "label": "payment" }
+          ]
+        },
+        {
+          "name": "shipping address",
+          "slot": "left",
+          "type": "form",
+          "fields": [
+            { "label": "recipient name", "input": "text" },
+            { "label": "address line 1", "input": "text" },
+            { "label": "city", "input": "text" },
+            { "label": "postcode", "input": "text" },
+            { "label": "country", "input": "dropdown", "options": ["United Kingdom"] }
+          ],
+          "buttons": []
+        },
+        {
+          "name": "guest account prompt",
+          "slot": "left",
+          "type": "form",
+          "fields": [
+            { "label": "log in or register for saved address benefit", "input": "text" }
+          ],
+          "buttons": [
+            { "label": "log in" },
+            { "label": "register" }
+          ]
+        },
+        {
+          "name": "order summary",
+          "slot": "right",
+          "type": "form",
+          "fields": [
+            { "label": "shipping address preview", "input": "textarea" },
+            { "label": "cart total", "input": "text" }
+          ],
+          "buttons": [
+            { "label": "back to billing address" },
+            { "label": "continue to delivery option", "primary": true }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "logged-in checkout — saved address",
+      "layout": "split-screen",
+      "col": 1,
+      "row": 3,
+      "regions": [
+        {
+          "name": "primary navigation — logged in",
+          "slot": "header",
+          "type": "toolbar",
+          "buttons": [
+            { "label": "find stores" },
+            { "label": "shop supplies" },
+            { "label": "shopping cart" },
+            { "label": "wishlist" },
+            { "label": "account" }
+          ]
+        },
+        {
+          "name": "checkout progress",
+          "slot": "header",
+          "type": "nav-tabs",
+          "tabs": [
+            { "label": "shopping cart" },
+            { "label": "billing address" },
+            { "label": "shipping address", "active": true },
+            { "label": "delivery option" },
+            { "label": "payment" }
+          ]
+        },
+        {
+          "name": "saved address selection",
+          "slot": "left",
+          "type": "listbox",
+          "items": [
+            { "label": "home — default address", "selected": true },
+            { "label": "office — saved address" },
+            { "label": "use a different address" }
+          ]
+        },
+        {
+          "name": "selected saved address preview",
+          "slot": "left",
+          "type": "form",
+          "fields": [
+            { "label": "auto-filled shipping address fields", "input": "textarea" }
+          ],
+          "buttons": []
+        },
+        {
+          "name": "order summary",
+          "slot": "right",
+          "type": "form",
+          "fields": [
+            { "label": "selected saved address preview", "input": "textarea" },
+            { "label": "cart total", "input": "text" }
+          ],
+          "buttons": [
+            { "label": "back to billing address" },
+            { "label": "continue to delivery option", "primary": true }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "logged-in checkout — new address",
+      "layout": "split-screen",
+      "col": 2,
+      "row": 3,
+      "regions": [
+        {
+          "name": "primary navigation — logged in",
+          "slot": "header",
+          "type": "toolbar",
+          "buttons": [
+            { "label": "find stores" },
+            { "label": "shop supplies" },
+            { "label": "shopping cart" },
+            { "label": "account" }
+          ]
+        },
+        {
+          "name": "checkout progress",
+          "slot": "header",
+          "type": "nav-tabs",
+          "tabs": [
+            { "label": "shopping cart" },
+            { "label": "billing address" },
+            { "label": "shipping address", "active": true },
+            { "label": "delivery option" },
+            { "label": "payment" }
+          ]
+        },
+        {
+          "name": "manual shipping address",
+          "slot": "left",
+          "type": "form",
+          "fields": [
+            { "label": "recipient name", "input": "text" },
+            { "label": "address line 1", "input": "text" },
+            { "label": "city", "input": "text" },
+            { "label": "postcode", "input": "text" },
+            { "label": "country", "input": "dropdown", "options": ["United Kingdom"] },
+            { "label": "save this address for future orders", "input": "checkbox" }
+          ],
+          "buttons": []
+        },
+        {
+          "name": "order summary",
+          "slot": "right",
+          "type": "form",
+          "fields": [
+            { "label": "shipping address preview", "input": "textarea" },
+            { "label": "cart total", "input": "text" }
+          ],
+          "buttons": [
+            { "label": "back" },
+            { "label": "continue to delivery option", "primary": true }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "logged-in checkout — saved payment method",
+      "layout": "split-screen",
+      "col": 3,
+      "row": 3,
+      "regions": [
+        {
+          "name": "primary navigation — logged in",
+          "slot": "header",
+          "type": "toolbar",
+          "buttons": [
+            { "label": "find stores" },
+            { "label": "shop supplies" },
+            { "label": "shopping cart" },
+            { "label": "account" }
+          ]
+        },
+        {
+          "name": "checkout progress",
+          "slot": "header",
+          "type": "nav-tabs",
+          "tabs": [
+            { "label": "shopping cart" },
+            { "label": "billing address" },
+            { "label": "shipping address" },
+            { "label": "delivery option" },
+            { "label": "payment", "active": true }
+          ]
+        },
+        {
+          "name": "saved payment method selection",
+          "slot": "left",
+          "type": "listbox",
+          "items": [
+            { "label": "Visa •••• 4242 — default payment method", "selected": true },
+            { "label": "Mastercard •••• 8210 — saved payment method" },
+            { "label": "use a different payment method" },
+            { "label": "expired saved payment method", "dimmed": true }
+          ]
+        },
+        {
+          "name": "payment confirmation",
+          "slot": "left",
+          "type": "form",
+          "fields": [
+            { "label": "last four digits and card type confirmation", "input": "text" }
+          ],
+          "buttons": []
+        },
+        {
+          "name": "order review summary",
+          "slot": "right",
+          "type": "form",
+          "fields": [
+            { "label": "order line item list", "input": "textarea" },
+            { "label": "shipping address", "input": "textarea" },
+            { "label": "order total", "input": "text" }
+          ],
+          "buttons": [
+            { "label": "back to delivery option" },
+            { "label": "confirm order", "primary": true }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "logged-in checkout — new payment method",
+      "layout": "split-screen",
+      "col": 4,
+      "row": 3,
+      "regions": [
+        {
+          "name": "primary navigation — logged in",
+          "slot": "header",
+          "type": "toolbar",
+          "buttons": [
+            { "label": "find stores" },
+            { "label": "shop supplies" },
+            { "label": "shopping cart" },
+            { "label": "account" }
+          ]
+        },
+        {
+          "name": "checkout progress",
+          "slot": "header",
+          "type": "nav-tabs",
+          "tabs": [
+            { "label": "shopping cart" },
+            { "label": "billing address" },
+            { "label": "shipping address" },
+            { "label": "delivery option" },
+            { "label": "payment", "active": true }
+          ]
+        },
+        {
+          "name": "StripeWave card entry",
+          "slot": "left",
+          "type": "form",
+          "fields": [
+            { "label": "StripeWave (sole payment vendor)", "input": "radio" },
+            { "label": "card number", "input": "text" },
+            { "label": "expiry", "input": "text" },
+            { "label": "CVV", "input": "text" },
+            { "label": "save this payment method for future orders", "input": "checkbox" }
+          ],
+          "buttons": []
+        },
+        {
+          "name": "order review summary",
+          "slot": "right",
+          "type": "form",
+          "fields": [
+            { "label": "order line item list", "input": "textarea" },
+            { "label": "order total", "input": "text" }
+          ],
+          "buttons": [
+            { "label": "back" },
+            { "label": "confirm order", "primary": true }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "shopping cart — after reorder",
+      "layout": "sidebar",
+      "col": 0,
+      "row": 4,
+      "regions": [
+        {
+          "name": "primary navigation — logged in",
+          "slot": "header",
+          "type": "toolbar",
+          "buttons": [
+            { "label": "find stores" },
+            { "label": "shop supplies" },
+            { "label": "shopping cart", "primary": true },
+            { "label": "account" }
+          ]
+        },
+        {
+          "name": "reorder feedback",
+          "slot": "body",
+          "type": "form",
+          "fields": [
+            { "label": "partial reorder — product could not be added", "input": "text" },
+            { "label": "stock availability warning on line item", "input": "text" }
+          ],
+          "buttons": [
+            { "label": "proceed anyway" },
+            { "label": "remove line item" }
+          ]
+        },
+        {
+          "name": "cart item list",
+          "slot": "body",
+          "type": "list",
+          "columns": ["product name", "quantity", "line total"],
+          "rows": 4,
+          "actions": [{ "label": "remove" }]
+        },
+        {
+          "name": "cart summary",
+          "slot": "panel",
+          "type": "form",
+          "fields": [{ "label": "cart total", "input": "text" }],
+          "buttons": [
+            { "label": "continue shopping" },
+            { "label": "proceed to checkout", "primary": true }
+          ]
+        }
+      ]
+    }
+  ],
+  "connections": [
+    { "from": "register account", "to": "registration confirmation", "label": "create account" },
+    { "from": "registration confirmation", "to": "log in", "label": "log in instead" },
+    { "from": "register account", "to": "log in", "label": "log in instead" },
+    { "from": "log in", "to": "account dashboard", "label": "log in" },
+    { "from": "verify email — success", "to": "log in", "label": "log in" },
+    { "from": "log in", "to": "reset password — request", "label": "forgot password" },
+    { "from": "reset password — request", "to": "reset password — set new password", "label": "reset link" },
+    { "from": "account dashboard", "to": "address book", "label": "address book" },
+    { "from": "account dashboard", "to": "saved payment methods", "label": "saved payment methods" },
+    { "from": "account dashboard", "to": "order history", "label": "order history" },
+    { "from": "address book", "to": "edit saved address", "label": "edit saved address" },
+    { "from": "order history", "to": "order history detail", "label": "select order" },
+    { "from": "order history detail", "to": "shopping cart — after reorder", "label": "reorder" },
+    { "from": "order history", "to": "shopping cart — after reorder", "label": "reorder" },
+    { "from": "product page — wishlist", "to": "wishlist page", "label": "add to wishlist" },
+    { "from": "product page — wishlist", "to": "wishlist — guest prompt", "label": "add to wishlist (guest)" },
+    { "from": "wishlist page", "to": "shopping cart — after reorder", "label": "add to cart" },
+    { "from": "guest checkout — shipping address", "to": "logged-in checkout — saved address", "label": "log in" },
+    { "from": "logged-in checkout — saved address", "to": "logged-in checkout — new address", "label": "use a different address" },
+    { "from": "logged-in checkout — saved address", "to": "logged-in checkout — saved payment method", "label": "continue checkout" },
+    { "from": "logged-in checkout — saved payment method", "to": "logged-in checkout — new payment method", "label": "use a different payment method" },
+    { "from": "shopping cart — after reorder", "to": "logged-in checkout — saved address", "label": "proceed to checkout" }
+  ]
+}
