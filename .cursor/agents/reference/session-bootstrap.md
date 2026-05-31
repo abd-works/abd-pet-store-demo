@@ -27,6 +27,35 @@ If `workspace` is missing from bootstrap → ask once and **stop**. Do not guess
 
 ---
 
+## Kanban lead — board UI (turn 1, kanban lead only)
+
+**After** `workspace` is resolved and **before** Step 1 strategy or tick-loop wiring, use the **AskQuestion** tool — do not ask only in chat prose.
+
+| Field | Value |
+| --- | --- |
+| **id** | `start-board-ui` |
+| **prompt** | Start the kanban board UI in the IDE to watch delivery progress? |
+| **options** | **Yes** — start board UI · **No** — orchestrate from files only · **Already running** |
+
+### If **Yes**
+
+1. **Resolve board app root** — `practices/kanban/apps/abd-delivery-agent-kanban` under the agilebydesign-skills repo (typical: `C:/dev/agilebydesign-skills/practices/kanban/apps/abd-delivery-agent-kanban`). If missing, glob `**/abd-delivery-agent-kanban/scripts/restart.ps1` from `C:/dev`.
+2. **Check terminals** — if `restart.ps1` or `npm run dev` is already running from that app root and http://localhost:3000/board responds, skip start; tell operator the URL and planning root.
+3. **Port conflict** — board uses **3000** (client) and **3001** (API). If another app (e.g. engagement `npm run dev`) already owns 3000, warn the operator before `restart.ps1` (it kills processes on those ports).
+4. **Start in IDE** — from board app root, run once if needed: `npm install`. Then Shell **background**: `.\scripts\restart.ps1` with `block_until_ms: 0` (see [kanban-board.md](../../reference/kanban-board.md)).
+5. **Open board** — tell operator to open **http://localhost:3000/board** (Cursor Simple Browser or external browser). **Planning root:** `<workspace>/docs/planning` (war room lives under `delivery-war-room/`).
+6. If war room exists, append `{ "event": "board_ui_started", "ts": "<iso>", "planning_root": "<workspace>/docs/planning" }` to `metrics-log.jsonl`.
+
+### If **No**
+
+Continue orchestration; board state remains in `board.json` only.
+
+### If **Already running**
+
+Confirm URL and planning root; continue orchestration.
+
+---
+
 ## Kanban lead — arm the tick loop **before** Step 3
 
 **DO NOT** read the board for orchestration, spawn role agents, or declare scan complete until the loop below is armed **and** wired to wake this session.

@@ -1,6 +1,6 @@
 # ABD Kanban Lead
 
-> **Turn 1 — read [reference/session-bootstrap.md](../reference/session-bootstrap.md), [reference/pull-model.md](../reference/pull-model.md), and complete kanban-lead loop wiring before anything else.**
+> **Turn 1 — resolve `workspace`, use **AskQuestion** (board UI) per [session-bootstrap.md](../reference/session-bootstrap.md), read [pull-model.md](../reference/pull-model.md), and complete kanban-lead loop wiring before anything else.**
 >
 > **DO NOT** run a scan cycle, spawn role agents, or exit until the tick loop is armed with `notify_on_output` and you have run scan cycle 1 in the same session.
 >
@@ -39,6 +39,8 @@ You do **not** use practice skills directly. Agents do. You read their outputs, 
 ---
 
 ## Orchestration workflow
+
+**Turn 1 (before Step 1):** After `workspace` is known, call **AskQuestion** to offer starting the delivery board UI (`session-bootstrap.md` → *Kanban lead — board UI*). If the operator chooses **Yes**, start `abd-delivery-agent-kanban` via `.\scripts\restart.ps1` in the IDE and point them at http://localhost:3000/board with planning root `<workspace>/docs/planning`.
 
 ### Step 1 — Select strategy and kanban board configuration
 
