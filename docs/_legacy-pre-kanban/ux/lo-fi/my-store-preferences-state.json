@@ -1,0 +1,88 @@
+{
+  "target": "docs/ux/lo-fi/my-store-preferences.drawio",
+  "screens": [
+    {
+      "name": "set my store — store detail page",
+      "layout": "form",
+      "col": 0,
+      "row": 0,
+      "regions": [
+        {
+          "name": "store detail header",
+          "slot": "body",
+          "type": "chrome",
+          "name": "PawPlace Central — Store Detail"
+        },
+        {
+          "name": "set my store action",
+          "slot": "body",
+          "type": "button-bar",
+          "buttons": [
+            { "label": "Set as My Store", "style": "primary" },
+            { "label": "Get Directions", "style": "secondary" }
+          ]
+        },
+        {
+          "name": "current preference indicator",
+          "slot": "body",
+          "type": "chrome",
+          "name": "⭐ This is your preferred store"
+        }
+      ]
+    },
+    {
+      "name": "my store — account settings",
+      "layout": "form",
+      "col": 1,
+      "row": 0,
+      "regions": [
+        {
+          "name": "account settings header",
+          "slot": "body",
+          "type": "chrome",
+          "name": "Account Settings — My Store"
+        },
+        {
+          "name": "my store preference form",
+          "slot": "body",
+          "type": "form",
+          "fields": [
+            { "label": "Preferred Store", "input": "dropdown" }
+          ],
+          "buttons": [
+            { "label": "Save Preference", "style": "primary" },
+            { "label": "Remove Preference", "style": "secondary" }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "guest login prompt — modal",
+      "layout": "modal",
+      "col": 0,
+      "row": 1,
+      "regions": [
+        {
+          "name": "login prompt",
+          "slot": "body",
+          "type": "chrome",
+          "name": "Log in or register to set your preferred store"
+        },
+        {
+          "name": "login actions",
+          "slot": "body",
+          "type": "button-bar",
+          "buttons": [
+            { "label": "Log In", "style": "primary" },
+            { "label": "Register", "style": "secondary" },
+            { "label": "Cancel", "style": "secondary" }
+          ]
+        }
+      ]
+    }
+  ],
+  "connections": [
+    { "from": "set my store — store detail page", "to": "my store — account settings", "label": "also settable from" },
+    { "from": "set my store — store detail page", "to": "guest login prompt — modal", "label": "guest clicks Set as My Store" }
+  ]
+}

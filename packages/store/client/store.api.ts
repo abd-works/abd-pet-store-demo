@@ -6,6 +6,7 @@ import { MOCK_STORES } from './mock-stores';
 
 export interface StoreResponse extends StoreData {
   distance_km?: number;
+  storeSpecializations?: string[];
 }
 
 interface StoreListPayload {

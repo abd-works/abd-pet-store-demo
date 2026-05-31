@@ -1,0 +1,848 @@
+{
+  "target": "docs/ux/lo-fi/increment-8-marketing-engine.drawio",
+  "screens": [
+    {
+      "name": "product detail page — reviews and ratings",
+      "layout": "stack",
+      "col": 0,
+      "row": 0,
+      "regions": [
+        {
+          "name": "primary navigation — logged in",
+          "slot": "header",
+          "type": "toolbar",
+          "buttons": [
+            { "label": "find stores" },
+            { "label": "shop supplies" },
+            { "label": "shopping cart" },
+            { "label": "pets" },
+            { "label": "wishlist" },
+            { "label": "account" }
+          ]
+        },
+        {
+          "name": "breadcrumb",
+          "slot": "header",
+          "type": "toolbar",
+          "buttons": [
+            { "label": "Product Catalog" },
+            { "label": "Category" },
+            { "label": "Product Name (current)" }
+          ]
+        },
+        {
+          "name": "product header with aggregate star rating",
+          "slot": "body",
+          "type": "form",
+          "fields": [
+            { "label": "product name", "input": "text" },
+            { "label": "aggregate star rating (★★★★☆ 4.2 · 47 reviews)", "input": "text" }
+          ],
+          "buttons": []
+        },
+        {
+          "name": "no reviews state",
+          "slot": "body",
+          "type": "form",
+          "conditional": true,
+          "condition": "Read Customer Reviews AC 2 — product has no customer reviews",
+          "fields": [
+            { "label": "aggregate star rating not shown — not displayed as zero", "input": "text" },
+            { "label": "Be the first to review this product!", "input": "text" }
+          ],
+          "buttons": []
+        },
+        {
+          "name": "review sort controls",
+          "slot": "body",
+          "type": "nav-tabs",
+          "tabs": [
+            { "label": "Newest", "active": true },
+            { "label": "Oldest" },
+            { "label": "Highest Rating" },
+            { "label": "Lowest Rating" }
+          ]
+        },
+        {
+          "name": "customer reviews list",
+          "slot": "body",
+          "type": "list",
+          "columns": ["star rating", "review text", "review photo", "author", "date"],
+          "rows": 3,
+          "actions": [
+            { "label": "Load More Reviews" }
+          ]
+        },
+        {
+          "name": "review photo lightbox",
+          "slot": "body",
+          "type": "form",
+          "conditional": true,
+          "condition": "Read Customer Reviews AC 4 — selecting thumbnail opens full-size image",
+          "fields": [
+            { "label": "[full-size review photo — lightbox overlay]", "input": "text" },
+            { "label": "close lightbox", "input": "text" }
+          ],
+          "buttons": []
+        },
+        {
+          "name": "review submission form — verified purchaser",
+          "slot": "body",
+          "type": "form",
+          "fields": [
+            { "label": "star rating (1–5)", "input": "radio" },
+            { "label": "written review (optional)", "input": "textarea" },
+            { "label": "upload review photos (optional)", "input": "text" }
+          ],
+          "buttons": [
+            { "label": "Submit Review", "primary": true }
+          ]
+        },
+        {
+          "name": "photo upload validation error",
+          "slot": "body",
+          "type": "form",
+          "conditional": true,
+          "condition": "Submit Photo Review AC 3 — unsupported format or exceeds size limits",
+          "fields": [
+            { "label": "validation error: file format not supported or exceeds size limit", "input": "text" },
+            { "label": "review text and star rating preserved", "input": "text" }
+          ],
+          "buttons": []
+        },
+        {
+          "name": "non-purchaser state",
+          "slot": "body",
+          "type": "form",
+          "conditional": true,
+          "condition": "Submit Written Review AC 3 — customer has not purchased the product",
+          "fields": [
+            { "label": "Purchase this product to leave a review", "input": "text" }
+          ],
+          "buttons": []
+        },
+        {
+          "name": "guest prompt state",
+          "slot": "body",
+          "type": "form",
+          "conditional": true,
+          "condition": "Submit Written Review AC 4 — guest with no customer account",
+          "fields": [
+            { "label": "Log in or register to leave a review", "input": "text" }
+          ],
+          "buttons": [
+            { "label": "Log In" },
+            { "label": "Register" }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "blog index",
+      "layout": "stack",
+      "col": 1,
+      "row": 0,
+      "regions": [
+        {
+          "name": "primary navigation",
+          "slot": "header",
+          "type": "toolbar",
+          "buttons": [
+            { "label": "find stores" },
+            { "label": "shop supplies" },
+            { "label": "blog" },
+            { "label": "pet care guides" },
+            { "label": "account" }
+          ]
+        },
+        {
+          "name": "blog index header",
+          "slot": "body",
+          "type": "form",
+          "fields": [
+            { "label": "PawPlace Blog", "input": "text" }
+          ],
+          "buttons": []
+        },
+        {
+          "name": "blog post listing",
+          "slot": "body",
+          "type": "list",
+          "columns": ["title", "summary", "date", "author"],
+          "rows": 5,
+          "actions": [
+            { "label": "Read Post" }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "blog post detail",
+      "layout": "stack",
+      "col": 2,
+      "row": 0,
+      "regions": [
+        {
+          "name": "primary navigation",
+          "slot": "header",
+          "type": "toolbar",
+          "buttons": [
+            { "label": "find stores" },
+            { "label": "shop supplies" },
+            { "label": "blog" },
+            { "label": "pet care guides" },
+            { "label": "account" }
+          ]
+        },
+        {
+          "name": "breadcrumb",
+          "slot": "header",
+          "type": "toolbar",
+          "buttons": [
+            { "label": "Blog" },
+            { "label": "Post Title (current)" }
+          ]
+        },
+        {
+          "name": "blog post content",
+          "slot": "body",
+          "type": "form",
+          "fields": [
+            { "label": "title", "input": "text" },
+            { "label": "author", "input": "text" },
+            { "label": "date", "input": "text" },
+            { "label": "body content", "input": "textarea" }
+          ],
+          "buttons": []
+        }
+      ]
+    },
+    {
+      "name": "pet care guide index",
+      "layout": "stack",
+      "col": 3,
+      "row": 0,
+      "regions": [
+        {
+          "name": "primary navigation",
+          "slot": "header",
+          "type": "toolbar",
+          "buttons": [
+            { "label": "find stores" },
+            { "label": "shop supplies" },
+            { "label": "blog" },
+            { "label": "pet care guides" },
+            { "label": "account" }
+          ]
+        },
+        {
+          "name": "guide index header",
+          "slot": "body",
+          "type": "form",
+          "fields": [
+            { "label": "Pet Care Guides", "input": "text" }
+          ],
+          "buttons": []
+        },
+        {
+          "name": "pet type filter",
+          "slot": "body",
+          "type": "nav-tabs",
+          "tabs": [
+            { "label": "All", "active": true },
+            { "label": "Dogs" },
+            { "label": "Cats" },
+            { "label": "Senior Pets" },
+            { "label": "Small Animals" }
+          ]
+        },
+        {
+          "name": "pet care guide listing",
+          "slot": "body",
+          "type": "list",
+          "columns": ["title", "summary", "pet type/species tag", "date"],
+          "rows": 5,
+          "actions": [
+            { "label": "Read Guide" }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "pet care guide detail",
+      "layout": "stack",
+      "col": 3,
+      "row": 1,
+      "regions": [
+        {
+          "name": "primary navigation",
+          "slot": "header",
+          "type": "toolbar",
+          "buttons": [
+            { "label": "find stores" },
+            { "label": "shop supplies" },
+            { "label": "blog" },
+            { "label": "pet care guides" },
+            { "label": "account" }
+          ]
+        },
+        {
+          "name": "breadcrumb",
+          "slot": "header",
+          "type": "toolbar",
+          "buttons": [
+            { "label": "Pet Care Guides" },
+            { "label": "Guide Title (current)" }
+          ]
+        },
+        {
+          "name": "pet care guide content",
+          "slot": "body",
+          "type": "form",
+          "fields": [
+            { "label": "title", "input": "text" },
+            { "label": "author", "input": "text" },
+            { "label": "date", "input": "text" },
+            { "label": "pet type/species tag", "input": "badge" },
+            { "label": "body content", "input": "textarea" }
+          ],
+          "buttons": []
+        }
+      ]
+    },
+    {
+      "name": "customer account — communication preferences",
+      "layout": "stack",
+      "col": 0,
+      "row": 1,
+      "regions": [
+        {
+          "name": "primary navigation — logged in",
+          "slot": "header",
+          "type": "toolbar",
+          "buttons": [
+            { "label": "find stores" },
+            { "label": "shop supplies" },
+            { "label": "shopping cart" },
+            { "label": "pets" },
+            { "label": "wishlist" },
+            { "label": "account" }
+          ]
+        },
+        {
+          "name": "account nav",
+          "slot": "header",
+          "type": "nav-tabs",
+          "tabs": [
+            { "label": "Profile" },
+            { "label": "Orders" },
+            { "label": "Appointments" },
+            { "label": "Wishlist" },
+            { "label": "Saved Payments" },
+            { "label": "Communication", "active": true },
+            { "label": "Notifications" }
+          ]
+        },
+        {
+          "name": "communication preferences header",
+          "slot": "body",
+          "type": "form",
+          "fields": [
+            { "label": "Marketing Communication Preferences", "input": "text" },
+            { "label": "Manage which marketing categories you receive. Changes take effect immediately.", "input": "text" }
+          ],
+          "buttons": []
+        },
+        {
+          "name": "marketing category toggles",
+          "slot": "body",
+          "type": "list",
+          "columns": ["marketing category", "description", "opt-in status"],
+          "rows": 4,
+          "actions": []
+        },
+        {
+          "name": "promotions toggle",
+          "slot": "body",
+          "type": "form",
+          "fields": [
+            { "label": "Promotions — sales, new products, seasonal offers", "input": "checkbox" }
+          ],
+          "buttons": []
+        },
+        {
+          "name": "recommendations toggle",
+          "slot": "body",
+          "type": "form",
+          "fields": [
+            { "label": "Recommendations — personalized product suggestions based on your history", "input": "checkbox" }
+          ],
+          "buttons": []
+        },
+        {
+          "name": "restock alerts toggle",
+          "slot": "body",
+          "type": "form",
+          "fields": [
+            { "label": "Restock Alerts — notified when wishlisted products are back in stock", "input": "checkbox" }
+          ],
+          "buttons": []
+        },
+        {
+          "name": "events toggle",
+          "slot": "body",
+          "type": "form",
+          "fields": [
+            { "label": "Events — in-store event notifications at your preferred store", "input": "checkbox" }
+          ],
+          "buttons": []
+        },
+        {
+          "name": "transactional note",
+          "slot": "body",
+          "type": "form",
+          "fields": [
+            { "label": "Transactional notifications (order confirmations, shipping, appointments) are not affected by these settings", "input": "text" }
+          ],
+          "buttons": []
+        },
+        {
+          "name": "guest access state",
+          "slot": "body",
+          "type": "form",
+          "conditional": true,
+          "condition": "Set Communication Preferences AC 5 — guest with no customer account",
+          "fields": [
+            { "label": "Log in or register to manage your communication preferences", "input": "text" }
+          ],
+          "buttons": [
+            { "label": "Log In" },
+            { "label": "Register" }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "customer account — notification preferences",
+      "layout": "stack",
+      "col": 1,
+      "row": 1,
+      "regions": [
+        {
+          "name": "primary navigation — logged in",
+          "slot": "header",
+          "type": "toolbar",
+          "buttons": [
+            { "label": "find stores" },
+            { "label": "shop supplies" },
+            { "label": "shopping cart" },
+            { "label": "pets" },
+            { "label": "wishlist" },
+            { "label": "account" }
+          ]
+        },
+        {
+          "name": "account nav",
+          "slot": "header",
+          "type": "nav-tabs",
+          "tabs": [
+            { "label": "Profile" },
+            { "label": "Orders" },
+            { "label": "Appointments" },
+            { "label": "Wishlist" },
+            { "label": "Saved Payments" },
+            { "label": "Communication" },
+            { "label": "Notifications", "active": true }
+          ]
+        },
+        {
+          "name": "notification preferences header",
+          "slot": "body",
+          "type": "form",
+          "fields": [
+            { "label": "Notification Preferences", "input": "text" },
+            { "label": "Manage transactional notification settings. Changes take effect immediately.", "input": "text" }
+          ],
+          "buttons": []
+        },
+        {
+          "name": "order updates toggle",
+          "slot": "body",
+          "type": "form",
+          "fields": [
+            { "label": "Order Updates", "input": "checkbox" }
+          ],
+          "buttons": []
+        },
+        {
+          "name": "shipping notifications toggle",
+          "slot": "body",
+          "type": "form",
+          "fields": [
+            { "label": "Shipping Notifications", "input": "checkbox" }
+          ],
+          "buttons": []
+        },
+        {
+          "name": "appointment reminders toggle",
+          "slot": "body",
+          "type": "form",
+          "fields": [
+            { "label": "Appointment Reminders", "input": "checkbox" }
+          ],
+          "buttons": []
+        },
+        {
+          "name": "return updates toggle",
+          "slot": "body",
+          "type": "form",
+          "fields": [
+            { "label": "Return Updates", "input": "checkbox" }
+          ],
+          "buttons": []
+        },
+        {
+          "name": "critical notifications note",
+          "slot": "body",
+          "type": "form",
+          "fields": [
+            { "label": "Some notifications cannot be disabled (e.g. order confirmation, refund completion) — these are required for your records", "input": "text" }
+          ],
+          "buttons": []
+        },
+        {
+          "name": "guest access state",
+          "slot": "body",
+          "type": "form",
+          "conditional": true,
+          "condition": "Set Notification Preferences AC 4 — guest with no customer account",
+          "fields": [
+            { "label": "Log in or create an account to manage notification preferences", "input": "text" },
+            { "label": "Transactional notifications for guest orders continue via checkout email", "input": "text" }
+          ],
+          "buttons": [
+            { "label": "Log In" },
+            { "label": "Create Account" }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "unsubscribe confirmation",
+      "layout": "stack",
+      "col": 2,
+      "row": 1,
+      "regions": [
+        {
+          "name": "primary navigation",
+          "slot": "header",
+          "type": "toolbar",
+          "buttons": [
+            { "label": "find stores" },
+            { "label": "shop supplies" },
+            { "label": "account" }
+          ]
+        },
+        {
+          "name": "unsubscribe confirmation",
+          "slot": "body",
+          "type": "form",
+          "fields": [
+            { "label": "You've been unsubscribed", "input": "text" },
+            { "label": "You will no longer receive [marketing category] emails from PawPlace", "input": "text" },
+            { "label": "You can re-subscribe at any time from your Communication Preferences", "input": "text" }
+          ],
+          "buttons": [
+            { "label": "Manage Communication Preferences" },
+            { "label": "Continue Shopping", "primary": true }
+          ]
+        },
+        {
+          "name": "already unsubscribed state",
+          "slot": "body",
+          "type": "form",
+          "conditional": true,
+          "condition": "Unsubscribe AC 4 — already unsubscribed, idempotent",
+          "fields": [
+            { "label": "You've been unsubscribed", "input": "text" },
+            { "label": "You are already unsubscribed from this category", "input": "text" }
+          ],
+          "buttons": []
+        }
+      ]
+    },
+    {
+      "name": "admin — content editor",
+      "layout": "form",
+      "col": 0,
+      "row": 2,
+      "regions": [
+        {
+          "name": "staff header",
+          "slot": "header",
+          "type": "chrome"
+        },
+        {
+          "name": "staff nav",
+          "slot": "header",
+          "type": "nav-tabs",
+          "tabs": [
+            { "label": "Stock Levels" },
+            { "label": "Incoming Appointments" },
+            { "label": "Pet Profiles" },
+            { "label": "Returns" },
+            { "label": "Content", "active": true }
+          ]
+        },
+        {
+          "name": "content type selector",
+          "slot": "body",
+          "type": "nav-tabs",
+          "tabs": [
+            { "label": "Blog Posts", "active": true },
+            { "label": "Pet Care Guides" }
+          ]
+        },
+        {
+          "name": "content list",
+          "slot": "body",
+          "type": "list",
+          "columns": ["title", "status (draft/published)", "date", "author"],
+          "rows": 4,
+          "actions": [
+            { "label": "Edit" },
+            { "label": "Publish" },
+            { "label": "New Post", "primary": true }
+          ]
+        },
+        {
+          "name": "blog post editor",
+          "slot": "body",
+          "type": "form",
+          "fields": [
+            { "label": "title", "input": "text" },
+            { "label": "summary", "input": "textarea" },
+            { "label": "body content", "input": "textarea" },
+            { "label": "author", "input": "text" }
+          ],
+          "buttons": [
+            { "label": "Save as Draft" },
+            { "label": "Publish", "primary": true }
+          ]
+        },
+        {
+          "name": "pet care guide editor",
+          "slot": "body",
+          "type": "form",
+          "conditional": true,
+          "condition": "Content type is Pet Care Guides",
+          "fields": [
+            { "label": "title", "input": "text" },
+            { "label": "summary", "input": "textarea" },
+            { "label": "body content", "input": "textarea" },
+            { "label": "pet type/species tag", "input": "dropdown" }
+          ],
+          "buttons": [
+            { "label": "Save as Draft" },
+            { "label": "Publish", "primary": true }
+          ]
+        },
+        {
+          "name": "tag required validation",
+          "slot": "body",
+          "type": "form",
+          "conditional": true,
+          "condition": "Publish Pet Care Guide AC 4 — no pet type/species tag selected",
+          "fields": [
+            { "label": "At least one pet type or species tag is required before publishing", "input": "text" }
+          ],
+          "buttons": []
+        },
+        {
+          "name": "publish date note",
+          "slot": "body",
+          "type": "form",
+          "conditional": true,
+          "condition": "Publish Blog Post AC 3 — editing a published post",
+          "fields": [
+            { "label": "Editing a published post — publish date will not change unless you update it explicitly", "input": "text" },
+            { "label": "update publish date", "input": "checkbox" }
+          ],
+          "buttons": []
+        }
+      ]
+    },
+    {
+      "name": "notification preview — marketing communications",
+      "layout": "stack",
+      "col": 1,
+      "row": 2,
+      "regions": [
+        {
+          "name": "notification type selector",
+          "slot": "header",
+          "type": "nav-tabs",
+          "tabs": [
+            { "label": "Promotional Email", "active": true },
+            { "label": "Personalized Recommendation" },
+            { "label": "Restock Alert" },
+            { "label": "In-Store Event" }
+          ]
+        },
+        {
+          "name": "promotional email preview",
+          "slot": "body",
+          "type": "form",
+          "fields": [
+            { "label": "Subject: [Seasonal Sale / New Arrivals / Special Offer]", "input": "text" },
+            { "label": "promotional content — sales, new products, seasonal offers", "input": "text" },
+            { "label": "unsubscribe link — immediately opts out of promotions marketing category", "input": "text" }
+          ],
+          "buttons": []
+        },
+        {
+          "name": "real-time opt-out note",
+          "slot": "body",
+          "type": "form",
+          "fields": [
+            { "label": "communication preferences checked at delivery time, not batch creation time", "input": "text" }
+          ],
+          "buttons": []
+        },
+        {
+          "name": "personalized recommendation preview",
+          "slot": "body",
+          "type": "form",
+          "conditional": true,
+          "condition": "Active tab: Personalized Recommendation",
+          "fields": [
+            { "label": "Subject: Products we think you'll love", "input": "text" },
+            { "label": "recommendations based on purchase history, browsing patterns, or pet profile", "input": "text" },
+            { "label": "only in-stock products — out-of-stock excluded", "input": "text" },
+            { "label": "not sent when no personalization data exists", "input": "text" },
+            { "label": "unsubscribe link — immediately opts out of recommendations marketing category", "input": "text" }
+          ],
+          "buttons": []
+        },
+        {
+          "name": "restock alert preview",
+          "slot": "body",
+          "type": "form",
+          "conditional": true,
+          "condition": "Active tab: Restock Alert",
+          "fields": [
+            { "label": "Subject: [Product Name] is back in stock!", "input": "text" },
+            { "label": "product on your wishlist is now available", "input": "text" },
+            { "label": "best-effort signal — product may go back out of stock", "input": "text" },
+            { "label": "only sent to customers with product on wishlist AND opted in to restock alerts", "input": "text" },
+            { "label": "unsubscribe link", "input": "text" }
+          ],
+          "buttons": []
+        },
+        {
+          "name": "in-store event preview",
+          "slot": "body",
+          "type": "form",
+          "conditional": true,
+          "condition": "Active tab: In-Store Event",
+          "fields": [
+            { "label": "Subject: [Event Name] at [Store Name]", "input": "text" },
+            { "label": "event details — adoption day, grooming workshop, training session", "input": "text" },
+            { "label": "store address and event date/time", "input": "text" },
+            { "label": "only sent to customers whose preferred store matches event location AND opted in to events", "input": "text" },
+            { "label": "not sent when customer has not set a preferred store", "input": "text" },
+            { "label": "event still discoverable on store detail page for walk-in discovery", "input": "text" },
+            { "label": "unsubscribe link", "input": "text" }
+          ],
+          "buttons": []
+        },
+        {
+          "name": "delivery resilience note",
+          "slot": "body",
+          "type": "form",
+          "fields": [
+            { "label": "Email queued for retry when delivery system unavailable — promotional email not silently discarded", "input": "text" }
+          ],
+          "buttons": []
+        }
+      ]
+    },
+    {
+      "name": "notification preview — transactional updates",
+      "layout": "stack",
+      "col": 2,
+      "row": 2,
+      "regions": [
+        {
+          "name": "notification type selector",
+          "slot": "header",
+          "type": "nav-tabs",
+          "tabs": [
+            { "label": "Order Confirmation", "active": true },
+            { "label": "Shipping Update" },
+            { "label": "Click-and-Collect Ready" }
+          ]
+        },
+        {
+          "name": "order confirmation preview",
+          "slot": "body",
+          "type": "form",
+          "fields": [
+            { "label": "Subject: Order confirmed — #[order number]", "input": "text" },
+            { "label": "order number · items · total · delivery option · estimated delivery/pickup", "input": "text" },
+            { "label": "mandatory transactional notification — cannot be suppressed", "input": "text" },
+            { "label": "guest orders: sent to guest email provided at checkout", "input": "text" }
+          ],
+          "buttons": []
+        },
+        {
+          "name": "shipping update preview",
+          "slot": "body",
+          "type": "form",
+          "conditional": true,
+          "condition": "Active tab: Shipping Update",
+          "fields": [
+            { "label": "Subject: Your order #[number] has shipped", "input": "text" },
+            { "label": "order number · tracking number · carrier link · estimated delivery date", "input": "text" },
+            { "label": "initial shipping notification is mandatory — follow-up status updates respect notification preferences", "input": "text" }
+          ],
+          "buttons": []
+        },
+        {
+          "name": "click-and-collect ready preview",
+          "slot": "body",
+          "type": "form",
+          "conditional": true,
+          "condition": "Active tab: Click-and-Collect Ready",
+          "fields": [
+            { "label": "Subject: Your order #[number] is ready for pickup", "input": "text" },
+            { "label": "order number · pickup store address · operating hours · collection window", "input": "text" },
+            { "label": "collection window reminder sent when deadline approaching and order not collected", "input": "text" },
+            { "label": "guest orders: sent to guest email provided at checkout", "input": "text" }
+          ],
+          "buttons": []
+        },
+        {
+          "name": "resilience note",
+          "slot": "body",
+          "type": "form",
+          "fields": [
+            { "label": "Email queued for retry when delivery system unavailable — order/shipping status still updated", "input": "text" }
+          ],
+          "buttons": []
+        }
+      ]
+    }
+  ],
+  "connections": [
+    { "from": "product detail page — reviews and ratings", "to": "blog index", "label": "Blog link in nav" },
+    { "from": "product detail page — reviews and ratings", "to": "pet care guide index", "label": "Guides link in nav" },
+    { "from": "blog index", "to": "blog post detail", "label": "Read Post" },
+    { "from": "pet care guide index", "to": "pet care guide detail", "label": "Read Guide" },
+    { "from": "pet care guide detail", "to": "pet care guide index", "label": "Pet Care Guides (breadcrumb)" },
+    { "from": "customer account — communication preferences", "to": "customer account — notification preferences", "label": "Notifications tab" },
+    { "from": "customer account — notification preferences", "to": "customer account — communication preferences", "label": "Communication tab" },
+    { "from": "notification preview — marketing communications", "to": "unsubscribe confirmation", "label": "Unsubscribe link" },
+    { "from": "unsubscribe confirmation", "to": "customer account — communication preferences", "label": "Manage Communication Preferences" }
+  ]
+}

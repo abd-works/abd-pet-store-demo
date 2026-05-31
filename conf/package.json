@@ -1,0 +1,23 @@
+{
+  "dependencies": {
+    "@pawplace/root": "file:..",
+    "@testing-library/jest-dom": "^6.9.1",
+    "@testing-library/react": "^16.3.2",
+    "@vitejs/plugin-react": "^6.0.2",
+    "express": "^4.21.0",
+    "express-session": "^1.18.0",
+    "jsdom": "^29.1.1",
+    "mongodb": "^6.12.0",
+    "react": "^19.2.6",
+    "react-dom": "^19.2.6",
+    "react-router-dom": "^7.16.0",
+    "supertest": "^7.0.0",
+    "vitest": "^4.1.7",
+    "zod": "^3.24.0"
+  },
+  "devDependencies": {
+    "concurrently": "^9.1.2",
+    "tsconfig-paths": "^4.2.0",
+    "tsx": "^4.19.2"
+  }
+}

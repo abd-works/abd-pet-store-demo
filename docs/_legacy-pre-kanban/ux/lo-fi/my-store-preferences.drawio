@@ -1,0 +1,73 @@
+<mxfile host="drawio-mockup">
+    <diagram id="lo-fi" name="Lo-fi Wireframe">
+        <mxGraphModel dx="1422" dy="762" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1920" pageHeight="604" math="0" shadow="0">
+            <root>
+                <mxCell id="0"/>
+                <mxCell id="1" parent="0"/>
+                <mxCell id="2" value="set my store — store detail page" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#000000;strokeWidth=2;fontStyle=1;fontSize=13;verticalAlign=top;align=center;" vertex="1" parent="1">
+                    <mxGeometry x="60" y="60" width="760" height="146" as="geometry"/>
+                </mxCell>
+                <mxCell id="3" value="PawPlace Central — Store Detail" style="whiteSpace=wrap;html=1;fillColor=#f5f5f5;strokeColor=#cccccc;strokeWidth=1;fontSize=11;fontStyle=2;verticalAlign=middle;align=left;" vertex="1" parent="2">
+                    <mxGeometry x="12" y="44" width="736" height="28" as="geometry"/>
+                </mxCell>
+                <mxCell id="4" value="" style="whiteSpace=wrap;html=1;fillColor=#f0f0f0;strokeColor=#cccccc;strokeWidth=1;" vertex="1" parent="2">
+                    <mxGeometry x="12" y="72" width="736" height="34" as="geometry"/>
+                </mxCell>
+                <mxCell id="5" value="Set as My Store" style="rounded=1;arcSize=20;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#999999;fontSize=10;" vertex="1" parent="2">
+                    <mxGeometry x="18" y="76" width="121" height="26" as="geometry"/>
+                </mxCell>
+                <mxCell id="6" value="Get Directions" style="rounded=1;arcSize=20;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#999999;fontSize=10;" vertex="1" parent="2">
+                    <mxGeometry x="145" y="76" width="114" height="26" as="geometry"/>
+                </mxCell>
+                <mxCell id="7" value="⭐ This is your preferred store" style="whiteSpace=wrap;html=1;fillColor=#f5f5f5;strokeColor=#cccccc;strokeWidth=1;fontSize=11;fontStyle=2;verticalAlign=middle;align=left;" vertex="1" parent="2">
+                    <mxGeometry x="12" y="106" width="736" height="28" as="geometry"/>
+                </mxCell>
+                <mxCell id="8" value="my store — account settings" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#000000;strokeWidth=2;fontStyle=1;fontSize=13;verticalAlign=top;align=center;" vertex="1" parent="1">
+                    <mxGeometry x="960" y="60" width="760" height="180" as="geometry"/>
+                </mxCell>
+                <mxCell id="9" value="Account Settings — My Store" style="whiteSpace=wrap;html=1;fillColor=#f5f5f5;strokeColor=#cccccc;strokeWidth=1;fontSize=11;fontStyle=2;verticalAlign=middle;align=left;" vertex="1" parent="8">
+                    <mxGeometry x="12" y="44" width="736" height="28" as="geometry"/>
+                </mxCell>
+                <mxCell id="10" value="&lt;b&gt;my store preference form&lt;/b&gt;" style="text;html=1;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;fontStyle=1;fontSize=11;" vertex="1" parent="8">
+                    <mxGeometry x="12" y="72" width="736" height="22" as="geometry"/>
+                </mxCell>
+                <mxCell id="11" value="Preferred Store" style="text;html=1;strokeColor=none;fillColor=none;align=right;verticalAlign=middle;fontSize=10;" vertex="1" parent="8">
+                    <mxGeometry x="12" y="94" width="265" height="28" as="geometry"/>
+                </mxCell>
+                <mxCell id="12" value="  ▾" style="whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#999999;fontSize=10;verticalAlign=middle;align=left;" vertex="1" parent="8">
+                    <mxGeometry x="281" y="94" width="467" height="28" as="geometry"/>
+                </mxCell>
+                <mxCell id="13" value="Save Preference" style="rounded=1;arcSize=25;whiteSpace=wrap;html=1;fillColor=#f5f5f5;strokeColor=#999999;fontSize=10;" vertex="1" parent="8">
+                    <mxGeometry x="281" y="130" width="125" height="26" as="geometry"/>
+                </mxCell>
+                <mxCell id="14" value="Remove Preference" style="rounded=1;arcSize=25;whiteSpace=wrap;html=1;fillColor=#f5f5f5;strokeColor=#999999;fontSize=10;" vertex="1" parent="8">
+                    <mxGeometry x="412" y="130" width="139" height="26" as="geometry"/>
+                </mxCell>
+                <mxCell id="15" value="guest login prompt — modal" style="rounded=1;arcSize=3;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#000000;strokeWidth=2;fontStyle=1;fontSize=13;verticalAlign=top;align=center;" vertex="1" parent="1">
+                    <mxGeometry x="60" y="286" width="760" height="118" as="geometry"/>
+                </mxCell>
+                <mxCell id="16" value="Log in or register to set your preferred store" style="whiteSpace=wrap;html=1;fillColor=#f5f5f5;strokeColor=#cccccc;strokeWidth=1;fontSize=11;fontStyle=2;verticalAlign=middle;align=left;" vertex="1" parent="15">
+                    <mxGeometry x="12" y="44" width="736" height="28" as="geometry"/>
+                </mxCell>
+                <mxCell id="17" value="" style="whiteSpace=wrap;html=1;fillColor=#f0f0f0;strokeColor=#cccccc;strokeWidth=1;" vertex="1" parent="15">
+                    <mxGeometry x="12" y="72" width="736" height="34" as="geometry"/>
+                </mxCell>
+                <mxCell id="18" value="Log In" style="rounded=1;arcSize=20;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#999999;fontSize=10;" vertex="1" parent="15">
+                    <mxGeometry x="18" y="76" width="80" height="26" as="geometry"/>
+                </mxCell>
+                <mxCell id="19" value="Register" style="rounded=1;arcSize=20;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#999999;fontSize=10;" vertex="1" parent="15">
+                    <mxGeometry x="104" y="76" width="80" height="26" as="geometry"/>
+                </mxCell>
+                <mxCell id="20" value="Cancel" style="rounded=1;arcSize=20;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#999999;fontSize=10;" vertex="1" parent="15">
+                    <mxGeometry x="190" y="76" width="80" height="26" as="geometry"/>
+                </mxCell>
+                <mxCell id="21" value="also settable from" style="edgeStyle=orthogonalEdgeStyle;html=1;strokeColor=#000000;endArrow=block;endFill=1;fontSize=10;" edge="1" source="2" target="8" parent="1">
+                    <mxGeometry x="0" y="0" width="100" height="40" as="geometry"/>
+                </mxCell>
+                <mxCell id="22" value="guest clicks Set as My Store" style="edgeStyle=orthogonalEdgeStyle;html=1;strokeColor=#000000;endArrow=block;endFill=1;fontSize=10;" edge="1" source="2" target="15" parent="1">
+                    <mxGeometry x="0" y="0" width="100" height="40" as="geometry"/>
+                </mxCell>
+            </root>
+        </mxGraphModel>
+    </diagram>
+</mxfile>

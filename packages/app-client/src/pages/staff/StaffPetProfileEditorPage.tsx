@@ -1,8 +1,8 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import { StaffPage } from '../../components/CustomerPage';
-import { fetchPet, updatePet, markPetAdopted, uploadPetPhoto, removePetPhoto } from '../../../../../pet/client/pet.api';
-import type { PetDto } from '../../../../../pet/client/pet.api';
+import { fetchPet, updatePet, markPetAdopted, uploadPetPhoto, removePetPhoto } from '../../../../pet/client/pet.api';
+import type { PetDto } from '../../../../pet/client/pet.api';
 
 const SPECIES_OPTIONS = ['Dogs', 'Cats', 'Reptiles', 'Small Mammals'];
 

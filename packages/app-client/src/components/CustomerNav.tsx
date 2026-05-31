@@ -7,6 +7,7 @@ import { FONT_WEIGHT_ACTIVE, FONT_WEIGHT_INACTIVE } from '../../../shared/layout
 import { useCart } from '../context/CartContext';
 
 import { useCustomerSession } from '../context/CustomerSessionContext';
+import { GlobalSearchBar } from './GlobalSearchBar';
 
 
 
@@ -71,6 +72,8 @@ export function CustomerNav() {
   const onStores = pathname.startsWith('/store-locator');
 
   const onCatalog = pathname.startsWith('/product-catalog') || pathname.startsWith('/products/');
+  const onBlog = pathname.startsWith('/blog');
+  const onGuides = pathname.startsWith('/guides');
 
   const onCart = pathname.startsWith('/cart') || pathname.startsWith('/checkout');
 
@@ -92,6 +95,8 @@ export function CustomerNav() {
       <Link to="/store-locator" style={linkStyle(onStores)}>find stores</Link>
 
       <Link to="/product-catalog" style={linkStyle(onCatalog)}>shop supplies</Link>
+      <Link to="/blog" style={linkStyle(onBlog)}>blog</Link>
+      <Link to="/guides" style={linkStyle(onGuides)}>pet care guides</Link>
 
       <Link to="/cart" style={linkStyle(onCart)} aria-label={`shopping cart (${cart.itemCount} items)`}>
 
@@ -128,6 +133,8 @@ export function CustomerNav() {
         )
 
       )}
+
+      <GlobalSearchBar />
 
     </header>
 

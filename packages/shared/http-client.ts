@@ -10,3 +10,9 @@ export function recoverWithMock<T>(scope: string, error: unknown, fallback: T): 
   logApiFallback(scope, error);
   return fallback;
 }
+
+export async function httpJson<T>(url: string, init?: RequestInit): Promise<T> {
+  const response = await fetch(url, init);
+  assertResponseOk(response, url);
+  return response.json() as Promise<T>;
+}

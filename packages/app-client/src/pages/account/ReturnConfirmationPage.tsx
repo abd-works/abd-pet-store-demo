@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from 'react';
 import { useParams, Link } from 'react-router-dom';
 import { CustomerPage } from '../../components/CustomerPage';
-import { fetchReturn } from '../../../return/client/return.api';
-import type { ReturnDto } from '../../../return/shared/return.schema';
+import { fetchReturn } from '../../../../return/client/return.api';
+import type { ReturnDto } from '../../../../return/shared/return.schema';
 
 export function ReturnConfirmationPage() {
   const { returnId } = useParams<{ returnId: string }>();

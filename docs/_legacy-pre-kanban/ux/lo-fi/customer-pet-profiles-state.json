@@ -1,0 +1,98 @@
+{
+  "target": "docs/ux/lo-fi/customer-pet-profiles.drawio",
+  "screens": [
+    {
+      "name": "my pets — list",
+      "layout": "form",
+      "col": 0,
+      "row": 0,
+      "regions": [
+        {
+          "name": "my pets header",
+          "slot": "body",
+          "type": "chrome",
+          "name": "My Pets"
+        },
+        {
+          "name": "pet profiles list",
+          "slot": "body",
+          "type": "list",
+          "columns": ["Name", "Species", "Breed", "Age"],
+          "rows": [
+            ["Buddy", "Dog", "Golden Retriever", "3 years"],
+            ["Whiskers", "Cat", "Siamese", "5 years"]
+          ],
+          "actions": [
+            { "label": "Add Pet", "style": "primary" },
+            { "label": "Edit", "style": "secondary" },
+            { "label": "Remove", "style": "secondary" }
+          ]
+        },
+        {
+          "name": "empty state",
+          "slot": "body",
+          "type": "chrome",
+          "name": "No pets yet — add your first pet!"
+        }
+      ]
+    },
+    {
+      "name": "create pet profile — form",
+      "layout": "form",
+      "col": 1,
+      "row": 0,
+      "regions": [
+        {
+          "name": "pet profile form header",
+          "slot": "body",
+          "type": "chrome",
+          "name": "Add New Pet"
+        },
+        {
+          "name": "pet profile form",
+          "slot": "body",
+          "type": "form",
+          "fields": [
+            { "label": "Name", "input": "text" },
+            { "label": "Species", "input": "dropdown" },
+            { "label": "Breed (optional)", "input": "text" },
+            { "label": "Age or Date of Birth (optional)", "input": "text" },
+            { "label": "Photo (optional)", "input": "text" }
+          ],
+          "buttons": [
+            { "label": "Save Pet", "style": "primary" },
+            { "label": "Cancel", "style": "secondary" }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "guest login prompt — pets",
+      "layout": "modal",
+      "col": 0,
+      "row": 1,
+      "regions": [
+        {
+          "name": "login prompt",
+          "slot": "body",
+          "type": "chrome",
+          "name": "Log in or register to manage your pets"
+        },
+        {
+          "name": "login actions",
+          "slot": "body",
+          "type": "button-bar",
+          "buttons": [
+            { "label": "Log In", "style": "primary" },
+            { "label": "Register", "style": "secondary" },
+            { "label": "Cancel", "style": "secondary" }
+          ]
+        }
+      ]
+    }
+  ],
+  "connections": [
+    { "from": "my pets — list", "to": "create pet profile — form", "label": "Add Pet" },
+    { "from": "my pets — list", "to": "guest login prompt — pets", "label": "guest access" }
+  ]
+}

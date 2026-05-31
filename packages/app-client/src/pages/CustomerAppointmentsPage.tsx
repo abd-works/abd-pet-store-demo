@@ -2,9 +2,9 @@ import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { CustomerPage } from '../components/CustomerPage';
 import { AccountSettingsLayout } from '../components/AccountSettingsNav';
-import { AppointmentListItem } from '../../../../appointment/client/AppointmentListItem';
-import { fetchMyAppointments, cancelAppointment } from '../../../../appointment/client/appointment.api';
-import type { AppointmentDto } from '../../../../appointment/client/appointment.api';
+import { AppointmentListItem } from '../../../appointment/client/AppointmentListItem';
+import { fetchMyAppointments, cancelAppointment } from '../../../appointment/client/appointment.api';
+import type { AppointmentDto } from '../../../appointment/client/appointment.api';
 
 function isUpcoming(a: AppointmentDto): boolean {
   return a.status === 'confirmed' || a.status === 'checked_in';

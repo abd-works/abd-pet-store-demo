@@ -3,9 +3,11 @@ import { Link, useNavigate } from 'react-router-dom';
 import { PASSWORD_REQUIREMENT_LABELS } from '@pawplace/customer-account-shared';
 import { registerAccount } from '@pawplace/customer-account-client';
 import { CustomerPage } from '../../components/CustomerPage';
+import { PromotionalEmailOptInCheckbox } from '../../components/PromotionalEmailOptInCheckbox';
 
 export function RegisterPage() {
   const navigate = useNavigate();
+  const [optInPromotionalEmail, setOptInPromotionalEmail] = useState(false);
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [passwordConfirmation, setPasswordConfirmation] = useState('');
@@ -17,7 +19,14 @@ export function RegisterPage() {
     event.preventDefault();
     setError(null);
     try {
-      await registerAccount({ email, password, passwordConfirmation, firstName, lastName });
+      await registerAccount({
+        email,
+        password,
+        passwordConfirmation,
+        firstName,
+        lastName,
+        optInPromotionalEmail,
+      });
       navigate('/register/confirmation', { state: { email } });
     } catch (err) {
       const apiErr = err as Error & { body?: { error?: string; loginUrl?: string } };
@@ -65,6 +74,10 @@ export function RegisterPage() {
               />
             </div>
           ))}
+          <PromotionalEmailOptInCheckbox
+            checked={optInPromotionalEmail}
+            onChange={setOptInPromotionalEmail}
+          />
           <button type="submit" style={{ marginTop: 12, padding: '10px 16px' }}>
             create account
           </button>

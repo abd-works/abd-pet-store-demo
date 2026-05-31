@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { StoreList } from '../../../store/client/StoreList';
 import { StoreMap } from '../../../store/client/StoreMap';
 import { Increment1Page } from '../components/Increment1Page';
+import { useCustomerSession } from '../context/CustomerSessionContext';
 import { FONT_WEIGHT_ACTIVE, FONT_WEIGHT_INACTIVE } from '../../../shared/layout-tokens';
 
 const tabStyle = (active: boolean): React.CSSProperties => ({
@@ -34,14 +35,15 @@ function StoreLocatorTabs({
 }
 
 export function StoreLocatorPage() {
-  const [activeTab, setActiveTab] = useState<'map' | 'list'>('map');
+  const [activeTab, setActiveTab] = useState<'map' | 'list'>('list');
+  const { isLoggedIn, isVerified } = useCustomerSession();
 
   return (
     <Increment1Page title="store locator">
       <div data-testid="store-locator">
         <StoreLocatorTabs activeTab={activeTab} onTabChange={setActiveTab} />
         {activeTab === 'map' && <StoreMap />}
-        {activeTab === 'list' && <StoreList />}
+        {activeTab === 'list' && <StoreList isLoggedIn={isLoggedIn} isVerified={isVerified} />}
       </div>
     </Increment1Page>
   );

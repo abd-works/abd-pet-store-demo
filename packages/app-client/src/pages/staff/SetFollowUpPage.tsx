@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import { StaffPage } from '../../components/CustomerPage';
-import { staffSetFollowUp, fetchStaffAppointments } from '../../../../../appointment/client/appointment.api';
-import type { StaffAppointmentDto } from '../../../../../appointment/client/appointment.api';
+import { staffSetFollowUp, fetchStaffAppointments } from '../../../../appointment/client/appointment.api';
+import type { StaffAppointmentDto } from '../../../../appointment/client/appointment.api';
 
 const ACTIONS = [
   { value: 'none', label: 'None' },

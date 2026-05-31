@@ -1,6 +1,7 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import type { ProductDetailDTO } from './product-catalog.api';
+import { AggregateStarRatingDisplay, type AggregateStarRatingSnapshot } from './AggregateStarRating';
 import { ProductImageGalleryNav } from './ProductImageGalleryNav';
 import { ProductImageMainDisplay } from './ProductImageMainDisplay';
 import { ProductImageThumbnails } from './ProductImageThumbnails';
@@ -14,7 +15,13 @@ import {
   productGallerySectionStyle,
 } from './productCatalogUiStyles';
 
-export function ProductDetailHeader({ product }: { product: ProductDetailDTO }) {
+export function ProductDetailHeader({
+  product,
+  aggregate,
+}: {
+  product: ProductDetailDTO;
+  aggregate?: AggregateStarRatingSnapshot | null;
+}) {
   const categoryName = product.category?.name ?? '';
   return (
     <>
@@ -28,6 +35,7 @@ export function ProductDetailHeader({ product }: { product: ProductDetailDTO }) 
         <p style={productDetailMetaStyle}>
           category <span data-testid="product-category">{categoryName}</span> · {product.price}
         </p>
+        <AggregateStarRatingDisplay aggregate={aggregate ?? null} />
       </header>
     </>
   );

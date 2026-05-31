@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { StaffPage } from '../../components/CustomerPage';
-import { staffLookupOrder } from '../../../return/client/return.api';
+import { staffLookupOrder } from '../../../../return/client/return.api';
 import { Link } from 'react-router-dom';
 
 interface MatchedOrder {

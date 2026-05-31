@@ -1,11 +1,11 @@
 import React, { useCallback, useEffect, useRef, useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import { CustomerPage } from '../components/CustomerPage';
-import { AppointmentCalendar } from '../../../../appointment/client/AppointmentCalendar';
-import { fetchAvailableSlots, createHold, releaseHold } from '../../../../appointment/client/appointment.api';
-import { fetchPet } from '../../../../pet/client/pet.api';
-import type { TimeSlotDto, SlotHoldResponseDto } from '../../../../appointment/client/appointment.api';
-import type { PetDto } from '../../../../pet/client/pet.api';
+import { AppointmentCalendar } from '../../../appointment/client/AppointmentCalendar';
+import { fetchAvailableSlots, createHold, releaseHold } from '../../../appointment/client/appointment.api';
+import { fetchPet } from '../../../pet/client/pet.api';
+import type { TimeSlotDto, SlotHoldResponseDto } from '../../../appointment/client/appointment.api';
+import type { PetDto } from '../../../pet/client/pet.api';
 
 const HOLD_MINUTES = 10;
 

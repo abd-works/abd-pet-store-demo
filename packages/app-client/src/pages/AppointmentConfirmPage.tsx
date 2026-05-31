@@ -1,8 +1,8 @@
 import React, { useState } from 'react';
 import { useLocation, useNavigate, useParams } from 'react-router-dom';
 import { CustomerPage } from '../components/CustomerPage';
-import { confirmBooking } from '../../../../appointment/client/appointment.api';
-import type { TimeSlotDto } from '../../../../appointment/client/appointment.api';
+import { confirmBooking } from '../../../appointment/client/appointment.api';
+import type { TimeSlotDto } from '../../../appointment/client/appointment.api';
 
 const MAX_NOTE = 500;
 

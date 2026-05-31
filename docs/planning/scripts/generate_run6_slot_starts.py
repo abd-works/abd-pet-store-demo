@@ -28,7 +28,7 @@ SLOTS: list[tuple] = [
             "",
             "Stories: *Process Digital Wallet Payment via PayNova*, *Process Buy-Now-Pay-Later via VaultPay*, *Retry Failed Payment*.",
             "",
-            "Render/update `docs/domain/ubiquitous-language.drawio` via drawio-domain-sync.",
+            "Render/update `docs/end-to-end/exploration/domain/ubiquitous-language.drawio` via drawio-domain-sync.",
             "",
             "**DO NOT** implement production code — exploration UL only. Preserve StripeWave and Increments 1–4 terms.",
         ],
@@ -60,7 +60,7 @@ SLOTS: list[tuple] = [
         [
             "Increment 5 acceptance criteria + exploration diagrams for PayNova, VaultPay, retry failed payment.",
             "",
-            "Output: `docs/story/acceptance-criteria/increment-5-acceptance-criteria.md` (+ drawio companion if used).",
+            "Output: `docs/end-to-end/exploration/stories/acceptance-criteria.md` (+ drawio companion if used).",
             "",
             "Align to refreshed UL and thin-slicing Increment 5 stories.",
         ],
@@ -146,7 +146,7 @@ SLOTS: list[tuple] = [
         [
             "CRC — payment vendor abstraction, retry, refund routing for Increment 5.",
             "",
-            "Output: refresh `docs/domain/crc.md` Increment 5 sections.",
+            "Output: refresh `docs/end-to-end/specification/crc.md` Increment 5 sections.",
         ],
     ),
     (
@@ -172,7 +172,7 @@ SLOTS: list[tuple] = [
         "Increment 5 spec-by-example executor",
         None,
         [
-            "Output: `docs/story/specification-by-example/increment-5-specification-by-example.md`.",
+            "Output: `docs/end-to-end/specification/specification-by-example.md`.",
         ],
     ),
     (
@@ -200,7 +200,7 @@ SLOTS: list[tuple] = [
         [
             "Walk payment + retry scenarios through domain model for Increment 5.",
             "",
-            "Output: `docs/domain/increment-5-walkthrough.md` (or per-skill convention).",
+            "Output: `docs/increments/5-pay-your-way/engineering/object-model.md` (or per-skill convention).",
         ],
     ),
     (
@@ -226,7 +226,7 @@ SLOTS: list[tuple] = [
         "Increment 5 interface design executor",
         None,
         [
-            "Output: `docs/ux/increment-5-interface-design.md` and related lo-fi companion paths.",
+            "Output: `docs/increments/5-pay-your-way/specification/interface-design.md` and related lo-fi companion paths.",
         ],
     ),
     (
@@ -252,7 +252,7 @@ SLOTS: list[tuple] = [
         "Increment 5 architecture reference executor",
         None,
         [
-            "Reference — PayNova, VaultPay, webhook + retry mechanisms in `docs/architecture/architecture-reference.md`.",
+            "Reference — PayNova, VaultPay, webhook + retry mechanisms in `docs/end-to-end/specification/architecture-reference.md`.",
         ],
     ),
     (
@@ -306,7 +306,7 @@ SLOTS: list[tuple] = [
         "Increment 5 object model executor",
         None,
         [
-            "Payment vendor abstraction + retry types in shared packages and `docs/domain/object-model.md`.",
+            "Payment vendor abstraction + retry types in shared packages and `docs/end-to-end/engineering/object-model.md`.",
         ],
     ),
     (
@@ -390,16 +390,16 @@ def artifact_paths(slot: int, role: str, stage: str) -> list[str]:
     paths = [f"docs/planning/delivery-war-room/slot-{slot}-finished.md"]
     if role == "business-expert" and stage == "exploration":
         paths += [
-            "docs/domain/ubiquitous-language.md",
-            "docs/domain/domain.json",
-            "docs/domain/ubiquitous-language.drawio",
+            "docs/end-to-end/exploration/domain/ubiquitous-language.md",
+            "docs/end-to-end/specification/domain.json",
+            "docs/end-to-end/exploration/domain/ubiquitous-language.drawio",
         ]
     elif role == "product-owner" and stage == "exploration":
         paths += [
-            "docs/story/acceptance-criteria/increment-5-acceptance-criteria.md",
+            "docs/end-to-end/exploration/stories/acceptance-criteria.md",
         ]
     elif role == "engineer" and stage == "engineering":
-        paths += ["docs/domain/object-model.md", "tests/"]
+        paths += ["docs/end-to-end/engineering/object-model.md", "tests/"]
     return paths
 
 

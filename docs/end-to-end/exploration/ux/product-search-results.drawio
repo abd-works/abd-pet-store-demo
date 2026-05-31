@@ -1,0 +1,130 @@
+# Product Search Results
+
+
+---
+
+## increment-9 (rollup)
+
+<!-- migrated from: end-to-end/exploration/product-search-results.drawio -->
+
+<mxfile host="drawio-mockup">
+    <diagram id="lo-fi" name="Lo-fi Wireframe">
+        <mxGraphModel dx="1422" dy="762" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1920" pageHeight="720" math="0" shadow="0">
+            <root>
+                <mxCell id="0"/>
+                <mxCell id="1" parent="0"/>
+                <mxCell id="2" value="product search results" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#000000;strokeWidth=2;fontStyle=1;fontSize=13;verticalAlign=top;align=center;" vertex="1" parent="1">
+                    <mxGeometry x="60" y="60" width="760" height="460" as="geometry"/>
+                </mxCell>
+                <mxCell id="3" value="" style="whiteSpace=wrap;html=1;fillColor=#f0f0f0;strokeColor=#cccccc;strokeWidth=1;" vertex="1" parent="2">
+                    <mxGeometry x="12" y="44" width="736" height="34" as="geometry"/>
+                </mxCell>
+                <mxCell id="4" value="🔍 Search products…" style="rounded=1;arcSize=20;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#999999;fontSize=10;" vertex="1" parent="2">
+                    <mxGeometry x="18" y="48" width="149" height="26" as="geometry"/>
+                </mxCell>
+                <mxCell id="5" value="Submit" style="rounded=1;arcSize=20;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#999999;fontSize=10;" vertex="1" parent="2">
+                    <mxGeometry x="173" y="48" width="80" height="26" as="geometry"/>
+                </mxCell>
+                <mxCell id="6" value="&lt;b&gt;filter facets panel&lt;/b&gt;" style="text;html=1;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;fontStyle=1;fontSize=11;" vertex="1" parent="2">
+                    <mxGeometry x="12" y="78" width="240" height="22" as="geometry"/>
+                </mxCell>
+                <mxCell id="7" value="Category" style="text;html=1;strokeColor=none;fillColor=none;align=right;verticalAlign=middle;fontSize=10;" vertex="1" parent="2">
+                    <mxGeometry x="12" y="100" width="86" height="28" as="geometry"/>
+                </mxCell>
+                <mxCell id="8" value="  ▾" style="whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#999999;fontSize=10;verticalAlign=middle;align=left;" vertex="1" parent="2">
+                    <mxGeometry x="102" y="100" width="150" height="28" as="geometry"/>
+                </mxCell>
+                <mxCell id="9" value="Pet Type" style="text;html=1;strokeColor=none;fillColor=none;align=right;verticalAlign=middle;fontSize=10;" vertex="1" parent="2">
+                    <mxGeometry x="12" y="132" width="86" height="28" as="geometry"/>
+                </mxCell>
+                <mxCell id="10" value="  ▾" style="whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#999999;fontSize=10;verticalAlign=middle;align=left;" vertex="1" parent="2">
+                    <mxGeometry x="102" y="132" width="150" height="28" as="geometry"/>
+                </mxCell>
+                <mxCell id="11" value="Brand" style="text;html=1;strokeColor=none;fillColor=none;align=right;verticalAlign=middle;fontSize=10;" vertex="1" parent="2">
+                    <mxGeometry x="12" y="164" width="86" height="28" as="geometry"/>
+                </mxCell>
+                <mxCell id="12" value="  ▾" style="whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#999999;fontSize=10;verticalAlign=middle;align=left;" vertex="1" parent="2">
+                    <mxGeometry x="102" y="164" width="150" height="28" as="geometry"/>
+                </mxCell>
+                <mxCell id="13" value="Price Range (min–max)" style="text;html=1;strokeColor=none;fillColor=none;align=right;verticalAlign=middle;fontSize=10;" vertex="1" parent="2">
+                    <mxGeometry x="12" y="196" width="86" height="28" as="geometry"/>
+                </mxCell>
+                <mxCell id="14" value="" style="whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#999999;fontSize=10;verticalAlign=middle;align=left;" vertex="1" parent="2">
+                    <mxGeometry x="102" y="196" width="150" height="28" as="geometry"/>
+                </mxCell>
+                <mxCell id="15" value="☐  Stock Availability" style="text;html=1;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;fontSize=10;" vertex="1" parent="2">
+                    <mxGeometry x="102" y="228" width="150" height="28" as="geometry"/>
+                </mxCell>
+                <mxCell id="16" value="Apply Filters" style="rounded=1;arcSize=25;whiteSpace=wrap;html=1;fillColor=#f5f5f5;strokeColor=#999999;fontSize=10;" vertex="1" parent="2">
+                    <mxGeometry x="102" y="264" width="111" height="26" as="geometry"/>
+                </mxCell>
+                <mxCell id="17" value="Clear All Filters" style="rounded=1;arcSize=25;whiteSpace=wrap;html=1;fillColor=#f5f5f5;strokeColor=#999999;fontSize=10;" vertex="1" parent="2">
+                    <mxGeometry x="219" y="264" width="139" height="26" as="geometry"/>
+                </mxCell>
+                <mxCell id="18" value="&lt;b&gt;facet match counts&lt;/b&gt;" style="text;html=1;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;fontStyle=1;fontSize=11;" vertex="1" parent="2">
+                    <mxGeometry x="12" y="310" width="240" height="22" as="geometry"/>
+                </mxCell>
+                <mxCell id="19" value="■ Dog Food (12)" style="whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#e0e0e0;fontSize=10;verticalAlign=middle;align=left;spacingLeft=8;" vertex="1" parent="2">
+                    <mxGeometry x="12" y="332" width="240" height="28" as="geometry"/>
+                </mxCell>
+                <mxCell id="20" value="■ Cat Food (8)" style="whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#e0e0e0;fontSize=10;verticalAlign=middle;align=left;spacingLeft=8;" vertex="1" parent="2">
+                    <mxGeometry x="12" y="360" width="240" height="28" as="geometry"/>
+                </mxCell>
+                <mxCell id="21" value="■ Bird Seed (3)" style="whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#e0e0e0;fontSize=10;verticalAlign=middle;align=left;spacingLeft=8;" vertex="1" parent="2">
+                    <mxGeometry x="12" y="388" width="240" height="28" as="geometry"/>
+                </mxCell>
+                <mxCell id="22" value="■ Reptile (2)" style="whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#e0e0e0;fontSize=10;verticalAlign=middle;align=left;spacingLeft=8;" vertex="1" parent="2">
+                    <mxGeometry x="12" y="416" width="240" height="28" as="geometry"/>
+                </mxCell>
+                <mxCell id="23" value="" style="whiteSpace=wrap;html=1;fillColor=#f0f0f0;strokeColor=#cccccc;strokeWidth=1;" vertex="1" parent="2">
+                    <mxGeometry x="262" y="78" width="486" height="34" as="geometry"/>
+                </mxCell>
+                <mxCell id="24" value="Category: Dog Food ✕" style="rounded=1;arcSize=20;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#999999;fontSize=10;" vertex="1" parent="2">
+                    <mxGeometry x="268" y="82" width="156" height="26" as="geometry"/>
+                </mxCell>
+                <mxCell id="25" value="Brand: PawBest ✕" style="rounded=1;arcSize=20;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#999999;fontSize=10;" vertex="1" parent="2">
+                    <mxGeometry x="430" y="82" width="128" height="26" as="geometry"/>
+                </mxCell>
+                <mxCell id="26" value="&lt;b&gt;search results list&lt;/b&gt;" style="text;html=1;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;fontStyle=1;fontSize=11;" vertex="1" parent="2">
+                    <mxGeometry x="262" y="112" width="486" height="22" as="geometry"/>
+                </mxCell>
+                <mxCell id="27" value="Product Name" style="whiteSpace=wrap;html=1;fillColor=#e8e8e8;strokeColor=#cccccc;fontStyle=1;fontSize=10;verticalAlign=middle;align=left;" vertex="1" parent="2">
+                    <mxGeometry x="262" y="134" width="97" height="22" as="geometry"/>
+                </mxCell>
+                <mxCell id="28" value="Category" style="whiteSpace=wrap;html=1;fillColor=#e8e8e8;strokeColor=#cccccc;fontStyle=1;fontSize=10;verticalAlign=middle;align=left;" vertex="1" parent="2">
+                    <mxGeometry x="359" y="134" width="97" height="22" as="geometry"/>
+                </mxCell>
+                <mxCell id="29" value="Brand" style="whiteSpace=wrap;html=1;fillColor=#e8e8e8;strokeColor=#cccccc;fontStyle=1;fontSize=10;verticalAlign=middle;align=left;" vertex="1" parent="2">
+                    <mxGeometry x="456" y="134" width="97" height="22" as="geometry"/>
+                </mxCell>
+                <mxCell id="30" value="Price" style="whiteSpace=wrap;html=1;fillColor=#e8e8e8;strokeColor=#cccccc;fontStyle=1;fontSize=10;verticalAlign=middle;align=left;" vertex="1" parent="2">
+                    <mxGeometry x="553" y="134" width="97" height="22" as="geometry"/>
+                </mxCell>
+                <mxCell id="31" value="Stock" style="whiteSpace=wrap;html=1;fillColor=#e8e8e8;strokeColor=#cccccc;fontStyle=1;fontSize=10;verticalAlign=middle;align=left;" vertex="1" parent="2">
+                    <mxGeometry x="650" y="134" width="97" height="22" as="geometry"/>
+                </mxCell>
+                <mxCell id="32" value="search results — empty state" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#000000;strokeWidth=2;fontStyle=1;fontSize=13;verticalAlign=top;align=center;" vertex="1" parent="1">
+                    <mxGeometry x="960" y="60" width="760" height="202" as="geometry"/>
+                </mxCell>
+                <mxCell id="33" value="No results found for &quot;xyzzyx&quot;" style="whiteSpace=wrap;html=1;fillColor=#f5f5f5;strokeColor=#cccccc;strokeWidth=1;fontSize=11;fontStyle=2;verticalAlign=middle;align=left;" vertex="1" parent="32">
+                    <mxGeometry x="12" y="44" width="736" height="28" as="geometry"/>
+                </mxCell>
+                <mxCell id="34" value="&lt;b&gt;suggestions&lt;/b&gt;" style="text;html=1;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;fontStyle=1;fontSize=11;" vertex="1" parent="32">
+                    <mxGeometry x="12" y="72" width="736" height="22" as="geometry"/>
+                </mxCell>
+                <mxCell id="35" value="■ Try: Dog Food" style="whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#e0e0e0;fontSize=10;verticalAlign=middle;align=left;spacingLeft=8;" vertex="1" parent="32">
+                    <mxGeometry x="12" y="94" width="736" height="28" as="geometry"/>
+                </mxCell>
+                <mxCell id="36" value="■ Try: Cat Toys" style="whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#e0e0e0;fontSize=10;verticalAlign=middle;align=left;spacingLeft=8;" vertex="1" parent="32">
+                    <mxGeometry x="12" y="122" width="736" height="28" as="geometry"/>
+                </mxCell>
+                <mxCell id="37" value="■ Popular: Premium Brands" style="whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#e0e0e0;fontSize=10;verticalAlign=middle;align=left;spacingLeft=8;" vertex="1" parent="32">
+                    <mxGeometry x="12" y="150" width="736" height="28" as="geometry"/>
+                </mxCell>
+                <mxCell id="38" value="no matches" style="edgeStyle=orthogonalEdgeStyle;html=1;strokeColor=#000000;endArrow=block;endFill=1;fontSize=10;" edge="1" source="2" target="32" parent="1">
+                    <mxGeometry x="0" y="0" width="100" height="40" as="geometry"/>
+                </mxCell>
+            </root>
+        </mxGraphModel>
+    </diagram>
+</mxfile>

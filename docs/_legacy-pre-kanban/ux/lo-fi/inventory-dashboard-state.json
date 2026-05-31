@@ -1,0 +1,100 @@
+{
+  "target": "docs/ux/lo-fi/inventory-dashboard.drawio",
+  "screens": [
+    {
+      "name": "inventory dashboard",
+      "layout": "stack",
+      "col": 0,
+      "row": 0,
+      "regions": [
+        {
+          "name": "dashboard header",
+          "slot": "body",
+          "type": "toolbar",
+          "buttons": [
+            { "label": "Inventory Dashboard — [Store Name]", "style": "title" },
+            { "label": "Export CSV", "style": "secondary" }
+          ]
+        },
+        {
+          "name": "dashboard search and filter",
+          "slot": "body",
+          "type": "filter-bar",
+          "placeholder": "Search products…",
+          "value": ""
+        },
+        {
+          "name": "dashboard filter controls",
+          "slot": "body",
+          "type": "toolbar",
+          "buttons": [
+            { "label": "Sort: Name ▾", "style": "secondary" },
+            { "label": "Sort: Stock Level ▾", "style": "secondary" },
+            { "label": "Sort: Category ▾", "style": "secondary" },
+            { "label": "Low Stock Only", "style": "toggle" }
+          ]
+        },
+        {
+          "name": "product stock table",
+          "slot": "body",
+          "type": "list",
+          "columns": ["Product Name", "Category", "Stock Level", "Low Stock Threshold", "Status", "Last Updated", "Actions"],
+          "rows": [
+            ["PawBest Puppy Kibble", "Dog Food", "45", "10", "OK", "2026-05-30", "[Edit]"],
+            ["Reptile Heat Lamp", "Reptile", "3", "5", "⚠ Low Stock", "2026-05-29", "[Edit]"],
+            ["Cat Scratching Post", "Cat Toys", "0", "5", "❌ Out of Stock", "2026-05-28", "[Edit]"]
+          ],
+          "actions": []
+        },
+        {
+          "name": "inline stock edit",
+          "slot": "body",
+          "type": "form",
+          "fields": [
+            { "label": "New Stock Level", "input": "text" }
+          ],
+          "buttons": [
+            { "label": "Save", "style": "primary" },
+            { "label": "Cancel", "style": "secondary" }
+          ]
+        },
+        {
+          "name": "validation error state",
+          "slot": "body",
+          "type": "chrome",
+          "name": "Error: Stock level must be a non-negative number"
+        }
+      ]
+    },
+    {
+      "name": "low stock threshold config",
+      "layout": "modal",
+      "col": 1,
+      "row": 0,
+      "regions": [
+        {
+          "name": "threshold config header",
+          "slot": "body",
+          "type": "chrome",
+          "name": "Configure Low Stock Threshold"
+        },
+        {
+          "name": "threshold form",
+          "slot": "body",
+          "type": "form",
+          "fields": [
+            { "label": "Product", "input": "dropdown" },
+            { "label": "Low Stock Threshold", "input": "text" }
+          ],
+          "buttons": [
+            { "label": "Save Threshold", "style": "primary" },
+            { "label": "Cancel", "style": "secondary" }
+          ]
+        }
+      ]
+    }
+  ],
+  "connections": [
+    { "from": "inventory dashboard", "to": "low stock threshold config", "label": "configure threshold" }
+  ]
+}

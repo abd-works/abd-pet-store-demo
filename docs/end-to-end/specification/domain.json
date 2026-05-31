@@ -1,0 +1,777 @@
+{
+  "_comment": "Machine-readable vocabulary extracted from object-model.md (Increment 7 engineering refresh, slot 191). Read by specification-by-example scanner to validate example-table column names.",
+  "concepts": {
+    "product catalog": {
+      "attributes": [],
+      "inherits": null
+    },
+    "product": {
+      "attributes": ["description", "weight", "dimensions", "aggregate star rating"],
+      "inherits": null
+    },
+    "product image": {
+      "attributes": ["source file reference", "alt text", "display order"],
+      "inherits": null
+    },
+    "category": {
+      "attributes": [],
+      "inherits": null
+    },
+    "customer review": {
+      "attributes": ["star rating", "written text", "photo"],
+      "inherits": null
+    },
+    "stock availability": {
+      "attributes": ["stockingStore", "stockLevel", "quantityOnHand", "reservedQuantity", "availableToSellQuantity", "reserveQuantityOnOrderConfirm"],
+      "inherits": null
+    },
+    "stock level": {
+      "attributes": ["numeric quantity"],
+      "inherits": null
+    },
+    "product page": {
+      "attributes": [],
+      "inherits": null
+    },
+    "pet": {
+      "attributes": ["species", "breed", "dateOfBirth", "hostingStore", "petSource", "petStatus", "lineage"],
+      "inherits": null
+    },
+    "species": {
+      "attributes": ["speciesName"],
+      "inherits": null
+    },
+    "breed": {
+      "attributes": ["breedName", "species", "size", "coatType", "typicalTemperamentRange", "exerciseNeeds"],
+      "inherits": null
+    },
+    "pet gallery": {
+      "attributes": ["browsablePetCollection"],
+      "inherits": null
+    },
+    "pet card": {
+      "attributes": ["petPhoto", "petName", "petBreed", "petSpecies", "hostingStore", "linkToPetProfilePage"],
+      "inherits": null
+    },
+    "pet photo": {
+      "attributes": [],
+      "inherits": null
+    },
+    "temperament assessment": {
+      "attributes": [],
+      "inherits": null
+    },
+    "health record": {
+      "attributes": ["vaccinations", "vet check dates", "treatments"],
+      "inherits": null
+    },
+    "pet lifecycle event": {
+      "attributes": ["status"],
+      "inherits": null
+    },
+    "pet source": {
+      "attributes": ["provenance type", "supplier name", "intake date"],
+      "inherits": null
+    },
+    "pet lineage": {
+      "attributes": ["sire", "dam", "pedigree documentation", "generation depth"],
+      "inherits": null
+    },
+    "pet profile": {
+      "attributes": [],
+      "inherits": null
+    },
+    "appointment": {
+      "attributes": ["bookingCustomerAccount", "visitedPet", "hostingStore", "scheduledDateAndTimeSlot", "visitNote", "bookingDate", "appointmentStatus", "cancellationReason", "checkedInTime", "checkedInBy", "visitOutcome", "staffVisitNotes", "followUpAction", "followUpDate", "noShowRecordedBy", "noShowRecordedAt", "notificationStatus"],
+      "inherits": null
+    },
+    "time slot": {
+      "attributes": ["startTime", "endTime", "duration", "availableDateAndTimeWindow", "slotBookingStatus"],
+      "inherits": null
+    },
+    "appointment request": {
+      "attributes": ["requestingCustomerAccount", "requestedPet", "selectedTimeSlot", "slotHoldDuration", "optionalVisitNote"],
+      "inherits": null
+    },
+    "appointment cancellation": {
+      "attributes": ["cancelledAppointment", "cancellationDate", "cancellationReason"],
+      "inherits": null
+    },
+    "appointment rebooking": {
+      "attributes": ["cancelledAppointmentReference", "newPetSelected", "newTimeSlotSelected", "newStore"],
+      "inherits": null
+    },
+    "visit outcome": {
+      "attributes": ["outcomeCategory", "optionalStaffVisitNotes"],
+      "inherits": null
+    },
+    "follow-up action": {
+      "attributes": ["actionType", "followUpDate", "holdingAppointment"],
+      "inherits": null
+    },
+    "check-in": {
+      "attributes": [],
+      "inherits": null
+    },
+    "no-show": {
+      "attributes": [],
+      "inherits": null
+    },
+    "availability slot": {
+      "attributes": [],
+      "inherits": "time slot"
+    },
+    "staff appointments view": {
+      "attributes": [],
+      "inherits": null
+    },
+    "staff appointment workflow": {
+      "attributes": [],
+      "inherits": null
+    },
+    "store": {
+      "attributes": ["address", "geo-coordinates", "operating hours", "contact details", "specializations"],
+      "inherits": null
+    },
+    "store locator": {
+      "attributes": ["mapView", "listView", "sharedLocationInput", "postcodeInput", "distance", "nearest-first"],
+      "inherits": null
+    },
+    "map view": {
+      "attributes": ["geo-coordinates"],
+      "inherits": null
+    },
+    "list view": {
+      "attributes": ["address"],
+      "inherits": null
+    },
+    "geo-coordinates": {
+      "attributes": ["latitude", "longitude"],
+      "inherits": null
+    },
+    "address": {
+      "attributes": [],
+      "inherits": null
+    },
+    "operating hours": {
+      "attributes": [],
+      "inherits": null
+    },
+    "contact details": {
+      "attributes": [],
+      "inherits": null
+    },
+    "distance": {
+      "attributes": [],
+      "inherits": null
+    },
+    "postcode": {
+      "attributes": [],
+      "inherits": null
+    },
+    "shared location": {
+      "attributes": [],
+      "inherits": null
+    },
+    "nearest-first": {
+      "attributes": [],
+      "inherits": null
+    },
+    "click-and-collect": {
+      "attributes": ["pickup store", "pickup status", "estimated ready time", "collection window"],
+      "inherits": null
+    },
+    "pickup store": {
+      "attributes": ["store code", "store name", "address", "operating hours"],
+      "inherits": null
+    },
+    "pickup fulfillment": {
+      "attributes": ["preparation status"],
+      "inherits": null
+    },
+    "click-and-collect queue": {
+      "attributes": [],
+      "inherits": null
+    },
+    "order queue": {
+      "attributes": [],
+      "inherits": null
+    },
+    "ship-to-home fulfillment": {
+      "attributes": ["fulfillment status"],
+      "inherits": null
+    },
+    "customer account": {
+      "attributes": ["first name", "last name", "email address", "phone number", "username", "password hash", "registration date", "account verification status", "account status"],
+      "inherits": null
+    },
+    "customer session": {
+      "attributes": ["session token", "device context", "last activity timestamp", "inactivity timeout"],
+      "inherits": null
+    },
+    "email verification": {
+      "attributes": ["verification link"],
+      "inherits": null
+    },
+    "verification link": {
+      "attributes": ["unique link token", "expiry time", "one-time use flag"],
+      "inherits": null
+    },
+    "account verification status": {
+      "attributes": ["verification label"],
+      "inherits": null
+    },
+    "address book": {
+      "attributes": ["saved addresses", "default address designation"],
+      "inherits": null
+    },
+    "guest checkout": {
+      "attributes": ["guest email", "guest first name", "guest last name", "guest phone"],
+      "inherits": null
+    },
+    "guest email": {
+      "attributes": ["email address"],
+      "inherits": null
+    },
+    "wishlist": {
+      "attributes": ["wishlist items"],
+      "inherits": null
+    },
+    "wishlist item": {
+      "attributes": ["referenced product", "current catalog price at display", "current stock availability at display"],
+      "inherits": null
+    },
+    "communication preferences": {
+      "attributes": ["promotional opt-in", "restock alerts opt-in", "pet care tips opt-in", "event notifications opt-in", "last updated date"],
+      "inherits": null
+    },
+    "saved address": {
+      "attributes": ["address label", "address line one", "address line two", "city", "county or region", "postcode", "country", "default shipping flag", "default billing flag"],
+      "inherits": null
+    },
+    "default address": {
+      "attributes": ["pre-selected at checkout"],
+      "inherits": null
+    },
+    "customer pet": {
+      "attributes": ["name", "age", "dietary needs"],
+      "inherits": null
+    },
+    "order": {
+      "attributes": ["order number", "order date", "guest email snapshot", "billing address line one", "billing address line two", "billing city", "billing county or region", "billing postcode", "billing country", "shipping address line one", "shipping address line two", "shipping city", "shipping county or region", "shipping postcode", "shipping country", "pickup store name snapshot", "pickup store address snapshot", "pickup store operating hours snapshot", "subtotal", "tax amount", "shipping cost", "order total", "currency", "order status", "estimated delivery date"],
+      "inherits": null
+    },
+    "order history": {
+      "attributes": ["associated orders"],
+      "inherits": null
+    },
+    "reorder": {
+      "attributes": ["source order", "target shopping cart"],
+      "inherits": null
+    },
+    "shopping cart": {
+      "attributes": ["cart subtotal", "created date", "last modified date"],
+      "inherits": null
+    },
+    "cart item": {
+      "attributes": ["quantity", "unit price at time of adding", "line price", "stock availability"],
+      "inherits": null
+    },
+    "order line item": {
+      "attributes": ["quantity", "product name snapshot", "SKU snapshot", "unit price snapshot", "line discount", "line total"],
+      "inherits": null
+    },
+    "delivery option": {
+      "attributes": ["delivery method name", "shipping cost", "estimated delivery window", "delivery instructions"],
+      "inherits": null
+    },
+    "standard delivery": {
+      "attributes": ["estimated delivery window", "shipping cost"],
+      "inherits": "delivery option"
+    },
+    "shipping address": {
+      "attributes": ["recipient name", "address line one", "address line two", "city", "county or region", "postcode", "country"],
+      "inherits": null
+    },
+    "tracking number": {
+      "attributes": ["carrier reference", "carrier name", "shipment date"],
+      "inherits": null
+    },
+    "order status": {
+      "attributes": ["lifecycle state", "confirmed", "fulfilled", "shipped", "delivered", "ready for pickup", "collected"],
+      "inherits": null
+    },
+    "billing address": {
+      "attributes": ["billing name", "address line one", "address line two", "city", "county or region", "postcode", "country"],
+      "inherits": null
+    },
+    "order confirmation page": {
+      "attributes": [],
+      "inherits": null
+    },
+    "order status page": {
+      "attributes": [],
+      "inherits": null
+    },
+    "return": {
+      "attributes": ["originatingOrder", "returnDate", "initiatingParty", "guestEmail", "returnRequest", "returnedItems", "returnStatus", "returnLabel", "returnQrCode"],
+      "inherits": null
+    },
+    "return request": {
+      "attributes": ["selectedOrderLineItems", "quantitiesToReturn", "returnReason"],
+      "inherits": null
+    },
+    "return eligibility": {
+      "attributes": ["eligibleItems", "ineligibilityReason"],
+      "inherits": null
+    },
+    "return window": {
+      "attributes": ["configuredPeriod", "deliveryDateAnchor", "collectionDateAnchor", "categorySpecificVariation"],
+      "inherits": null
+    },
+    "return reason": {
+      "attributes": ["reasonCategory", "reasonText", "inspectionPolicyHint"],
+      "inherits": null
+    },
+    "returned items": {
+      "attributes": ["orderLineItemReferences", "returnedQuantities", "perItemReturnStatus"],
+      "inherits": null
+    },
+    "return status": {
+      "attributes": ["lifecycleState"],
+      "inherits": null
+    },
+    "return label": {
+      "attributes": ["returnAddress", "orderNumber", "returnReference", "carrierBarcode"],
+      "inherits": null
+    },
+    "return QR code": {
+      "attributes": ["returnReference"],
+      "inherits": null
+    },
+    "in-store return": {
+      "attributes": ["originatingOrder", "storeEmployeeInitiator"],
+      "inherits": null
+    },
+    "manager override": {
+      "attributes": ["approvingManager", "overrideReason", "approvalTimestamp"],
+      "inherits": null
+    },
+    "restocking": {
+      "attributes": ["returnedProduct", "returnedQuantity", "destinationStore", "inspectionResult"],
+      "inherits": null
+    },
+    "payment": {
+      "attributes": ["payment reference", "payment amount", "currency", "payment date", "payment method used", "payment status", "processing vendor", "vendor transaction reference"],
+      "inherits": null
+    },
+    "payment confirmation": {
+      "attributes": ["vendor confirmation reference", "confirmation timestamp"],
+      "inherits": null
+    },
+    "webhook callback": {
+      "attributes": ["vendor payload", "reconciliation status"],
+      "inherits": null
+    },
+    "payment vendor": {
+      "attributes": [],
+      "inherits": null
+    },
+    "StripeWave": {
+      "attributes": ["credit and debit card processing"],
+      "inherits": "payment vendor"
+    },
+    "PayNova": {
+      "attributes": ["digital wallet provider", "wallet authentication flow", "vendor transaction reference"],
+      "inherits": "payment vendor"
+    },
+    "VaultPay": {
+      "attributes": ["installment count", "installment amount", "installment schedule", "eligibility check result", "instalment plan reference"],
+      "inherits": "payment vendor"
+    },
+    "payment method selector": {
+      "attributes": ["selected vendor", "saved method list", "manual entry option"],
+      "inherits": null
+    },
+    "vendor transaction reference": {
+      "attributes": ["vendor-assigned identifier"],
+      "inherits": null
+    },
+    "digital wallet": {
+      "attributes": ["mobile wallet credentials"],
+      "inherits": null
+    },
+    "buy-now-pay-later": {
+      "attributes": ["BNPL channel label"],
+      "inherits": null
+    },
+    "eligibility check": {
+      "attributes": ["credit assessment result", "transaction eligibility"],
+      "inherits": null
+    },
+    "instalment plan": {
+      "attributes": ["installment count", "installment amount", "installment schedule"],
+      "inherits": null
+    },
+    "transient error": {
+      "attributes": ["failure type", "retryable flag"],
+      "inherits": null
+    },
+    "hard decline": {
+      "attributes": ["decline reason", "non-retryable flag"],
+      "inherits": null
+    },
+    "payment retry": {
+      "attributes": ["attempt count", "retry status", "background continuation flag"],
+      "inherits": null
+    },
+    "retry window": {
+      "attributes": ["maximum attempt count", "time limit"],
+      "inherits": null
+    },
+    "saved payment method": {
+      "attributes": ["customer-assigned label", "vendor-token reference", "processing vendor", "last four digits", "card brand", "wallet provider", "expiry month", "expiry year", "date added", "default payment method flag"],
+      "inherits": null
+    },
+    "default payment method": {
+      "attributes": ["pre-selected at checkout"],
+      "inherits": null
+    },
+    "refund": {
+      "attributes": ["refundReference", "originatingReturn", "refundAmount", "refundDate", "routeThroughVendor", "vendorRefundApiRoute", "refundStatus"],
+      "inherits": null
+    },
+    "refund status": {
+      "attributes": ["lifecycleState", "timingExpectationNote"],
+      "inherits": null
+    },
+    "refund retry": {
+      "attributes": ["attemptCount", "retryStatus", "configuredWindow"],
+      "inherits": null
+    },
+    "notification": {
+      "attributes": ["notification subject", "notification body", "notification channel", "sent date", "delivery status"],
+      "inherits": null
+    },
+    "confirmation email": {
+      "attributes": ["recipient guest email", "recipient customer account email", "order status page link"],
+      "inherits": null
+    },
+    "shipping notification": {
+      "attributes": ["estimated delivery window", "recipient guest email", "recipient customer account email", "order status page link"],
+      "inherits": null
+    },
+    "appointment confirmation email": {
+      "attributes": ["bookingAppointment", "recipientCustomerEmail"],
+      "inherits": null
+    },
+    "appointment reminder": {
+      "attributes": ["reminderAppointment", "recipientCustomerEmail"],
+      "inherits": null
+    },
+    "pet adopted before visit notification": {
+      "attributes": ["adoptedPet", "affectedAppointment", "recipientCustomerEmail"],
+      "inherits": null
+    },
+    "visit follow-up notification": {
+      "attributes": ["sourceAppointment", "triggeringFollowUpAction", "recipientCustomerEmail"],
+      "inherits": null
+    },
+    "return received notification": {
+      "attributes": ["originatingOrder", "returnedItemsSummary", "recipientCustomerAccountEmail", "recipientGuestEmail"],
+      "inherits": null
+    },
+    "refund completed notification": {
+      "attributes": ["refundedAmount", "paymentMethodReturnedTo", "recipientCustomerAccountEmail", "recipientGuestEmail"],
+      "inherits": null
+    },
+    "refund under review notification": {
+      "attributes": ["returnAndOrderReference", "supportGuidance", "recipientCustomerAccountEmail", "recipientGuestEmail"],
+      "inherits": null
+    },
+    "notification preferences": {
+      "attributes": ["promotional opt-in", "restock alerts opt-in", "pet care tips opt-in", "event notifications opt-in"],
+      "inherits": null
+    },
+    "restock alert": {
+      "attributes": [],
+      "inherits": null
+    },
+    "content": {
+      "attributes": ["blog posts", "guides"],
+      "inherits": null
+    },
+    "admin dashboard": {
+      "attributes": ["stock level form", "store selector", "product selector", "click-and-collect fulfillment queue", "order queue", "in-store return lookup"],
+      "inherits": null
+    },
+    "store employee": {
+      "attributes": [],
+      "inherits": null
+    }
+  },
+  "aliases": {
+    "availability slot": "time slot"
+  }
+}
+
+
+---
+
+## increment-8 (rollup)
+
+<!-- migrated from: end-to-end/specification/domain.json -->
+
+{
+  "_comment": "Machine-readable vocabulary extracted from power-ups-pet-inventory-crc.md (Increment 9 Sprint 3). Read by specification-by-example scanner to validate example-table column names.",
+  "module": "Power-ups",
+  "state": "crc",
+  "sprint_scope": "Increment 9 Sprint 3 — Pet profiles and inventory power-ups",
+  "concepts": {
+    "Customer Pet Profile": {
+      "attributes": [
+        "pet name",
+        "species",
+        "breed",
+        "age or date of birth",
+        "photo",
+        "owning customer account"
+      ],
+      "operations": [
+        "require logged-in customer account",
+        "prompt guest to log in or register",
+        "create with optional fields",
+        "update editable fields",
+        "persist changes immediately",
+        "confirm before delete",
+        "feed personalization data"
+      ],
+      "inherits": null
+    },
+    "Customer Pet Profiles": {
+      "attributes": ["listed under my pets"],
+      "operations": [
+        "show empty state when none",
+        "support multiple profiles per account",
+        "add new profile entry",
+        "remove deleted profile from list"
+      ],
+      "inherits": null
+    },
+    "Inventory Dashboard": {
+      "attributes": ["replacing increment one stock form"],
+      "operations": [
+        "list products at staff store",
+        "current stock level per product row",
+        "search product list",
+        "sort by name stock level category",
+        "filter product list",
+        "low stock only filter",
+        "inline stock level editing",
+        "preserve existing stock data",
+        "inventory export action"
+      ],
+      "inherits": null
+    },
+    "Low Stock Alert": {
+      "attributes": ["visual badge on product row"],
+      "operations": [
+        "trigger below low stock threshold",
+        "drive low stock only filter",
+        "disappear above threshold",
+        "supersede at zero stock level"
+      ],
+      "inherits": null
+    },
+    "Low Stock Threshold": {
+      "attributes": ["configurable stock level boundary"],
+      "operations": [
+        "determine low stock alert trigger",
+        "per product configuration"
+      ],
+      "inherits": null
+    },
+    "Stock Level": {
+      "attributes": ["numeric quantity at store"],
+      "operations": [
+        "determine stock availability state",
+        "trigger low stock alert",
+        "show out of stock at zero",
+        "edit inline on inventory dashboard",
+        "reject negative or non-numeric input"
+      ],
+      "inherits": null
+    },
+    "Inventory Export": {
+      "attributes": ["csv download scoped to staff store"],
+      "operations": [
+        "include product name category stock",
+        "include last updated timestamp"
+      ],
+      "inherits": null
+    },
+    "Backorder Purchase": {
+      "attributes": [],
+      "operations": [
+        "relax out-of-stock purchase gate",
+        "show backorder indicator on product page",
+        "enable add to cart when enabled",
+        "show backorder label in cart",
+        "show backorder status at checkout",
+        "signal ship when restocked",
+        "disable when backorder not enabled"
+      ],
+      "inherits": null
+    },
+    "Customer Account": {
+      "attributes": [],
+      "operations": [
+        "own customer pet profiles",
+        "provide login identity",
+        "persist pet profile data"
+      ],
+      "inherits": null,
+      "boundary": true,
+      "owned_by": "Customer Account"
+    },
+    "Account Settings": {
+      "attributes": [],
+      "operations": [
+        "present my pets entry point",
+        "host pet profile create and edit",
+        "prompt guest to log in or register"
+      ],
+      "inherits": null,
+      "boundary": true,
+      "owned_by": "Customer Account"
+    },
+    "Store Staff": {
+      "attributes": [],
+      "operations": [
+        "open inventory dashboard",
+        "edit stock levels at assigned store",
+        "export inventory for assigned store"
+      ],
+      "inherits": null,
+      "boundary": true,
+      "owned_by": "Store Operations"
+    },
+    "Product": {
+      "attributes": [],
+      "operations": [
+        "stock level subject on dashboard",
+        "backorder purchase target",
+        "low stock threshold configuration"
+      ],
+      "inherits": null,
+      "boundary": true,
+      "owned_by": "Product Catalog"
+    },
+    "Stock Availability": {
+      "attributes": ["real-time availability state"],
+      "operations": [
+        "updated by stock level edits",
+        "purchase gate relaxed by backorder"
+      ],
+      "inherits": null,
+      "boundary": true,
+      "owned_by": "Product Catalog"
+    },
+    "Store": {
+      "attributes": [],
+      "operations": [
+        "scope inventory dashboard to location",
+        "scope inventory export to location"
+      ],
+      "inherits": null,
+      "boundary": true,
+      "owned_by": "Store"
+    },
+    "Category": {
+      "attributes": [],
+      "operations": [
+        "sort dimension on inventory dashboard",
+        "filter dimension on inventory dashboard",
+        "column in inventory export"
+      ],
+      "inherits": null,
+      "boundary": true,
+      "owned_by": "Product Catalog"
+    }
+  },
+  "aliases": {
+    "scenario": "*"
+  }
+}
+
+
+---
+
+## increment-9 (rollup)
+
+<!-- migrated from: end-to-end/specification/domain.json -->
+
+{
+  "_comment": "Machine-readable vocabulary extracted from the Ubiquitous Language. Written alongside the power-ups-ubiquitous-language.md file. Read by the specification-by-example scanner to validate example-table column names against domain concepts and attributes.",
+  "concepts": {
+    "product search": {
+      "attributes": [],
+      "inherits": null
+    },
+    "search results": {
+      "attributes": [],
+      "inherits": null
+    },
+    "filter facet": {
+      "attributes": [],
+      "inherits": null
+    },
+    "active filter": {
+      "attributes": [],
+      "inherits": null
+    },
+    "my store": {
+      "attributes": [],
+      "inherits": null
+    },
+    "tailored experience": {
+      "attributes": [],
+      "inherits": null
+    },
+    "store specialization filter": {
+      "attributes": [],
+      "inherits": null
+    },
+    "product availability filter": {
+      "attributes": [],
+      "inherits": null
+    },
+    "inventory dashboard": {
+      "attributes": [],
+      "inherits": null
+    },
+    "low stock alert": {
+      "attributes": [],
+      "inherits": null
+    },
+    "low stock threshold": {
+      "attributes": [],
+      "inherits": null
+    },
+    "stock level": {
+      "attributes": [],
+      "inherits": null
+    },
+    "inventory export": {
+      "attributes": [],
+      "inherits": null
+    },
+    "backorder purchase": {
+      "attributes": [],
+      "inherits": null
+    }
+  },
+  "aliases": {
+    "scenario": "*"
+  }
+}

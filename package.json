@@ -5,18 +5,20 @@
     "@playwright/test": "^1.45.0",
     "@testing-library/jest-dom": "^6.0.0",
     "@testing-library/react": "^16.0.0",
+    "@vitejs/plugin-react": "^4.3.4",
+    "jsdom": "^29.1.1",
     "typescript": "^5.4.0",
     "vitest": "^2.0.0"
   },
   "scripts": {
-    "dev:api": "npm run dev:api --prefix conf",
-    "dev:client": "npm run dev:client --prefix conf",
-    "dev": "npm run dev --prefix conf",
-    "dev:server": "npm run dev:server --prefix conf",
+    "dev:api": "node --import ./conf/node_modules/tsx/dist/loader.mjs --import ./conf/node_modules/tsconfig-paths/register packages/app-server/dev.ts",
+    "dev:client": "node --import ./conf/node_modules/tsx/dist/loader.mjs packages/app-client/dev.ts",
+    "dev": "node conf/node_modules/concurrently/dist/bin/concurrently.js -n api,web -c blue,green \"npm run dev:api\" \"npm run dev:client\"",
+    "dev:server": "npm run dev:api",
     "test": "node conf/node_modules/vitest/vitest.mjs run --config conf/vitest.config.ts",
     "test:server": "node conf/node_modules/vitest/vitest.mjs run --config conf/vitest.config.ts",
     "test:client": "node conf/node_modules/vitest/vitest.mjs run --config conf/vitest.config.ts",
     "test:e2e": "node conf/node_modules/@playwright/test/cli.js test --config conf/playwright.config.ts",
-    "install:conf": "npm install --prefix conf"
+    "install:conf": "npm install --prefix conf && node scripts/ensure-packages-node-modules.mjs"
   }
 }

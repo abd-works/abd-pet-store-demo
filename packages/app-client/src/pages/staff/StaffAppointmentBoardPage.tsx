@@ -1,9 +1,9 @@
 import React, { useEffect, useState } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import { StaffPage } from '../../components/CustomerPage';
-import { StaffAppointmentRow } from '../../../../../appointment/client/StaffAppointmentRow';
-import { fetchStaffAppointments } from '../../../../../appointment/client/appointment.api';
-import type { StaffAppointmentDto } from '../../../../../appointment/client/appointment.api';
+import { StaffAppointmentRow } from '../../../../appointment/client/StaffAppointmentRow';
+import { fetchStaffAppointments } from '../../../../appointment/client/appointment.api';
+import type { StaffAppointmentDto } from '../../../../appointment/client/appointment.api';
 
 function StaffNav() {
   const { pathname } = useLocation();

@@ -1,0 +1,72 @@
+{
+  "target": "docs/ux/lo-fi/store-locator-filters.drawio",
+  "screens": [
+    {
+      "name": "store locator with filters",
+      "layout": "sidebar",
+      "col": 0,
+      "row": 0,
+      "regions": [
+        {
+          "name": "store filter panel",
+          "slot": "panel",
+          "type": "form",
+          "fields": [
+            { "label": "Store Specialization", "input": "dropdown" },
+            { "label": "Product Availability", "input": "text" }
+          ],
+          "buttons": [
+            { "label": "Filter Stores", "style": "primary" },
+            { "label": "Clear Filters", "style": "secondary" }
+          ]
+        },
+        {
+          "name": "store results list",
+          "slot": "body",
+          "type": "list",
+          "columns": ["Store Name", "Specialization", "Distance", "Product Available"],
+          "rows": [
+            ["PawPlace Central ⭐", "Premium Dog Food", "0.5 mi", "✓ In Stock"],
+            ["PawPlace Eastside", "Reptile Section", "1.2 mi", "✓ In Stock"],
+            ["PawPlace Westfield", "General", "2.8 mi", "✗ Out of Stock"]
+          ],
+          "actions": [
+            { "label": "Set as My Store", "style": "primary" },
+            { "label": "View Store", "style": "secondary" }
+          ]
+        },
+        {
+          "name": "my store highlight",
+          "slot": "body",
+          "type": "chrome",
+          "name": "⭐ Your preferred store: PawPlace Central"
+        }
+      ]
+    },
+    {
+      "name": "store locator — no matches",
+      "layout": "form",
+      "col": 1,
+      "row": 0,
+      "regions": [
+        {
+          "name": "no stores message",
+          "slot": "body",
+          "type": "chrome",
+          "name": "No stores match your filters"
+        },
+        {
+          "name": "clear action",
+          "slot": "body",
+          "type": "button-bar",
+          "buttons": [
+            { "label": "Clear Filters", "style": "primary" }
+          ]
+        }
+      ]
+    }
+  ],
+  "connections": [
+    { "from": "store locator with filters", "to": "store locator — no matches", "label": "zero results" }
+  ]
+}

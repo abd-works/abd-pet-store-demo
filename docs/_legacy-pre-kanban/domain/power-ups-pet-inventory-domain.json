@@ -1,0 +1,181 @@
+{
+  "_comment": "Machine-readable vocabulary extracted from power-ups-pet-inventory-crc.md (Increment 9 Sprint 3). Read by specification-by-example scanner to validate example-table column names.",
+  "module": "Power-ups",
+  "state": "crc",
+  "sprint_scope": "Increment 9 Sprint 3 — Pet profiles and inventory power-ups",
+  "concepts": {
+    "Customer Pet Profile": {
+      "attributes": [
+        "pet name",
+        "species",
+        "breed",
+        "age or date of birth",
+        "photo",
+        "owning customer account"
+      ],
+      "operations": [
+        "require logged-in customer account",
+        "prompt guest to log in or register",
+        "create with optional fields",
+        "update editable fields",
+        "persist changes immediately",
+        "confirm before delete",
+        "feed personalization data"
+      ],
+      "inherits": null
+    },
+    "Customer Pet Profiles": {
+      "attributes": ["listed under my pets"],
+      "operations": [
+        "show empty state when none",
+        "support multiple profiles per account",
+        "add new profile entry",
+        "remove deleted profile from list"
+      ],
+      "inherits": null
+    },
+    "Inventory Dashboard": {
+      "attributes": ["replacing increment one stock form"],
+      "operations": [
+        "list products at staff store",
+        "current stock level per product row",
+        "search product list",
+        "sort by name stock level category",
+        "filter product list",
+        "low stock only filter",
+        "inline stock level editing",
+        "preserve existing stock data",
+        "inventory export action"
+      ],
+      "inherits": null
+    },
+    "Low Stock Alert": {
+      "attributes": ["visual badge on product row"],
+      "operations": [
+        "trigger below low stock threshold",
+        "drive low stock only filter",
+        "disappear above threshold",
+        "supersede at zero stock level"
+      ],
+      "inherits": null
+    },
+    "Low Stock Threshold": {
+      "attributes": ["configurable stock level boundary"],
+      "operations": [
+        "determine low stock alert trigger",
+        "per product configuration"
+      ],
+      "inherits": null
+    },
+    "Stock Level": {
+      "attributes": ["numeric quantity at store"],
+      "operations": [
+        "determine stock availability state",
+        "trigger low stock alert",
+        "show out of stock at zero",
+        "edit inline on inventory dashboard",
+        "reject negative or non-numeric input"
+      ],
+      "inherits": null
+    },
+    "Inventory Export": {
+      "attributes": ["csv download scoped to staff store"],
+      "operations": [
+        "include product name category stock",
+        "include last updated timestamp"
+      ],
+      "inherits": null
+    },
+    "Backorder Purchase": {
+      "attributes": [],
+      "operations": [
+        "relax out-of-stock purchase gate",
+        "show backorder indicator on product page",
+        "enable add to cart when enabled",
+        "show backorder label in cart",
+        "show backorder status at checkout",
+        "signal ship when restocked",
+        "disable when backorder not enabled"
+      ],
+      "inherits": null
+    },
+    "Customer Account": {
+      "attributes": [],
+      "operations": [
+        "own customer pet profiles",
+        "provide login identity",
+        "persist pet profile data"
+      ],
+      "inherits": null,
+      "boundary": true,
+      "owned_by": "Customer Account"
+    },
+    "Account Settings": {
+      "attributes": [],
+      "operations": [
+        "present my pets entry point",
+        "host pet profile create and edit",
+        "prompt guest to log in or register"
+      ],
+      "inherits": null,
+      "boundary": true,
+      "owned_by": "Customer Account"
+    },
+    "Store Staff": {
+      "attributes": [],
+      "operations": [
+        "open inventory dashboard",
+        "edit stock levels at assigned store",
+        "export inventory for assigned store"
+      ],
+      "inherits": null,
+      "boundary": true,
+      "owned_by": "Store Operations"
+    },
+    "Product": {
+      "attributes": [],
+      "operations": [
+        "stock level subject on dashboard",
+        "backorder purchase target",
+        "low stock threshold configuration"
+      ],
+      "inherits": null,
+      "boundary": true,
+      "owned_by": "Product Catalog"
+    },
+    "Stock Availability": {
+      "attributes": ["real-time availability state"],
+      "operations": [
+        "updated by stock level edits",
+        "purchase gate relaxed by backorder"
+      ],
+      "inherits": null,
+      "boundary": true,
+      "owned_by": "Product Catalog"
+    },
+    "Store": {
+      "attributes": [],
+      "operations": [
+        "scope inventory dashboard to location",
+        "scope inventory export to location"
+      ],
+      "inherits": null,
+      "boundary": true,
+      "owned_by": "Store"
+    },
+    "Category": {
+      "attributes": [],
+      "operations": [
+        "sort dimension on inventory dashboard",
+        "filter dimension on inventory dashboard",
+        "column in inventory export"
+      ],
+      "inherits": null,
+      "boundary": true,
+      "owned_by": "Product Catalog"
+    }
+  },
+  "aliases": {
+    "scenario": "*"
+  }
+}

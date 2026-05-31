@@ -11,6 +11,7 @@ import {
   saveVendorPaymentMethodSchema,
 } from '@pawplace/customer-account-shared';
 import type { AuthService } from './auth.service';
+import type { CommunicationPreferencesService } from './communication-preferences.service';
 import type { SessionService } from './session.service';
 import type { ProfileService } from './profile.service';
 import type { AddressBookService } from './address-book.service';
@@ -37,12 +38,19 @@ export class AuthController {
     private readonly authService: AuthService,
     private readonly sessionService: SessionService,
     private readonly accounts: CustomerAccountRepository,
+    private readonly communicationPrefs?: CommunicationPreferencesService,
   ) {}
 
   register = async (req: Request, res: Response): Promise<void> => {
     try {
       const body = registerSchema.parse(req.body);
       const result = await this.authService.register(body);
+      if (body.optInPromotionalEmail && this.communicationPrefs) {
+        const account = await this.accounts.findByEmail(body.email);
+        if (account) {
+          await this.communicationPrefs.setCategoryOptIn(account.id, 'promotions', true);
+        }
+      }
       res.status(HttpStatus.CREATED).json({
         message: 'check your email to verify',
         expectEmailShortly: result.queuedDelivery,

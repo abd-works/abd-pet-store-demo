@@ -44,4 +44,8 @@ export class WishlistService {
   contains(accountId: string, sku: string): boolean {
     return this.repository.load(accountId).has(sku);
   }
+
+  findAccountsWithSkuOnWishlist(sku: string): string[] {
+    return this.repository.findAccountsWithSku(sku);
+  }
 }

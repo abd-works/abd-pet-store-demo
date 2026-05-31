@@ -1,0 +1,142 @@
+{
+  "module": "Marketing Engine",
+  "state": "ubiquitous-language",
+  "scope": "Increment 8: Marketing engine - reviews, alerts, and content",
+  "key_abstractions": [
+    {
+      "name": "Customer Review",
+      "concepts": [
+        {
+          "name": "customer review",
+          "attributes": ["star rating", "written text", "review photo"],
+          "inheritance": null
+        },
+        {
+          "name": "star rating",
+          "attributes": [],
+          "inheritance": null
+        },
+        {
+          "name": "review photo",
+          "attributes": [],
+          "inheritance": null
+        },
+        {
+          "name": "aggregate star rating",
+          "attributes": [],
+          "inheritance": null
+        }
+      ]
+    },
+    {
+      "name": "Marketing Communication",
+      "concepts": [
+        {
+          "name": "marketing communication",
+          "attributes": ["marketing category", "delivery target"],
+          "inheritance": null
+        },
+        {
+          "name": "marketing email list",
+          "attributes": [],
+          "inheritance": null
+        },
+        {
+          "name": "communication preferences",
+          "attributes": ["marketing category opt-in status"],
+          "inheritance": null
+        },
+        {
+          "name": "promotional email",
+          "attributes": ["unsubscribe link"],
+          "inheritance": null
+        },
+        {
+          "name": "personalized recommendation",
+          "attributes": ["purchase history", "browsing patterns", "pet data"],
+          "inheritance": null
+        },
+        {
+          "name": "restock alert",
+          "attributes": ["triggered product"],
+          "inheritance": null
+        },
+        {
+          "name": "in-store event notification",
+          "attributes": ["event location", "event type"],
+          "inheritance": null
+        },
+        {
+          "name": "unsubscribe",
+          "attributes": ["marketing category", "execution path"],
+          "inheritance": null
+        },
+        {
+          "name": "marketing category",
+          "attributes": ["name"],
+          "inheritance": null
+        }
+      ]
+    },
+    {
+      "name": "Content",
+      "concepts": [
+        {
+          "name": "content",
+          "attributes": ["lifecycle state"],
+          "inheritance": null
+        },
+        {
+          "name": "blog post",
+          "attributes": ["title", "summary", "date", "author"],
+          "inheritance": null
+        },
+        {
+          "name": "pet care guide",
+          "attributes": ["title", "summary", "date", "pet type tag"],
+          "inheritance": null
+        },
+        {
+          "name": "blog index",
+          "attributes": [],
+          "inheritance": null
+        },
+        {
+          "name": "guide index",
+          "attributes": [],
+          "inheritance": null
+        }
+      ]
+    }
+  ],
+  "boundary": [
+    {
+      "name": "product",
+      "owned_by": "Product Catalog"
+    },
+    {
+      "name": "customer account",
+      "owned_by": "Customer Account"
+    },
+    {
+      "name": "wishlist",
+      "owned_by": "Customer Account"
+    },
+    {
+      "name": "store",
+      "owned_by": "Store"
+    },
+    {
+      "name": "pet profile",
+      "owned_by": "Customer Account"
+    },
+    {
+      "name": "notification preferences",
+      "owned_by": "Notification"
+    },
+    {
+      "name": "content author",
+      "owned_by": "Store Operations"
+    }
+  ]
+}

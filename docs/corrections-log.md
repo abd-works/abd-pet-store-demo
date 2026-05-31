@@ -20,7 +20,7 @@ Source: delivery-war-room reviewer slot 02 (`abd-domain-terms` review of slot 01
 ## Entry: Architecture reference must not contain duplicate mechanism sections
 
 - **Status:** confirmed
-- **Context:** Reviewer slot 152 — duplicate Increment 6 mechanisms in `docs/architecture/architecture-reference.md`; rework executor slot 152-rework
+- **Context:** Reviewer slot 152 — duplicate Increment 6 mechanisms in `docs/end-to-end/specification/architecture-reference.md`; rework executor slot 152-rework
 - **Affects:** stage: exploration · role: engineer · skill: abd-architecture-template · run: Run 7 · slice: Increment 6
 - **DO / DO NOT:** DO produce each mechanism section exactly once in the final document. DO NOT leave draft versions of sections in the file alongside the final version. When iterating on a mechanism, delete the prior draft before writing the replacement.
 - **Example (wrong):** Pet Catalog, Adoption Appointment Lifecycle, Staff Appointment Workflow, and Transactional Appointment Notification each appear twice — a draft set at lines 3791–4382 and a final set at lines 4384–4999 — causing TOC anchor collisions.
@@ -44,11 +44,11 @@ Source: delivery-war-room reviewer slot 02 (`abd-domain-terms` review of slot 01
 ## Entry: Ref traceability format for gap and CRC-derived terms
 
 - **Status:** confirmed
-- **Context:** Reviewer slot 02 — `docs/domain/domain-terms.md` produced by executor slot 01 (`abd-domain-terms`); fixed in rework executor slot 03
+- **Context:** Reviewer slot 02 — `docs/end-to-end/discovery/domain/domain-terms.md` produced by executor slot 01 (`abd-domain-terms`); fixed in rework executor slot 03
 - **Affects:** stage: discovery · role: business-expert · skill: abd-domain-terms · run: Run 1
 - **DO / DO NOT:** DO use the full `**Ref — title**` / `Source:` / `Locator:` / `Extract:` structure with a fenced `source` block for **every** term reference — including gap terms sourced from story-graph and CRC-derived terms without prior quotes. DO NOT substitute a prose-only `References` section or inline prose citation when the refs-per-term rule requires the structured Ref block.
 - **Example (wrong):** Eight terms (`pet source`, `pet lineage`, `visit outcome`, `check-in`, `no-show`, `follow-up action`, `cart item`, `order line item`) document References as prose only — no `**Ref —**` heading, no Source/Locator/Extract fields, no fenced `source` block.
-- **Example (correct):** `visit outcome` term in `docs/domain/domain-terms.md` — full Ref block with story-graph story JSON in fenced `source` block; CRC-derived terms quote `docs/domain/crc.md` verbatim.
+- **Example (correct):** `visit outcome` term in `docs/end-to-end/discovery/domain/domain-terms.md` — full Ref block with story-graph story JSON in fenced `source` block; CRC-derived terms quote `docs/end-to-end/specification/crc.md` verbatim.
 - **Likely source:** instruction not read — executor treated gap/CRC-derived terms as exempt from full Ref format
 
 ---
@@ -56,11 +56,11 @@ Source: delivery-war-room reviewer slot 02 (`abd-domain-terms` review of slot 01
 ## Entry: Boundary term owner field format (optional if scanners remain broken)
 
 - **Status:** confirmed
-- **Context:** Reviewer slot 02 — boundary terms in `docs/domain/domain-terms.md`; aligned in rework executor slot 03
+- **Context:** Reviewer slot 02 — boundary terms in `docs/end-to-end/discovery/domain/domain-terms.md`; aligned in rework executor slot 03
 - **Affects:** stage: discovery · role: business-expert · skill: abd-domain-terms
 - **DO / DO NOT:** DO place `Owned by: <Module>` as a dedicated field line immediately after the term heading when aligning to bundled scanner rules. DO NOT rely solely on `*(owned by: …)*` in the heading if mechanical scanners are fixed and re-run.
 - **Example (wrong):** `# Boundary Domain` section with owners only in heading suffix `*(owned by: Content Management)*`.
-- **Example (correct):** `### content` followed by `Owned by: Content Management` field line before behavioral bullets (see `docs/domain/domain-terms.md` boundary section).
+- **Example (correct):** `### content` followed by `Owned by: Content Management` field line before behavioral bullets (see `docs/end-to-end/discovery/domain/domain-terms.md` boundary section).
 - **Likely source:** edge case — engagement layout differs from default scanner path expectations
 
 ---
@@ -70,7 +70,7 @@ Source: delivery-war-room reviewer slot 02 (`abd-domain-terms` review of slot 01
 - **Status:** confirmed
 - **Context:** Reviewer slot 08 — `abd-story-mapping` review of slot 07 artifacts; ripple check failed; fixed slot 09, validated slot 10
 - **Affects:** stage: discovery · role: product-owner · skill: abd-story-mapping · story: Update Pet Profile (Store Employee) · run: Run 1
-- **DO / DO NOT:** DO replace acceptance criteria on Store Employee `Update Pet Profile` (under `Browse Available Pets` → `Manage Pet Listings`) with store-animal *pet profile* fields and Store Employee actor — mirror `docs/story/acceptance-criteria/increment-6-acceptance-criteria.md` § Update Pet Profile. DO NOT leave customer-account *Customer Pet Profile* CRUD AC on a Store Employee story after customer pet rename pass.
+- **DO / DO NOT:** DO replace acceptance criteria on Store Employee `Update Pet Profile` (under `Browse Available Pets` → `Manage Pet Listings`) with store-animal *pet profile* fields and Store Employee actor — mirror `docs/end-to-end/exploration/stories/acceptance-criteria.md` § Update Pet Profile. DO NOT leave customer-account *Customer Pet Profile* CRUD AC on a Store Employee story after customer pet rename pass.
 - **Example (wrong):** AC references *Customer Pet Profile*, customer editing/deleting, and personalisation updates on Store Employee `Update Pet Profile` in `story-graph.json`.
 - **Example (correct):** AC describes Store Employee editing name, species, breed, age, Temperament Notes, Pet Photo Gallery, store assignment; customer-facing Pet Profile Page reflects changes (increment-6 AC items 1–4).
 - **Likely source:** edge case — story rename pass updated customer-account stories but did not refresh store-employee story AC copied from prior template
@@ -116,9 +116,9 @@ Source: delivery-war-room reviewer slot 02 (`abd-domain-terms` review of slot 01
 ## Entry: Walkthrough pseudocode must trace to CRC operations or record GAP
 
 - **Status:** confirmed
-- **Context:** Reviewer slot 106 — `abd-scenario-walkthrough` review of slot 105 `docs/domain/increment-4-walkthrough.md`; fixed rework executor slot 107
+- **Context:** Reviewer slot 106 — `abd-scenario-walkthrough` review of slot 105 `docs/increments/4-returning-customers/engineering/object-model.md`; fixed rework executor slot 107
 - **Affects:** stage: specification · role: business-expert · skill: abd-scenario-walkthrough · run: Run 5 · slice: Increment 4
-- **DO / DO NOT:** DO map every domain-logic pseudocode call to a CRC class + responsibility from `docs/domain/crc.md`, or record an explicit GAP under the KA `### decisions made` section. DO NOT invent operations (`VerificationLink.handleClick()`, `session.evaluate()`, `PaymentStep.renderSavedMethods()`, `Wishlist.attemptAddAsGuest()`, etc.) without CRC owner or GAP entry.
+- **DO / DO NOT:** DO map every domain-logic pseudocode call to a CRC class + responsibility from `docs/end-to-end/specification/crc.md`, or record an explicit GAP under the KA `### decisions made` section. DO NOT invent operations (`VerificationLink.handleClick()`, `session.evaluate()`, `PaymentStep.renderSavedMethods()`, `Wishlist.attemptAddAsGuest()`, etc.) without CRC owner or GAP entry.
 - **Example (wrong):** Walk uses `link.handleClick()` and `PaymentStep.renderSavedMethods()` with no matching CRC responsibility and no GAP in decisions made.
 - **Example (correct):** Walk calls `EmailVerification.transitionAccountVerificationStatus(...)` per CRC, or `### decisions made` records GAP: presentation-only redirect is outcome of `AccountVerificationStatus.gateCustomerSessionAccess`.
 - **Likely source:** instruction not read — executor used presentation-layer helpers without gap recording
@@ -130,7 +130,7 @@ Source: delivery-war-room reviewer slot 02 (`abd-domain-terms` review of slot 01
 - **Status:** confirmed
 - **Context:** Reviewer slot 106 — rule `scenario-walkthrough-scope-covers`; fixed rework executor slot 107
 - **Affects:** stage: specification · role: business-expert · skill: abd-scenario-walkthrough · run: Run 5 · slice: Increment 4
-- **DO / DO NOT:** DO add a formal **Scope** section listing epic `Returning customers - accounts, history, reorder` (exact name from `docs/story/story-graph.json`) and all 16 story names. DO NOT rely on prose-only module intro without the formal Scope block.
+- **DO / DO NOT:** DO add a formal **Scope** section listing epic `Returning customers - accounts, history, reorder` (exact name from `docs/end-to-end/discovery/stories/story-graph.json`) and all 16 story names. DO NOT rely on prose-only module intro without the formal Scope block.
 - **Example (wrong):** Module intro mentions Increment 4 stories in prose only; no Scope section with epic name from graph.
 - **Example (correct):** `## Scope` → Epic: `Returning customers - accounts, history, reorder` → bullet list of all 16 story names matching graph.
 - **Likely source:** prompt gap — executor followed KA shape but omitted scope-covers rule section
@@ -208,4 +208,16 @@ Source: delivery-war-room reviewer slot 02 (`abd-domain-terms` review of slot 01
 - **Example (wrong — F4):** `state.json` field label `"distance from your location"`; `lo-fi.md` spec table says `"distance from customer location"`.
 - **Example (correct):** `state.json` `upcoming appointments` actions: `[{ "label": "Cancel" }, { "label": "Browse other pets" }]`; store location field label: `"distance from customer location"` in both files; drawio regenerated.
 - **Likely source:** prompt gap — executor did not cross-check state.json fields against lo-fi.md after drafting
+
+---
+
+## Entry: Every italicized term must resolve to a heading, stub, or parenthetical primitive
+
+- **Status:** confirmed
+- **Context:** Reviewer business-expert-reviewer — rule `italic-terms-resolve-to-named-concepts`; review of `docs/increments/8-marketing-engine/exploration/domain/ubiquitous-language.md` for ticket `inc-8-marketing-engine`
+- **Affects:** stage: exploration · role: business-expert · skill: abd-ubiquitous-language · run: Inc 8 · slice: Increment 8: Marketing engine
+- **DO / DO NOT:** DO ensure every `*italicized*` term in behavior bullets, invariants, and KA intros resolves to a `### heading`, `### boundary *(boundary)*` stub, or parenthetical primitive in the same file. DO NOT italicize a term that has no matching heading anywhere in the document.
+- **Example (wrong):** `*product details page*` is italicized in 3 bullets (customer review line 50, aggregate star rating line 72, product boundary line 79) but no `### product details page` heading or boundary stub exists anywhere in the file. `*stock availability*` is italicized in restock alert line 153 but has no matching heading.
+- **Example (correct):** Add `### product details page *(boundary)*` under `## Customer Review` with a scoped bullet (e.g. "is the page where *customer reviews* and *aggregate star rating* are displayed for a *product*") and note `Owned by: Product Catalog` on the boundary domain entry; OR de-italicize if it is not a domain concept. Add `### stock availability *(boundary)*` or mention stock-availability as plain text with a parenthetical description.
+- **Likely source:** edge case — executor italicized UI and state terms that are referenced by domain concepts but did not promote them to stubs for diagram traceability
 

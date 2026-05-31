@@ -47,3 +47,22 @@ export {
   type SavedPaymentVendor,
   type SaveVendorPaymentMethodInput,
 } from './saved-payment-method.schema';
+export {
+  MARKETING_CATEGORIES,
+  MARKETING_CATEGORY_LABELS,
+  MARKETING_CATEGORY_DESCRIPTIONS,
+  isMarketingCategory,
+  type MarketingCategory,
+} from './MarketingCategory';
+export {
+  CommunicationPreferences,
+  type CommunicationPreferencesSnapshot,
+  type OptInStatus,
+  type CategoryOptInState,
+} from './CommunicationPreferences';
+export {
+  toggleCommunicationPreferenceSchema,
+  communicationPreferencesDtoSchema,
+  type ToggleCommunicationPreferenceInput,
+  type CommunicationPreferencesDto,
+} from './communication-preferences.schema';

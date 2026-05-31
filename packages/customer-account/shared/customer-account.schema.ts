@@ -8,6 +8,7 @@ export const registerSchema = z
     passwordConfirmation: z.string(),
     firstName: z.string().min(1),
     lastName: z.string().min(1),
+    optInPromotionalEmail: z.boolean().optional().default(false),
   })
   .refine((data) => data.password === data.passwordConfirmation, {
     message: 'Passwords do not match',

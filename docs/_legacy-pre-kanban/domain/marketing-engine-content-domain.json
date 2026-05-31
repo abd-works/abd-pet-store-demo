@@ -1,0 +1,171 @@
+{
+  "_comment": "Machine-readable vocabulary for Marketing Engine Sprint 4 — Content publishing and unsubscribe CRC.",
+  "module": "Marketing Engine",
+  "state": "crc",
+  "sprint_scope": "Increment 8 Sprint 4 — Content publishing and unsubscribe",
+  "concepts": {
+    "Content": {
+      "attributes": [
+        "authored material for site and email",
+        "lifecycle status",
+        "publish date",
+        "title",
+        "summary",
+        "body"
+      ],
+      "operations": [
+        "transition draft to published",
+        "hide draft from customers",
+        "expose published via own URL"
+      ],
+      "inherits": null
+    },
+    "Blog Post": {
+      "attributes": [
+        "author attribution",
+        "publish date on index"
+      ],
+      "operations": [
+        "save as draft",
+        "publish to live",
+        "reflect edits on live page",
+        "preserve publish date on edit",
+        "display on blog index",
+        "display full article on detail URL"
+      ],
+      "inherits": null
+    },
+    "Pet Care Guide": {
+      "attributes": ["pet type or species tags", "publish date on index"],
+      "operations": [
+        "save as draft",
+        "publish to live",
+        "require tag before publish",
+        "cross-link from tagged browsing areas",
+        "display on guide index",
+        "display full guide on detail URL"
+      ],
+      "inherits": null
+    },
+    "Blog Index": {
+      "attributes": ["published blog posts"],
+      "operations": ["list with title summary date author"],
+      "inherits": null
+    },
+    "Guide Index": {
+      "attributes": ["published pet care guides"],
+      "operations": ["list with title summary tag date"],
+      "inherits": null
+    },
+    "Marketing Communication": {
+      "attributes": [],
+      "operations": ["carry unsubscribe link in message"],
+      "inherits": null
+    },
+    "Unsubscribe": {
+      "attributes": ["target marketing category"],
+      "operations": [
+        "execute via email link",
+        "execute via preferences toggle",
+        "take effect immediately",
+        "show confirmation after email link",
+        "repeat email link idempotently"
+      ],
+      "inherits": null
+    },
+    "Unsubscribe Token": {
+      "attributes": ["signed payload account and category"],
+      "operations": [
+        "verify on email link request",
+        "encode account id and category"
+      ],
+      "inherits": null
+    },
+    "Communication Preferences": {
+      "attributes": ["marketing category opt-in statuses"],
+      "operations": [
+        "toggle category opt-in",
+        "persist immediately on toggle"
+      ],
+      "inherits": null,
+      "boundary": true,
+      "owned_by": "Marketing Engine Sprint 2"
+    },
+    "Marketing Category": {
+      "attributes": ["category name", "unit of consent for unsubscribe"],
+      "inherits": null,
+      "boundary": true
+    },
+    "Marketing Email List": {
+      "attributes": ["member customer accounts"],
+      "operations": ["remove on category opt-out"],
+      "inherits": null,
+      "boundary": true
+    },
+    "Customer Account": {
+      "attributes": ["verified email delivery target"],
+      "operations": ["store communication preferences"],
+      "inherits": null,
+      "boundary": true,
+      "owned_by": "Customer Account"
+    },
+    "Transactional Notification": {
+      "attributes": ["delivery target"],
+      "operations": ["unaffected by marketing unsubscribe"],
+      "inherits": null,
+      "boundary": true,
+      "owned_by": "Notification"
+    },
+    "Notification Preferences": {
+      "attributes": ["transactional category settings"],
+      "inherits": null,
+      "boundary": true,
+      "owned_by": "Notification"
+    },
+    "Content Author": {
+      "attributes": [],
+      "operations": ["create edit publish content"],
+      "inherits": null,
+      "boundary": true,
+      "owned_by": "Store Operations"
+    },
+    "Admin Content Area": {
+      "attributes": [],
+      "operations": [
+        "present draft and publish actions",
+        "retain editable draft"
+      ],
+      "inherits": null,
+      "boundary": true,
+      "owned_by": "Store Operations"
+    },
+    "Unsubscribe Confirmation Page": {
+      "attributes": [],
+      "operations": [
+        "render unsubscribed message",
+        "link to communication preferences"
+      ],
+      "inherits": null,
+      "boundary": true,
+      "owned_by": "Presentation"
+    },
+    "Pet Browsing Area": {
+      "attributes": [],
+      "operations": ["surface guides matching species tags"],
+      "inherits": null,
+      "boundary": true,
+      "owned_by": "Presentation"
+    },
+    "Product Browsing Area": {
+      "attributes": [],
+      "operations": ["surface guides matching species tags"],
+      "inherits": null,
+      "boundary": true,
+      "owned_by": "Presentation"
+    }
+  },
+  "aliases": {
+    "scenario": "*"
+  }
+}
+

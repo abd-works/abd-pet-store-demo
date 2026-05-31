@@ -1,7 +1,7 @@
 import React from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import { CustomerPage } from '../components/CustomerPage';
-import type { AppointmentDto } from '../../../../appointment/client/appointment.api';
+import type { AppointmentDto } from '../../../appointment/client/appointment.api';
 
 interface LocationState {
   appointment: AppointmentDto;

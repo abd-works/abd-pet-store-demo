@@ -9,7 +9,7 @@ import { WishlistButton } from './components/WishlistButton';
 import { RequireVerifiedAccount } from './components/RequireVerifiedAccount';
 import { CartProvider, useCart } from './context/CartContext';
 import { CheckoutProvider } from './context/CheckoutContext';
-import { CustomerSessionProvider } from './context/CustomerSessionContext';
+import { CustomerSessionProvider, useCustomerSession } from './context/CustomerSessionContext';
 import { StoreLocatorPage } from './pages/StoreLocatorPage';
 import { ProductCatalogPage } from './pages/ProductCatalogPage';
 import { HomePage } from './pages/HomePage';
@@ -50,6 +50,11 @@ import { SavedPaymentMethodsPage } from './pages/account/SavedPaymentMethodsPage
 import { OrderHistoryPage } from './pages/account/OrderHistoryPage';
 import { OrderHistoryDetailPage } from './pages/account/OrderHistoryDetailPage';
 import { WishlistPage } from './pages/account/WishlistPage';
+import { CommunicationPreferencesPage } from './pages/account/CommunicationPreferencesPage';
+import { NotificationPreferencesPage } from './pages/account/NotificationPreferencesPage';
+import { MyStorePreferencePage } from './pages/account/MyStorePreferencePage';
+import { MyPetsPage } from './pages/account/MyPetsPage';
+import { EditPetProfilePage } from './pages/account/EditPetProfilePage';
 import { PetGalleryPage } from './pages/PetGalleryPage';
 import { PetProfilePage } from './pages/PetProfilePage';
 import { AppointmentSlotPickerPage } from './pages/AppointmentSlotPickerPage';
@@ -67,18 +72,33 @@ import { ReturnTrackingPage } from './pages/account/ReturnTrackingPage';
 import { StaffReturnLookupPage } from './pages/staff/StaffReturnLookupPage';
 import { StaffProcessReturnPage } from './pages/staff/StaffProcessReturnPage';
 import { ReturnNotificationPreviewPage } from './pages/staff/ReturnNotificationPreviewPage';
+import { MarketingNotificationPreviewPage } from './pages/staff/MarketingNotificationPreviewPage';
+import { BlogIndexPage } from './pages/content/BlogIndexPage';
+import { BlogPostPage } from './pages/content/BlogPostPage';
+import { GuideIndexPage } from './pages/content/GuideIndexPage';
+import { GuideDetailPage } from './pages/content/GuideDetailPage';
+import { InventoryDashboardPage } from './pages/staff/InventoryDashboardPage';
+import { StaffContentEditorPage } from './pages/staff/StaffContentEditorPage';
+import { UnsubscribeConfirmationPage } from './pages/marketing/UnsubscribeConfirmationPage';
+import { ProductSearchResultsPage } from './pages/catalog/ProductSearchResultsPage';
+import { useMyStorePreference } from '../../customer-account/client/useMyStorePreference';
 
 function ProductPageContent({ sku }: { sku: string }) {
   const { addItem } = useCart();
   const { inStock, loading } = useProductInStock(sku);
+  const { isLoggedIn, isVerified } = useCustomerSession();
+  const { storeCode: preferredStoreCode } = useMyStorePreference(isLoggedIn, isVerified);
 
   return (
     <CustomerPage title="product page">
       <div data-testid="product-page">
-        <ProductDetailView sku={sku} />
+        <ProductDetailView
+          sku={sku}
+          reviewSession={{ isLoggedIn, isVerified }}
+        />
         <section aria-label="stock availability by store" style={{ marginTop: 32 }}>
           <h2 style={{ fontSize: 16, marginBottom: 12 }}>stock availability by store</h2>
-          <StockAvailabilityDisplay productSku={sku} />
+          <StockAvailabilityDisplay productSku={sku} preferredStoreCode={preferredStoreCode} />
         </section>
         {!loading && (
           <>
@@ -115,6 +135,7 @@ export function App() {
             <Routes>
               <Route path="/" element={<HomePage />} />
               <Route path="/product-catalog" element={<ProductCatalogPage />} />
+              <Route path="/catalog/search" element={<ProductSearchResultsPage />} />
               <Route path="/products/:sku" element={<ProductPage />} />
               <Route path="/store-locator" element={<StoreLocatorPage />} />
               <Route path="/cart" element={<ShoppingCartPage />} />
@@ -153,7 +174,8 @@ export function App() {
               <Route path="/admin/orders/:orderNumber/ship-to-home" element={<ShipToHomeOrderDetailPage />} />
               <Route path="/admin/click-and-collect" element={<ClickAndCollectQueuePage />} />
               <Route path="/admin/click-and-collect/:orderNumber" element={<ClickAndCollectOrderDetailPage />} />
-              <Route path="/admin/stock" element={<AdminStockPage />} />
+              <Route path="/staff/inventory" element={<InventoryDashboardPage />} />
+              <Route path="/admin/stock" element={<InventoryDashboardPage />} />
               <Route path="/admin/stock/:productSku/:storeCode" element={<StockAdminDeepLinkPage />} />
               {/* Increment 6 — Pet visits */}
               <Route path="/pets" element={<PetGalleryPage />} />
@@ -162,6 +184,12 @@ export function App() {
               <Route path="/pets/:petId/book/confirm" element={<VerifiedRoute><AppointmentConfirmPage /></VerifiedRoute>} />
               <Route path="/pets/:petId/book/confirmed" element={<VerifiedRoute><AppointmentConfirmedPage /></VerifiedRoute>} />
               <Route path="/account/appointments" element={<VerifiedRoute><CustomerAppointmentsPage /></VerifiedRoute>} />
+              <Route path="/account/communication" element={<CommunicationPreferencesPage />} />
+              <Route path="/account/notification-preferences" element={<NotificationPreferencesPage />} />
+              <Route path="/account/my-store" element={<VerifiedRoute><MyStorePreferencePage /></VerifiedRoute>} />
+              <Route path="/account/pets" element={<VerifiedRoute><MyPetsPage /></VerifiedRoute>} />
+              <Route path="/account/pets/:petId/edit" element={<VerifiedRoute><EditPetProfilePage /></VerifiedRoute>} />
+              <Route path="/account/pets/new" element={<VerifiedRoute><EditPetProfilePage /></VerifiedRoute>} />
               <Route path="/staff/appointments" element={<StaffAppointmentBoardPage />} />
               <Route path="/staff/appointments/:appointmentId/outcome" element={<RecordOutcomePage />} />
               <Route path="/staff/appointments/:appointmentId/follow-up" element={<SetFollowUpPage />} />
@@ -174,6 +202,14 @@ export function App() {
               <Route path="/staff/returns" element={<StaffReturnLookupPage />} />
               <Route path="/staff/returns/:orderNumber/process" element={<StaffProcessReturnPage />} />
               <Route path="/staff/notifications/returns" element={<ReturnNotificationPreviewPage />} />
+              <Route path="/staff/notifications/marketing" element={<MarketingNotificationPreviewPage />} />
+              {/* Increment 8 Sprint 4 — Content publishing & unsubscribe */}
+              <Route path="/blog" element={<BlogIndexPage />} />
+              <Route path="/blog/:slug" element={<BlogPostPage />} />
+              <Route path="/guides" element={<GuideIndexPage />} />
+              <Route path="/guides/:slug" element={<GuideDetailPage />} />
+              <Route path="/staff/content" element={<StaffContentEditorPage />} />
+              <Route path="/marketing/unsubscribe/:token" element={<UnsubscribeConfirmationPage />} />
             </Routes>
           </CheckoutProvider>
         </CartProvider>

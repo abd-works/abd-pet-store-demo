@@ -1,10 +1,11 @@
 import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { CustomerPage } from '../components/CustomerPage';
-import { SpeciesFilter } from '../../../../pet/client/SpeciesFilter';
-import { PetCard } from '../../../../pet/client/PetCard';
-import { fetchPets } from '../../../../pet/client/pet.api';
-import type { PetDto } from '../../../../pet/client/pet.api';
+import { SpeciesFilter } from '../../../pet/client/SpeciesFilter';
+import { PetCard } from '../../../pet/client/PetCard';
+import { GuideCrossLinks } from '../../../content/client/GuideCrossLinks';
+import { fetchPets } from '../../../pet/client/pet.api';
+import type { PetDto } from '../../../pet/client/pet.api';
 
 export function PetGalleryPage() {
   const navigate = useNavigate();
@@ -34,6 +35,7 @@ export function PetGalleryPage() {
       <div style={{ display: 'grid', gridTemplateColumns: '200px 1fr', gap: 24 }}>
         <aside>
           <SpeciesFilter selected={species} onChange={setSpecies} />
+          <GuideCrossLinks speciesOrCategory={species} testId="pet-gallery-guide-cross-links" />
         </aside>
         <section aria-label="pet gallery grid">
           {loading && <p>Loading pets…</p>}

@@ -8,7 +8,11 @@ import type { PaymentVendor } from '@pawplace/payment-shared';
 
 import { payOrder, startVendorPayment, type PaymentErrorBody } from '@pawplace/payment-client/payment.api';
 
-import { fetchSavedPaymentMethods } from '@pawplace/customer-account-client';
+import {
+  fetchSavedPaymentMethods,
+  toggleCommunicationPreference,
+} from '@pawplace/customer-account-client';
+import { PromotionalEmailOptInCheckbox } from '../components/PromotionalEmailOptInCheckbox';
 
 import { CheckoutProgressTabs } from '../components/CheckoutProgressTabs';
 
@@ -93,6 +97,7 @@ export function PaymentMethodSelectorPage() {
   const [error, setError] = useState<string | null>(null);
 
   const [saveForFuture, setSaveForFuture] = useState(false);
+  const [optInPromotionalEmail, setOptInPromotionalEmail] = useState(false);
 
 
 
@@ -155,6 +160,10 @@ export function PaymentMethodSelectorPage() {
           savedPaymentMethodId: selectedMethodId,
 
         });
+
+        if (isVerified && optInPromotionalEmail) {
+          await toggleCommunicationPreference({ category: 'promotions', optedIn: true });
+        }
 
         clearCheckoutDraft();
 
@@ -445,6 +454,12 @@ export function PaymentMethodSelectorPage() {
             </>
 
           )}
+
+          <PromotionalEmailOptInCheckbox
+            checked={optInPromotionalEmail}
+            onChange={setOptInPromotionalEmail}
+            id="checkout-promotional-email-opt-in"
+          />
 
           {error && (
 

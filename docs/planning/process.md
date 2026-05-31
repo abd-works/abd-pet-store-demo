@@ -10,8 +10,7 @@
 - [x] **6. Acceptance Criteria** — Write behavioral WHEN/THEN AC per story, per increment → `docs/acceptance-criteria/increment-{1..9}-acceptance-criteria.md`
 
 - [x] **7. CRC Cards** — Assign responsibilities, collaborators, and invariants per domain concept → `docs/crc.md`
-- [ ] **8. Scenario Walkthrough** — Walk key scenarios through the CRC model to find gaps
-- [ ] **9. Object Model** — Build the typed object model from CRC
+- [ ] **8. Object Model** — Build the typed object model from CRC
 
 ## Artifacts
 
@@ -35,8 +34,7 @@
 | 5 | `abd-acceptance-criteria` |
 | 6 | `abd-thin-slicing` |
 | 7 | `abd-class-responsibility-collaborator` |
-| 8 | `abd-scenario-walkthrough` |
-| 9 | `abd-object-model` |
+| 8 | `abd-object-model` |
 
 ## Corrections
 

@@ -1,10 +1,10 @@
 import React, { useEffect, useState } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import { CustomerPage } from '../../components/CustomerPage';
-import { checkReturnEligibility, initiateReturn } from '../../../return/client/return.api';
-import type { ReturnedItemDto } from '../../../return/shared/return.schema';
-import type { ReturnReason, ItemCondition } from '../../../return/shared/return.schema';
-import { returnReasonValues, itemConditionValues } from '../../../return/shared/return.schema';
+import { checkReturnEligibility, initiateReturn } from '../../../../return/client/return.api';
+import type { ReturnedItemDto } from '../../../../return/shared/return.schema';
+import type { ReturnReason, ItemCondition } from '../../../../return/shared/return.schema';
+import { returnReasonValues, itemConditionValues } from '../../../../return/shared/return.schema';
 
 interface SelectedItem {
   sku: string;

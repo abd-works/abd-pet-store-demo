@@ -1,0 +1,64 @@
+{
+  "_comment": "Machine-readable vocabulary extracted from the Ubiquitous Language. Written alongside the power-ups-ubiquitous-language.md file. Read by the specification-by-example scanner to validate example-table column names against domain concepts and attributes.",
+  "concepts": {
+    "product search": {
+      "attributes": [],
+      "inherits": null
+    },
+    "search results": {
+      "attributes": [],
+      "inherits": null
+    },
+    "filter facet": {
+      "attributes": [],
+      "inherits": null
+    },
+    "active filter": {
+      "attributes": [],
+      "inherits": null
+    },
+    "my store": {
+      "attributes": [],
+      "inherits": null
+    },
+    "tailored experience": {
+      "attributes": [],
+      "inherits": null
+    },
+    "store specialization filter": {
+      "attributes": [],
+      "inherits": null
+    },
+    "product availability filter": {
+      "attributes": [],
+      "inherits": null
+    },
+    "inventory dashboard": {
+      "attributes": [],
+      "inherits": null
+    },
+    "low stock alert": {
+      "attributes": [],
+      "inherits": null
+    },
+    "low stock threshold": {
+      "attributes": [],
+      "inherits": null
+    },
+    "stock level": {
+      "attributes": [],
+      "inherits": null
+    },
+    "inventory export": {
+      "attributes": [],
+      "inherits": null
+    },
+    "backorder purchase": {
+      "attributes": [],
+      "inherits": null
+    }
+  },
+  "aliases": {
+    "scenario": "*"
+  }
+}

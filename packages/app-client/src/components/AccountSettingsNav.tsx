@@ -19,6 +19,10 @@ export function AccountSettingsNav() {
     { to: '/account/payment-methods', label: 'saved payment methods' },
     { to: '/account/orders', label: 'order history' },
     { to: '/account/appointments', label: 'appointments' },
+    { to: '/account/communication', label: 'communication' },
+    { to: '/account/notification-preferences', label: 'notifications' },
+    { to: '/account/my-store', label: 'My Store' },
+    { to: '/account/pets', label: 'My Pets' },
   ];
 
   return (

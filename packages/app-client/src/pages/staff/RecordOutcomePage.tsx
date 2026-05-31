@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import { StaffPage } from '../../components/CustomerPage';
-import { staffRecordOutcome, fetchStaffAppointments } from '../../../../../appointment/client/appointment.api';
-import type { StaffAppointmentDto } from '../../../../../appointment/client/appointment.api';
+import { staffRecordOutcome, fetchStaffAppointments } from '../../../../appointment/client/appointment.api';
+import type { StaffAppointmentDto } from '../../../../appointment/client/appointment.api';
 
 const OUTCOMES = [
   { value: 'adopted', label: 'Adopted' },

@@ -1,0 +1,104 @@
+{
+  "_comment": "Machine-readable vocabulary for Marketing Engine Sprint 2 — Notification and communication preferences object model.",
+  "module": "Marketing Engine",
+  "state": "domain-model",
+  "sprint_scope": "Increment 8 Sprint 2 — Notification and communication preferences",
+  "concepts": {
+    "MarketingCommunication": {
+      "attributes": [],
+      "operations": [
+        "checkCommunicationPreferencesAtSend",
+        "routeToVerifiedCustomerEmail"
+      ],
+      "inherits": null
+    },
+    "CommunicationPreferences": {
+      "attributes": ["accountId", "categoryStates"],
+      "operations": [
+        "listCategoriesWithOptInStatus",
+        "toggleCategoryOptIn",
+        "hasAnyOptIn",
+        "offerPromotionalOptInAtRegistration",
+        "offerPromotionalOptInAtCheckout"
+      ],
+      "inherits": null
+    },
+    "MarketingCategory": {
+      "attributes": ["name"],
+      "operations": ["defaultNewCategoryToOptOut"],
+      "inherits": null
+    },
+    "CategoryOptInState": {
+      "attributes": ["category", "status", "optedInAt", "optedOutAt"],
+      "operations": [],
+      "inherits": null
+    },
+    "MarketingEmailList": {
+      "attributes": ["memberAccountIds"],
+      "operations": [
+        "addOnAffirmativeCategoryOptIn",
+        "removeOnCategoryOptOut",
+        "deriveMembershipFromAnyOptIn"
+      ],
+      "inherits": null
+    },
+    "OptIn": {
+      "attributes": ["category", "recordedAt"],
+      "operations": [],
+      "inherits": null
+    },
+    "Unsubscribe": {
+      "attributes": [],
+      "operations": [
+        "executeViaPreferencesToggle",
+        "executeViaEmailLink"
+      ],
+      "inherits": null
+    },
+    "NotificationPreferences": {
+      "attributes": ["accountId", "categoryToggles"],
+      "operations": [
+        "listCategoriesWithCurrentSetting",
+        "toggleCategorySetting",
+        "enforceAtDeliveryTime",
+        "protectCriticalCategories"
+      ],
+      "inherits": null,
+      "boundary": true,
+      "owned_by": "Notification"
+    },
+    "TransactionalNotification": {
+      "attributes": ["category", "deliveryTarget"],
+      "operations": ["respectCategoryPreferenceAtSend"],
+      "inherits": null,
+      "boundary": true,
+      "owned_by": "Notification"
+    },
+    "CustomerAccount": {
+      "attributes": [
+        "accountId",
+        "verifiedEmail",
+        "communicationPreferences",
+        "notificationPreferences"
+      ],
+      "operations": ["requireLoginForPreferencePages"],
+      "inherits": null,
+      "boundary": true,
+      "owned_by": "Customer Account"
+    },
+    "AccountSettings": {
+      "attributes": [],
+      "operations": [
+        "presentNotificationPreferences",
+        "presentCommunicationPreferences",
+        "promptGuestToLogInOrRegister"
+      ],
+      "inherits": null,
+      "boundary": true,
+      "owned_by": "Customer Account"
+    }
+  },
+  "aliases": {
+    "scenario": "*"
+  }
+}

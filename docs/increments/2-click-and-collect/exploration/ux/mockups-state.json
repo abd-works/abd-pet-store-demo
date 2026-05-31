@@ -1,0 +1,511 @@
+{
+  "target": "docs/increments/2-click-and-collect/exploration/ux/mockups.drawio",
+  "screens": [
+    {
+      "name": "product page — add to cart",
+      "layout": "stack",
+      "col": 0,
+      "row": 0,
+      "regions": [
+        {
+          "name": "primary navigation",
+          "slot": "header",
+          "type": "toolbar",
+          "buttons": [
+            { "label": "find stores" },
+            { "label": "shop supplies" },
+            { "label": "shopping cart (3)", "primary": true }
+          ]
+        },
+        {
+          "name": "breadcrumb",
+          "slot": "header",
+          "type": "toolbar",
+          "buttons": [
+            { "label": "product catalog" },
+            { "label": "product name (current)" }
+          ]
+        },
+        {
+          "name": "product header",
+          "slot": "body",
+          "type": "form",
+          "fields": [
+            { "label": "product name", "input": "text" },
+            { "label": "category", "input": "text" }
+          ],
+          "buttons": []
+        },
+        {
+          "name": "image gallery",
+          "slot": "body",
+          "type": "listbox",
+          "items": [
+            { "label": "product image 1", "selected": true },
+            { "label": "product image 2" },
+            { "label": "product image 3" }
+          ]
+        },
+        {
+          "name": "description",
+          "slot": "body",
+          "type": "form",
+          "fields": [
+            { "label": "description", "input": "textarea" },
+            { "label": "weight", "input": "text" },
+            { "label": "dimensions", "input": "text" }
+          ],
+          "buttons": [
+            { "label": "previous image" },
+            { "label": "next image" }
+          ]
+        },
+        {
+          "name": "stock availability by store",
+          "slot": "body",
+          "type": "list",
+          "columns": ["store name", "stock availability", "distance"],
+          "rows": 3,
+          "actions": [{ "label": "select store link" }]
+        },
+        {
+          "name": "purchase actions",
+          "slot": "body",
+          "type": "form",
+          "fields": [
+            { "label": "unavailability message", "input": "text" }
+          ],
+          "buttons": [
+            { "label": "add to cart", "primary": true }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "shopping cart",
+      "layout": "sidebar",
+      "col": 1,
+      "row": 0,
+      "regions": [
+        {
+          "name": "primary navigation",
+          "slot": "header",
+          "type": "toolbar",
+          "buttons": [
+            { "label": "find stores" },
+            { "label": "shop supplies" },
+            { "label": "shopping cart (3)", "primary": true }
+          ]
+        },
+        {
+          "name": "checkout progress",
+          "slot": "header",
+          "type": "nav-tabs",
+          "tabs": [
+            { "label": "shopping cart", "active": true },
+            { "label": "pickup store" },
+            { "label": "billing address" },
+            { "label": "payment" }
+          ]
+        },
+        {
+          "name": "cart item list",
+          "slot": "body",
+          "type": "list",
+          "columns": ["product name", "quantity", "line total", "remove"],
+          "rows": 3,
+          "actions": [{ "label": "remove cart item" }]
+        },
+        {
+          "name": "cart validation feedback",
+          "slot": "body",
+          "type": "form",
+          "fields": [
+            { "label": "validation error on cart item", "input": "text" }
+          ],
+          "buttons": []
+        },
+        {
+          "name": "cart summary",
+          "slot": "panel",
+          "type": "form",
+          "fields": [
+            { "label": "cart total", "input": "text" },
+            { "label": "visible item count indicator", "input": "text" }
+          ],
+          "buttons": [
+            { "label": "continue shopping" },
+            { "label": "proceed to checkout", "primary": true }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "click-and-collect store selection",
+      "layout": "split-screen",
+      "col": 2,
+      "row": 0,
+      "regions": [
+        {
+          "name": "primary navigation",
+          "slot": "header",
+          "type": "toolbar",
+          "buttons": [
+            { "label": "find stores" },
+            { "label": "shop supplies" },
+            { "label": "shopping cart (3)" }
+          ]
+        },
+        {
+          "name": "checkout progress",
+          "slot": "header",
+          "type": "nav-tabs",
+          "tabs": [
+            { "label": "shopping cart" },
+            { "label": "pickup store", "active": true },
+            { "label": "billing address" },
+            { "label": "payment" }
+          ]
+        },
+        {
+          "name": "delivery option",
+          "slot": "left",
+          "type": "form",
+          "fields": [
+            { "label": "click-and-collect (sole delivery option)", "input": "radio" }
+          ],
+          "buttons": []
+        },
+        {
+          "name": "location entry",
+          "slot": "left",
+          "type": "form",
+          "fields": [
+            { "label": "postcode", "input": "text" },
+            { "label": "distance note", "input": "text" }
+          ],
+          "buttons": [
+            { "label": "share location" },
+            { "label": "clear location" }
+          ]
+        },
+        {
+          "name": "pickup store list",
+          "slot": "left",
+          "type": "list",
+          "columns": ["store name", "address", "operating hours", "distance"],
+          "rows": 4,
+          "actions": [{ "label": "select pickup store", "primary": true }]
+        },
+        {
+          "name": "checkout summary",
+          "slot": "right",
+          "type": "form",
+          "fields": [
+            { "label": "pickup store name", "input": "text" },
+            { "label": "pickup store address", "input": "textarea" },
+            { "label": "cart total", "input": "text" }
+          ],
+          "buttons": [
+            { "label": "back to shopping cart" },
+            { "label": "continue to billing address", "primary": true }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "guest checkout — billing address",
+      "layout": "split-screen",
+      "col": 3,
+      "row": 0,
+      "regions": [
+        {
+          "name": "primary navigation",
+          "slot": "header",
+          "type": "toolbar",
+          "buttons": [
+            { "label": "find stores" },
+            { "label": "shop supplies" },
+            { "label": "shopping cart (3)" }
+          ]
+        },
+        {
+          "name": "checkout progress",
+          "slot": "header",
+          "type": "nav-tabs",
+          "tabs": [
+            { "label": "shopping cart" },
+            { "label": "pickup store" },
+            { "label": "billing address", "active": true },
+            { "label": "payment" }
+          ]
+        },
+        {
+          "name": "guest contact",
+          "slot": "left",
+          "type": "form",
+          "fields": [
+            { "label": "guest email", "input": "text" },
+            { "label": "name", "input": "text" }
+          ],
+          "buttons": []
+        },
+        {
+          "name": "billing address",
+          "slot": "left",
+          "type": "form",
+          "fields": [
+            { "label": "name", "input": "text" },
+            { "label": "address line 1", "input": "text" },
+            { "label": "address line 2 (optional)", "input": "text" },
+            { "label": "city", "input": "text" },
+            { "label": "county/state", "input": "text" },
+            { "label": "postcode", "input": "text" },
+            { "label": "country", "input": "dropdown", "options": ["United Kingdom"] }
+          ],
+          "buttons": []
+        },
+        {
+          "name": "billing validation feedback",
+          "slot": "left",
+          "type": "form",
+          "fields": [
+            { "label": "validation error on guest email", "input": "text" },
+            { "label": "validation error on billing address", "input": "text" }
+          ],
+          "buttons": []
+        },
+        {
+          "name": "order summary",
+          "slot": "right",
+          "type": "form",
+          "fields": [
+            { "label": "pickup store name", "input": "text" },
+            { "label": "pickup store address", "input": "textarea" },
+            { "label": "billing address preview", "input": "textarea" },
+            { "label": "cart total", "input": "text" }
+          ],
+          "buttons": [
+            { "label": "back to pickup store" },
+            { "label": "continue to payment", "primary": true }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "payment — StripeWave",
+      "layout": "split-screen",
+      "col": 4,
+      "row": 0,
+      "regions": [
+        {
+          "name": "primary navigation",
+          "slot": "header",
+          "type": "toolbar",
+          "buttons": [
+            { "label": "find stores" },
+            { "label": "shop supplies" },
+            { "label": "shopping cart (3)" }
+          ]
+        },
+        {
+          "name": "checkout progress",
+          "slot": "header",
+          "type": "nav-tabs",
+          "tabs": [
+            { "label": "shopping cart" },
+            { "label": "pickup store" },
+            { "label": "billing address" },
+            { "label": "payment", "active": true }
+          ]
+        },
+        {
+          "name": "payment vendor",
+          "slot": "left",
+          "type": "form",
+          "fields": [
+            { "label": "StripeWave (sole payment vendor)", "input": "radio" }
+          ],
+          "buttons": []
+        },
+        {
+          "name": "card details",
+          "slot": "left",
+          "type": "form",
+          "fields": [
+            { "label": "card number", "input": "text" },
+            { "label": "expiry", "input": "text" },
+            { "label": "CVV", "input": "text" }
+          ],
+          "buttons": []
+        },
+        {
+          "name": "payment validation feedback",
+          "slot": "left",
+          "type": "form",
+          "fields": [
+            { "label": "validation error on card details", "input": "text" },
+            { "label": "payment decline message", "input": "text" },
+            { "label": "payment service temporarily unavailable", "input": "text" },
+            { "label": "processing indicator", "input": "text" }
+          ],
+          "buttons": [
+            { "label": "retry payment" }
+          ]
+        },
+        {
+          "name": "order review summary",
+          "slot": "right",
+          "type": "form",
+          "fields": [
+            { "label": "order line item list", "input": "textarea" },
+            { "label": "pickup store details", "input": "textarea" },
+            { "label": "billing address", "input": "textarea" },
+            { "label": "order total", "input": "text" }
+          ],
+          "buttons": [
+            { "label": "back to billing address" },
+            { "label": "confirm order", "primary": true }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "order confirmation page",
+      "layout": "stack",
+      "col": 5,
+      "row": 0,
+      "regions": [
+        {
+          "name": "primary navigation",
+          "slot": "header",
+          "type": "toolbar",
+          "buttons": [
+            { "label": "find stores" },
+            { "label": "shop supplies", "primary": true }
+          ]
+        },
+        {
+          "name": "order confirmation",
+          "slot": "body",
+          "type": "form",
+          "fields": [
+            { "label": "order number", "input": "text" },
+            { "label": "order line item list", "input": "textarea" },
+            { "label": "total paid", "input": "text" },
+            { "label": "masked payment method", "input": "text" },
+            { "label": "pickup store address", "input": "textarea" },
+            { "label": "operating hours", "input": "text" },
+            { "label": "confirmation email sent to guest email", "input": "text" }
+          ],
+          "buttons": [
+            { "label": "continue shopping", "primary": true }
+          ]
+        },
+        {
+          "name": "customer account prompt",
+          "slot": "body",
+          "type": "form",
+          "fields": [
+            { "label": "create customer account (order history, saved addresses, reorder)", "input": "text" }
+          ],
+          "buttons": [
+            { "label": "create account" },
+            { "label": "dismiss", "primary": true }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "click-and-collect queue",
+      "layout": "sidebar",
+      "col": 0,
+      "row": 1,
+      "regions": [
+        {
+          "name": "staff header",
+          "slot": "header",
+          "type": "chrome"
+        },
+        {
+          "name": "pickup store selector",
+          "slot": "panel",
+          "type": "form",
+          "fields": [
+            { "label": "pickup store", "input": "dropdown", "options": ["PawPlace North", "PawPlace South"] }
+          ],
+          "buttons": []
+        },
+        {
+          "name": "click-and-collect queue",
+          "slot": "body",
+          "type": "list",
+          "columns": ["order number", "order line item summary", "guest email", "status", "stock warning"],
+          "rows": 4,
+          "actions": [{ "label": "select order", "primary": true }]
+        },
+        {
+          "name": "queue empty state",
+          "slot": "body",
+          "type": "form",
+          "fields": [
+            { "label": "all orders collected", "input": "text" }
+          ],
+          "buttons": []
+        }
+      ]
+    },
+    {
+      "name": "click-and-collect order detail",
+      "layout": "form",
+      "col": 1,
+      "row": 1,
+      "regions": [
+        {
+          "name": "staff header",
+          "slot": "header",
+          "type": "chrome"
+        },
+        {
+          "name": "order detail",
+          "slot": "body",
+          "type": "form",
+          "fields": [
+            { "label": "order number", "input": "text" },
+            { "label": "status", "input": "text" },
+            { "label": "guest email", "input": "text" },
+            { "label": "pickup store", "input": "text" }
+          ],
+          "buttons": []
+        },
+        {
+          "name": "order line item list",
+          "slot": "body",
+          "type": "list",
+          "columns": ["product name", "quantity", "stock warning"],
+          "rows": 3,
+          "actions": []
+        },
+        {
+          "name": "pickup fulfillment actions",
+          "slot": "body",
+          "type": "button-bar",
+          "buttons": [
+            { "label": "back to click-and-collect queue" },
+            { "label": "mark prepared", "primary": true },
+            { "label": "mark collected" }
+          ]
+        }
+      ]
+    }
+  ],
+  "connections": [
+    { "from": "product page — add to cart", "to": "shopping cart", "label": "add to cart" },
+    { "from": "shopping cart", "to": "click-and-collect store selection", "label": "proceed to checkout" },
+    { "from": "click-and-collect store selection", "to": "guest checkout — billing address", "label": "continue to billing address" },
+    { "from": "guest checkout — billing address", "to": "payment — StripeWave", "label": "continue to payment" },
+    { "from": "payment — StripeWave", "to": "order confirmation page", "label": "confirm order" },
+    { "from": "click-and-collect queue", "to": "click-and-collect order detail", "label": "select order" },
+    { "from": "click-and-collect order detail", "to": "click-and-collect queue", "label": "back to click-and-collect queue" }
+  ]
+}

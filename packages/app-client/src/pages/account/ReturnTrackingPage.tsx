@@ -1,11 +1,11 @@
 import React, { useEffect, useState } from 'react';
 import { useParams, Link } from 'react-router-dom';
 import { CustomerPage } from '../../components/CustomerPage';
-import { fetchReturnsForOrder, fetchRefundStatus } from '../../../return/client/return.api';
-import { fetchOrderDetail } from '../../../customer-account/client/account.api';
-import type { ReturnDto, RefundDto } from '../../../return/shared/return.schema';
-import type { ReturnStatus } from '../../../return/shared/return.schema';
-import { returnStatusValues } from '../../../return/shared/return.schema';
+import { fetchReturnsForOrder, fetchRefundStatus } from '../../../../return/client/return.api';
+import { fetchOrderDetail } from '../../../../customer-account/client/account.api';
+import type { ReturnDto, RefundDto } from '../../../../return/shared/return.schema';
+import type { ReturnStatus } from '../../../../return/shared/return.schema';
+import { returnStatusValues } from '../../../../return/shared/return.schema';
 import type { OrderDto } from '../../../order/shared';
 
 const statusLabels: Record<ReturnStatus, string> = {

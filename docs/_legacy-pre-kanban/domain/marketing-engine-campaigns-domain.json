@@ -1,0 +1,130 @@
+{
+  "_comment": "Machine-readable vocabulary for Marketing Engine Sprint 3 — Marketing campaigns and alerts object model.",
+  "module": "Marketing Engine",
+  "state": "domain-model",
+  "sprint_scope": "Increment 8 Sprint 3 — Marketing campaigns and alerts",
+  "concepts": {
+    "MarketingCommunication": {
+      "attributes": [],
+      "operations": [
+        "checkCommunicationPreferencesAtSend",
+        "routeToVerifiedCustomerEmail",
+        "queueForRetryOnDeliveryFailure"
+      ],
+      "inherits": null
+    },
+    "PromotionalEmail": {
+      "attributes": ["targetMarketingCategory"],
+      "operations": ["sendToMarketingEmailList", "includeUnsubscribeLink"],
+      "inherits": null
+    },
+    "PersonalizedRecommendation": {
+      "attributes": ["targetMarketingCategory"],
+      "operations": [
+        "generateFromPurchaseHistory",
+        "generateFromBrowsingPatterns",
+        "generateFromPetProfile",
+        "excludeOutOfStock",
+        "sendWhenRecommendationsOptedIn"
+      ],
+      "inherits": null
+    },
+    "RestockAlert": {
+      "attributes": ["targetMarketingCategory"],
+      "operations": ["evaluateOnStockTransition", "sendWhenRestockAlertsOptedIn"],
+      "inherits": null
+    },
+    "InStoreEvent": {
+      "attributes": ["eventId", "eventType", "scheduledDate", "hostStore"],
+      "operations": ["remainDiscoverableOnStoreDetailPage"],
+      "inherits": null
+    },
+    "InStoreEventNotification": {
+      "attributes": ["targetMarketingCategory"],
+      "operations": ["matchCustomerPreferredStore", "sendWhenEventsOptedIn"],
+      "inherits": null
+    },
+    "CommunicationPreferences": {
+      "attributes": [],
+      "operations": ["checkAtDeliveryTime"],
+      "inherits": null,
+      "boundary": true,
+      "owned_by": "Customer Account"
+    },
+    "MarketingCategory": {
+      "attributes": ["name"],
+      "operations": [],
+      "inherits": null,
+      "boundary": true
+    },
+    "MarketingEmailList": {
+      "attributes": ["memberAccountIds"],
+      "operations": [],
+      "inherits": null,
+      "boundary": true,
+      "owned_by": "Customer Account"
+    },
+    "Unsubscribe": {
+      "attributes": [],
+      "operations": ["executeViaEmailLink"],
+      "inherits": null,
+      "boundary": true
+    },
+    "CustomerAccount": {
+      "attributes": ["verifiedEmail", "preferredStore", "purchaseHistory"],
+      "operations": [],
+      "inherits": null,
+      "boundary": true,
+      "owned_by": "Customer Account"
+    },
+    "Wishlist": {
+      "attributes": ["wishlistedProducts"],
+      "operations": [],
+      "inherits": null,
+      "boundary": true,
+      "owned_by": "Customer Account"
+    },
+    "Product": {
+      "attributes": ["sku", "stockAvailability"],
+      "operations": [],
+      "inherits": null,
+      "boundary": true,
+      "owned_by": "Product Catalog"
+    },
+    "StockAvailability": {
+      "attributes": ["state"],
+      "operations": ["onTransition"],
+      "inherits": null,
+      "boundary": true,
+      "owned_by": "Product Catalog"
+    },
+    "Store": {
+      "attributes": ["storeId"],
+      "operations": ["hostForEvent"],
+      "inherits": null,
+      "boundary": true,
+      "owned_by": "Store"
+    },
+    "PetProfile": {
+      "attributes": ["species", "breed", "age"],
+      "operations": [],
+      "inherits": null,
+      "boundary": true,
+      "owned_by": "Customer Account"
+    },
+    "PurchaseHistory": {
+      "attributes": ["orders"],
+      "operations": [],
+      "inherits": null,
+      "boundary": true,
+      "owned_by": "Customer Account"
+    },
+    "BrowsingHistory": {
+      "attributes": ["viewedProducts"],
+      "operations": [],
+      "inherits": null,
+      "boundary": true,
+      "owned_by": "Customer Account"
+    }
+  }
+}

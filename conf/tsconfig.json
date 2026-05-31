@@ -1,0 +1,238 @@
+{
+  "compilerOptions": {
+    "target": "ES2022",
+    "module": "ESNext",
+    "moduleResolution": "bundler",
+    "strict": true,
+    "esModuleInterop": true,
+    "jsx": "react-jsx",
+    "outDir": "../dist",
+    "rootDir": "..",
+    "baseUrl": "..",
+    "types": [
+      "vitest/globals",
+      "@testing-library/jest-dom"
+    ],
+    "paths": {
+      "@pawplace/app-server": [
+        "packages/app-server/index.ts"
+      ],
+      "@pawplace/appointment-shared": [
+        "packages/appointment/shared/index.ts"
+      ],
+      "@pawplace/appointment-shared/*": [
+        "packages/appointment/shared/*"
+      ],
+      "@pawplace/appointment-server": [
+        "packages/appointment/server/index.ts"
+      ],
+      "@pawplace/appointment-server/*": [
+        "packages/appointment/server/*"
+      ],
+      "@pawplace/appointment-client": [
+        "packages/appointment/client/index.ts"
+      ],
+      "@pawplace/appointment-client/*": [
+        "packages/appointment/client/*"
+      ],
+      "@pawplace/cart-shared": [
+        "packages/cart/shared/index.ts"
+      ],
+      "@pawplace/cart-shared/*": [
+        "packages/cart/shared/*"
+      ],
+      "@pawplace/cart-server": [
+        "packages/cart/server/index.ts"
+      ],
+      "@pawplace/cart-server/*": [
+        "packages/cart/server/*"
+      ],
+      "@pawplace/cart-client": [
+        "packages/cart/client/index.ts"
+      ],
+      "@pawplace/cart-client/*": [
+        "packages/cart/client/*"
+      ],
+      "@pawplace/content-shared": [
+        "packages/content/shared/index.ts"
+      ],
+      "@pawplace/content-shared/*": [
+        "packages/content/shared/*"
+      ],
+      "@pawplace/content-server": [
+        "packages/content/server/index.ts"
+      ],
+      "@pawplace/content-server/*": [
+        "packages/content/server/*"
+      ],
+      "@pawplace/content-client": [
+        "packages/content/client/index.ts"
+      ],
+      "@pawplace/content-client/*": [
+        "packages/content/client/*"
+      ],
+      "@pawplace/customer-account-shared": [
+        "packages/customer-account/shared/index.ts"
+      ],
+      "@pawplace/customer-account-shared/*": [
+        "packages/customer-account/shared/*"
+      ],
+      "@pawplace/customer-account-server": [
+        "packages/customer-account/server/index.ts"
+      ],
+      "@pawplace/customer-account-server/*": [
+        "packages/customer-account/server/*"
+      ],
+      "@pawplace/customer-account-client": [
+        "packages/customer-account/client/index.ts"
+      ],
+      "@pawplace/customer-account-client/*": [
+        "packages/customer-account/client/*"
+      ],
+      "@pawplace/marketing-shared": [
+        "packages/marketing/shared/index.ts"
+      ],
+      "@pawplace/marketing-shared/*": [
+        "packages/marketing/shared/*"
+      ],
+      "@pawplace/marketing-server": [
+        "packages/marketing/server/index.ts"
+      ],
+      "@pawplace/marketing-server/*": [
+        "packages/marketing/server/*"
+      ],
+      "@pawplace/notification-shared": [
+        "packages/notification/shared/index.ts"
+      ],
+      "@pawplace/notification-shared/*": [
+        "packages/notification/shared/*"
+      ],
+      "@pawplace/notification-server": [
+        "packages/notification/server/index.ts"
+      ],
+      "@pawplace/notification-server/*": [
+        "packages/notification/server/*"
+      ],
+      "@pawplace/order-shared": [
+        "packages/order/shared/index.ts"
+      ],
+      "@pawplace/order-shared/*": [
+        "packages/order/shared/*"
+      ],
+      "@pawplace/order-server": [
+        "packages/order/server/index.ts"
+      ],
+      "@pawplace/order-server/*": [
+        "packages/order/server/*"
+      ],
+      "@pawplace/order-client": [
+        "packages/order/client/index.ts"
+      ],
+      "@pawplace/order-client/*": [
+        "packages/order/client/*"
+      ],
+      "@pawplace/payment-shared": [
+        "packages/payment/shared/index.ts"
+      ],
+      "@pawplace/payment-shared/*": [
+        "packages/payment/shared/*"
+      ],
+      "@pawplace/payment-server": [
+        "packages/payment/server/index.ts"
+      ],
+      "@pawplace/payment-server/*": [
+        "packages/payment/server/*"
+      ],
+      "@pawplace/payment-client": [
+        "packages/payment/client/index.ts"
+      ],
+      "@pawplace/payment-client/*": [
+        "packages/payment/client/*"
+      ],
+      "@pawplace/pet-shared": [
+        "packages/pet/shared/index.ts"
+      ],
+      "@pawplace/pet-shared/*": [
+        "packages/pet/shared/*"
+      ],
+      "@pawplace/pet-server": [
+        "packages/pet/server/index.ts"
+      ],
+      "@pawplace/pet-server/*": [
+        "packages/pet/server/*"
+      ],
+      "@pawplace/pet-client": [
+        "packages/pet/client/index.ts"
+      ],
+      "@pawplace/pet-client/*": [
+        "packages/pet/client/*"
+      ],
+      "@pawplace/pet-visits-server": [
+        "packages/pet-visits/server/index.ts"
+      ],
+      "@pawplace/pet-visits-server/*": [
+        "packages/pet-visits/server/*"
+      ],
+      "@pawplace/product-catalog-shared": [
+        "packages/product-catalog/shared/index.ts"
+      ],
+      "@pawplace/product-catalog-shared/*": [
+        "packages/product-catalog/shared/*"
+      ],
+      "@pawplace/product-catalog-server": [
+        "packages/product-catalog/server/index.ts"
+      ],
+      "@pawplace/product-catalog-server/*": [
+        "packages/product-catalog/server/*"
+      ],
+      "@pawplace/product-catalog-client": [
+        "packages/product-catalog/client/index.ts"
+      ],
+      "@pawplace/product-catalog-client/*": [
+        "packages/product-catalog/client/*"
+      ],
+      "@pawplace/return-shared": [
+        "packages/return/shared/index.ts"
+      ],
+      "@pawplace/return-shared/*": [
+        "packages/return/shared/*"
+      ],
+      "@pawplace/return-server": [
+        "packages/return/server/index.ts"
+      ],
+      "@pawplace/return-server/*": [
+        "packages/return/server/*"
+      ],
+      "@pawplace/return-client": [
+        "packages/return/client/index.ts"
+      ],
+      "@pawplace/return-client/*": [
+        "packages/return/client/*"
+      ],
+      "@pawplace/store-shared": [
+        "packages/store/shared/index.ts"
+      ],
+      "@pawplace/store-shared/*": [
+        "packages/store/shared/*"
+      ],
+      "@pawplace/store-server": [
+        "packages/store/server/index.ts"
+      ],
+      "@pawplace/store-server/*": [
+        "packages/store/server/*"
+      ],
+      "@pawplace/store-client": [
+        "packages/store/client/index.ts"
+      ],
+      "@pawplace/store-client/*": [
+        "packages/store/client/*"
+      ]
+    }
+  },
+  "include": [
+    "../packages/**/*.ts",
+    "../packages/**/*.tsx",
+    "../tests/**/*.ts",
+    "../tests/**/*.tsx"
+  ]
+}

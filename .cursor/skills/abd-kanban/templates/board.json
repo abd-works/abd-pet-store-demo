@@ -1,0 +1,9 @@
+{
+  "schema": "abd-delivery-kanban/v2",
+  "synced_at": null,
+  "stage_configuration": "default-new-build",
+  "backlog": [],
+  "active": [],
+  "done": [],
+  "archived": []
+}

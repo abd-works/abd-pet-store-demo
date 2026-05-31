@@ -1,0 +1,93 @@
+{
+  "target": "docs/ux/lo-fi/backorder-product-page.drawio",
+  "screens": [
+    {
+      "name": "product page — backorder enabled",
+      "layout": "form",
+      "col": 0,
+      "row": 0,
+      "regions": [
+        {
+          "name": "product header",
+          "slot": "body",
+          "type": "chrome",
+          "name": "Cat Scratching Post — Product Detail"
+        },
+        {
+          "name": "stock status — backorder",
+          "slot": "body",
+          "type": "chrome",
+          "name": "⏳ Backorder — will ship when restocked"
+        },
+        {
+          "name": "add to cart action",
+          "slot": "body",
+          "type": "button-bar",
+          "buttons": [
+            { "label": "Add to Cart (Backorder)", "style": "primary" },
+            { "label": "Notify When In Stock", "style": "secondary" }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "product page — out of stock (no backorder)",
+      "layout": "form",
+      "col": 0,
+      "row": 1,
+      "regions": [
+        {
+          "name": "product header",
+          "slot": "body",
+          "type": "chrome",
+          "name": "Bird Cage Deluxe — Product Detail"
+        },
+        {
+          "name": "stock status — out of stock",
+          "slot": "body",
+          "type": "chrome",
+          "name": "❌ Out of Stock"
+        },
+        {
+          "name": "disabled add to cart",
+          "slot": "body",
+          "type": "button-bar",
+          "buttons": [
+            { "label": "Add to Cart (Disabled)", "style": "disabled" },
+            { "label": "Notify When In Stock", "style": "secondary" }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "cart with backorder item",
+      "layout": "form",
+      "col": 1,
+      "row": 0,
+      "regions": [
+        {
+          "name": "cart header",
+          "slot": "body",
+          "type": "chrome",
+          "name": "Shopping Cart"
+        },
+        {
+          "name": "cart items",
+          "slot": "body",
+          "type": "list",
+          "columns": ["Product", "Qty", "Price", "Status"],
+          "rows": [
+            ["PawBest Puppy Kibble", "1", "$24.99", "In Stock"],
+            ["Cat Scratching Post", "1", "$34.99", "⏳ Backorder"]
+          ],
+          "actions": [
+            { "label": "Proceed to Checkout", "style": "primary" }
+          ]
+        }
+      ]
+    }
+  ],
+  "connections": [
+    { "from": "product page — backorder enabled", "to": "cart with backorder item", "label": "Add to Cart" }
+  ]
+}

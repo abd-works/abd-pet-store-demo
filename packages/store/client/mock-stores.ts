@@ -1,6 +1,12 @@
 import type { StoreResponse } from './store.api';
 
 /** Prototype fallback when API is unavailable — mirrors app-server/dev-seed.ts */
+export const MOCK_STORE_SPECIALIZATIONS: Record<string, string[]> = {
+  'STR-001': ['reptile section', 'premium dog food'],
+  'STR-002': ['premium dog food'],
+  'STR-003': ['reptile section'],
+};
+
 export const MOCK_STORES: StoreResponse[] = [
   {
     storeName: 'PawPlace Camden',

@@ -1,0 +1,79 @@
+{
+  "_comment": "Machine-readable vocabulary for Power-ups Sprint 1 — Product search and filter object model.",
+  "module": "Power-ups",
+  "state": "domain-model",
+  "sprint_scope": "Increment 9 Sprint 1 — Product search and filter",
+  "concepts": {
+    "ProductSearch": {
+      "attributes": ["enteredKeyword"],
+      "operations": [
+        "matchProductsByKeyword",
+        "rankMatchesByRelevance",
+        "supportPartialKeywordMatch",
+        "supportFuzzyKeywordMatch",
+        "produceSearchResults",
+        "showEmptyGuidanceWhenNoMatch"
+      ],
+      "inherits": null
+    },
+    "SearchResults": {
+      "attributes": ["keyword", "rankedProducts", "activeFilters"],
+      "operations": [
+        "narrowToActiveFilterIntersection",
+        "showNoResultsMessage",
+        "updateOnFilterChange"
+      ],
+      "inherits": null
+    },
+    "FilterFacet": {
+      "attributes": ["dimension", "valueCounts"],
+      "operations": [
+        "narrowProductList",
+        "applyFacetValueAsActiveFilter",
+        "combineConjunctively",
+        "updateMatchCounts",
+        "clearAllAppliedSelections",
+        "showZeroMatchesGuidance"
+      ],
+      "inherits": null
+    },
+    "PriceRangeFilterFacet": {
+      "attributes": ["minPrice", "maxPrice"],
+      "operations": ["applyRangeSelection"],
+      "inherits": "FilterFacet"
+    },
+    "ActiveFilter": {
+      "attributes": ["dimension", "selectedValue", "minPrice", "maxPrice"],
+      "operations": ["removeAndExpandResults", "requestClearAllOnZeroResults"],
+      "inherits": null
+    },
+    "ProductCatalog": {
+      "attributes": [],
+      "operations": ["publishedProductSet"],
+      "inherits": null,
+      "boundary": true,
+      "owned_by": "Product Catalog"
+    },
+    "Product": {
+      "attributes": ["name", "description", "brand", "category", "stockAvailability"],
+      "operations": ["matchedByKeywordSearch", "filteredByFacetDimension"],
+      "inherits": null,
+      "boundary": true,
+      "owned_by": "Product Catalog"
+    },
+    "Category": {
+      "attributes": ["categoryName"],
+      "operations": ["suggestPopularCategoriesOnEmptySearch"],
+      "inherits": null,
+      "boundary": true,
+      "owned_by": "Product Catalog"
+    },
+    "StockAvailability": {
+      "attributes": ["inStock"],
+      "operations": ["asFacetValue"],
+      "inherits": null,
+      "boundary": true,
+      "owned_by": "Product Catalog"
+    }
+  }
+}

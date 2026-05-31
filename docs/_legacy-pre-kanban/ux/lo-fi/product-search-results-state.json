@@ -1,0 +1,97 @@
+{
+  "target": "docs/ux/lo-fi/product-search-results.drawio",
+  "screens": [
+    {
+      "name": "product search results",
+      "layout": "sidebar",
+      "col": 0,
+      "row": 0,
+      "regions": [
+        {
+          "name": "site header with search bar",
+          "slot": "header",
+          "type": "toolbar",
+          "buttons": [
+            { "label": "🔍 Search products…", "style": "input" },
+            { "label": "Submit", "style": "primary" }
+          ]
+        },
+        {
+          "name": "filter facets panel",
+          "slot": "panel",
+          "type": "form",
+          "fields": [
+            { "label": "Category", "input": "dropdown" },
+            { "label": "Pet Type", "input": "dropdown" },
+            { "label": "Brand", "input": "dropdown" },
+            { "label": "Price Range (min–max)", "input": "text" },
+            { "label": "Stock Availability", "input": "checkbox" }
+          ],
+          "buttons": [
+            { "label": "Apply Filters", "style": "primary" },
+            { "label": "Clear All Filters", "style": "secondary" }
+          ]
+        },
+        {
+          "name": "active filters",
+          "slot": "body",
+          "type": "toolbar",
+          "buttons": [
+            { "label": "Category: Dog Food ✕", "style": "chip" },
+            { "label": "Brand: PawBest ✕", "style": "chip" }
+          ]
+        },
+        {
+          "name": "search results list",
+          "slot": "body",
+          "type": "list",
+          "columns": ["Product Name", "Category", "Brand", "Price", "Stock"],
+          "rows": [
+            ["PawBest Puppy Kibble", "Dog Food", "PawBest", "$24.99", "In Stock"],
+            ["PawBest Adult Mix", "Dog Food", "PawBest", "$29.99", "In Stock"],
+            ["PawBest Senior Blend", "Dog Food", "PawBest", "$27.99", "Low Stock"]
+          ],
+          "actions": []
+        },
+        {
+          "name": "facet match counts",
+          "slot": "panel",
+          "type": "listbox",
+          "items": [
+            { "label": "Dog Food (12)", "icon": "category" },
+            { "label": "Cat Food (8)", "icon": "category" },
+            { "label": "Bird Seed (3)", "icon": "category" },
+            { "label": "Reptile (2)", "icon": "category" }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "search results — empty state",
+      "layout": "form",
+      "col": 1,
+      "row": 0,
+      "regions": [
+        {
+          "name": "no results message",
+          "slot": "body",
+          "type": "chrome",
+          "name": "No results found for \"xyzzyx\""
+        },
+        {
+          "name": "suggestions",
+          "slot": "body",
+          "type": "listbox",
+          "items": [
+            { "label": "Try: Dog Food", "icon": "suggestion" },
+            { "label": "Try: Cat Toys", "icon": "suggestion" },
+            { "label": "Popular: Premium Brands", "icon": "suggestion" }
+          ]
+        }
+      ]
+    }
+  ],
+  "connections": [
+    { "from": "product search results", "to": "search results — empty state", "label": "no matches" }
+  ]
+}

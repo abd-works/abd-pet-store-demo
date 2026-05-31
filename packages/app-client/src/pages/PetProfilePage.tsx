@@ -1,12 +1,12 @@
 import React, { useEffect, useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import { CustomerPage } from '../components/CustomerPage';
-import { PetPhotoGallery } from '../../../../pet/client/PetPhotoGallery';
-import { StoreLocationSection } from '../../../../pet/client/StoreLocationSection';
-import { GuestAuthGateModal } from '../../../../appointment/client/GuestAuthGateModal';
+import { PetPhotoGallery } from '../../../pet/client/PetPhotoGallery';
+import { StoreLocationSection } from '../../../pet/client/StoreLocationSection';
+import { GuestAuthGateModal } from '../../../appointment/client/GuestAuthGateModal';
 import { useCustomerSession } from '../context/CustomerSessionContext';
-import { fetchPet } from '../../../../pet/client/pet.api';
-import type { PetDto } from '../../../../pet/client/pet.api';
+import { fetchPet } from '../../../pet/client/pet.api';
+import type { PetDto } from '../../../pet/client/pet.api';
 
 export function PetProfilePage() {
   const { petId } = useParams<{ petId: string }>();

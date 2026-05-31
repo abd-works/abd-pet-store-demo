@@ -10,6 +10,7 @@ import { CustomerSessionRepository } from './customer-session.repository';
 import { AddressBookRepository } from './address-book.repository';
 import { SavedPaymentRepository, SavedPaymentTokenStore } from './saved-payment.repository';
 import { WishlistRepository } from './wishlist.repository';
+import type { CommunicationPreferencesService } from './communication-preferences.service';
 import { AuthService } from './auth.service';
 import { SessionService } from './session.service';
 import { ProfileService } from './profile.service';
@@ -20,6 +21,14 @@ import { AuthController, AccountController, WishlistController } from './custome
 import { createAuthRouter, createAccountRouter, createWishlistRouter } from './customer-account.routes';
 import { CustomerAccountFixtureApi } from './customer-account.fixture-api';
 import { createCustomerAccountTestRouter } from './customer-account.test-routes';
+import { InMemoryMyStoreRepository } from './my-store.repository';
+import { MyStoreService } from './my-store.service';
+import { MyStoreController } from './my-store.controller';
+import { createMyStoreRouter } from './my-store.routes';
+import { InMemoryPetProfileRepository } from './pet-profile.repository';
+import { PetProfileService } from './pet-profile.service';
+import { PetProfileController } from './pet-profile.controller';
+import { createPetProfileRouter } from './pet-profile.routes';
 
 export interface CustomerAccountModuleDeps {
   cartService: CartService;
@@ -27,6 +36,7 @@ export interface CustomerAccountModuleDeps {
   orderRepository: OrderRepository;
   catalogBrowse: CatalogProductBrowse;
   stockLevels: CatalogStockLevels;
+  communicationPrefsService?: CommunicationPreferencesService;
 }
 
 export function createCustomerAccountModule(deps: CustomerAccountModuleDeps) {
@@ -39,6 +49,8 @@ export function createCustomerAccountModule(deps: CustomerAccountModuleDeps) {
   const savedPaymentRepo = new SavedPaymentRepository();
   const savedPaymentTokens = new SavedPaymentTokenStore();
   const wishlistRepo = new WishlistRepository();
+  const myStoreRepo = new InMemoryMyStoreRepository();
+  const petProfileRepo = new InMemoryPetProfileRepository();
 
   const sessionService = new SessionService(customerSessions, accounts, deps.cartService);
   const authService = new AuthService(
@@ -59,8 +71,15 @@ export function createCustomerAccountModule(deps: CustomerAccountModuleDeps) {
   const addressBookService = new AddressBookService(addressBookRepo);
   const savedPaymentService = new SavedPaymentService(savedPaymentRepo, savedPaymentTokens);
   const wishlistService = new WishlistService(wishlistRepo, deps.catalogBrowse, deps.stockLevels);
+  const myStoreService = new MyStoreService(myStoreRepo);
+  const petProfileService = new PetProfileService(petProfileRepo);
 
-  const authController = new AuthController(authService, sessionService, accounts);
+  const authController = new AuthController(
+    authService,
+    sessionService,
+    accounts,
+    deps.communicationPrefsService,
+  );
   const accountController = new AccountController(
     sessionService,
     profileService,
@@ -68,6 +87,8 @@ export function createCustomerAccountModule(deps: CustomerAccountModuleDeps) {
     savedPaymentService,
   );
   const wishlistController = new WishlistController(sessionService, wishlistService);
+  const myStoreController = new MyStoreController(myStoreService, sessionService);
+  const petProfileController = new PetProfileController(petProfileService, sessionService);
 
   const fixtureApi = new CustomerAccountFixtureApi(
     accounts,
@@ -80,12 +101,17 @@ export function createCustomerAccountModule(deps: CustomerAccountModuleDeps) {
     authRouter: createAuthRouter(authController),
     accountRouter: createAccountRouter(accountController),
     wishlistRouter: createWishlistRouter(wishlistController),
+    myStoreRouter: createMyStoreRouter(myStoreController),
+    petProfileRouter: createPetProfileRouter(petProfileController),
     testRouter: createCustomerAccountTestRouter(fixtureApi),
     authService,
     sessionService,
     addressBookService,
     savedPaymentService,
     wishlistService,
+    myStoreService,
+    petProfileService,
+    wishlistRepository: wishlistRepo,
     profileService,
     accounts,
     verificationTokens,

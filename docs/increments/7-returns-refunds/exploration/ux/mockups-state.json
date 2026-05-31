@@ -1,0 +1,617 @@
+{
+  "target": "docs/increments/7-returns-refunds/exploration/ux/mockups.drawio",
+  "screens": [
+    {
+      "name": "customer account — order history with return",
+      "layout": "stack",
+      "col": 0,
+      "row": 0,
+      "regions": [
+        {
+          "name": "primary navigation — logged in",
+          "slot": "header",
+          "type": "toolbar",
+          "buttons": [
+            { "label": "find stores" },
+            { "label": "shop supplies" },
+            { "label": "shopping cart" },
+            { "label": "pets" },
+            { "label": "wishlist" },
+            { "label": "account" }
+          ]
+        },
+        {
+          "name": "account nav",
+          "slot": "header",
+          "type": "nav-tabs",
+          "tabs": [
+            { "label": "Profile" },
+            { "label": "Orders", "active": true },
+            { "label": "Appointments" },
+            { "label": "Wishlist" },
+            { "label": "Saved Payments" }
+          ]
+        },
+        {
+          "name": "order list",
+          "slot": "body",
+          "type": "list",
+          "columns": ["order number", "date", "items (condensed)", "total", "order status", "actions"],
+          "rows": 4,
+          "actions": [
+            { "label": "Return" },
+            { "label": "Reorder" },
+            { "label": "View Detail" }
+          ]
+        },
+        {
+          "name": "return eligible indicator",
+          "slot": "body",
+          "type": "form",
+          "fields": [
+            { "label": "Return button visible on eligible orders within return window", "input": "text" }
+          ],
+          "buttons": []
+        },
+        {
+          "name": "return ineligible state",
+          "slot": "body",
+          "type": "form",
+          "conditional": true,
+          "condition": "Initiate Return AC 3 — order outside return window or items not eligible",
+          "fields": [
+            { "label": "Return action hidden or disabled", "input": "text" },
+            { "label": "Reason: return window expired / items not eligible", "input": "text" }
+          ],
+          "buttons": []
+        },
+        {
+          "name": "partial return in progress",
+          "slot": "body",
+          "type": "form",
+          "conditional": true,
+          "condition": "Initiate Return AC 5 — some items already have return in progress",
+          "fields": [
+            { "label": "return in progress badge on orders with active returns", "input": "text" }
+          ],
+          "buttons": []
+        }
+      ]
+    },
+    {
+      "name": "initiate return — select items",
+      "layout": "form",
+      "col": 1,
+      "row": 0,
+      "regions": [
+        {
+          "name": "primary navigation — logged in",
+          "slot": "header",
+          "type": "toolbar",
+          "buttons": [
+            { "label": "find stores" },
+            { "label": "shop supplies" },
+            { "label": "shopping cart" },
+            { "label": "pets" },
+            { "label": "wishlist" },
+            { "label": "account" }
+          ]
+        },
+        {
+          "name": "breadcrumb",
+          "slot": "header",
+          "type": "toolbar",
+          "buttons": [
+            { "label": "Account" },
+            { "label": "Orders" },
+            { "label": "Order #[number]" },
+            { "label": "Return (current)" }
+          ]
+        },
+        {
+          "name": "order context",
+          "slot": "body",
+          "type": "form",
+          "fields": [
+            { "label": "order number", "input": "text" },
+            { "label": "order date", "input": "text" },
+            { "label": "payment method (masked)", "input": "text" }
+          ],
+          "buttons": []
+        },
+        {
+          "name": "eligible items selector",
+          "slot": "body",
+          "type": "list",
+          "columns": ["select", "product name", "quantity ordered", "quantity to return", "return eligible"],
+          "rows": 3,
+          "actions": []
+        },
+        {
+          "name": "items already in return",
+          "slot": "body",
+          "type": "form",
+          "conditional": true,
+          "condition": "Initiate Return AC 5 — items already return in progress",
+          "fields": [
+            { "label": "return in progress — cannot be returned again", "input": "text" }
+          ],
+          "buttons": []
+        },
+        {
+          "name": "return reason",
+          "slot": "body",
+          "type": "form",
+          "fields": [
+            { "label": "return reason", "input": "dropdown" }
+          ],
+          "buttons": []
+        },
+        {
+          "name": "item condition",
+          "slot": "body",
+          "type": "form",
+          "fields": [
+            { "label": "item condition", "input": "dropdown" }
+          ],
+          "buttons": []
+        },
+        {
+          "name": "damaged item detail",
+          "slot": "body",
+          "type": "form",
+          "conditional": true,
+          "condition": "Initiate Return AC 4 — item condition is damaged",
+          "fields": [
+            { "label": "damage description", "input": "textarea" },
+            { "label": "upload photo of damage (optional)", "input": "text" }
+          ],
+          "buttons": []
+        },
+        {
+          "name": "submit return request",
+          "slot": "body",
+          "type": "button-bar",
+          "buttons": [
+            { "label": "Submit Return Request", "primary": true },
+            { "label": "Back to Order Detail" }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "return confirmation — label and QR code",
+      "layout": "stack",
+      "col": 2,
+      "row": 0,
+      "regions": [
+        {
+          "name": "primary navigation — logged in",
+          "slot": "header",
+          "type": "toolbar",
+          "buttons": [
+            { "label": "find stores" },
+            { "label": "shop supplies" },
+            { "label": "shopping cart" },
+            { "label": "pets" },
+            { "label": "wishlist" },
+            { "label": "account" }
+          ]
+        },
+        {
+          "name": "return submitted header",
+          "slot": "body",
+          "type": "form",
+          "fields": [
+            { "label": "Return request submitted!", "input": "text" },
+            { "label": "return reference", "input": "text" },
+            { "label": "order number", "input": "text" }
+          ],
+          "buttons": []
+        },
+        {
+          "name": "returned items summary",
+          "slot": "body",
+          "type": "list",
+          "columns": ["product name", "quantity", "return reason", "item condition"],
+          "rows": 2,
+          "actions": []
+        },
+        {
+          "name": "return label download",
+          "slot": "body",
+          "type": "form",
+          "fields": [
+            { "label": "return label (PDF) — includes return address, order number, return reference, carrier barcode", "input": "text" }
+          ],
+          "buttons": [
+            { "label": "Download Return Label", "primary": true }
+          ]
+        },
+        {
+          "name": "return QR code display",
+          "slot": "body",
+          "type": "form",
+          "fields": [
+            { "label": "[QR code placeholder — displayable on mobile at carrier drop-off point]", "input": "text" },
+            { "label": "same return reference as label", "input": "text" }
+          ],
+          "buttons": []
+        },
+        {
+          "name": "email confirmation note",
+          "slot": "body",
+          "type": "form",
+          "fields": [
+            { "label": "Return label and QR code emailed to your registered email", "input": "text" }
+          ],
+          "buttons": []
+        },
+        {
+          "name": "label unavailable fallback",
+          "slot": "body",
+          "type": "form",
+          "conditional": true,
+          "condition": "Generate Return Label AC 4 — label generation service temporarily unavailable",
+          "fields": [
+            { "label": "return recorded — label generation temporarily unavailable", "input": "text" },
+            { "label": "check back shortly or contact support for your return label", "input": "text" }
+          ],
+          "buttons": []
+        },
+        {
+          "name": "post-submission actions",
+          "slot": "body",
+          "type": "button-bar",
+          "buttons": [
+            { "label": "View Return Status", "primary": true },
+            { "label": "Back to Order History" }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "order detail — return and refund tracking",
+      "layout": "stack",
+      "col": 3,
+      "row": 0,
+      "regions": [
+        {
+          "name": "primary navigation — logged in",
+          "slot": "header",
+          "type": "toolbar",
+          "buttons": [
+            { "label": "find stores" },
+            { "label": "shop supplies" },
+            { "label": "shopping cart" },
+            { "label": "pets" },
+            { "label": "wishlist" },
+            { "label": "account" }
+          ]
+        },
+        {
+          "name": "breadcrumb",
+          "slot": "header",
+          "type": "toolbar",
+          "buttons": [
+            { "label": "Account" },
+            { "label": "Orders" },
+            { "label": "Order #[number] (current)" }
+          ]
+        },
+        {
+          "name": "order summary",
+          "slot": "body",
+          "type": "form",
+          "fields": [
+            { "label": "order number", "input": "text" },
+            { "label": "order date", "input": "text" },
+            { "label": "order status", "input": "text" },
+            { "label": "payment method (masked)", "input": "text" }
+          ],
+          "buttons": []
+        },
+        {
+          "name": "return status timeline",
+          "slot": "body",
+          "type": "listbox",
+          "items": [
+            { "label": "Initiated", "icon": "ability" },
+            { "label": "Label Generated", "icon": "ability" },
+            { "label": "Shipped Back", "icon": "ability" },
+            { "label": "Received", "icon": "ability", "selected": true },
+            { "label": "Inspected", "icon": "ability" },
+            { "label": "Refund Processing", "icon": "ability" },
+            { "label": "Completed", "icon": "ability" }
+          ]
+        },
+        {
+          "name": "refund status — processing",
+          "slot": "body",
+          "type": "form",
+          "fields": [
+            { "label": "refund status: processing", "input": "text" },
+            { "label": "refund amount", "input": "text" },
+            { "label": "refunds typically take X business days depending on your payment provider", "input": "text" }
+          ],
+          "buttons": []
+        },
+        {
+          "name": "refund status — completed",
+          "slot": "body",
+          "type": "form",
+          "conditional": true,
+          "condition": "Track Refund Status AC 2 — refund completed by vendor",
+          "fields": [
+            { "label": "refund status: completed", "input": "text" },
+            { "label": "refunded amount", "input": "text" },
+            { "label": "credit returned to [masked payment method]", "input": "text" },
+            { "label": "refund completed notification sent", "input": "text" }
+          ],
+          "buttons": []
+        },
+        {
+          "name": "refund status — requires review",
+          "slot": "body",
+          "type": "form",
+          "conditional": true,
+          "condition": "Track Refund Status AC 4 — refund requires manual review",
+          "fields": [
+            { "label": "refund status: requires review", "input": "text" },
+            { "label": "Please contact support for assistance with your refund", "input": "text" }
+          ],
+          "buttons": []
+        },
+        {
+          "name": "returned items detail",
+          "slot": "body",
+          "type": "list",
+          "columns": ["product name", "quantity returned", "return reason", "item condition"],
+          "rows": 2,
+          "actions": []
+        },
+        {
+          "name": "remaining eligible items",
+          "slot": "body",
+          "type": "form",
+          "conditional": true,
+          "condition": "Initiate Return AC 5 — remaining eligible items still returnable",
+          "fields": [
+            { "label": "remaining eligible items can still be returned separately", "input": "text" }
+          ],
+          "buttons": [
+            { "label": "Return More Items" }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "staff — order lookup for return",
+      "layout": "stack",
+      "col": 0,
+      "row": 1,
+      "regions": [
+        {
+          "name": "staff header",
+          "slot": "header",
+          "type": "chrome",
+          "name": "staff header"
+        },
+        {
+          "name": "staff nav",
+          "slot": "header",
+          "type": "nav-tabs",
+          "tabs": [
+            { "label": "Stock Levels" },
+            { "label": "Incoming Appointments" },
+            { "label": "Pet Profiles" },
+            { "label": "Returns", "active": true }
+          ]
+        },
+        {
+          "name": "order lookup",
+          "slot": "body",
+          "type": "form",
+          "fields": [
+            { "label": "order number", "input": "text" },
+            { "label": "or customer email", "input": "text" }
+          ],
+          "buttons": [
+            { "label": "Look Up Order", "primary": true }
+          ]
+        },
+        {
+          "name": "matched order result",
+          "slot": "body",
+          "type": "list",
+          "columns": ["order number", "date", "customer name", "email", "items (condensed)", "total", "order status"],
+          "rows": 1,
+          "actions": [
+            { "label": "Start Return" }
+          ]
+        },
+        {
+          "name": "no match found",
+          "slot": "body",
+          "type": "form",
+          "conditional": true,
+          "condition": "No order found for provided number or email",
+          "fields": [
+            { "label": "No order found — verify the order number or customer email", "input": "text" }
+          ],
+          "buttons": []
+        },
+        {
+          "name": "guest order note",
+          "slot": "body",
+          "type": "form",
+          "fields": [
+            { "label": "Guest orders: lookup by order number and guest email — refund routes through original vendor", "input": "text" }
+          ],
+          "buttons": []
+        }
+      ]
+    },
+    {
+      "name": "staff — process in-store return",
+      "layout": "form",
+      "col": 1,
+      "row": 1,
+      "regions": [
+        {
+          "name": "staff header",
+          "slot": "header",
+          "type": "chrome",
+          "name": "staff header"
+        },
+        {
+          "name": "order context",
+          "slot": "body",
+          "type": "form",
+          "fields": [
+            { "label": "order number", "input": "text" },
+            { "label": "customer name or guest email", "input": "text" },
+            { "label": "order date", "input": "text" }
+          ],
+          "buttons": []
+        },
+        {
+          "name": "return items selector",
+          "slot": "body",
+          "type": "list",
+          "columns": ["select", "product name", "quantity ordered", "quantity to return", "return eligible"],
+          "rows": 3,
+          "actions": []
+        },
+        {
+          "name": "return reason",
+          "slot": "body",
+          "type": "form",
+          "fields": [
+            { "label": "return reason", "input": "dropdown" },
+            { "label": "item condition", "input": "dropdown" }
+          ],
+          "buttons": []
+        },
+        {
+          "name": "ineligible item — reason and override",
+          "slot": "body",
+          "type": "form",
+          "conditional": true,
+          "condition": "Process In-Store Return AC 4 — item not eligible for return",
+          "fields": [
+            { "label": "ineligibility reason: return window expired / wrong condition", "input": "text" }
+          ],
+          "buttons": [
+            { "label": "Manager Override", "primary": true }
+          ]
+        },
+        {
+          "name": "manager override confirmation",
+          "slot": "body",
+          "type": "form",
+          "conditional": true,
+          "condition": "Process In-Store Return AC 4 — manager approval required",
+          "fields": [
+            { "label": "manager approval required before return proceeds", "input": "text" },
+            { "label": "approving manager", "input": "text" },
+            { "label": "override reason", "input": "textarea" }
+          ],
+          "buttons": []
+        },
+        {
+          "name": "submit in-store return",
+          "slot": "body",
+          "type": "button-bar",
+          "buttons": [
+            { "label": "Record In-Store Return", "primary": true },
+            { "label": "Cancel" }
+          ]
+        },
+        {
+          "name": "return recorded confirmation",
+          "slot": "body",
+          "type": "form",
+          "conditional": true,
+          "condition": "Process In-Store Return AC 2 — return recorded",
+          "fields": [
+            { "label": "In-store return recorded — linked to original order", "input": "text" },
+            { "label": "Refund triggered through original payment vendor", "input": "text" },
+            { "label": "Return visible in customer order history", "input": "text" }
+          ],
+          "buttons": []
+        }
+      ]
+    },
+    {
+      "name": "notification preview — return and refund updates",
+      "layout": "stack",
+      "col": 2,
+      "row": 1,
+      "regions": [
+        {
+          "name": "notification type selector",
+          "slot": "header",
+          "type": "nav-tabs",
+          "tabs": [
+            { "label": "Return Received", "active": true },
+            { "label": "Refund Completed" },
+            { "label": "Refund Under Review" }
+          ]
+        },
+        {
+          "name": "return received preview",
+          "slot": "body",
+          "type": "form",
+          "fields": [
+            { "label": "Subject: We've received your return for order #[number]", "input": "text" },
+            { "label": "order number", "input": "text" },
+            { "label": "returned items summary", "input": "text" },
+            { "label": "Inspection and refund processing are underway", "input": "text" }
+          ],
+          "buttons": []
+        },
+        {
+          "name": "refund completed preview",
+          "slot": "body",
+          "type": "form",
+          "fields": [
+            { "label": "Subject: Your refund for order #[number] is complete", "input": "text" },
+            { "label": "refunded amount", "input": "text" },
+            { "label": "credit returned to [masked payment method]", "input": "text" }
+          ],
+          "buttons": []
+        },
+        {
+          "name": "refund under review preview",
+          "slot": "body",
+          "type": "form",
+          "fields": [
+            { "label": "Subject: Update on your refund for order #[number]", "input": "text" },
+            { "label": "Your refund requires additional review", "input": "text" },
+            { "label": "Please contact support if you need assistance", "input": "text" },
+            { "label": "return and order reference included", "input": "text" }
+          ],
+          "buttons": []
+        },
+        {
+          "name": "resilience note",
+          "slot": "body",
+          "type": "form",
+          "fields": [
+            { "label": "Email queued for retry when delivery system unavailable — return/refund status still updated", "input": "text" }
+          ],
+          "buttons": []
+        }
+      ]
+    }
+  ],
+  "connections": [
+    { "from": "customer account — order history with return", "to": "initiate return — select items", "label": "Return (eligible order)" },
+    { "from": "initiate return — select items", "to": "return confirmation — label and QR code", "label": "Submit Return Request" },
+    { "from": "return confirmation — label and QR code", "to": "order detail — return and refund tracking", "label": "View Return Status" },
+    { "from": "return confirmation — label and QR code", "to": "customer account — order history with return", "label": "Back to Order History" },
+    { "from": "order detail — return and refund tracking", "to": "initiate return — select items", "label": "Return More Items (partial)" },
+    { "from": "staff — order lookup for return", "to": "staff — process in-store return", "label": "Start Return" }
+  ]
+}

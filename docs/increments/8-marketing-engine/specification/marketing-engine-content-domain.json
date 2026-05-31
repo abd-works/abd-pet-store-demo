@@ -1,0 +1,162 @@
+{
+  "_comment": "Machine-readable vocabulary for Marketing Engine Sprint 4 — Content publishing and unsubscribe object model.",
+  "module": "Marketing Engine",
+  "state": "domain-model",
+  "sprint_scope": "Increment 8 Sprint 4 — Content publishing and unsubscribe",
+  "concepts": {
+    "Content": {
+      "attributes": [
+        "contentId",
+        "lifecycleStatus",
+        "publishedAt",
+        "title",
+        "summary",
+        "body",
+        "slug"
+      ],
+      "operations": [
+        "transitionDraftToPublished",
+        "hideDraftFromCustomers",
+        "exposePublishedViaOwnUrl"
+      ],
+      "inherits": null
+    },
+    "BlogPost": {
+      "attributes": ["content", "authorAttribution"],
+      "operations": [
+        "saveAsDraft",
+        "publishToLive",
+        "reflectEditsOnLivePage",
+        "displayOnBlogIndex"
+      ],
+      "inherits": null
+    },
+    "PetCareGuide": {
+      "attributes": ["content", "speciesTags"],
+      "operations": [
+        "saveAsDraft",
+        "requireTagBeforePublish",
+        "publishToLive",
+        "crossLinkFromTaggedBrowsingAreas",
+        "displayOnGuideIndex"
+      ],
+      "inherits": null
+    },
+    "BlogIndex": {
+      "attributes": ["publishedPosts"],
+      "operations": ["listWithTitleSummaryDateAuthor", "addPublishedPost"],
+      "inherits": null
+    },
+    "GuideIndex": {
+      "attributes": ["publishedGuides"],
+      "operations": ["listWithTitleSummaryTagDate", "addPublishedGuide"],
+      "inherits": null
+    },
+    "ContentAuthorRef": {
+      "attributes": ["authorId", "displayName"],
+      "operations": [],
+      "inherits": null
+    },
+    "SpeciesTag": {
+      "attributes": ["name"],
+      "operations": [],
+      "inherits": null
+    },
+    "MarketingCommunication": {
+      "attributes": [],
+      "operations": ["carryUnsubscribeLinkInMessage"],
+      "inherits": null
+    },
+    "Unsubscribe": {
+      "attributes": ["targetMarketingCategory"],
+      "operations": [
+        "executeViaEmailLink",
+        "executeViaPreferencesToggle",
+        "repeatEmailLinkIdempotently",
+        "showConfirmationAfterEmailLink"
+      ],
+      "inherits": null
+    },
+    "UnsubscribeToken": {
+      "attributes": ["signedPayload"],
+      "operations": ["encode", "verifyOnEmailLinkRequest"],
+      "inherits": null
+    },
+    "CommunicationPreferences": {
+      "attributes": [],
+      "operations": ["toggleCategoryOptIn", "isOptedIn"],
+      "inherits": null,
+      "boundary": true,
+      "owned_by": "Marketing Engine Sprint 2"
+    },
+    "MarketingCategory": {
+      "attributes": ["name"],
+      "operations": [],
+      "inherits": null,
+      "boundary": true
+    },
+    "MarketingEmailList": {
+      "attributes": [],
+      "operations": ["removeOnCategoryOptOut"],
+      "inherits": null,
+      "boundary": true,
+      "owned_by": "Marketing Engine Sprint 2"
+    },
+    "CustomerAccount": {
+      "attributes": ["accountId", "verifiedEmail", "communicationPreferences"],
+      "operations": [],
+      "inherits": null,
+      "boundary": true,
+      "owned_by": "Customer Account"
+    },
+    "TransactionalNotification": {
+      "attributes": [],
+      "operations": ["deliverTo"],
+      "inherits": null,
+      "boundary": true,
+      "owned_by": "Notification"
+    },
+    "NotificationPreferences": {
+      "attributes": ["transactionalCategorySettings"],
+      "operations": [],
+      "inherits": null,
+      "boundary": true,
+      "owned_by": "Notification"
+    },
+    "ContentAuthor": {
+      "attributes": ["authorId", "displayName"],
+      "operations": ["createEditPublishContent"],
+      "inherits": null,
+      "boundary": true,
+      "owned_by": "Store Operations"
+    },
+    "AdminContentArea": {
+      "attributes": [],
+      "operations": ["presentDraftAndPublishActions", "retainEditableDraft"],
+      "inherits": null,
+      "boundary": true,
+      "owned_by": "Store Operations"
+    },
+    "UnsubscribeConfirmationPage": {
+      "attributes": [],
+      "operations": ["renderUnsubscribedMessage", "linkToCommunicationPreferences"],
+      "inherits": null,
+      "boundary": true,
+      "owned_by": "Presentation"
+    },
+    "PetBrowsingArea": {
+      "attributes": [],
+      "operations": ["surfaceGuidesMatching"],
+      "inherits": null,
+      "boundary": true,
+      "owned_by": "Presentation"
+    },
+    "ProductBrowsingArea": {
+      "attributes": [],
+      "operations": ["surfaceGuidesMatching"],
+      "inherits": null,
+      "boundary": true,
+      "owned_by": "Presentation"
+    }
+  }
+}

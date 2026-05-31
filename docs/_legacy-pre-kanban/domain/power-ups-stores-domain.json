@@ -1,0 +1,145 @@
+{
+  "_comment": "Machine-readable vocabulary extracted from power-ups-stores-crc.md (Increment 9 Sprint 2). Read by specification-by-example scanner to validate example-table column names.",
+  "module": "Power-ups",
+  "state": "crc",
+  "sprint_scope": "Increment 9 Sprint 2 — Store preference and tailoring",
+  "concepts": {
+    "My Store": {
+      "attributes": ["preferred store", "owning customer account"],
+      "operations": [
+        "persist across sessions and devices",
+        "replace previous preference",
+        "set from store detail page",
+        "set from account settings",
+        "require logged-in customer account",
+        "prompt guest to log in or register"
+      ],
+      "inherits": null
+    },
+    "Tailored Experience": {
+      "attributes": ["triggering my store preference"],
+      "operations": [
+        "default stock availability to preferred store",
+        "highlight preferred store in locator",
+        "pre-select preferred store at checkout",
+        "keep full store list for override",
+        "apply no tailoring when unset",
+        "reflect preference change immediately"
+      ],
+      "inherits": null
+    },
+    "Store Specialization Filter": {
+      "attributes": [
+        "filter dimension on store locator",
+        "matching store specialization value"
+      ],
+      "operations": [
+        "narrow store list by specialization",
+        "combine conjunctively with product availability filter",
+        "show zero matches guidance",
+        "offer clear filters action"
+      ],
+      "inherits": null
+    },
+    "Product Availability Filter": {
+      "attributes": [
+        "filter dimension on store locator",
+        "selected product for availability"
+      ],
+      "operations": [
+        "narrow store list by in-stock product",
+        "combine conjunctively with store specialization filter"
+      ],
+      "inherits": null
+    },
+    "Store": {
+      "attributes": [
+        "physical location identity",
+        "declared store specialization"
+      ],
+      "operations": [
+        "settable as my store",
+        "filtered by specialization dimension",
+        "filtered by product availability",
+        "highlighted when preferred"
+      ],
+      "inherits": null,
+      "boundary": true,
+      "owned_by": "Store"
+    },
+    "Store Locator": {
+      "attributes": [],
+      "operations": [
+        "discovery surface for stores",
+        "host store specialization filter",
+        "host product availability filter",
+        "highlight preferred store"
+      ],
+      "inherits": null,
+      "boundary": true,
+      "owned_by": "Store"
+    },
+    "Customer Account": {
+      "attributes": [],
+      "operations": [
+        "store my store preference",
+        "provide login identity",
+        "persist preference across sessions"
+      ],
+      "inherits": null,
+      "boundary": true,
+      "owned_by": "Customer Account"
+    },
+    "Click-and-Collect": {
+      "attributes": [],
+      "operations": [
+        "store selection step at checkout",
+        "accept pre-selected preferred store",
+        "expose full store list for override"
+      ],
+      "inherits": null,
+      "boundary": true,
+      "owned_by": "Store"
+    },
+    "Store Specialization": {
+      "attributes": ["declared area of expertise"],
+      "operations": ["filter dimension value"],
+      "inherits": null,
+      "boundary": true,
+      "owned_by": "Store"
+    },
+    "Stock Availability": {
+      "attributes": ["per-product per-store availability"],
+      "operations": [
+        "default to preferred store on product page",
+        "filter stores by in-stock product"
+      ],
+      "inherits": null,
+      "boundary": true,
+      "owned_by": "Product Catalog"
+    },
+    "Product": {
+      "attributes": [],
+      "operations": [
+        "selected product for availability filter",
+        "stock availability on product page"
+      ],
+      "inherits": null,
+      "boundary": true,
+      "owned_by": "Product Catalog"
+    },
+    "Account Settings": {
+      "attributes": [],
+      "operations": [
+        "present my store preference editor",
+        "prompt guest to log in or register"
+      ],
+      "inherits": null,
+      "boundary": true,
+      "owned_by": "Customer Account"
+    }
+  },
+  "aliases": {
+    "scenario": "*"
+  }
+}

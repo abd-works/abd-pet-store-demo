@@ -1,0 +1,121 @@
+# Customer Pet Profiles
+
+
+---
+
+## increment-9 (rollup)
+
+<!-- migrated from: end-to-end/exploration/customer-pet-profiles.drawio -->
+
+<mxfile host="drawio-mockup">
+    <diagram id="lo-fi" name="Lo-fi Wireframe">
+        <mxGraphModel dx="1422" dy="762" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1920" pageHeight="568" math="0" shadow="0">
+            <root>
+                <mxCell id="0"/>
+                <mxCell id="1" parent="0"/>
+                <mxCell id="2" value="my pets — list" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#000000;strokeWidth=2;fontStyle=1;fontSize=13;verticalAlign=top;align=center;" vertex="1" parent="1">
+                    <mxGeometry x="60" y="60" width="760" height="56" as="geometry"/>
+                </mxCell>
+                <mxCell id="3" value="My Pets" style="whiteSpace=wrap;html=1;fillColor=#f5f5f5;strokeColor=#cccccc;strokeWidth=1;fontSize=11;fontStyle=2;verticalAlign=middle;align=left;" vertex="1" parent="2">
+                    <mxGeometry x="12" y="44" width="736" height="28" as="geometry"/>
+                </mxCell>
+                <mxCell id="4" value="&lt;b&gt;pet profiles list&lt;/b&gt;" style="text;html=1;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;fontStyle=1;fontSize=11;" vertex="1" parent="2">
+                    <mxGeometry x="12" y="72" width="736" height="22" as="geometry"/>
+                </mxCell>
+                <mxCell id="5" value="Name" style="whiteSpace=wrap;html=1;fillColor=#e8e8e8;strokeColor=#cccccc;fontStyle=1;fontSize=10;verticalAlign=middle;align=left;" vertex="1" parent="2">
+                    <mxGeometry x="12" y="94" width="184" height="22" as="geometry"/>
+                </mxCell>
+                <mxCell id="6" value="Species" style="whiteSpace=wrap;html=1;fillColor=#e8e8e8;strokeColor=#cccccc;fontStyle=1;fontSize=10;verticalAlign=middle;align=left;" vertex="1" parent="2">
+                    <mxGeometry x="196" y="94" width="184" height="22" as="geometry"/>
+                </mxCell>
+                <mxCell id="7" value="Breed" style="whiteSpace=wrap;html=1;fillColor=#e8e8e8;strokeColor=#cccccc;fontStyle=1;fontSize=10;verticalAlign=middle;align=left;" vertex="1" parent="2">
+                    <mxGeometry x="380" y="94" width="184" height="22" as="geometry"/>
+                </mxCell>
+                <mxCell id="8" value="Age" style="whiteSpace=wrap;html=1;fillColor=#e8e8e8;strokeColor=#cccccc;fontStyle=1;fontSize=10;verticalAlign=middle;align=left;" vertex="1" parent="2">
+                    <mxGeometry x="564" y="94" width="184" height="22" as="geometry"/>
+                </mxCell>
+                <mxCell id="9" value="Add Pet" style="rounded=1;arcSize=30;whiteSpace=wrap;html=1;fillColor=#f5f5f5;strokeColor=#999999;fontSize=10;" vertex="1" parent="2">
+                    <mxGeometry x="12" y="120" width="80" height="26" as="geometry"/>
+                </mxCell>
+                <mxCell id="10" value="Edit" style="rounded=1;arcSize=30;whiteSpace=wrap;html=1;fillColor=#f5f5f5;strokeColor=#999999;fontSize=10;" vertex="1" parent="2">
+                    <mxGeometry x="98" y="120" width="80" height="26" as="geometry"/>
+                </mxCell>
+                <mxCell id="11" value="Remove" style="rounded=1;arcSize=30;whiteSpace=wrap;html=1;fillColor=#f5f5f5;strokeColor=#999999;fontSize=10;" vertex="1" parent="2">
+                    <mxGeometry x="184" y="120" width="80" height="26" as="geometry"/>
+                </mxCell>
+                <mxCell id="12" value="No pets yet — add your first pet!" style="whiteSpace=wrap;html=1;fillColor=#f5f5f5;strokeColor=#cccccc;strokeWidth=1;fontSize=11;fontStyle=2;verticalAlign=middle;align=left;" vertex="1" parent="2">
+                    <mxGeometry x="12" y="162" width="736" height="28" as="geometry"/>
+                </mxCell>
+                <mxCell id="13" value="create pet profile — form" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#000000;strokeWidth=2;fontStyle=1;fontSize=13;verticalAlign=top;align=center;" vertex="1" parent="1">
+                    <mxGeometry x="960" y="60" width="760" height="308" as="geometry"/>
+                </mxCell>
+                <mxCell id="14" value="Add New Pet" style="whiteSpace=wrap;html=1;fillColor=#f5f5f5;strokeColor=#cccccc;strokeWidth=1;fontSize=11;fontStyle=2;verticalAlign=middle;align=left;" vertex="1" parent="13">
+                    <mxGeometry x="12" y="44" width="736" height="28" as="geometry"/>
+                </mxCell>
+                <mxCell id="15" value="&lt;b&gt;pet profile form&lt;/b&gt;" style="text;html=1;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;fontStyle=1;fontSize=11;" vertex="1" parent="13">
+                    <mxGeometry x="12" y="72" width="736" height="22" as="geometry"/>
+                </mxCell>
+                <mxCell id="16" value="Name" style="text;html=1;strokeColor=none;fillColor=none;align=right;verticalAlign=middle;fontSize=10;" vertex="1" parent="13">
+                    <mxGeometry x="12" y="94" width="265" height="28" as="geometry"/>
+                </mxCell>
+                <mxCell id="17" value="" style="whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#999999;fontSize=10;verticalAlign=middle;align=left;" vertex="1" parent="13">
+                    <mxGeometry x="281" y="94" width="467" height="28" as="geometry"/>
+                </mxCell>
+                <mxCell id="18" value="Species" style="text;html=1;strokeColor=none;fillColor=none;align=right;verticalAlign=middle;fontSize=10;" vertex="1" parent="13">
+                    <mxGeometry x="12" y="126" width="265" height="28" as="geometry"/>
+                </mxCell>
+                <mxCell id="19" value="  ▾" style="whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#999999;fontSize=10;verticalAlign=middle;align=left;" vertex="1" parent="13">
+                    <mxGeometry x="281" y="126" width="467" height="28" as="geometry"/>
+                </mxCell>
+                <mxCell id="20" value="Breed (optional)" style="text;html=1;strokeColor=none;fillColor=none;align=right;verticalAlign=middle;fontSize=10;" vertex="1" parent="13">
+                    <mxGeometry x="12" y="158" width="265" height="28" as="geometry"/>
+                </mxCell>
+                <mxCell id="21" value="" style="whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#999999;fontSize=10;verticalAlign=middle;align=left;" vertex="1" parent="13">
+                    <mxGeometry x="281" y="158" width="467" height="28" as="geometry"/>
+                </mxCell>
+                <mxCell id="22" value="Age or Date of Birth (optional)" style="text;html=1;strokeColor=none;fillColor=none;align=right;verticalAlign=middle;fontSize=10;" vertex="1" parent="13">
+                    <mxGeometry x="12" y="190" width="265" height="28" as="geometry"/>
+                </mxCell>
+                <mxCell id="23" value="" style="whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#999999;fontSize=10;verticalAlign=middle;align=left;" vertex="1" parent="13">
+                    <mxGeometry x="281" y="190" width="467" height="28" as="geometry"/>
+                </mxCell>
+                <mxCell id="24" value="Photo (optional)" style="text;html=1;strokeColor=none;fillColor=none;align=right;verticalAlign=middle;fontSize=10;" vertex="1" parent="13">
+                    <mxGeometry x="12" y="222" width="265" height="28" as="geometry"/>
+                </mxCell>
+                <mxCell id="25" value="" style="whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#999999;fontSize=10;verticalAlign=middle;align=left;" vertex="1" parent="13">
+                    <mxGeometry x="281" y="222" width="467" height="28" as="geometry"/>
+                </mxCell>
+                <mxCell id="26" value="Save Pet" style="rounded=1;arcSize=25;whiteSpace=wrap;html=1;fillColor=#f5f5f5;strokeColor=#999999;fontSize=10;" vertex="1" parent="13">
+                    <mxGeometry x="281" y="258" width="80" height="26" as="geometry"/>
+                </mxCell>
+                <mxCell id="27" value="Cancel" style="rounded=1;arcSize=25;whiteSpace=wrap;html=1;fillColor=#f5f5f5;strokeColor=#999999;fontSize=10;" vertex="1" parent="13">
+                    <mxGeometry x="367" y="258" width="80" height="26" as="geometry"/>
+                </mxCell>
+                <mxCell id="28" value="guest login prompt — pets" style="rounded=1;arcSize=3;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#000000;strokeWidth=2;fontStyle=1;fontSize=13;verticalAlign=top;align=center;" vertex="1" parent="1">
+                    <mxGeometry x="60" y="196" width="760" height="118" as="geometry"/>
+                </mxCell>
+                <mxCell id="29" value="Log in or register to manage your pets" style="whiteSpace=wrap;html=1;fillColor=#f5f5f5;strokeColor=#cccccc;strokeWidth=1;fontSize=11;fontStyle=2;verticalAlign=middle;align=left;" vertex="1" parent="28">
+                    <mxGeometry x="12" y="44" width="736" height="28" as="geometry"/>
+                </mxCell>
+                <mxCell id="30" value="" style="whiteSpace=wrap;html=1;fillColor=#f0f0f0;strokeColor=#cccccc;strokeWidth=1;" vertex="1" parent="28">
+                    <mxGeometry x="12" y="72" width="736" height="34" as="geometry"/>
+                </mxCell>
+                <mxCell id="31" value="Log In" style="rounded=1;arcSize=20;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#999999;fontSize=10;" vertex="1" parent="28">
+                    <mxGeometry x="18" y="76" width="80" height="26" as="geometry"/>
+                </mxCell>
+                <mxCell id="32" value="Register" style="rounded=1;arcSize=20;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#999999;fontSize=10;" vertex="1" parent="28">
+                    <mxGeometry x="104" y="76" width="80" height="26" as="geometry"/>
+                </mxCell>
+                <mxCell id="33" value="Cancel" style="rounded=1;arcSize=20;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#999999;fontSize=10;" vertex="1" parent="28">
+                    <mxGeometry x="190" y="76" width="80" height="26" as="geometry"/>
+                </mxCell>
+                <mxCell id="34" value="Add Pet" style="edgeStyle=orthogonalEdgeStyle;html=1;strokeColor=#000000;endArrow=block;endFill=1;fontSize=10;" edge="1" source="2" target="13" parent="1">
+                    <mxGeometry x="0" y="0" width="100" height="40" as="geometry"/>
+                </mxCell>
+                <mxCell id="35" value="guest access" style="edgeStyle=orthogonalEdgeStyle;html=1;strokeColor=#000000;endArrow=block;endFill=1;fontSize=10;" edge="1" source="2" target="28" parent="1">
+                    <mxGeometry x="0" y="0" width="100" height="40" as="geometry"/>
+                </mxCell>
+            </root>
+        </mxGraphModel>
+    </diagram>
+</mxfile>

@@ -1,0 +1,826 @@
+{
+  "target": "docs/increments/6-pet-visits/exploration/ux/mockups.drawio",
+  "screens": [
+    {
+      "name": "pet gallery",
+      "layout": "sidebar",
+      "col": 0,
+      "row": 0,
+      "regions": [
+        {
+          "name": "primary navigation — logged in",
+          "slot": "header",
+          "type": "toolbar",
+          "buttons": [
+            { "label": "find stores" },
+            { "label": "shop supplies" },
+            { "label": "shopping cart" },
+            { "label": "pets" },
+            { "label": "wishlist" },
+            { "label": "account" }
+          ]
+        },
+        {
+          "name": "breadcrumb",
+          "slot": "header",
+          "type": "toolbar",
+          "buttons": [
+            { "label": "Home" },
+            { "label": "Pets (current)" }
+          ]
+        },
+        {
+          "name": "species filter",
+          "slot": "panel",
+          "type": "listbox",
+          "items": [
+            { "label": "All", "icon": "group", "selected": true },
+            { "label": "Dogs", "icon": "character" },
+            { "label": "Cats", "icon": "character" },
+            { "label": "Reptiles", "icon": "character" },
+            { "label": "Small Mammals", "icon": "character" }
+          ]
+        },
+        {
+          "name": "pet gallery grid",
+          "slot": "body",
+          "type": "list",
+          "columns": ["pet photo", "pet name", "breed", "species", "store name"],
+          "rows": 4,
+          "actions": [{ "label": "select pet card" }]
+        },
+        {
+          "name": "gallery empty state",
+          "slot": "body",
+          "type": "form",
+          "fields": [
+            { "label": "No pets available in this category right now", "input": "text" },
+            { "label": "species filter remains active", "input": "text" }
+          ],
+          "buttons": []
+        }
+      ]
+    },
+    {
+      "name": "pet profile page — available",
+      "layout": "stack",
+      "col": 1,
+      "row": 0,
+      "regions": [
+        {
+          "name": "primary navigation — logged in",
+          "slot": "header",
+          "type": "toolbar",
+          "buttons": [
+            { "label": "find stores" },
+            { "label": "shop supplies" },
+            { "label": "shopping cart" },
+            { "label": "pets" },
+            { "label": "wishlist" },
+            { "label": "account" }
+          ]
+        },
+        {
+          "name": "breadcrumb",
+          "slot": "header",
+          "type": "toolbar",
+          "buttons": [
+            { "label": "Home" },
+            { "label": "Pets" },
+            { "label": "[pet name] (current)" }
+          ]
+        },
+        {
+          "name": "pet photo gallery",
+          "slot": "body",
+          "type": "listbox",
+          "items": [
+            { "label": "photo 1", "icon": "file" },
+            { "label": "photo 2", "icon": "file" },
+            { "label": "photo 3", "icon": "file", "selected": true }
+          ]
+        },
+        {
+          "name": "pet info",
+          "slot": "body",
+          "type": "form",
+          "fields": [
+            { "label": "name", "input": "text" },
+            { "label": "species", "input": "text" },
+            { "label": "breed", "input": "text" },
+            { "label": "age", "input": "text" },
+            { "label": "temperament notes (optional — omitted when empty)", "input": "textarea" }
+          ],
+          "buttons": []
+        },
+        {
+          "name": "store location",
+          "slot": "body",
+          "type": "form",
+          "fields": [
+            { "label": "store name", "input": "text" },
+            { "label": "store address", "input": "text" },
+            { "label": "operating hours", "input": "text" },
+            { "label": "distance from customer location", "input": "text" }
+          ],
+          "buttons": []
+        },
+        {
+          "name": "pet status",
+          "slot": "body",
+          "type": "form",
+          "fields": [
+            { "label": "Status: Available", "input": "text" }
+          ],
+          "buttons": []
+        },
+        {
+          "name": "book a visit CTA",
+          "slot": "body",
+          "type": "button-bar",
+          "buttons": [
+            { "label": "Book a Visit", "primary": true }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "pet profile page — adopted",
+      "layout": "stack",
+      "col": 1,
+      "row": 1,
+      "regions": [
+        {
+          "name": "primary navigation — logged in",
+          "slot": "header",
+          "type": "toolbar",
+          "buttons": [
+            { "label": "find stores" },
+            { "label": "shop supplies" },
+            { "label": "shopping cart" },
+            { "label": "pets" },
+            { "label": "wishlist" },
+            { "label": "account" }
+          ]
+        },
+        {
+          "name": "breadcrumb",
+          "slot": "header",
+          "type": "toolbar",
+          "buttons": [
+            { "label": "Home" },
+            { "label": "Pets" },
+            { "label": "[pet name] (current)" }
+          ]
+        },
+        {
+          "name": "pet photo gallery",
+          "slot": "body",
+          "type": "listbox",
+          "items": [
+            { "label": "photo 1", "icon": "file" },
+            { "label": "photo 2", "icon": "file" },
+            { "label": "photo 3", "icon": "file" }
+          ]
+        },
+        {
+          "name": "pet info",
+          "slot": "body",
+          "type": "form",
+          "fields": [
+            { "label": "name", "input": "text" },
+            { "label": "species", "input": "text" },
+            { "label": "breed", "input": "text" },
+            { "label": "age", "input": "text" },
+            { "label": "temperament notes", "input": "textarea" }
+          ],
+          "buttons": []
+        },
+        {
+          "name": "pet status — adopted",
+          "slot": "body",
+          "type": "form",
+          "fields": [
+            { "label": "Status: Adopted", "input": "text" }
+          ],
+          "buttons": []
+        },
+        {
+          "name": "book a visit — disabled",
+          "slot": "body",
+          "type": "form",
+          "fields": [
+            { "label": "Book a Visit (disabled — pet has been adopted)", "input": "text" }
+          ],
+          "buttons": []
+        }
+      ]
+    },
+    {
+      "name": "book appointment — guest auth gate",
+      "layout": "modal",
+      "col": 2,
+      "row": 0,
+      "regions": [
+        {
+          "name": "auth gate prompt",
+          "slot": "body",
+          "type": "form",
+          "fields": [
+            { "label": "Appointments require a customer account", "input": "text" }
+          ],
+          "buttons": [
+            { "label": "Sign In", "primary": true },
+            { "label": "Register" }
+          ]
+        },
+        {
+          "name": "slot hold notice",
+          "slot": "body",
+          "type": "form",
+          "fields": [
+            { "label": "Your selected slot is held for 10 minutes", "input": "text" }
+          ],
+          "buttons": []
+        }
+      ]
+    },
+    {
+      "name": "book appointment — select time slot",
+      "layout": "form",
+      "col": 2,
+      "row": 1,
+      "regions": [
+        {
+          "name": "appointment context",
+          "slot": "body",
+          "type": "form",
+          "fields": [
+            { "label": "pet name", "input": "text" },
+            { "label": "store name", "input": "text" },
+            { "label": "store address", "input": "text" }
+          ],
+          "buttons": []
+        },
+        {
+          "name": "appointment calendar",
+          "slot": "body",
+          "type": "listbox",
+          "items": [
+            { "label": "Tuesday 26 May — available slots", "icon": "folder" },
+            { "label": "10:00 AM", "icon": "file" },
+            { "label": "11:00 AM", "icon": "file", "selected": true },
+            { "label": "12:00 PM", "icon": "file" },
+            { "label": "2:00 PM", "icon": "file" },
+            { "label": "3:00 PM", "icon": "file" }
+          ]
+        },
+        {
+          "name": "no slots available notice",
+          "slot": "body",
+          "type": "form",
+          "fields": [
+            { "label": "No slots available — try a later date", "input": "text" }
+          ],
+          "buttons": []
+        },
+        {
+          "name": "slot hold notice",
+          "slot": "body",
+          "type": "form",
+          "fields": [
+            { "label": "Slot held for 10 minutes — complete booking to confirm", "input": "text" }
+          ],
+          "buttons": []
+        },
+        {
+          "name": "slot released notice",
+          "slot": "body",
+          "type": "form",
+          "fields": [
+            { "label": "Your selected slot is no longer held — please select a new time", "input": "text" }
+          ],
+          "buttons": []
+        },
+        {
+          "name": "continue",
+          "slot": "body",
+          "type": "button-bar",
+          "buttons": [
+            { "label": "Continue", "primary": true },
+            { "label": "Back to pet profile" }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "appointment confirmation — review and note",
+      "layout": "form",
+      "col": 3,
+      "row": 0,
+      "regions": [
+        {
+          "name": "appointment summary",
+          "slot": "body",
+          "type": "form",
+          "fields": [
+            { "label": "pet name", "input": "text" },
+            { "label": "store name", "input": "text" },
+            { "label": "date", "input": "text" },
+            { "label": "time slot", "input": "text" }
+          ],
+          "buttons": []
+        },
+        {
+          "name": "visit note",
+          "slot": "body",
+          "type": "form",
+          "fields": [
+            { "label": "Visit Note (optional — up to 500 characters)", "input": "textarea" },
+            { "label": "characters remaining", "input": "text" }
+          ],
+          "buttons": []
+        },
+        {
+          "name": "visit note validation",
+          "slot": "body",
+          "type": "form",
+          "fields": [
+            { "label": "validation error: visit note exceeds 500 characters", "input": "text" }
+          ],
+          "buttons": []
+        },
+        {
+          "name": "confirm booking",
+          "slot": "body",
+          "type": "button-bar",
+          "buttons": [
+            { "label": "Confirm Booking", "primary": true },
+            { "label": "Back to slot selection" }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "appointment booking confirmed",
+      "layout": "stack",
+      "col": 4,
+      "row": 0,
+      "regions": [
+        {
+          "name": "primary navigation — logged in",
+          "slot": "header",
+          "type": "toolbar",
+          "buttons": [
+            { "label": "find stores" },
+            { "label": "shop supplies" },
+            { "label": "shopping cart" },
+            { "label": "pets" },
+            { "label": "wishlist" },
+            { "label": "account" }
+          ]
+        },
+        {
+          "name": "confirmation header",
+          "slot": "body",
+          "type": "form",
+          "fields": [
+            { "label": "Appointment confirmed!", "input": "text" },
+            { "label": "booking reference", "input": "text" }
+          ],
+          "buttons": []
+        },
+        {
+          "name": "booking details",
+          "slot": "body",
+          "type": "form",
+          "fields": [
+            { "label": "pet name", "input": "text" },
+            { "label": "store name", "input": "text" },
+            { "label": "date/time", "input": "text" },
+            { "label": "visit note (if provided)", "input": "text" },
+            { "label": "Appointment Confirmation Email sent to customer email", "input": "text" }
+          ],
+          "buttons": []
+        },
+        {
+          "name": "post-confirmation actions",
+          "slot": "body",
+          "type": "button-bar",
+          "buttons": [
+            { "label": "View My Appointments", "primary": true },
+            { "label": "Browse More Pets" }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "customer account — appointments",
+      "layout": "stack",
+      "col": 5,
+      "row": 0,
+      "regions": [
+        {
+          "name": "primary navigation — logged in",
+          "slot": "header",
+          "type": "toolbar",
+          "buttons": [
+            { "label": "find stores" },
+            { "label": "shop supplies" },
+            { "label": "shopping cart" },
+            { "label": "pets" },
+            { "label": "wishlist" },
+            { "label": "account" }
+          ]
+        },
+        {
+          "name": "account nav",
+          "slot": "header",
+          "type": "nav-tabs",
+          "tabs": [
+            { "label": "Profile" },
+            { "label": "Orders" },
+            { "label": "Appointments", "active": true },
+            { "label": "Wishlist" },
+            { "label": "Saved Payments" }
+          ]
+        },
+        {
+          "name": "upcoming appointments",
+          "slot": "body",
+          "type": "list",
+          "columns": ["pet photo", "pet name", "store", "date/time", "visit note", "status"],
+          "rows": 3,
+          "actions": [{ "label": "Cancel" }, { "label": "Browse other pets" }]
+        },
+        {
+          "name": "past appointments",
+          "slot": "body",
+          "type": "list",
+          "columns": ["pet photo", "pet name", "store", "date/time", "visit note", "outcome"],
+          "rows": 2,
+          "actions": []
+        },
+        {
+          "name": "appointments empty state",
+          "slot": "body",
+          "type": "form",
+          "fields": [
+            { "label": "No appointments yet — Browse the Pet Gallery", "input": "text" }
+          ],
+          "buttons": [
+            { "label": "Browse Pets", "primary": true }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "staff — incoming appointments",
+      "layout": "stack",
+      "col": 0,
+      "row": 2,
+      "regions": [
+        {
+          "name": "staff header",
+          "slot": "header",
+          "type": "chrome",
+          "name": "staff header"
+        },
+        {
+          "name": "staff nav",
+          "slot": "header",
+          "type": "nav-tabs",
+          "tabs": [
+            { "label": "Stock Levels" },
+            { "label": "Incoming Appointments", "active": true },
+            { "label": "Pet Profiles" }
+          ]
+        },
+        {
+          "name": "appointments list",
+          "slot": "body",
+          "type": "list",
+          "columns": ["customer name", "pet name", "date/time", "visit note", "status"],
+          "rows": 5,
+          "actions": [
+            { "label": "Check In" },
+            { "label": "Record Outcome" },
+            { "label": "Mark No-Show" }
+          ]
+        },
+        {
+          "name": "already checked in",
+          "slot": "body",
+          "type": "form",
+          "conditional": true,
+          "condition": "Check In Customer AC 3 — customer has already been checked in",
+          "fields": [
+            { "label": "already checked in — checked in at [original Checked-In Time]", "input": "text" }
+          ],
+          "buttons": []
+        },
+        {
+          "name": "cancelled appointment block",
+          "slot": "body",
+          "type": "form",
+          "conditional": true,
+          "condition": "Check In Customer AC 4 — appointment has been cancelled",
+          "fields": [
+            { "label": "this appointment was cancelled — no further action available", "input": "text" }
+          ],
+          "buttons": []
+        },
+        {
+          "name": "customer already checked in",
+          "slot": "body",
+          "type": "form",
+          "conditional": true,
+          "condition": "Record No-Show AC 4 — customer was already checked in; cannot record no-show",
+          "fields": [
+            { "label": "customer was already checked in — no-show cannot be recorded", "input": "text" }
+          ],
+          "buttons": []
+        },
+        {
+          "name": "appointments empty state",
+          "slot": "body",
+          "type": "form",
+          "fields": [
+            { "label": "No upcoming appointments", "input": "text" }
+          ],
+          "buttons": []
+        }
+      ]
+    },
+    {
+      "name": "staff — record outcome",
+      "layout": "form",
+      "col": 1,
+      "row": 2,
+      "regions": [
+        {
+          "name": "appointment context",
+          "slot": "body",
+          "type": "form",
+          "fields": [
+            { "label": "customer name", "input": "text" },
+            { "label": "pet name", "input": "text" },
+            { "label": "date/time", "input": "text" }
+          ],
+          "buttons": []
+        },
+        {
+          "name": "outcome selector",
+          "slot": "body",
+          "type": "listbox",
+          "items": [
+            { "label": "Adopted", "icon": "ability", "selected": true },
+            { "label": "Interested — Returning", "icon": "ability" },
+            { "label": "Not a Fit", "icon": "ability" },
+            { "label": "Browsing Only", "icon": "ability" }
+          ]
+        },
+        {
+          "name": "staff visit notes",
+          "slot": "body",
+          "type": "form",
+          "fields": [
+            { "label": "Staff Visit Notes (optional)", "input": "textarea" }
+          ],
+          "buttons": []
+        },
+        {
+          "name": "outcome already recorded notice",
+          "slot": "body",
+          "type": "form",
+          "fields": [
+            { "label": "Outcome already recorded: [existing outcome]", "input": "text" },
+            { "label": "Override available for correction authority staff", "input": "text" }
+          ],
+          "buttons": []
+        },
+        {
+          "name": "submit outcome",
+          "slot": "body",
+          "type": "button-bar",
+          "buttons": [
+            { "label": "Record Outcome", "primary": true },
+            { "label": "Cancel" }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "staff — set follow-up action",
+      "layout": "form",
+      "col": 2,
+      "row": 2,
+      "regions": [
+        {
+          "name": "appointment context",
+          "slot": "body",
+          "type": "form",
+          "fields": [
+            { "label": "customer name", "input": "text" },
+            { "label": "pet name", "input": "text" },
+            { "label": "date/time", "input": "text" },
+            { "label": "outcome recorded", "input": "text" }
+          ],
+          "buttons": []
+        },
+        {
+          "name": "follow-up action",
+          "slot": "body",
+          "type": "listbox",
+          "items": [
+            { "label": "None", "icon": "file", "selected": true },
+            { "label": "Schedule Return Visit", "icon": "ability" },
+            { "label": "Hold Pet", "icon": "ability" },
+            { "label": "Send Adoption Paperwork", "icon": "ability" }
+          ]
+        },
+        {
+          "name": "follow-up date",
+          "slot": "body",
+          "type": "form",
+          "fields": [
+            { "label": "Follow-Up Date", "input": "text" }
+          ],
+          "buttons": []
+        },
+        {
+          "name": "schedule return visit link",
+          "slot": "body",
+          "type": "form",
+          "fields": [
+            { "label": "Book new appointment for [customer] with [pet name]", "input": "text" }
+          ],
+          "buttons": []
+        },
+        {
+          "name": "hold expiry",
+          "slot": "body",
+          "type": "form",
+          "fields": [
+            { "label": "Hold expires: [date]", "input": "text" }
+          ],
+          "buttons": []
+        },
+        {
+          "name": "submit follow-up",
+          "slot": "body",
+          "type": "button-bar",
+          "buttons": [
+            { "label": "Set Follow-Up", "primary": true },
+            { "label": "Skip" }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "staff — pet profile editor",
+      "layout": "form",
+      "col": 3,
+      "row": 2,
+      "regions": [
+        {
+          "name": "staff header",
+          "slot": "header",
+          "type": "chrome",
+          "name": "staff header"
+        },
+        {
+          "name": "pet info form",
+          "slot": "body",
+          "type": "form",
+          "fields": [
+            { "label": "name", "input": "text" },
+            { "label": "species", "input": "dropdown" },
+            { "label": "breed", "input": "text" },
+            { "label": "age", "input": "text" },
+            { "label": "temperament notes", "input": "textarea" },
+            { "label": "store", "input": "dropdown" }
+          ],
+          "buttons": []
+        },
+        {
+          "name": "pet photo gallery — manage",
+          "slot": "body",
+          "type": "list",
+          "columns": ["photo thumbnail", "alt text"],
+          "rows": 3,
+          "actions": [
+            { "label": "Upload Photo" },
+            { "label": "Remove" }
+          ]
+        },
+        {
+          "name": "pet status — mark adopted",
+          "slot": "body",
+          "type": "form",
+          "fields": [
+            { "label": "Status", "input": "dropdown" }
+          ],
+          "buttons": []
+        },
+        {
+          "name": "already adopted notice",
+          "slot": "body",
+          "type": "form",
+          "fields": [
+            { "label": "This pet is already adopted", "input": "text" }
+          ],
+          "buttons": []
+        },
+        {
+          "name": "save / cancel",
+          "slot": "body",
+          "type": "button-bar",
+          "buttons": [
+            { "label": "Save Changes", "primary": true },
+            { "label": "Cancel" }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "notification preview — appointment reminder",
+      "layout": "stack",
+      "col": 4,
+      "row": 2,
+      "regions": [
+        {
+          "name": "notification type selector",
+          "slot": "header",
+          "type": "nav-tabs",
+          "tabs": [
+            { "label": "Appointment Reminder", "active": true },
+            { "label": "Pet Adopted Before Visit" },
+            { "label": "Visit Follow-Up" }
+          ]
+        },
+        {
+          "name": "appointment reminder preview",
+          "slot": "body",
+          "type": "form",
+          "fields": [
+            { "label": "Subject: Your appointment with [pet name] is tomorrow", "input": "text" },
+            { "label": "pet name", "input": "text" },
+            { "label": "store address", "input": "text" },
+            { "label": "date/time", "input": "text" },
+            { "label": "visit note", "input": "textarea" }
+          ],
+          "buttons": []
+        },
+        {
+          "name": "pet adopted before visit preview",
+          "slot": "body",
+          "type": "form",
+          "fields": [
+            { "label": "Subject: [pet name] has been adopted", "input": "text" },
+            { "label": "pet name", "input": "text" },
+            { "label": "adoption status", "input": "text" }
+          ],
+          "buttons": [
+            { "label": "Cancel Appointment", "primary": true },
+            { "label": "Browse Other Pets" }
+          ]
+        },
+        {
+          "name": "visit follow-up preview",
+          "slot": "body",
+          "type": "form",
+          "fields": [
+            { "label": "Subject: Follow-up on your visit with [pet name]", "input": "text" },
+            { "label": "pet name", "input": "text" },
+            { "label": "store", "input": "text" },
+            { "label": "follow-up context", "input": "textarea" }
+          ],
+          "buttons": []
+        },
+        {
+          "name": "resilience note",
+          "slot": "body",
+          "type": "form",
+          "fields": [
+            { "label": "Email queued for retry when delivery system unavailable", "input": "text" }
+          ],
+          "buttons": []
+        }
+      ]
+    }
+  ],
+  "connections": [
+    { "from": "pet gallery", "to": "pet profile page — available", "label": "select pet card" },
+    { "from": "pet profile page — available", "to": "book appointment — guest auth gate", "label": "Book a Visit (guest)" },
+    { "from": "pet profile page — available", "to": "book appointment — select time slot", "label": "Book a Visit (logged in)" },
+    { "from": "book appointment — guest auth gate", "to": "book appointment — select time slot", "label": "sign in / register" },
+    { "from": "book appointment — select time slot", "to": "appointment confirmation — review and note", "label": "Continue" },
+    { "from": "appointment confirmation — review and note", "to": "appointment booking confirmed", "label": "Confirm Booking" },
+    { "from": "appointment booking confirmed", "to": "customer account — appointments", "label": "View My Appointments" },
+    { "from": "appointment booking confirmed", "to": "pet gallery", "label": "Browse More Pets" },
+    { "from": "staff — incoming appointments", "to": "staff — record outcome", "label": "Record Outcome" },
+    { "from": "staff — record outcome", "to": "staff — set follow-up action", "label": "Interested — Returning" },
+    { "from": "staff — incoming appointments", "to": "staff — pet profile editor", "label": "Pet Profiles tab" }
+  ]
+}

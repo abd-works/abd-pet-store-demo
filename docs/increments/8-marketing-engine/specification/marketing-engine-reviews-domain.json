@@ -1,0 +1,62 @@
+{
+  "_comment": "Machine-readable vocabulary for Marketing Engine Sprint 1 — Customer reviews object model.",
+  "module": "Marketing Engine",
+  "state": "domain-model",
+  "sprint_scope": "Increment 8 Sprint 1 — Customer reviews",
+  "concepts": {
+    "CustomerReview": {
+      "attributes": [
+        "reviewId",
+        "authorId",
+        "productSku",
+        "starRating",
+        "body",
+        "photos",
+        "createdAt"
+      ],
+      "inherits": null
+    },
+    "StarRating": {
+      "attributes": ["value"],
+      "inherits": null
+    },
+    "ReviewPhoto": {
+      "attributes": [
+        "storageKey",
+        "originalFilename",
+        "contentType",
+        "sizeBytes"
+      ],
+      "inherits": null
+    },
+    "AggregateStarRating": {
+      "attributes": ["average", "reviewCount"],
+      "inherits": null
+    },
+    "ProductReviews": {
+      "attributes": ["productSku", "reviews"],
+      "inherits": null
+    },
+    "Product": {
+      "attributes": ["sku", "aggregateStarRating"],
+      "inherits": null,
+      "boundary": true,
+      "owned_by": "Product Catalog"
+    },
+    "CustomerAccount": {
+      "attributes": ["accountId"],
+      "inherits": null,
+      "boundary": true,
+      "owned_by": "Customer Account"
+    },
+    "ProductDetailsPage": {
+      "attributes": [],
+      "inherits": null,
+      "boundary": true,
+      "owned_by": "Product Catalog"
+    }
+  },
+  "aliases": {
+    "scenario": "*"
+  }
+}

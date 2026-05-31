@@ -1,7 +1,7 @@
 # Scanner Report — abd-class-responsibility-collaborator
 
-**Workspace:** c:\dev\abd-pet-store-demo
-**Date:** 2026-05-24 19:34:24
+**Workspace:** C:\dev\abd-pet-store-demo
+**Date:** 2026-05-30 17:22:55
 
 ---
 

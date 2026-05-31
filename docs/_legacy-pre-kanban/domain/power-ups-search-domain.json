@@ -1,0 +1,88 @@
+{
+  "_comment": "Machine-readable vocabulary extracted from power-ups-search-crc.md. Read by specification-by-example scanner to validate example-table column names.",
+  "concepts": {
+    "product search": {
+      "attributes": [
+        "entered keyword",
+        "globally accessible entry point",
+        "match products by keyword",
+        "rank matches by relevance",
+        "support partial keyword match",
+        "support fuzzy keyword match",
+        "produce search results",
+        "show empty guidance when no match"
+      ],
+      "inherits": null
+    },
+    "search results": {
+      "attributes": [
+        "ranked product ordering",
+        "narrow to active filter intersection",
+        "show no results message",
+        "update on filter change"
+      ],
+      "inherits": null
+    },
+    "filter facet": {
+      "attributes": [
+        "facet dimension name",
+        "matching product count per value",
+        "narrow product list",
+        "apply facet value as active filter",
+        "combine conjunctively",
+        "update match counts",
+        "clear all applied selections",
+        "show zero matches guidance"
+      ],
+      "inherits": null
+    },
+    "price range filter facet": {
+      "attributes": ["min-max range selection"],
+      "inherits": "filter facet"
+    },
+    "active filter": {
+      "attributes": [
+        "applied facet selection",
+        "removable chip display",
+        "remove and expand results",
+        "request clear all on zero results"
+      ],
+      "inherits": null
+    },
+    "product catalog": {
+      "attributes": [
+        "searchable product corpus",
+        "browsable product corpus",
+        "published product set"
+      ],
+      "inherits": null
+    },
+    "product": {
+      "attributes": [
+        "product name",
+        "description",
+        "brand",
+        "category membership",
+        "stock availability state",
+        "matched by keyword search",
+        "filtered by facet dimension"
+      ],
+      "inherits": null
+    },
+    "category": {
+      "attributes": [
+        "category name",
+        "filter facet dimension",
+        "suggest popular categories on empty search"
+      ],
+      "inherits": null
+    },
+    "stock availability": {
+      "attributes": ["in-stock indicator", "filter facet dimension"],
+      "inherits": null
+    }
+  },
+  "aliases": {
+    "scenario": "*"
+  }
+}
