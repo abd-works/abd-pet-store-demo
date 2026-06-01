@@ -2,6 +2,7 @@
   "schema": "abd-delivery-kanban/v2",
   "synced_at": "2026-05-31T04:50:00Z",
   "stage_configuration": "pawplace",
+  "board_mode": "manual",
   "backlog": [],
   "active": [
     {
