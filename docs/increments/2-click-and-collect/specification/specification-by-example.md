@@ -1,17 +1,16 @@
 # Specification By Example
 
-
 ---
 
 ## Increment 2
 
-<!-- migrated from: end-to-end/specification/specification-by-example.md -->
+
 
 ---
-state: specification-by-example
+
+## state: specification-by-example
 increment_scope: Increment 2 — Click-and-collect
 specification_refresh: Run 3 slot 53
----
 
 # Specification by Example — Increment 2: Click-and-collect
 
@@ -21,27 +20,23 @@ specification_refresh: Run 3 slot 53
 
 ## Story: `Add Product to Cart`
 
-**Story type:** user
-
-**Sources / context:** ubiquitous-language.md, crc.md, acceptance-criteria.md
-
----
-
 ### Product:
 
-| scenario | product_name | sku | price | brand | expected_availability |
-|---|---|---|---|---|---|
-| 1 | Premium Dog Harness | PET-HAR-001 | £34.99 | WalkRight | In stock |
-| 2 | Salmon Cat Treats | PET-TRT-042 | £4.99 | PurrDelight | In stock |
-| 3 | Exotic Fish Filter | PET-FLT-099 | £89.99 | AquaPure | Out of stock |
+
+| scenario | product_name        | sku         | price  | brand       | expected_availability |
+| -------- | ------------------- | ----------- | ------ | ----------- | --------------------- |
+| 1        | Premium Dog Harness | PET-HAR-001 | £34.99 | WalkRight   | In stock              |
+| 2        | Salmon Cat Treats   | PET-TRT-042 | £4.99  | PurrDelight | In stock              |
+
 
 ### Stock Availability:
 
+
 | scenario | product_sku | available_to_sell_quantity | backorder_enabled | expected_add_to_cart_state |
-|---|---|---|---|---|
-| 1 | PET-HAR-001 | 22 | false | enabled |
-| 2 | PET-TRT-042 | 48 | false | enabled |
-| 3 | PET-FLT-099 | 0 | false | disabled |
+| -------- | ----------- | -------------------------- | ----------------- | -------------------------- |
+| 1        | PET-HAR-001 | 22                         | false             | enabled                    |
+| 2        | PET-TRT-042 | 48                         | false             | enabled                    |
+
 
 ---
 
@@ -57,10 +52,12 @@ And the visible item count indicator shows *{expected_badge_count}*
 
 #### Examples:
 
-| scenario | product_name | sku | price | stock | initial_items | expected_quantity | expected_line_price | expected_badge_count |
-|---|---|---|---|---|---|---|---|---|
-| 1 | Premium Dog Harness | PET-HAR-001 | £34.99 | 22 | 0 | 1 | £34.99 | 1 |
-| 2 | Premium Dog Harness | PET-HAR-001 | £34.99 | 22 | 1 | 2 | £69.98 | 2 |
+
+| scenario | product_name        | sku         | price  | stock | initial_items | expected_quantity | expected_line_price | expected_badge_count |
+| -------- | ------------------- | ----------- | ------ | ----- | ------------- | ----------------- | ------------------- | -------------------- |
+| 1        | Premium Dog Harness | PET-HAR-001 | £34.99 | 22    | 0             | 1                 | £34.99              | 1                    |
+| 2        | Premium Dog Harness | PET-HAR-001 | £34.99 | 22    | 1             | 2                 | £69.98              | 2                    |
+
 
 ### Scenario 2: `Out-of-stock product cannot be added`
 
@@ -100,10 +97,12 @@ And a new session starts with an empty **Shopping Cart**
 
 ### Cart Item:
 
-| scenario | product_sku | product_name | unit_price_at_time_of_adding | quantity | expected_line_price |
-|---|---|---|---|---|---|
-| 1 | PET-HAR-001 | Premium Dog Harness | £34.99 | 2 | £69.98 |
-| 2 | PET-TRT-042 | Salmon Cat Treats | £4.99 | 1 | £4.99 |
+
+| scenario | product_sku | product_name        | unit_price_at_time_of_adding | quantity | expected_line_price |
+| -------- | ----------- | ------------------- | ---------------------------- | -------- | ------------------- |
+| 1        | PET-HAR-001 | Premium Dog Harness | £34.99                       | 2        | £69.98              |
+| 2        | PET-TRT-042 | Salmon Cat Treats   | £4.99                        | 1        | £4.99               |
+
 
 ---
 
@@ -118,10 +117,12 @@ And the visible item count indicator shows *{expected_badge_count}*
 
 #### Examples:
 
-| scenario | sku | unit_price | initial_qty | initial_subtotal | new_qty | expected_line_price | expected_subtotal | expected_badge_count |
-|---|---|---|---|---|---|---|---|---|
-| 1 | PET-HAR-001 | £34.99 | 2 | £69.98 | 3 | £104.97 | £104.97 | 3 |
-| 2 | PET-HAR-001 | £34.99 | 2 | £69.98 | 1 | £34.99 | £34.99 | 1 |
+
+| scenario | sku         | unit_price | initial_qty | initial_subtotal | new_qty | expected_line_price | expected_subtotal | expected_badge_count |
+| -------- | ----------- | ---------- | ----------- | ---------------- | ------- | ------------------- | ----------------- | -------------------- |
+| 1        | PET-HAR-001 | £34.99     | 2           | £69.98           | 3       | £104.97             | £104.97           | 3                    |
+| 2        | PET-HAR-001 | £34.99     | 2           | £69.98           | 1       | £34.99              | £34.99            | 1                    |
+
 
 ### Scenario 2: `Quantity set to zero removes item from cart`
 
@@ -189,10 +190,12 @@ And checkout is not accessible from the empty **Shopping Cart**
 
 ### Store:
 
-| scenario | store_name | store_code | address_line_one | city | postcode | expected_display_line |
-|---|---|---|---|---|---|---|
-| 1 | PawPlace Camden | STR-001 | 42 High Street | London | NW1 8QP | 42 High Street, London NW1 8QP |
-| 2 | PawPlace Bristol | STR-002 | 15 Harbour Road | Bristol | BS1 4DJ | 15 Harbour Road, Bristol BS1 4DJ |
+
+| scenario | store_name       | store_code | address_line_one | city    | postcode | expected_display_line            |
+| -------- | ---------------- | ---------- | ---------------- | ------- | -------- | -------------------------------- |
+| 1        | PawPlace Camden  | STR-001    | 42 High Street   | London  | NW1 8QP  | 42 High Street, London NW1 8QP   |
+| 2        | PawPlace Bristol | STR-002    | 15 Harbour Road  | Bristol | BS1 4DJ  | 15 Harbour Road, Bristol BS1 4DJ |
+
 
 ---
 
@@ -242,10 +245,12 @@ And the checkout summary shows **address** *42 High Street, London NW1 8QP*
 
 ### Guest Checkout:
 
-| scenario | guest_email | guest_first_name | guest_last_name | expected_validation |
-|---|---|---|---|---|
-| 1 | sarah.jones@example.com | Sarah | Jones | valid |
-| 2 | not-an-email | Tom | Brown | invalid |
+
+| scenario | guest_email                                               | guest_first_name | guest_last_name | expected_validation |
+| -------- | --------------------------------------------------------- | ---------------- | --------------- | ------------------- |
+| 1        | [sarah.jones@example.com](mailto:sarah.jones@example.com) | Sarah            | Jones           | valid               |
+| 2        | not-an-email                                              | Tom              | Brown           | invalid             |
+
 
 ---
 
@@ -260,10 +265,10 @@ And login and **Customer Account** registration are not offered before purchase
 
 ### Scenario 2: `Order placed with guest details and confirmation email`
 
-Given the customer provides **Guest Checkout** with **Guest Email** *sarah.jones@example.com*, guest first name *Sarah*, guest last name *Jones*
+Given the customer provides **Guest Checkout** with **Guest Email** *[sarah.jones@example.com](mailto:sarah.jones@example.com)*, guest first name *Sarah*, guest last name *Jones*
 When the customer completes **Guest Checkout**
 Then an **Order** is placed
-And a **Confirmation Email** is sent to *sarah.jones@example.com*
+And a **Confirmation Email** is sent to *[sarah.jones@example.com](mailto:sarah.jones@example.com)*
 And guest details are retained only for this transaction
 And no **Customer Account** is created
 
@@ -276,7 +281,7 @@ And checkout remains on the current step until a valid **Guest Email** is provid
 
 ### Scenario 4: `Account creation prompted after guest checkout`
 
-Given the customer has completed **Guest Checkout** with **Guest Email** *sarah.jones@example.com*
+Given the customer has completed **Guest Checkout** with **Guest Email** *[sarah.jones@example.com](mailto:sarah.jones@example.com)*
 When the **Order Confirmation Page** is displayed
 Then the system prompts **Customer Account** creation with message *Create an account for order history, saved addresses, and reorder*
 And the prompt is dismissible
@@ -294,10 +299,12 @@ And the **Order** is already placed regardless of the customer's choice
 
 ### Billing Address:
 
-| scenario | address_line_one | address_line_two | city | county_or_region | postcode | country | expected_validation |
-|---|---|---|---|---|---|---|---|
-| 1 | 10 Elm Avenue | Flat 3 | London | Greater London | SW1A 2AA | United Kingdom | valid |
-| 2 | — | — | London | — | — | United Kingdom | invalid — missing address line 1 and postcode |
+
+| scenario | address_line_one | address_line_two | city   | county_or_region | postcode | country        | expected_validation                           |
+| -------- | ---------------- | ---------------- | ------ | ---------------- | -------- | -------------- | --------------------------------------------- |
+| 1        | 10 Elm Avenue    | Flat 3           | London | Greater London   | SW1A 2AA | United Kingdom | valid                                         |
+| 2        | —                | —                | London | —                | —        | United Kingdom | invalid — missing address line 1 and postcode |
+
 
 ---
 
@@ -358,11 +365,13 @@ And checkout *{expected_action}*
 
 #### Examples:
 
-| scenario | card_number | expiry | cvv | expected_result | expected_action |
-|---|---|---|---|---|---|
-| 1 | 4242 4242 4242 4242 | 12/27 | 123 | valid | advances to order review |
-| 2 | 4242 4242 4242 4242 | 01/22 | 123 | invalid — card expired | shows error: Card expiry date is in the past |
-| 3 | 4242 4242 4242 4242 | 12/27 | — | invalid — missing CVV | shows error: CVV is required |
+
+| scenario | card_number         | expiry | cvv | expected_result        | expected_action                              |
+| -------- | ------------------- | ------ | --- | ---------------------- | -------------------------------------------- |
+| 1        | 4242 4242 4242 4242 | 12/27  | 123 | valid                  | advances to order review                     |
+| 2        | 4242 4242 4242 4242 | 01/22  | 123 | invalid — card expired | shows error: Card expiry date is in the past |
+| 3        | 4242 4242 4242 4242 | 12/27  | —   | invalid — missing CVV  | shows error: CVV is required                 |
+
 
 ---
 
@@ -376,19 +385,23 @@ And checkout *{expected_action}*
 
 ### Payment:
 
+
 | scenario | payment_reference | payment_amount | currency | expected_final_status | processing_vendor |
-|---|---|---|---|---|---|
-| 1 | PAY-20250507-001 | £44.97 | GBP | settled | StripeWave |
-| 2 | PAY-20250507-002 | £89.99 | GBP | failed | StripeWave |
-| 3 | PAY-20250507-003 | £34.99 | GBP | settled (via webhook) | StripeWave |
+| -------- | ----------------- | -------------- | -------- | --------------------- | ----------------- |
+| 1        | PAY-20250507-001  | £44.97         | GBP      | settled               | StripeWave        |
+| 2        | PAY-20250507-002  | £89.99         | GBP      | failed                | StripeWave        |
+| 3        | PAY-20250507-003  | £34.99         | GBP      | settled (via webhook) | StripeWave        |
+
 
 ### Order:
 
+
 | scenario | order_number | order_total | expected_order_status |
-|---|---|---|---|
-| 1 | ORD-2001 | £44.97 | confirmed |
-| 2 | — | £89.99 | not created |
-| 3 | ORD-2002 | £34.99 | confirmed |
+| -------- | ------------ | ----------- | --------------------- |
+| 1        | ORD-2001     | £44.97      | confirmed             |
+| 2        | —            | £89.99      | not created           |
+| 3        | ORD-2002     | £34.99      | confirmed             |
+
 
 ---
 
@@ -456,16 +469,20 @@ And no **Order** is confirmed
 
 ### Order:
 
-| scenario | order_number | order_total | pickup_store_name | pickup_store_address | expected_confirmation_display |
-|---|---|---|---|---|---|
-| 1 | ORD-2001 | £44.97 | PawPlace Camden | 42 High Street, London NW1 8QP | Order confirmed — collect from PawPlace Camden |
+
+| scenario | order_number | order_total | pickup_store_name | pickup_store_address           | expected_confirmation_display                  |
+| -------- | ------------ | ----------- | ----------------- | ------------------------------ | ---------------------------------------------- |
+| 1        | ORD-2001     | £44.97      | PawPlace Camden   | 42 High Street, London NW1 8QP | Order confirmed — collect from PawPlace Camden |
+
 
 ### Confirmation Email:
 
-| scenario | notification_subject | recipient_guest_email | expected_delivery_status |
-|---|---|---|---|
-| 1 | Your PawPlace Order ORD-2001 is confirmed | sarah.jones@example.com | sent |
-| 2 | Your PawPlace Order ORD-2001 is confirmed | sarah.jones@example.com | queued |
+
+| scenario | notification_subject                      | recipient_guest_email                                     | expected_delivery_status |
+| -------- | ----------------------------------------- | --------------------------------------------------------- | ------------------------ |
+| 1        | Your PawPlace Order ORD-2001 is confirmed | [sarah.jones@example.com](mailto:sarah.jones@example.com) | sent                     |
+| 2        | Your PawPlace Order ORD-2001 is confirmed | [sarah.jones@example.com](mailto:sarah.jones@example.com) | queued                   |
+
 
 ---
 
@@ -473,10 +490,10 @@ And no **Order** is confirmed
 
 Given **Payment Confirmation** succeeded for **Order** *ORD-2001*
 And **Order** *ORD-2001* has **Pickup Store** *PawPlace Camden* at *42 High Street, London NW1 8QP*
-And **Guest Checkout** has **Guest Email** *sarah.jones@example.com*
+And **Guest Checkout** has **Guest Email** *[sarah.jones@example.com](mailto:sarah.jones@example.com)*
 When the **Order** is confirmed
 Then the **Order Confirmation Page** displays **order number** *ORD-2001*, **Order Line Item** list, **order total** *£44.97*, and **Pickup Store** details
-And the system sends a **Confirmation Email** to *sarah.jones@example.com*
+And the system sends a **Confirmation Email** to *[sarah.jones@example.com](mailto:sarah.jones@example.com)*
 And the **Confirmation Email** includes: **order number** *ORD-2001*, **Order Line Item** list, total paid *£44.97*, masked **Payment** method, and **Pickup Store** **address** *42 High Street, London NW1 8QP* with **operating hours**
 
 ### Scenario 2: `Email queued, confirmation page still displayed`
@@ -500,25 +517,31 @@ And **Order** *ORD-2001* remains *confirmed*
 
 ### Order:
 
-| scenario | order_number | order_date | order_status | guest_email | pickup_store_code | expected_queue_position |
-|---|---|---|---|---|---|---|
-| 1 | ORD-2001 | 2025-05-06 | confirmed | sarah.jones@example.com | STR-001 | 1 |
-| 2 | ORD-2002 | 2025-05-07 | confirmed | tom.brown@example.com | STR-001 | 2 |
+
+| scenario | order_number | order_date | order_status | guest_email                                               | pickup_store_code | expected_queue_position |
+| -------- | ------------ | ---------- | ------------ | --------------------------------------------------------- | ----------------- | ----------------------- |
+| 1        | ORD-2001     | 2025-05-06 | confirmed    | [sarah.jones@example.com](mailto:sarah.jones@example.com) | STR-001           | 1                       |
+| 2        | ORD-2002     | 2025-05-07 | confirmed    | [tom.brown@example.com](mailto:tom.brown@example.com)     | STR-001           | 2                       |
+
 
 ### Order Line Item:
 
+
 | scenario | order_number | product_name_snapshot | sku_snapshot | quantity | unit_price_snapshot | expected_line_total |
-|---|---|---|---|---|---|---|
-| 1 | ORD-2001 | Premium Dog Harness | PET-HAR-001 | 1 | £34.99 | £34.99 |
-| 2 | ORD-2001 | Salmon Cat Treats | PET-TRT-042 | 2 | £4.99 | £9.98 |
-| 3 | ORD-2002 | Exotic Fish Filter | PET-FLT-099 | 1 | £89.99 | £89.99 |
+| -------- | ------------ | --------------------- | ------------ | -------- | ------------------- | ------------------- |
+| 1        | ORD-2001     | Premium Dog Harness   | PET-HAR-001  | 1        | £34.99              | £34.99              |
+| 2        | ORD-2001     | Salmon Cat Treats     | PET-TRT-042  | 2        | £4.99               | £9.98               |
+| 3        | ORD-2002     | Exotic Fish Filter    | PET-FLT-099  | 1        | £89.99              | £89.99              |
+
 
 ### Stock Availability:
 
-| scenario | product_sku | store_code | available_to_sell_quantity | expected_stock_indicator |
-|---|---|---|---|---|
-| 1 | PET-HAR-001 | STR-001 | 22 | in stock |
-| 2 | PET-FLT-099 | STR-001 | 0 | out of stock — warn employee |
+
+| scenario | product_sku | store_code | available_to_sell_quantity | expected_stock_indicator     |
+| -------- | ----------- | ---------- | -------------------------- | ---------------------------- |
+| 1        | PET-HAR-001 | STR-001    | 22                         | in stock                     |
+| 2        | PET-FLT-099 | STR-001    | 0                          | out of stock — warn employee |
+
 
 ---
 
@@ -544,7 +567,7 @@ Given **Order** *ORD-2002* contains **Order Line Item** *Exotic Fish Filter* (*P
 And **Stock Availability** for **Product** *PET-FLT-099* at **Store** *STR-001* has **available to sell quantity** *0*
 When **Store Employee** views **Order** *ORD-2002* in the **Click-and-Collect Queue**
 Then a stock warning *Out of stock at this store* appears on the **Order Line Item** for *Exotic Fish Filter*
-And **Guest Email** *tom.brown@example.com* is displayed for manual contact
+And **Guest Email** *[tom.brown@example.com](mailto:tom.brown@example.com)* is displayed for manual contact
 And **Order** *ORD-2002* remains *confirmed* for employee resolution
 
 ---
@@ -572,7 +595,7 @@ Given **Order** *ORD-2001* has **order status** *ready for pickup*
 And the collection window has passed without customer arrival
 When **Store Employee** views **Order** *ORD-2001* on the **Admin Dashboard**
 Then **Order** *ORD-2001* displays **order status** *ready for pickup*
-And **Guest Email** *sarah.jones@example.com* is shown for outreach
+And **Guest Email** *[sarah.jones@example.com](mailto:sarah.jones@example.com)* is shown for outreach
 And the dashboard displays prompt *Contact customer — collection window elapsed*
 And **Order** *ORD-2001* is not auto-cancelled
 

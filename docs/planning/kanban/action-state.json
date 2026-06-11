@@ -1,10 +1,4 @@
 {
-  "intents": [
-    {
-      "ticket_id": "inc-9-sprint-2-stores",
-      "skill": "abd-object-model",
-      "agent_role": "engineer",
-      "created_at": "2026-06-01T02:33:46.133Z"
-    }
-  ]
+  "intents": [],
+  "cleared_at": "2026-06-02T23:23:17.897907+00:00"
 }

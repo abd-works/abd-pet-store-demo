@@ -1,0 +1,12 @@
+{
+  "cycle": 2,
+  "last_scan": "2026-06-02T23:23:17.911979+00:00",
+  "last_spawns": [
+    {
+      "role": "engineer",
+      "instance": 1,
+      "reason": "pool_fill",
+      "spawn_epoch": 2
+    }
+  ]
+}

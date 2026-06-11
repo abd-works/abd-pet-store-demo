@@ -1,9 +1,0 @@
-{
-  "agent_role": "business-expert",
-  "agent_instance": "be1",
-  "ts": "2026-05-31T00:35:00Z",
-  "status": "ready",
-  "ticket_id": null,
-  "skill": null,
-  "activity": "CRC complete on inc-9-sprint-3-inventory — no eligible business-expert skill on active tickets; polling board (downstream first)"
-}

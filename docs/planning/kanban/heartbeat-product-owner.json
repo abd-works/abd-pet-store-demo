@@ -1,9 +1,0 @@
-{
-  "agent_role": "product-owner",
-  "ts": "2026-05-30T22:46:00Z",
-  "status": "ready",
-  "last_completed": {
-    "ticket_id": "inc-9-sprint-3-inventory",
-    "skill": "abd-specification-by-example"
-  }
-}

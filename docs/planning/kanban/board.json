@@ -1,81 +1,10 @@
 {
   "schema": "abd-delivery-kanban/v2",
-  "synced_at": "2026-05-31T04:50:00Z",
+  "synced_at": "2026-06-02T23:23:17.894594+00:00",
   "stage_configuration": "pawplace",
   "board_mode": "manual",
   "backlog": [],
   "active": [
-    {
-      "ticket_id": "inc-8-sprint-4-content",
-      "lineage": [
-        "PawPlace",
-        "Increment 8: Marketing engine",
-        "Sprint 4: Content publishing & unsubscribe"
-      ],
-      "scope_level": "sprint",
-      "stage": "engineering",
-      "priority": 4,
-      "created": "2026-05-30T19:54:17.719504+00:00",
-      "entered_stage": "2026-05-30T21:49:52.485814+00:00",
-      "completed_stage": null,
-      "stage_history": [
-        {
-          "stage": "specification",
-          "entered": "2026-05-30T23:45:00Z",
-          "completed": "2026-05-30T21:49:52.485814+00:00"
-        }
-      ],
-      "archived": null,
-      "scatter_from": "inc-8-marketing-engine",
-      "scatter_to": [],
-      "skill_progress": {
-        "abd-interface-design": {
-          "execution_status": "done",
-          "agent": "ux-designer",
-          "start": "2026-05-31T02:50:00Z",
-          "end": "2026-05-31T03:15:00Z",
-          "review_status": "done",
-          "reviewer": "ux-designer",
-          "review_start": "2026-05-31T03:12:00Z",
-          "review_end": "2026-05-31T03:15:00Z",
-          "notes": "Blog/guide index+detail, staff content editor, unsubscribe confirmation, nav routes; content client API"
-        },
-        "abd-object-model": {
-          "execution_status": "done",
-          "agent": "engineer",
-          "start": "2026-05-31T05:00:00Z",
-          "end": "2026-05-31T05:08:00Z",
-          "review_status": "done",
-          "reviewer": "engineer",
-          "review_start": "2026-05-31T05:07:00Z",
-          "review_end": "2026-05-31T05:08:00Z",
-          "notes": "marketing-engine-content-object-model section + marketing-engine-content-domain.json from CRC"
-        },
-        "abd-acceptance-test-driven-development": {
-          "execution_status": "done",
-          "agent": "engineer",
-          "start": "2026-05-31T05:08:00Z",
-          "end": "2026-05-31T05:12:00Z",
-          "review_status": "done",
-          "reviewer": "engineer",
-          "review_start": "2026-05-31T05:11:00Z",
-          "review_end": "2026-05-31T05:12:00Z",
-          "notes": "12 tests (4 server + 8 client); content publishing + unsubscribe; fixed CartProvider wrapper"
-        },
-        "abd-clean-code": {
-          "execution_status": "done",
-          "agent": "engineer",
-          "start": "2026-05-31T05:12:00Z",
-          "end": "2026-05-31T05:13:00Z",
-          "review_status": "done",
-          "reviewer": "engineer",
-          "review_start": "2026-05-31T05:12:30Z",
-          "review_end": "2026-05-31T05:13:00Z",
-          "notes": "Content module GREEN (12 tests); packages/content shared/server/client verified"
-        }
-      },
-      "notes": "Stories: Publish Marketing Content, Unsubscribe from Marketing"
-    },
     {
       "ticket_id": "inc-9-sprint-2-stores",
       "lineage": [
@@ -111,6 +40,16 @@
           "review_start": "2026-05-31T04:18:00Z",
           "review_end": "2026-05-31T04:20:00Z",
           "notes": "StoreFilterPanel, Set as My Store + guest modal, MyStorePreferencePage, stock/checkout tailoring; tests/power-ups/stores/store-preference_client.test.tsx"
+        },
+        "abd-object-model": {
+          "execution_status": "in_progress",
+          "agent": "engineer",
+          "start": "2026-06-02T23:23:17.894594+00:00",
+          "end": null,
+          "review_status": null,
+          "reviewer": null,
+          "review_start": null,
+          "review_end": null
         }
       }
     },
@@ -819,6 +758,77 @@
           "reviewer": "engineer",
           "review_start": "2026-05-31T02:49:00Z",
           "review_end": "2026-05-31T02:50:00Z"
+        }
+      }
+    },
+    {
+      "ticket_id": "inc-8-sprint-4-content",
+      "lineage": [
+        "PawPlace",
+        "Increment 8: Marketing engine",
+        "Sprint 4: Content publishing & unsubscribe"
+      ],
+      "scope_level": "sprint",
+      "stage": "engineering",
+      "priority": 4,
+      "created": "2026-05-30T19:54:17.719504+00:00",
+      "entered_stage": "2026-05-30T21:49:52.485814+00:00",
+      "completed_stage": "2026-06-02T23:23:07.381839+00:00",
+      "stage_history": [
+        {
+          "stage": "specification",
+          "entered": "2026-05-30T23:45:00Z",
+          "completed": "2026-05-30T21:49:52.485814+00:00"
+        }
+      ],
+      "archived": null,
+      "scatter_from": "inc-8-marketing-engine",
+      "scatter_to": [],
+      "notes": "Stories: Publish Marketing Content, Unsubscribe from Marketing",
+      "skill_progress": {
+        "abd-interface-design": {
+          "execution_status": "done",
+          "agent": "ux-designer",
+          "start": "2026-05-31T02:50:00Z",
+          "end": "2026-05-31T03:15:00Z",
+          "review_status": "done",
+          "reviewer": "ux-designer",
+          "review_start": "2026-05-31T03:12:00Z",
+          "review_end": "2026-05-31T03:15:00Z",
+          "notes": "Blog/guide index+detail, staff content editor, unsubscribe confirmation, nav routes; content client API"
+        },
+        "abd-object-model": {
+          "execution_status": "done",
+          "agent": "engineer",
+          "start": "2026-05-31T05:00:00Z",
+          "end": "2026-05-31T05:08:00Z",
+          "review_status": "done",
+          "reviewer": "engineer",
+          "review_start": "2026-05-31T05:07:00Z",
+          "review_end": "2026-05-31T05:08:00Z",
+          "notes": "marketing-engine-content-object-model section + marketing-engine-content-domain.json from CRC"
+        },
+        "abd-acceptance-test-driven-development": {
+          "execution_status": "done",
+          "agent": "engineer",
+          "start": "2026-05-31T05:08:00Z",
+          "end": "2026-05-31T05:12:00Z",
+          "review_status": "done",
+          "reviewer": "engineer",
+          "review_start": "2026-05-31T05:11:00Z",
+          "review_end": "2026-05-31T05:12:00Z",
+          "notes": "12 tests (4 server + 8 client); content publishing + unsubscribe; fixed CartProvider wrapper"
+        },
+        "abd-clean-code": {
+          "execution_status": "done",
+          "agent": "engineer",
+          "start": "2026-05-31T05:12:00Z",
+          "end": "2026-05-31T05:13:00Z",
+          "review_status": "done",
+          "reviewer": "engineer",
+          "review_start": "2026-05-31T05:12:30Z",
+          "review_end": "2026-05-31T05:13:00Z",
+          "notes": "Content module GREEN (12 tests); packages/content shared/server/client verified"
         }
       }
     }
