@@ -1,0 +1,95 @@
+<mxfile host="65bd71144e">
+    <diagram id="layered-architecture" name="Layered Architecture + Tech Stack">
+        <mxGraphModel dx="720" dy="520" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1000" pageHeight="900" math="0" shadow="0">
+            <root>
+                <mxCell id="0"/>
+                <mxCell id="1" parent="0"/>
+                <mxCell id="title" value="PawPlace Pet Store — Layered Architecture" style="text;html=1;align=center;verticalAlign=middle;fontSize=18;fontStyle=1;fontColor=#000000;" parent="1" vertex="1">
+                    <mxGeometry x="40" y="20" width="920" height="32" as="geometry"/>
+                </mxCell>
+                <mxCell id="subtitle" value="Dependencies flow strictly downward. No reverse arrows. Domain (shared/) never imports from Infrastructure by class name." style="text;html=1;align=center;verticalAlign=middle;fontSize=11;fontStyle=2;fontColor=#000000;" parent="1" vertex="1">
+                    <mxGeometry x="40" y="55" width="920" height="20" as="geometry"/>
+                </mxCell>
+
+                <!-- Presentation Layer -->
+                <mxCell id="presentation" value="Presentation" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#1a3a6e;strokeColor=#0e2547;fontColor=#ffffff;fontSize=14;fontStyle=1;verticalAlign=top;" parent="1" vertex="1">
+                    <mxGeometry x="80" y="100" width="840" height="140" as="geometry"/>
+                </mxCell>
+                <mxCell id="presTech" value="React 18 · React Router 6 · TanStack Query 5 · Vite 5 · TypeScript 5" style="text;html=1;align=center;verticalAlign=middle;fontSize=10;fontStyle=2;fontColor=#aaccff;" parent="1" vertex="1">
+                    <mxGeometry x="100" y="120" width="800" height="18" as="geometry"/>
+                </mxCell>
+                <mxCell id="presViews" value="React Views&#xa;app-client/ + domain client/" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;fontSize=11;fontColor=#000000;" parent="1" vertex="1">
+                    <mxGeometry x="120" y="146" width="220" height="76" as="geometry"/>
+                </mxCell>
+                <mxCell id="presHooks" value="Hooks — use&lt;Entity&gt;s&#xa;thin React state bridge" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;fontSize=11;fontColor=#000000;" parent="1" vertex="1">
+                    <mxGeometry x="360" y="146" width="220" height="76" as="geometry"/>
+                </mxCell>
+                <mxCell id="presClientJs" value="Client Domain JS&#xa;&lt;Entity&gt;sClient · &lt;Entity&gt;Api" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;fontSize=11;fontColor=#000000;" parent="1" vertex="1">
+                    <mxGeometry x="600" y="146" width="280" height="76" as="geometry"/>
+                </mxCell>
+
+                <!-- Application Layer -->
+                <mxCell id="application" value="Application" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#1a3a6e;strokeColor=#0e2547;fontColor=#ffffff;fontSize=14;fontStyle=1;verticalAlign=top;" parent="1" vertex="1">
+                    <mxGeometry x="80" y="300" width="840" height="140" as="geometry"/>
+                </mxCell>
+                <mxCell id="appTech" value="Node.js 20 · Express 4 · TypeScript 5 · Zod 3" style="text;html=1;align=center;verticalAlign=middle;fontSize=10;fontStyle=2;fontColor=#aaccff;" parent="1" vertex="1">
+                    <mxGeometry x="100" y="320" width="800" height="18" as="geometry"/>
+                </mxCell>
+                <mxCell id="appRoutes" value="Express Route Handlers&#xa;&lt;Entity&gt;Router" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;fontSize=11;fontColor=#000000;" parent="1" vertex="1">
+                    <mxGeometry x="120" y="346" width="240" height="76" as="geometry"/>
+                </mxCell>
+                <mxCell id="appServer" value="Server Domain Classes&#xa;&lt;Entity&gt;sServer" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;fontSize=11;fontColor=#000000;" parent="1" vertex="1">
+                    <mxGeometry x="380" y="346" width="240" height="76" as="geometry"/>
+                </mxCell>
+                <mxCell id="appPorts" value="Port Interfaces&#xa;StoreLocatorPort&#xa;SupplierInventoryPort" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;fontSize=11;fontColor=#000000;" parent="1" vertex="1">
+                    <mxGeometry x="640" y="346" width="240" height="76" as="geometry"/>
+                </mxCell>
+
+                <!-- Domain Layer -->
+                <mxCell id="domain" value="Domain — shared/ (zero framework imports)" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#1a3a6e;strokeColor=#0e2547;fontColor=#ffffff;fontSize=14;fontStyle=1;verticalAlign=top;" parent="1" vertex="1">
+                    <mxGeometry x="80" y="500" width="840" height="140" as="geometry"/>
+                </mxCell>
+                <mxCell id="domTech" value="TypeScript 5 · Zod 3 (schemas only — no framework imports)" style="text;html=1;align=center;verticalAlign=middle;fontSize=10;fontStyle=2;fontColor=#aaccff;" parent="1" vertex="1">
+                    <mxGeometry x="100" y="520" width="800" height="18" as="geometry"/>
+                </mxCell>
+                <mxCell id="domEntities" value="Entities &amp; Aggregates&#xa;Product · Order · Store&#xa;Customer · StockAvailability" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#d6b656;fontSize=11;fontColor=#000000;" parent="1" vertex="1">
+                    <mxGeometry x="120" y="546" width="220" height="76" as="geometry"/>
+                </mxCell>
+                <mxCell id="domValues" value="Value Objects &amp; Zod Schemas&#xa;StockAvailability · Category&#xa;Repository interfaces" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#d6b656;fontSize=11;fontColor=#000000;" parent="1" vertex="1">
+                    <mxGeometry x="360" y="546" width="240" height="76" as="geometry"/>
+                </mxCell>
+                <mxCell id="domRules" value="Business Rules&#xa;stock invariants&#xa;fulfilment · pricing" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#d6b656;fontSize=11;fontColor=#000000;" parent="1" vertex="1">
+                    <mxGeometry x="620" y="546" width="260" height="76" as="geometry"/>
+                </mxCell>
+
+                <!-- Infrastructure Layer -->
+                <mxCell id="infrastructure" value="Infrastructure (implements Domain interfaces)" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#1a3a6e;strokeColor=#0e2547;fontColor=#ffffff;fontSize=14;fontStyle=1;verticalAlign=top;" parent="1" vertex="1">
+                    <mxGeometry x="80" y="700" width="840" height="140" as="geometry"/>
+                </mxCell>
+                <mxCell id="infraTech" value="MongoDB 7 (native driver) · Store Locator API (HTTPS/JSON) · Pet Supplier B2B Feed (HTTPS/JSON)" style="text;html=1;align=center;verticalAlign=middle;fontSize=10;fontStyle=2;fontColor=#ffaaaa;" parent="1" vertex="1">
+                    <mxGeometry x="100" y="720" width="800" height="18" as="geometry"/>
+                </mxCell>
+                <mxCell id="infraRepos" value="MongoDB Repositories&#xa;&lt;Entity&gt;RepositoryServer" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#f8cecc;strokeColor=#b85450;fontSize=11;fontColor=#000000;" parent="1" vertex="1">
+                    <mxGeometry x="120" y="746" width="240" height="76" as="geometry"/>
+                </mxCell>
+                <mxCell id="infraLocator" value="Store Locator Adapter&#xa;StoreLocatorAdapter&#xa;implements StoreLocatorPort" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#f8cecc;strokeColor=#b85450;fontSize=11;fontColor=#000000;" parent="1" vertex="1">
+                    <mxGeometry x="380" y="746" width="240" height="76" as="geometry"/>
+                </mxCell>
+                <mxCell id="infraB2B" value="Supplier B2B Adapter&#xa;SupplierFeedAdapter&#xa;implements SupplierInventoryPort" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#f8cecc;strokeColor=#b85450;fontSize=11;fontColor=#000000;" parent="1" vertex="1">
+                    <mxGeometry x="640" y="746" width="240" height="76" as="geometry"/>
+                </mxCell>
+
+                <!-- Dependency arrows -->
+                <mxCell id="arr1" value="depends on" style="endArrow=classic;html=1;exitX=0.5;exitY=1;entryX=0.5;entryY=0;strokeWidth=3;fontSize=10;fontColor=#000000;" parent="1" source="presentation" target="application" edge="1">
+                    <mxGeometry relative="1" as="geometry"/>
+                </mxCell>
+                <mxCell id="arr2" value="depends on" style="endArrow=classic;html=1;exitX=0.5;exitY=1;entryX=0.5;entryY=0;strokeWidth=3;fontSize=10;fontColor=#000000;" parent="1" source="application" target="domain" edge="1">
+                    <mxGeometry relative="1" as="geometry"/>
+                </mxCell>
+                <mxCell id="arr3" value="implements interfaces from" style="endArrow=classic;html=1;exitX=0.5;exitY=0;entryX=0.5;entryY=1;dashed=1;strokeWidth=3;fontSize=10;fontColor=#000000;" parent="1" source="infrastructure" target="domain" edge="1">
+                    <mxGeometry relative="1" as="geometry"/>
+                </mxCell>
+            </root>
+        </mxGraphModel>
+    </diagram>
+</mxfile>

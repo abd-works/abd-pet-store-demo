@@ -1,0 +1,90 @@
+<mxfile host="65bd71144e">
+    <diagram id="deployment-architecture" name="Deployment Topology">
+        <mxGraphModel dx="800" dy="600" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1200" pageHeight="900" math="0" shadow="0">
+            <root>
+                <mxCell id="0"/>
+                <mxCell id="1" parent="0"/>
+                <mxCell id="title" value="PawPlace Pet Store — Deployment Topology" style="text;html=1;align=center;verticalAlign=middle;fontSize=18;fontStyle=1;fontColor=#080808;" parent="1" vertex="1">
+                    <mxGeometry x="40" y="20" width="1120" height="32" as="geometry"/>
+                </mxCell>
+
+                <!-- User device -->
+                <mxCell id="userDevice" value="User Device (Customer / Store Employee)" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#f5f5f5;strokeColor=#000000;fontSize=12;fontStyle=1;verticalAlign=top;fontColor=#080808;" parent="1" vertex="1">
+                    <mxGeometry x="400" y="70" width="320" height="90" as="geometry"/>
+                </mxCell>
+                <mxCell id="browser" value="«browser»&#xa;PawPlace SPA (React 18)" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#000000;fontSize=11;fontColor=#080808;" parent="1" vertex="1">
+                    <mxGeometry x="430" y="100" width="260" height="44" as="geometry"/>
+                </mxCell>
+
+                <!-- Production environment -->
+                <mxCell id="prodEnv" value="Production — PaaS Host (Deployment Environment)" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#000000;fontSize=13;fontStyle=1;verticalAlign=top;fontColor=#080808;" parent="1" vertex="1">
+                    <mxGeometry x="80" y="210" width="760" height="540" as="geometry"/>
+                </mxCell>
+
+                <!-- CDN / Static -->
+                <mxCell id="cdnNode" value="Static Asset Host / CDN&#xa;(Infrastructure Node)" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#000000;fontSize=11;fontColor=#080808;" parent="1" vertex="1">
+                    <mxGeometry x="120" y="250" width="300" height="60" as="geometry"/>
+                </mxCell>
+
+                <!-- PaaS deployment node -->
+                <mxCell id="paasNode" value="PaaS Host (Deployment Node)" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#000000;fontSize=12;fontStyle=1;verticalAlign=top;fontColor=#080808;" parent="1" vertex="1">
+                    <mxGeometry x="120" y="350" width="680" height="280" as="geometry"/>
+                </mxCell>
+
+                <!-- API Server container -->
+                <mxCell id="apiContainer" value="PawPlace API Server&#xa;(Container Instance)&#xa;Node.js 20 / Express 4&#xa;Handles all domain API routes" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#000000;fontSize=11;fontColor=#080808;" parent="1" vertex="1">
+                    <mxGeometry x="150" y="400" width="280" height="100" as="geometry"/>
+                </mxCell>
+
+                <!-- B2B Worker container -->
+                <mxCell id="b2bContainer" value="Inventory B2B Sync Worker&#xa;(Container Instance)&#xa;Node.js 20 background process&#xa;Polls / receives supplier webhook" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#000000;fontSize=11;fontColor=#080808;" parent="1" vertex="1">
+                    <mxGeometry x="480" y="400" width="290" height="100" as="geometry"/>
+                </mxCell>
+
+                <!-- MongoDB Atlas node -->
+                <mxCell id="mongoNode" value="MongoDB Atlas (Deployment Node)" style="shape=cylinder3;whiteSpace=wrap;html=1;boundedLbl=1;backgroundOutline=1;size=15;fillColor=#f8cecc;strokeColor=#000000;fontSize=11;fontColor=#080808;" parent="1" vertex="1">
+                    <mxGeometry x="230" y="530" width="200" height="80" as="geometry"/>
+                </mxCell>
+
+                <!-- External systems -->
+                <mxCell id="extBox" value="External Systems" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#ffe6cc;strokeColor=#d79b00;fontSize=13;fontStyle=1;verticalAlign=top;fontColor=#080808;" parent="1" vertex="1">
+                    <mxGeometry x="900" y="210" width="260" height="370" as="geometry"/>
+                </mxCell>
+                <mxCell id="locatorSvc" value="«External System»&#xa;Store Locator API&#xa;(HTTPS / JSON)" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#e1d5e7;strokeColor=#000000;fontSize=11;fontColor=#080808;" parent="1" vertex="1">
+                    <mxGeometry x="920" y="260" width="220" height="80" as="geometry"/>
+                </mxCell>
+                <mxCell id="supplierSvc" value="«External System»&#xa;Pet Supplier B2B Feed&#xa;(HTTPS webhook / JSON)" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#e1d5e7;strokeColor=#000000;fontSize=11;fontColor=#080808;" parent="1" vertex="1">
+                    <mxGeometry x="920" y="380" width="220" height="80" as="geometry"/>
+                </mxCell>
+
+                <!-- Development environment note -->
+                <mxCell id="devEnv" value="Development (Deployment Environment)" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#f9f9f9;strokeColor=#888888;fontSize=12;fontStyle=3;verticalAlign=top;fontColor=#555555;" parent="1" vertex="1">
+                    <mxGeometry x="80" y="790" width="760" height="60" as="geometry"/>
+                </mxCell>
+                <mxCell id="devNote" value="Vite dev server :5173 proxies /api/* → Express :3001 · MongoDB in Docker or Atlas dev cluster" style="text;html=1;align=left;verticalAlign=middle;fontSize=10;fontStyle=2;fontColor=#555555;" parent="1" vertex="1">
+                    <mxGeometry x="100" y="810" width="720" height="30" as="geometry"/>
+                </mxCell>
+
+                <!-- Edges -->
+                <mxCell id="browserToCdn" value="HTTPS (SPA assets)" style="endArrow=classic;html=1;strokeWidth=2;fontSize=10;" parent="1" source="browser" target="cdnNode" edge="1">
+                    <mxGeometry relative="1" as="geometry"/>
+                </mxCell>
+                <mxCell id="browserToApi" value="HTTPS / JSON (API)" style="endArrow=classic;html=1;strokeWidth=2;fontSize=10;dashed=1;" parent="1" source="browser" target="apiContainer" edge="1">
+                    <mxGeometry relative="1" as="geometry"/>
+                </mxCell>
+                <mxCell id="apiToMongo" value="MongoDB wire" style="endArrow=classic;html=1;strokeWidth=2;fontSize=10;" parent="1" source="apiContainer" target="mongoNode" edge="1">
+                    <mxGeometry relative="1" as="geometry"/>
+                </mxCell>
+                <mxCell id="apiToLocator" value="HTTPS / JSON" style="endArrow=classic;html=1;strokeWidth=2;fontSize=10;" parent="1" source="apiContainer" target="locatorSvc" edge="1">
+                    <mxGeometry relative="1" as="geometry"/>
+                </mxCell>
+                <mxCell id="b2bToMongo" value="MongoDB wire" style="endArrow=classic;html=1;strokeWidth=2;fontSize=10;" parent="1" source="b2bContainer" target="mongoNode" edge="1">
+                    <mxGeometry relative="1" as="geometry"/>
+                </mxCell>
+                <mxCell id="b2bToSupplier" value="HTTPS webhook / JSON" style="endArrow=classic;startArrow=classic;html=1;strokeWidth=2;fontSize=10;" parent="1" source="b2bContainer" target="supplierSvc" edge="1">
+                    <mxGeometry relative="1" as="geometry"/>
+                </mxCell>
+            </root>
+        </mxGraphModel>
+    </diagram>
+</mxfile>
